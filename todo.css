@@ -19,7 +19,7 @@ body {
   position: absolute;
   top: 25px;
   left: 2.5%;
-  width: 80%;
+  width: 70%;
   height: max(4.5%, 25px);
   border-radius: 10px;
   border: 1px solid black;
@@ -159,4 +159,15 @@ body {
   position: absolute;
   top: 2px;
   right: 20%;
+}
+
+.save-all-todos {
+  position: absolute;
+  top: 25px;
+  right: 16%;
+  height: max(4.5%, 25px);
+  font-size: 1.25rem;
+  border-radius: 10px;
+  width: 10%;
+  border: 1px solid black;
 }

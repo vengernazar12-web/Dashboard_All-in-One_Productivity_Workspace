@@ -1,3 +1,5 @@
+let userObj = {};
+
 document.addEventListener('keydown', e => {
   if(e.key === '<' || e.key === '>') e.preventDefault();
   if(e.key === 'Enter') {
@@ -44,7 +46,7 @@ document.querySelector('.show-all-dashboard-stats')
   renderTodos();
   todosNumberStats.textContent = `Todos ${todosContainer.children.length}`;
 
-  notesSymbolsNumber.textContent = `Notes SYMBOLs ${(localStorage.getItem('notes-text') || '').replace(/<[^<>]+>/g, '').length}`;
+  notesSymbolsNumber.textContent = `Notes SYMBOLs ${textBlock.textContent.replace(/\n/g, '').length}`;
 
   renderAllUrls();
   savedUrlsNumber.textContent = `Saved URLs ${allUrlsContainer.children.length}`;
@@ -86,9 +88,9 @@ document.querySelector('.open-todo-wrap')
 
 document.querySelector('.open-notes-wrap')
 .addEventListener('click', () => {
-  textBlock.innerHTML = (localStorage.getItem('notes-text') || '');
   reloadNotes();
   notesWrap.classList.add('show');
+  notesLimitNumber.textContent = `${textBlock.textContent.replace(/\n/g, '').length}/2500`;
 })
 
 document.querySelector('.open-calc-wrap')
@@ -107,7 +109,6 @@ document.querySelector('[data-close-todo-wrap]')
 document.querySelector('[data-close-notes-wrap]')
 .addEventListener('click', () => {
   notesWrap.classList.remove('show');
-  localStorage.setItem('notes-text', textBlock.innerHTML);
   reloadNotes();
 });
 
@@ -145,3 +146,137 @@ document.addEventListener('pointermove', e => {
   dragBlock.style.left = Math.min(left, window.innerWidth - bObj.width) + 'px';
   dragBlock.style.top = Math.min(top, window.innerHeight - bObj.height) + 'px';
 })
+
+// Server
+const signInWind = document.querySelector('.sign-in-window');
+
+function showSignInWindow() {
+  if(localStorage.getItem('user-account')) {
+    const name = localStorage.getItem('user-account');
+
+    fetch('https://695054688531714d9bd055c4.mockapi.io/dashboard/user_content')
+    .then(resp => resp.json())
+    .then(resp => {
+      userObj = resp.find(obj => obj.userName === name);
+      if(!userObj) { userObj = { userName: name, content: { todos: {}, urls: {}, notes: '', } };
+      showResponseFn('Сталась помилка при загрузці данних')
+      };
+      return reloadContent();
+    })
+  }
+  else signInWind.classList.add('show-wind');
+}showSignInWindow();
+
+const showResponseText = document.querySelector('.show-response');
+const hashPassword = password => btoa(password);
+
+function showResponseFn(text) {
+  showResponseText.classList.remove('show');
+  void showResponseText.offsetWidth;
+  showResponseText.textContent = text;
+  showResponseText.classList.add('show');
+}
+
+// All save btns
+const allSaveBtns = document.querySelectorAll('.--saved-btn');
+allSaveBtns.forEach(btn => btn.addEventListener('click', () => {
+  if(textBlock.textContent.replace(/\n/g, '').length > 2500) return showResponseFn('У вас занабто багато символів в NOTES');
+  userObj.content.todos = allTodosObj;
+  userObj.content.urls = allUrlsObj;
+  userObj.content.notes = textBlock.innerHTML;
+  fetch(`https://695054688531714d9bd055c4.mockapi.io/dashboard/user_content/${userObj.id}`, {
+    method: 'PUT',
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(userObj),
+  })
+  .then(response => {
+    if(response.ok) showResponseFn('Успішно збережено!');
+    else showResponseFn('Щось пішло не так :(')
+  })
+  .catch(() => { showResponseFn('Error !') })
+
+  allSaveBtns.forEach(b => b.disabled = true);
+  setTimeout(() => { allSaveBtns.forEach(b => b.disabled = false) }, 300000);
+}))
+
+// Sign-in container btns/inputs
+const nameInput = document.querySelector('.user-name-input'),
+passwordInput = document.querySelector('.user-password-input'),
+signInBtn = document.querySelector('.sign-in-btn'),
+
+showSignInError = document.querySelector('.show-sign-in-error');
+
+signInBtn.addEventListener('click', e => {
+  e.preventDefault();
+
+  const name = nameInput.value.trim(); let pass = passwordInput.value.trim();
+  if(!/[a-z]/.test(pass) || !/[A-Z]/.test(pass) || !/\d/.test(pass)) {
+    return showSignInError.textContent =
+    'Ваш пароль повинен містити принаймні 1 велику, 1 маленьку літери та цифри'
+  }
+  pass = hashPassword(pass);
+  let allUsInfo = fetch('https://695054688531714d9bd055c4.mockapi.io/dashboard/Userinfo')
+  .then(response => response.json());
+
+  allUsInfo.then(response => {
+    if(response.find(obj => obj.userName === name && obj.userPassword === pass)) {
+      fetch('https://695054688531714d9bd055c4.mockapi.io/dashboard/user_content')
+      .then(resp => resp.json())
+      .then(resp => {
+        const findObj = resp.find(obj => obj.userName === name);
+        if(findObj) {
+          userObj = findObj;
+          signInWind.classList.remove('show-wind');
+          localStorage.setItem('user-account', name);
+          reloadContent()
+          return showResponseFn('Вітаємо !');
+        }
+        else return showResponseText.textContent = "Сталась помилка !";
+      })
+    }
+    else {
+      allUsInfo.then(resp => {
+        if(resp.find(obj => obj.userName === name)) {
+          return showResponseText.textContent = "Ім'я зайняте або пароль не правильний !";
+        }
+        fetch('https://695054688531714d9bd055c4.mockapi.io/dashboard/Userinfo', {
+          method: 'POST',
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userName: name, userPassword: pass }),
+        })
+        .then(resp => {
+          if(resp.ok) {
+            userObj = {
+              userName: name,
+              content: {
+                todos: {},
+                urls: {},
+                notes: '',
+              }
+            }
+            signInWind.classList.remove('show-wind');
+            localStorage.setItem('user-account', name);
+            reloadContent();
+            fetch('https://695054688531714d9bd055c4.mockapi.io/dashboard/user_content', {
+              method: 'POST',
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(userObj)
+            })
+            return showResponseFn('Вітаємо !');
+          }
+          else return showResponseFn('Сталась помилка !')
+        })
+      })
+    }
+  })
+})
+
+function reloadContent() {
+  allTodosObj = userObj.content.todos;
+  allTodosArr = Object.keys(allTodosObj);
+  allUrlsObj = userObj.content.urls;
+  allUrlsArr = Object.keys(allUrlsObj);
+  textBlock.innerHTML = userObj.content.notes;
+
+  showResponseFn('Успішно загружені данні');
+}

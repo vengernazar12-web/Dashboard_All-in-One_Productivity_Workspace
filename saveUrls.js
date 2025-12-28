@@ -25,7 +25,6 @@ function renderAllUrls() {
   allUrlsArr.forEach(u => createUrlElement(u, allUrlsObj[u]));
 
   Object.keys(allUrlsObj);
-  localStorage.setItem('all-saved-urls', JSON.stringify(allUrlsObj));
 }
 
 const saveUrlsWrap = document.querySelector('.save-urls-wrap');
@@ -63,8 +62,8 @@ saveUrlBtn.addEventListener('click', () => {
   renderAllUrls();
 })
 
-const allUrlsObj = JSON.parse(localStorage.getItem('all-saved-urls')) || {};
-let allUrlsArr = Object.keys(allUrlsObj);
+let allUrlsObj = null;
+let allUrlsArr = null;
 
 document.querySelector('.search-url')
 .addEventListener('input', e => {

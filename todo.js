@@ -42,7 +42,6 @@ function renderTodos() {
 
   allTodosArr.forEach(key => createTodoElement(key, allTodosObj[key].date, allTodosObj[key].isCompleted))
 
-  localStorage.setItem('all-todos', JSON.stringify(allTodosObj));
   todosNumberText.textContent = `Всього todo: ${allTodosArr.length}`;
 }
 
@@ -60,8 +59,8 @@ function renderFilteredTodos(txt) {
 
 const todoNameLengthTxt = document.querySelector('[todo-symbols-length]');
 
-let allTodosObj = JSON.parse(localStorage.getItem('all-todos')) || {};
-let allTodosArr = Object.keys(allTodosObj);
+let allTodosObj = null;
+let allTodosArr = null;
 
 const todosContainer = document.querySelector('[data-todos-container]');
 
@@ -88,7 +87,6 @@ btnSortTodos.addEventListener('click', () => {
 
   allTodosObj = obj;
   allTodosArr = Object.keys(allTodosObj);
-  localStorage.setItem('all-todos', JSON.stringify(allTodosObj))
 
   renderTodos();
 })
@@ -111,14 +109,12 @@ todoWrap.addEventListener('click', e => {
     todoInput.focus();
 
     allTodosObj[val] = { date: time, isCompleted: false, }
-    localStorage.setItem('all-todos', JSON.stringify(allTodosObj));
     allTodosArr = Object.keys(allTodosObj);
 
     renderTodos();
   }
   else if(e.target.closest('[data-del-todo-btn]')) {
     delete allTodosObj[e.target.parentElement.firstElementChild.textContent]
-    localStorage.setItem('all-todos', JSON.stringify(allTodosObj));
     allTodosArr = Object.keys(allTodosObj);
 
     e.target.parentElement.style.transition = 'none';
@@ -153,7 +149,6 @@ todoWrap.addEventListener('click', e => {
     const time = `${String(date).padStart(2, '0')}:${String(month + 1).padStart(2, '0')}:${year}`;
 
     allTodosObj[newName] = { date: time, isCompleted: block.lastElementChild.checked }
-    localStorage.setItem('all-todos', JSON.stringify(allTodosObj));
     allTodosArr = Object.keys(allTodosObj);
 
     renderTodos();
@@ -167,11 +162,7 @@ todoWrap.addEventListener('click', e => {
 
     replaceTodoInput.focus();
   }
-  else if(e.target.closest('[data-todo-input-completed]')) {
-    allTodosObj[e.target.parentElement.firstElementChild.textContent].isCompleted = e.target.checked;
-
-    localStorage.setItem('all-todos', JSON.stringify(allTodosObj));
-  }
+  else if(e.target.closest('[data-todo-input-completed]')) { allTodosObj[e.target.parentElement.firstElementChild.textContent].isCompleted = e.target.checked; }
 
   else if(e.target.closest('[data-todo-input]')) {
     searchTodoInput.value = '';

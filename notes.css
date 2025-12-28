@@ -52,3 +52,10 @@ mark {
 }
 .btn-up { top: 100px; }
 .btn-down { top: 130px; }
+
+.notes-symbols-limit-text {
+  position: absolute;
+  top: 84px;
+  font-size: 0.9rem;
+  right: 50px;
+}
