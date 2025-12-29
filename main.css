@@ -109,8 +109,9 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  opacity: 0;
+  /* opacity: 0; */
   pointer-events: none;
+  color: white;
 }
 .sign-in-window.show-wind { opacity: 1; pointer-events: auto; }
 .sign-in-window h1 {
