@@ -151,6 +151,11 @@ document.addEventListener('pointermove', e => {
 const signInWind = document.querySelector('.sign-in-window');
 
 function showSignInWindow() {
+  const sesObj = JSON.parse(sessionStorage.getItem('user-obj'));
+  if(sesObj) {
+    userObj = sesObj;
+    return reloadContent();
+  }
   if(localStorage.getItem('user-account')) {
     const name = localStorage.getItem('user-account');
 
@@ -158,14 +163,17 @@ function showSignInWindow() {
     .then(resp => resp.json())
     .then(resp => {
       userObj = resp.find(obj => obj.userName === name);
-      if(!userObj) { userObj = { userName: name, content: { todos: {}, urls: {}, notes: '', } };
-      showResponseFn('Сталась помилка при загрузці данних')
+      if(!userObj) {
+        userObj = { userName: name, content: { todos: {}, urls: {}, notes: '', } };
+        showResponseFn('Сталась помилка при загрузці данних')
       };
+      sessionStorage.setItem('user-obj', JSON.stringify(userObj));
       return reloadContent();
     })
   }
   else signInWind.classList.add('show-wind');
-}showSignInWindow();
+}
+document.addEventListener('DOMContentLoaded', () => showSignInWindow());
 
 const showResponseText = document.querySelector('.show-response');
 const hashPassword = password => btoa(password);
@@ -196,17 +204,18 @@ allSaveBtns.forEach(btn => btn.addEventListener('click', () => {
   .catch(() => { showResponseFn('Error !') })
 
   allSaveBtns.forEach(b => b.disabled = true);
-  setTimeout(() => { allSaveBtns.forEach(b => b.disabled = false) }, 300000);
+  setTimeout(() => { allSaveBtns.forEach(b => b.disabled = false) }, 150000);
+  console.log(userObj)
 }))
 
 // Sign-in container btns/inputs
 const nameInput = document.querySelector('.user-name-input'),
 passwordInput = document.querySelector('.user-password-input'),
-signInBtn = document.querySelector('.sign-in-btn'),
+signInForm = document.querySelector('.sign-in-container'),
 
 showSignInError = document.querySelector('.show-sign-in-error');
 
-signInBtn.addEventListener('click', e => {
+signInForm.addEventListener('submit', e => {
   e.preventDefault();
 
   const name = nameInput.value.trim(); let pass = passwordInput.value.trim();
@@ -236,9 +245,8 @@ signInBtn.addEventListener('click', e => {
     }
     else {
       allUsInfo.then(resp => {
-        if(resp.find(obj => obj.userName === name)) {
-          return showResponseText.textContent = "Ім'я зайняте або пароль не правильний !";
-        }
+        if(resp.find(obj => obj.userName === name)) {return showResponseText.textContent = "Ім'я зайняте або пароль не правильний !";}
+        showResponseText.textContent = 'Почекайте, іде загрузка...';
         fetch('https://695054688531714d9bd055c4.mockapi.io/dashboard/Userinfo', {
           method: 'POST',
           headers: { "Content-Type": "application/json" },
@@ -246,25 +254,21 @@ signInBtn.addEventListener('click', e => {
         })
         .then(resp => {
           if(resp.ok) {
-            userObj = {
-              userName: name,
-              content: {
-                todos: {},
-                urls: {},
-                notes: '',
-              }
-            }
-            signInWind.classList.remove('show-wind');
-            localStorage.setItem('user-account', name);
-            reloadContent();
             fetch('https://695054688531714d9bd055c4.mockapi.io/dashboard/user_content', {
               method: 'POST',
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(userObj)
+              body: JSON.stringify({ userName: name, content: { todos: {}, urls: {}, notes: '', } })
             })
-            return showResponseFn('Вітаємо !');
+            .then(resp => resp.json())
+            .then(resp => {
+              userObj = resp;
+              localStorage.setItem('user-account', name);
+              reloadContent();
+              signInWind.classList.remove('show-wind');
+              showResponseFn('Вітаємо !');
+            });
           }
-          else return showResponseFn('Сталась помилка !')
+          else { showResponseText.textContent = 'Сталась помилка...'; return showResponseFn('Сталась помилка !')}
         })
       })
     }
