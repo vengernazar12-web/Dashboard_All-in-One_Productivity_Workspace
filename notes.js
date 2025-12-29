@@ -14,7 +14,7 @@ function reloadNotes() {
 }
 
 const searchWordsInNotes = document.querySelector('.search-text-in-notes');
-searchWordsInNotes.addEventListener('focusin', () => btnSaveNotes.click());
+searchWordsInNotes.addEventListener('focusin', () => {reloadNotes(); userObj.content.notes = textBlock.innerHTML});
 searchWordsInNotes.addEventListener('focusout', reloadNotes);
 
 searchWordsInNotes.addEventListener('input', e => {

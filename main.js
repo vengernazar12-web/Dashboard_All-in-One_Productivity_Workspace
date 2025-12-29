@@ -1,7 +1,7 @@
 let userObj = {};
 
 document.addEventListener('keydown', e => {
-  if(e.key === '<' || e.key === '>') e.preventDefault();
+  if(e.key === '<' || e.key === '>' || e.key === '&') e.preventDefault();
   if(e.key === 'Enter') {
     if(todoWrap.classList.contains('show')) todoAddBtn.click();
     else if(calculatorWrap.classList.contains('show')) {
