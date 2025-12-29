@@ -155,6 +155,7 @@ body {
   border-radius: 7px;
   border: 1px solid silver;
 }
+.sign-in-btn:active { background-color: rgb(74, 63, 63); }
 
 .show-sign-in-error {
   position: absolute;
