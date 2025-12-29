@@ -10,6 +10,10 @@ document.addEventListener('keydown', e => {
     }
     else if(saveUrlsWrap.classList.contains('show')) saveUrlBtn.click();
   }
+  else if(e.ctrlKey && e.code === 'KeyS') {
+    e.preventDefault();
+    btnSaveNotes.click();
+  }
   else if(e.key === 'Escape') {
     todoWrap.classList.remove('show');
     notesWrap.classList.remove('show');
@@ -83,24 +87,41 @@ if(localStorage.getItem('todo-theme') === 'dark') {
 else todoSwitchTheme.textContent = '☀️';
 
 /* All opened btns */
+function openWrapAnim(...blocks) {
+  if(!blocks.length) return;
+  blocks.forEach(block => block.classList.remove('open-wrap-anim'));
+  blocks.forEach(block => void block.offsetWidth);
+  blocks.forEach(block => block.classList.add('open-wrap-anim'));
+}
+
 document.querySelector('.open-todo-wrap')
-.addEventListener('click', () => { renderTodos(); todoWrap.classList.add('show')});
+.addEventListener('click', () => {
+  renderTodos();
+  todoWrap.classList.add('show');
+  openWrapAnim(...todosContainer.children);
+});
 
 document.querySelector('.open-notes-wrap')
 .addEventListener('click', () => {
   reloadNotes();
   notesWrap.classList.add('show');
   notesLimitNumber.textContent = `${textBlock.textContent.replace(/\n/g, '').length}/2500`;
-})
+  openWrapAnim(textBlock);
+});
 
 document.querySelector('.open-calc-wrap')
 .addEventListener('click', () => {
   calculatorWrap.classList.add('show');
   allCalcBtnsObj['='].click();
+  openWrapAnim(calcContainer);
 });
 
 document.querySelector('.open-save-urls-wrap')
-.addEventListener('click', () => { renderAllUrls(); saveUrlsWrap.classList.add('show')});
+.addEventListener('click', () => {
+  renderAllUrls();
+  saveUrlsWrap.classList.add('show');
+  openWrapAnim(...allUrlsContainer.children);
+});
 
 /* All closed btns */
 document.querySelector('[data-close-todo-wrap]')
@@ -165,7 +186,9 @@ function showSignInWindow() {
       userObj = resp.find(obj => obj.userName === name);
       if(!userObj) {
         userObj = { userName: name, content: { todos: {}, urls: {}, notes: '', } };
-        showResponseFn('Сталась помилка при загрузці данних')
+        showResponseFn('Сталась помилка при загрузці данних');
+        localStorage.removeItem('user-account');
+        return signInWind.classList.add('show-wind');
       };
       sessionStorage.setItem('user-obj', JSON.stringify(userObj));
       return reloadContent();

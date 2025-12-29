@@ -1,4 +1,5 @@
 const allCalcBtnsObj = {};
+const calcContainer = document.querySelector('.calc-container');
 const allNavBtns = document.querySelectorAll('.navigation-panel button');
 allNavBtns.forEach(v => allCalcBtnsObj[v.dataset.value] = v);
 
