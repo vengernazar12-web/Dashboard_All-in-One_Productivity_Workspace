@@ -198,7 +198,7 @@ allSaveBtns.forEach(btn => btn.addEventListener('click', () => {
     body: JSON.stringify(userObj),
   })
   .then(response => {
-    if(response.ok) showResponseFn('Успішно збережено!');
+    if(response.ok) {showResponseFn('Успішно збережено!'); sessionStorage.setItem('user-obj', JSON.stringify(userObj))}
     else showResponseFn('Щось пішло не так :(')
   })
   .catch(() => { showResponseFn('Error !') })
