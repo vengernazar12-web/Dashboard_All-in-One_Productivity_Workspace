@@ -212,16 +212,17 @@ allSaveBtns.forEach(btn => btn.addEventListener('click', () => {
 const nameInput = document.querySelector('.user-name-input'),
 passwordInput = document.querySelector('.user-password-input'),
 signInForm = document.querySelector('.sign-in-container'),
-
-showSignInError = document.querySelector('.show-sign-in-error');
+showSignInError = document.querySelector('.show-sign-in-error'),
+signInBtn = document.querySelector('.sign-in-btn');
 
 signInForm.addEventListener('submit', e => {
   e.preventDefault();
+  signInBtn.disabled = true;
 
   const name = nameInput.value.trim(); let pass = passwordInput.value.trim();
   if(!/[a-z]/.test(pass) || !/[A-Z]/.test(pass) || !/\d/.test(pass)) {
-    return showSignInError.textContent =
-    'Ваш пароль повинен містити принаймні 1 велику, 1 маленьку літери та цифри'
+    signInBtn.disabled = false;
+    return showSignInError.textContent = 'Ваш пароль повинен містити принаймні 1 велику, 1 маленьку літери та цифри'
   }
   pass = hashPassword(pass);
   let allUsInfo = fetch('https://695054688531714d9bd055c4.mockapi.io/dashboard/Userinfo')
@@ -238,14 +239,18 @@ signInForm.addEventListener('submit', e => {
           signInWind.classList.remove('show-wind');
           localStorage.setItem('user-account', name);
           reloadContent()
+          signInBtn.disabled = false;
           return showResponseFn('Вітаємо !');
         }
-        else return showResponseText.textContent = "Сталась помилка !";
+        else { signInBtn.disabled = false; return showResponseText.textContent = "Сталась помилка !"};
       })
     }
     else {
       allUsInfo.then(resp => {
-        if(resp.find(obj => obj.userName === name)) {return showResponseText.textContent = "Ім'я зайняте або пароль не правильний !";}
+        if(resp.find(obj => obj.userName === name)) {
+          showResponseText.textContent = "Ім'я зайняте або пароль не правильний !";
+          return signInBtn.disabled = false;
+        }
         showResponseText.textContent = 'Почекайте, іде загрузка...';
         fetch('https://695054688531714d9bd055c4.mockapi.io/dashboard/Userinfo', {
           method: 'POST',
@@ -265,6 +270,7 @@ signInForm.addEventListener('submit', e => {
               localStorage.setItem('user-account', name);
               reloadContent();
               signInWind.classList.remove('show-wind');
+              signInBtn.disabled = false;
               showResponseFn('Вітаємо !');
             });
           }
