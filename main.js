@@ -164,7 +164,7 @@ document.querySelector('.open-notes-wrap')
   notesWrap.classList.add('show');
   notesLimitNumber.textContent = `${textBlock.textContent.replace(/\n/g, '').length}/2500`;
   openWrapAnim(textBlock);
-  textBlock.style.fontSize = `${+localStorage.getItem('notes-font-size')}rem` || '1.2rem';
+  textBlock.style.fontSize = `${+localStorage.getItem('notes-font-size') || 1.2}rem`;
 });
 
 document.querySelector('.open-calc-wrap')
