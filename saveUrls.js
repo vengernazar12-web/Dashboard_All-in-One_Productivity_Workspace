@@ -32,14 +32,22 @@ const saveUrlsWrap = document.querySelector('.save-urls-wrap');
 const allUrlsContainer = document.querySelector('.all-urls-container');
 allUrlsContainer.addEventListener('click', e => {
   if(e.target.classList.contains('del-url-btn')) {
+    if(localStorage.getItem('conf-before-delete') === 'true') {
+      if(!confirm('Delete?')) return;
+    }
     delete allUrlsObj[e.target.parentElement.lastElementChild.textContent];
     allUrlsArr = Object.keys(allUrlsObj);
+
+    if(localStorage.getItem('disabled-anim') === 'true') {
+      renderAllUrls();
+      return;
+    }
 
     e.target.parentElement.classList.add('del-anim');
 
     setTimeout(() => {
       renderAllUrls();
-    }, 1000);
+    }, delAnimTime);
   }
 })
 

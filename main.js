@@ -1,4 +1,7 @@
 let userObj = {};
+const mls = localStorage.getItem('del-anim-time');
+let delAnimTime = mls !== null ? mls : 1500;
+document.documentElement.style.setProperty('--del-animation-time', `${delAnimTime / 1000}s`);
 
 document.addEventListener('keydown', e => {
   if(e.key === '<' || e.key === '>' || e.key === '&') e.preventDefault();
@@ -86,9 +89,63 @@ if(localStorage.getItem('todo-theme') === 'dark') {
 }
 else todoSwitchTheme.textContent = '☀️';
 
+// Settings
+const settingsWindow = document.querySelector('.settings-window'),
+animationTimeSelect = document.querySelector('.animation-time-select');
+document.querySelector('.open-settings-window')
+.addEventListener('click', () => {
+  if(localStorage.getItem('del-anim-time') !== null) {
+    const val = +localStorage.getItem('del-anim-time') / 1000;
+    animationTimeSelect.value = `${val}s`;
+  };
+  if(localStorage.getItem('disabled-anim') === 'true') disAnimBtn.textContent = '✔️';
+  else disAnimBtn.textContent = '✖️';
+  if(localStorage.getItem('conf-before-delete') === 'true') confBefDelBtn.textContent = '✔️';
+  else confBefDelBtn.textContent = '✖️';
+  settingsWindow.classList.add('show');
+});
+
+animationTimeSelect.addEventListener('change', e => {
+  const msNum = parseFloat(e.target.value) * 1000;
+  delAnimTime = msNum;
+  localStorage.setItem('del-anim-time', msNum);
+  document.documentElement.style.setProperty('--del-animation-time', `${delAnimTime / 1000}s`);
+})
+
+document.querySelector('.notes-font-size-sett')
+.addEventListener('input', e => {
+  const number = e.target.value;
+  if(!e.target.value || !number) return localStorage.setItem('notes-font-size', 1.2);
+  localStorage.setItem('notes-font-size', number);
+})
+
+if(localStorage.getItem('disabled-anim') === 'true') document.documentElement.style.setProperty('--is-comp-anim-transition', 'none');
+const disAnimBtn = document.querySelector('.disabled-animation-sett');
+disAnimBtn.addEventListener('click', e => {
+  const isDis = localStorage.getItem('disabled-anim') === 'true';
+  if(isDis) {
+    e.target.textContent = '✖️';
+    document.documentElement.style.setProperty('--is-comp-anim-transition', 'none')
+  }
+  else {
+    e.target.textContent = '✔️';
+    document.documentElement.style.setProperty('--is-comp-anim-transition', 'box-shadow 1s');
+  };
+  localStorage.setItem('disabled-anim', !isDis);
+})
+
+// Quest before delete
+const confBefDelBtn = document.querySelector('.conf-before-del-sett');
+confBefDelBtn.addEventListener('click', e => {
+  const isConfirm = localStorage.getItem('conf-before-delete') === 'true';
+  if(isConfirm) e.target.textContent = '✖️';
+  else e.target.textContent = '✔️';
+  localStorage.setItem('conf-before-delete', !isConfirm);
+})
+
 /* All opened btns */
 function openWrapAnim(...blocks) {
-  if(!blocks.length) return;
+  if(!blocks.length || localStorage.getItem('disabled-anim') === 'true') return;
   blocks.forEach(block => block.classList.remove('open-wrap-anim'));
   blocks.forEach(block => void block.offsetWidth);
   blocks.forEach(block => block.classList.add('open-wrap-anim'));
@@ -107,6 +164,7 @@ document.querySelector('.open-notes-wrap')
   notesWrap.classList.add('show');
   notesLimitNumber.textContent = `${textBlock.textContent.replace(/\n/g, '').length}/2500`;
   openWrapAnim(textBlock);
+  textBlock.style.fontSize = `${+localStorage.getItem('notes-font-size')}rem` || '1.2rem';
 });
 
 document.querySelector('.open-calc-wrap')
@@ -139,6 +197,10 @@ document.querySelector('.close-calc-wrap')
 document.querySelector('.close-save-urls-wrap')
 .addEventListener('click', () => saveUrlsWrap.classList.remove('show'))
 
+// Close settings
+document.querySelector('.close-settings-window')
+.addEventListener('click', () => settingsWindow.classList.remove('show'));
+
 // Drag and drop window
 let isDrag = false,
 dragBlock = null,
@@ -170,12 +232,15 @@ document.addEventListener('pointermove', e => {
 
 // Server
 const signInWind = document.querySelector('.sign-in-window');
-
+const allWrapBtns = document.querySelectorAll('.--opened-btn');
 function showSignInWindow() {
+  allWrapBtns.forEach(v => v.disabled = true);
   const sesObj = JSON.parse(sessionStorage.getItem('user-obj'));
   if(sesObj) {
     userObj = sesObj;
-    return reloadContent();
+    reloadContent();
+    allWrapBtns.forEach(v => v.disabled = false);
+    return;
   }
   if(localStorage.getItem('user-account')) {
     const name = localStorage.getItem('user-account');
@@ -188,13 +253,20 @@ function showSignInWindow() {
         userObj = { userName: name, content: { todos: {}, urls: {}, notes: '', } };
         showResponseFn('Сталась помилка при загрузці данних');
         localStorage.removeItem('user-account');
+        allWrapBtns.forEach(v => v.disabled = false);
         return signInWind.classList.add('show-wind');
       };
       sessionStorage.setItem('user-obj', JSON.stringify(userObj));
-      return reloadContent();
+      reloadContent();
+      allWrapBtns.forEach(v => v.disabled = false);
+      return;
     })
   }
-  else signInWind.classList.add('show-wind');
+  else {
+    signInWind.classList.add('show-wind');
+    allWrapBtns.forEach(v => v.disabled = false);
+    return;
+  };
 }
 document.addEventListener('DOMContentLoaded', () => showSignInWindow());
 

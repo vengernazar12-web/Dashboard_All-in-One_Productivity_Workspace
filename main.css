@@ -17,7 +17,9 @@ input:focus { border: 2px solid rgb(104, 104, 182); }
 :root {
   --body-bg: linear-gradient(180deg, rgb(157, 233, 157), rgb(89, 219, 89)) no-repeat fixed;
   --text-color: black;
-  --block-bg: linear-gradient(180deg, rgb(254, 254, 81), rgb(251, 251, 153))
+  --block-bg: linear-gradient(180deg, rgb(254, 254, 81), rgb(251, 251, 153));
+  --del-animation-time: 1.5s;
+  --is-comp-anim-transition: box-shadow 1s;
 }
 html.dark-theme {
   --body-bg: linear-gradient( 180deg, rgb(63, 108, 63), rgb(30, 61, 30)) no-repeat fixed;
@@ -30,12 +32,6 @@ html.dark-theme {
 
 html .show { display: block; }
 
-[data-theme-switcher] {
-  background: linear-gradient(150deg, rgb(126, 1, 1), rgb(255, 84, 84));
-  font-size: 2.5rem;
-  box-shadow: 0 0 5px red;
-}
-
 body {
   display: flex;
   justify-content: center;
@@ -46,16 +42,14 @@ body {
 }
 body, input { font-family: Roboto, sans-serif; font-weight: 500; }
 
-.--opened-btn, [data-theme-switcher] {
-  width: clamp(170px, 24vw, 25vw);
-  height: clamp(55px, 60px, 65px);
-  border-radius: 15px;
-  border: 1px solid black;
-}
 .--opened-btn {
   background: linear-gradient(150deg, rgb(1, 1, 67), rgb(4, 4, 160));
   color: white;
   box-shadow: 0 0 5px blue;
+  width: clamp(170px, 24vw, 25vw);
+  height: clamp(55px, 60px, 65px);
+  border-radius: 15px;
+  border: 1px solid black;
 }
 
 .min-wrap {
@@ -66,7 +60,7 @@ body, input { font-family: Roboto, sans-serif; font-weight: 500; }
   height: 20px;
   border-radius: 10px;
 }
-.todo-wrap, .notes-wrap, .calc-wrap, .save-urls-wrap {
+.todo-wrap, .notes-wrap, .calc-wrap, .save-urls-wrap, .settings-window {
   position: fixed;
   top: 0;
   left: 0;
@@ -184,6 +178,51 @@ body, input { font-family: Roboto, sans-serif; font-weight: 500; }
   padding: 5px;
 }
 
+/* Settings */
+.settings-window { text-align: center; padding-bottom: 50px; }
+.open-settings-window {
+  position: fixed;
+  top: 20px;
+  right: 60px;
+  width: 35px;
+  height: 35px;
+  background-color: transparent;
+  font-size: 1.5rem;
+}
+.close-settings-window {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 35px;
+  height: 35px;
+  font-size: 1.5rem;
+  background-color: transparent;
+}
+.settings-block {
+  width: 90%;
+  height: 50px;
+  background: var(--block-bg);
+  margin: 10px auto;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+}
+.settings-block p { font-size: 1rem; }
+.settings-block button {
+  height: 35px;
+  width: 35px;
+  font-size: 1.6rem;
+  background-color: transparent;
+}
+
+.notes-font-size-sett {
+  height: 20px;
+  border-radius: 5px;
+  padding-left: 5px;
+}
+
 @media (hover: none), (max-width: 550px) {
   button, input { transition: none; cursor: auto; }
   button:hover, input[type='checkbox']:hover  { transform: scale(1); }
@@ -196,7 +235,7 @@ body, input { font-family: Roboto, sans-serif; font-weight: 500; }
   to { opacity: 0; }
 }
 html .del-anim {
-  animation: del-anim 1.5s;
+  animation: del-anim var(--del-animation-time);
   background: rgb(221, 115, 115);
   color: red;
 }

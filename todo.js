@@ -114,17 +114,26 @@ todoWrap.addEventListener('click', e => {
     renderTodos();
   }
   else if(e.target.closest('[data-del-todo-btn]')) {
+    if(localStorage.getItem('conf-before-delete') === 'true') if(!confirm('Delete?')) return;
+
     delete allTodosObj[e.target.parentElement.firstElementChild.textContent]
     allTodosArr = Object.keys(allTodosObj);
 
     e.target.parentElement.style.transition = 'none';
     e.target.parentElement.lastElementChild.checked = false;
+
+    if(localStorage.getItem('disabled-anim') === 'true') {
+      renderTodos();
+      if(!allTodosArr.length) todosContainer.innerHTML = '<h1>Немає todo...</h1>';
+      return;
+    }
+
     e.target.parentElement.classList.add('del-anim')
 
     setTimeout(() => {
       renderTodos();
       if(!allTodosArr.length) todosContainer.innerHTML = '<h1>Немає todo...</h1>';
-    }, 1500);
+    }, delAnimTime);
   }
   else if(e.target.closest('[data-replace-todo-btn]') && e.target.classList.contains('rename-todo')) {
     const block = e.target.parentElement;

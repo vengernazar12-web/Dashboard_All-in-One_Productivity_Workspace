@@ -24,7 +24,7 @@
 <button class="open-notes-wrap --opened-btn">NOTES</button>
 <button class="open-calc-wrap --opened-btn">CALCULATOR</button>
 <button class="open-save-urls-wrap --opened-btn">SAVE URLS</button>
-<button data-theme-switcher></button>
+<button class="open-settings-window">⚙️</button>
 
 <div class="all-stats-wrap">
   <p class="todos-number-stats"></p>
@@ -110,6 +110,41 @@
   <div class="all-urls-container"></div>
 
   <button class="min-wrap">▢</button>
+</div>
+
+<div class="settings-window">
+  <h1>Your settings</h1>
+  <button class="close-settings-window">❌</button>
+  <div class="settings-block">
+    <p>Theme</p>
+    <button data-theme-switcher></button>
+  </div>
+
+  <div class="settings-block">
+    <p>Delete todos/urls animation(time)</p>
+    <select class="animation-time-select">
+      <option value="0s">0s</option>
+      <option value="0.5s">0.5s</option>
+      <option value="1s">1s</option>
+      <option value="1.5s" selected>1.5s</option>
+      <option value="2s">2s</option>
+    </select>
+  </div>
+
+  <div class="settings-block">
+    <p>Notes font size</p>
+    <input type="number" class="notes-font-size-sett" placeholder="1.2" value="1.2" step="0.1">
+  </div>
+
+  <div class="settings-block">
+    <p>Disabled all animation</p>
+    <button class="disabled-animation-sett">✖️</button>
+  </div>
+
+  <div class="settings-block">
+    <p>Confirm before delete</p>
+    <button class="conf-before-del-sett">✖️</button>
+  </div>
 </div>
 
 <!-- Sign-in account -->
