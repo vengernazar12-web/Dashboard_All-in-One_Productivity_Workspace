@@ -44,6 +44,7 @@ body {
   align-items: center;
   min-height: 100vh;
 }
+body, input { font-family: Roboto, sans-serif; font-weight: 500; }
 
 .--opened-btn, [data-theme-switcher] {
   width: clamp(170px, 24vw, 25vw);
@@ -217,6 +218,7 @@ html .del-anim {
   height: 25px;
   border-radius: 15px;
   text-align: center;
+  padding: 5px;
 }
 .show-response.show { animation: show-response-anim 5s; }
 
