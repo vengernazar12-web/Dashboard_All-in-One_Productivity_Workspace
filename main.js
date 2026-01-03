@@ -289,7 +289,7 @@ allSaveBtns.forEach(btn => btn.addEventListener('click', () => {
   userObj.content.todos = allTodosObj;
   userObj.content.urls = allUrlsObj;
   userObj.content.notes = textBlock.innerHTML;
-  fetch(`${FAKE_SERVER_URL}${userObj.id}`, {
+  fetch(`${FAKE_SERVER_URL}user_content/${userObj.id}`, {
     method: 'PUT',
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(userObj),
