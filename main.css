@@ -32,15 +32,20 @@ html.dark-theme {
 
 html .show { display: block; }
 
-body {
+body { min-height: 100vh; }
+body, input { font-family: Roboto, sans-serif; font-weight: 500; }
+.all-dashboard-items {
   display: flex;
   justify-content: center;
   gap: 50px;
   flex-wrap: wrap;
   align-items: center;
-  min-height: 100vh;
+  margin-top: 25px;
 }
-body, input { font-family: Roboto, sans-serif; font-weight: 500; }
+
+.dashboard-header {
+  text-align: center;
+}
 
 .--opened-btn {
   background: linear-gradient(150deg, rgb(1, 1, 67), rgb(4, 4, 160));

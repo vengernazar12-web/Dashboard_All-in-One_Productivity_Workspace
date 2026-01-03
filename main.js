@@ -1,5 +1,7 @@
+const FAKE_SERVER_URL = 'https://695054688531714d9bd055c4.mockapi.io/dashboard/';
+
 let userObj = {};
-const mls = localStorage.getItem('del-anim-time');
+const mls = +localStorage.getItem('del-anim-time');
 let delAnimTime = mls !== null ? mls : 1500;
 document.documentElement.style.setProperty('--del-animation-time', `${delAnimTime / 1000}s`);
 
@@ -125,16 +127,16 @@ disAnimBtn.addEventListener('click', e => {
   const isDis = localStorage.getItem('disabled-anim') === 'true';
   if(isDis) {
     e.target.textContent = '✖️';
-    document.documentElement.style.setProperty('--is-comp-anim-transition', 'none')
+    document.documentElement.style.setProperty('--is-comp-anim-transition', 'box-shadow 1s')
   }
   else {
     e.target.textContent = '✔️';
-    document.documentElement.style.setProperty('--is-comp-anim-transition', 'box-shadow 1s');
+    document.documentElement.style.setProperty('--is-comp-anim-transition', 'none');
   };
   localStorage.setItem('disabled-anim', !isDis);
 })
 
-// Quest before delete
+// Conf before delete
 const confBefDelBtn = document.querySelector('.conf-before-del-sett');
 confBefDelBtn.addEventListener('click', e => {
   const isConfirm = localStorage.getItem('conf-before-delete') === 'true';
@@ -245,7 +247,7 @@ function showSignInWindow() {
   if(localStorage.getItem('user-account')) {
     const name = localStorage.getItem('user-account');
 
-    fetch('https://695054688531714d9bd055c4.mockapi.io/dashboard/user_content')
+    fetch(`${FAKE_SERVER_URL}user_content`)
     .then(resp => resp.json())
     .then(resp => {
       userObj = resp.find(obj => obj.userName === name);
@@ -287,7 +289,7 @@ allSaveBtns.forEach(btn => btn.addEventListener('click', () => {
   userObj.content.todos = allTodosObj;
   userObj.content.urls = allUrlsObj;
   userObj.content.notes = textBlock.innerHTML;
-  fetch(`https://695054688531714d9bd055c4.mockapi.io/dashboard/user_content/${userObj.id}`, {
+  fetch(`${FAKE_SERVER_URL}${userObj.id}`, {
     method: 'PUT',
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(userObj),
@@ -320,12 +322,12 @@ signInForm.addEventListener('submit', e => {
     return showSignInError.textContent = 'Ваш пароль повинен містити принаймні 1 велику, 1 маленьку літери та цифри'
   }
   pass = hashPassword(pass);
-  let allUsInfo = fetch('https://695054688531714d9bd055c4.mockapi.io/dashboard/Userinfo')
+  let allUsInfo = fetch(`${FAKE_SERVER_URL}Userinfo`)
   .then(response => response.json());
 
   allUsInfo.then(response => {
     if(response.find(obj => obj.userName === name && obj.userPassword === pass)) {
-      fetch('https://695054688531714d9bd055c4.mockapi.io/dashboard/user_content')
+      fetch(`${FAKE_SERVER_URL}user_content`)
       .then(resp => resp.json())
       .then(resp => {
         const findObj = resp.find(obj => obj.userName === name);
@@ -347,14 +349,14 @@ signInForm.addEventListener('submit', e => {
           return signInBtn.disabled = false;
         }
         showResponseText.textContent = 'Почекайте, іде загрузка...';
-        fetch('https://695054688531714d9bd055c4.mockapi.io/dashboard/Userinfo', {
+        fetch(`${FAKE_SERVER_URL}Userinfo`, {
           method: 'POST',
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ userName: name, userPassword: pass }),
         })
         .then(resp => {
           if(resp.ok) {
-            fetch('https://695054688531714d9bd055c4.mockapi.io/dashboard/user_content', {
+            fetch(`${FAKE_SERVER_URL}user_content`, {
               method: 'POST',
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ userName: name, content: { todos: {}, urls: {}, notes: '', } })
