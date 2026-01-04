@@ -36,31 +36,35 @@ function createTodoElement(txt, date, isCompleted = false) {
 }
 
 function renderTodos() {
-  if(!allTodosArr.length) { todosNumberText.textContent = 'Всього todo: 0'; return todosContainer.innerHTML = '<h1>Немає todo...</h1>'};
+  let allTodosArr = Object.keys(allTodosObj);
+  if(!allTodosArr.length) {
+    todosNumberText.textContent = 'Todos: 0';
+    return todosContainer.innerHTML = '<h1>No todo...</h1>';
+  };
 
   todosContainer.textContent = '';
 
   allTodosArr.forEach(key => createTodoElement(key, allTodosObj[key].date, allTodosObj[key].isCompleted))
 
-  todosNumberText.textContent = `Всього todo: ${allTodosArr.length}`;
+  todosNumberText.textContent = `Todos: ${allTodosArr.length}`;
 }
 
 function renderFilteredTodos(txt) {
   todosContainer.textContent = '';
-  allTodosArr.forEach(v => {
+  Object.keys(allTodosObj).forEach(v => {
     const infoObj = allTodosObj[v];
 
     if(v.toLowerCase().includes(txt) || infoObj.date.includes(txt)) {
       createTodoElement(v, infoObj.date, infoObj.isCompleted)
     }
   })
-  if(!todosContainer.children.length) todosContainer.innerHTML = `<h1>Нічого не знайдено...</h1>`;
+  if(!todosContainer.children.length) todosContainer.innerHTML = `<h1>No todo found...</h1>`;
 }
 
 const todoNameLengthTxt = document.querySelector('[todo-symbols-length]');
 
-let allTodosObj = null;
-let allTodosArr = null;
+let allTodosObj = {};
+let hiddenTodosObj = {};
 
 const todosContainer = document.querySelector('[data-todos-container]');
 
@@ -79,24 +83,12 @@ searchTodoInput.addEventListener('input', e => {
   renderFilteredTodos(txt);
 })
 
-const btnSortTodos = document.querySelector('[data-sort-todos]');
-btnSortTodos.addEventListener('click', () => {
-  const obj = {};
-  allTodosArr.forEach(v => { if(!allTodosObj[v].isCompleted) obj[v] = allTodosObj[v]; })
-  allTodosArr.forEach(v => { if(!obj[v]) obj[v] = allTodosObj[v]; })
-
-  allTodosObj = obj;
-  allTodosArr = Object.keys(allTodosObj);
-
-  renderTodos();
-})
-
 todoWrap.addEventListener('click', e => {
   if(e.target.closest('[data-add-todo]')) {
     const val = todoInput.value.trim();
     if(!val) return;
-    if(allTodosObj[val]) return alert('У вас уже є такий todo');
-    if(val.length > 25) return alert('дуже велика назва, зменште її');
+    if(allTodosObj[val] || hiddenTodosObj[val]) return showResponseFn(`Todo name "${val}" is already used`);
+    if(val.length > 25) return showResponseFn('Todo name is too long');
 
     const d = new Date();
     const date = d.getDate(),
@@ -109,31 +101,25 @@ todoWrap.addEventListener('click', e => {
     todoInput.focus();
 
     allTodosObj[val] = { date: time, isCompleted: false, }
-    allTodosArr = Object.keys(allTodosObj);
 
+    unsavedMarks(false);
     renderTodos();
   }
   else if(e.target.closest('[data-del-todo-btn]')) {
     if(localStorage.getItem('conf-before-delete') === 'true') if(!confirm('Delete?')) return;
 
     delete allTodosObj[e.target.parentElement.firstElementChild.textContent]
-    allTodosArr = Object.keys(allTodosObj);
 
     e.target.parentElement.style.transition = 'none';
     e.target.parentElement.lastElementChild.checked = false;
 
-    if(localStorage.getItem('disabled-anim') === 'true') {
-      renderTodos();
-      if(!allTodosArr.length) todosContainer.innerHTML = '<h1>Немає todo...</h1>';
-      return;
-    }
+    unsavedMarks(false);
 
-    e.target.parentElement.classList.add('del-anim')
+    if(localStorage.getItem('disabled-anim') === 'true') return renderTodos();
 
-    setTimeout(() => {
-      renderTodos();
-      if(!allTodosArr.length) todosContainer.innerHTML = '<h1>Немає todo...</h1>';
-    }, delAnimTime);
+    e.target.parentElement.classList.add('del-anim');
+
+    setTimeout(renderTodos, delAnimTime);
   }
   else if(e.target.closest('[data-replace-todo-btn]') && e.target.classList.contains('rename-todo')) {
     const block = e.target.parentElement;
@@ -146,8 +132,8 @@ todoWrap.addEventListener('click', e => {
     e.target.textContent = '✏️';
 
     if(!newName.trim()) return;
-    if(allTodosObj[newName]) return alert('У вас уже є такий todo');
-    if(newName.length > 25) return alert('дуже велика назва, зменште її')
+    if(allTodosObj[newName] || hiddenTodosObj[newName]) return showResponseFn(`Todo name "${newName}" is already used`);
+    if(newName.length > 25) return showResponseFn('Todo name is too long');
 
     delete allTodosObj[oldName];
 
@@ -158,8 +144,8 @@ todoWrap.addEventListener('click', e => {
     const time = `${String(date).padStart(2, '0')}:${String(month + 1).padStart(2, '0')}:${year}`;
 
     allTodosObj[newName] = { date: time, isCompleted: block.lastElementChild.checked }
-    allTodosArr = Object.keys(allTodosObj);
 
+    unsavedMarks(false);
     renderTodos();
   }
   else if(e.target.closest('[data-replace-todo-btn]')) {
@@ -171,10 +157,80 @@ todoWrap.addEventListener('click', e => {
 
     replaceTodoInput.focus();
   }
-  else if(e.target.closest('[data-todo-input-completed]')) { allTodosObj[e.target.parentElement.firstElementChild.textContent].isCompleted = e.target.checked; }
+  else if(e.target.closest('[data-todo-input-completed]')) {
+    allTodosObj[e.target.parentElement.firstElementChild.textContent].isCompleted = e.target.checked;
+    unsavedMarks(false);
+  }
 
   else if(e.target.closest('[data-todo-input]')) {
     searchTodoInput.value = '';
     renderTodos();
   }
+  else if(e.target.closest('.hide-completed-todos')) {
+    Object.keys(allTodosObj).forEach(todo => {
+    if(allTodosObj[todo].isCompleted) {
+      hiddenTodosObj[todo] = allTodosObj[todo];
+      delete allTodosObj[todo]
+    }
+  })
+  renderTodos();
+  renderHiddenTodos();
+  }
+})
+
+// Hidden todos
+const hiddenTodosContainer = document.querySelector('.hidden-todos-container'),
+hiddenTodosWindow = document.querySelector('.hidden-todos-window');
+
+function renderHiddenTodos() {
+  hiddenTodosContainer.textContent = '';
+
+  Object.keys(hiddenTodosObj).forEach(key => {
+    const div = document.createElement('div'),
+    h3 = document.createElement('h3'),
+    delButton = document.createElement('button'),
+    dateP = document.createElement('p');
+
+    div.classList.add('hidden-todo-block');
+    delButton.classList.add('delete-hidden-todo');
+
+    h3.textContent = key;
+    delButton.textContent = '❌';
+    dateP.textContent = hiddenTodosObj[key].date;
+
+    div.append(h3, delButton, dateP);
+    hiddenTodosContainer.appendChild(div);
+  })
+  if(!hiddenTodosContainer.children.length) hiddenTodosContainer.innerHTML = '<h2>No hidden todos...</h2>'
+}
+
+hiddenTodosContainer.addEventListener('click', e => {
+  if(e.target.classList.contains('delete-hidden-todo')) {
+    if(localStorage.getItem('conf-before-delete') === 'true') if(!confirm('Delete?')) return;
+    delete hiddenTodosObj[e.target.parentElement.firstElementChild.textContent];
+    unsavedMarks(false);
+    if(localStorage.getItem('disabled-anim') === 'true') {
+      renderTodos();
+      return renderHiddenTodos();
+    };
+
+    e.target.parentElement.classList.add('del-anim');
+
+    setTimeout(() => {
+      renderHiddenTodos();
+      renderTodos();
+    }, delAnimTime);
+  }
+})
+
+// Unhide todos
+document.querySelector('.unhide-todos')
+.addEventListener('click', () => {
+  Object.keys(hiddenTodosObj).forEach(h => {
+    allTodosObj[h] = hiddenTodosObj[h];
+    delete hiddenTodosObj[h];
+  })
+  renderTodos();
+  renderHiddenTodos();
+  unsavedMarks(false);
 })

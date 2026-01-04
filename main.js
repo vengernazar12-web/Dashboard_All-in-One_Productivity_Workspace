@@ -7,24 +7,28 @@ document.documentElement.style.setProperty('--del-animation-time', `${delAnimTim
 
 document.addEventListener('keydown', e => {
   if(e.key === '<' || e.key === '>' || e.key === '&') e.preventDefault();
+
   if(e.key === 'Enter') {
     if(todoWrap.classList.contains('show')) todoAddBtn.click();
     else if(calculatorWrap.classList.contains('show')) {
       allCalcBtnsObj['='].click();
       allCalcBtnsObj['='].classList.add('btn-active');
     }
-    else if(saveUrlsWrap.classList.contains('show')) saveUrlBtn.click();
+    else if(saveUrlsWrap.classList.contains('show')) addUrlBtn.click();
   }
+
   else if(e.ctrlKey && e.code === 'KeyS') {
     e.preventDefault();
     btnSaveNotes.click();
   }
+
   else if(e.key === 'Escape') {
     todoWrap.classList.remove('show');
     notesWrap.classList.remove('show');
     calculatorWrap.classList.remove('show');
     saveUrlsWrap.classList.remove('show');
   }
+
   else if(calculatorWrap.classList.contains('show')) {
     let button = e.key;
     if(button === 'Backspace') {
@@ -146,18 +150,10 @@ confBefDelBtn.addEventListener('click', e => {
 })
 
 /* All opened btns */
-function openWrapAnim(...blocks) {
-  if(!blocks.length || localStorage.getItem('disabled-anim') === 'true') return;
-  blocks.forEach(block => block.classList.remove('open-wrap-anim'));
-  blocks.forEach(block => void block.offsetWidth);
-  blocks.forEach(block => block.classList.add('open-wrap-anim'));
-}
-
 document.querySelector('.open-todo-wrap')
 .addEventListener('click', () => {
   renderTodos();
   todoWrap.classList.add('show');
-  openWrapAnim(...todosContainer.children);
 });
 
 document.querySelector('.open-notes-wrap')
@@ -165,23 +161,28 @@ document.querySelector('.open-notes-wrap')
   reloadNotes();
   notesWrap.classList.add('show');
   notesLimitNumber.textContent = `${textBlock.textContent.replace(/\n/g, '').length}/2500`;
-  openWrapAnim(textBlock);
   textBlock.style.fontSize = `${+localStorage.getItem('notes-font-size') || 1.2}rem`;
+  textBlock.focus();
 });
 
 document.querySelector('.open-calc-wrap')
 .addEventListener('click', () => {
   calculatorWrap.classList.add('show');
   allCalcBtnsObj['='].click();
-  openWrapAnim(calcContainer);
 });
 
 document.querySelector('.open-save-urls-wrap')
 .addEventListener('click', () => {
   renderAllUrls();
   saveUrlsWrap.classList.add('show');
-  openWrapAnim(...allUrlsContainer.children);
 });
+
+// Toggle hidden todos window
+document.querySelector('.toggle-hidden-todos-window')
+.addEventListener('click', () => {
+  hiddenTodosWindow.classList.toggle('show');
+  renderHiddenTodos();
+})
 
 /* All closed btns */
 document.querySelector('[data-close-todo-wrap]')
@@ -196,12 +197,16 @@ document.querySelector('[data-close-notes-wrap]')
 document.querySelector('.close-calc-wrap')
 .addEventListener('click', () => calculatorWrap.classList.remove('show'));
 
-document.querySelector('.close-save-urls-wrap')
+document.querySelector('.close-add-urls-wrap')
 .addEventListener('click', () => saveUrlsWrap.classList.remove('show'))
 
 // Close settings
 document.querySelector('.close-settings-window')
 .addEventListener('click', () => settingsWindow.classList.remove('show'));
+
+// Close hidden todos window
+document.querySelector('.close-hidden-wind-btn')
+.addEventListener('click', () => hiddenTodosWindow.classList.remove('show'))
 
 // Drag and drop window
 let isDrag = false,
@@ -252,7 +257,7 @@ function showSignInWindow() {
     .then(resp => {
       userObj = resp.find(obj => obj.userName === name);
       if(!userObj) {
-        userObj = { userName: name, content: { todos: {}, urls: {}, notes: '', } };
+        userObj = { userName: name, content: { todos: {}, urls: {}, notes: '', }, hiddenTodos: {} };
         showResponseFn('Сталась помилка при загрузці данних');
         localStorage.removeItem('user-account');
         allWrapBtns.forEach(v => v.disabled = false);
@@ -289,6 +294,7 @@ allSaveBtns.forEach(btn => btn.addEventListener('click', () => {
   userObj.content.todos = allTodosObj;
   userObj.content.urls = allUrlsObj;
   userObj.content.notes = textBlock.innerHTML;
+  userObj.content.hiddenTodos = hiddenTodosObj;
   fetch(`${FAKE_SERVER_URL}user_content/${userObj.id}`, {
     method: 'PUT',
     headers: { "Content-Type": "application/json" },
@@ -302,8 +308,15 @@ allSaveBtns.forEach(btn => btn.addEventListener('click', () => {
 
   allSaveBtns.forEach(b => b.disabled = true);
   setTimeout(() => { allSaveBtns.forEach(b => b.disabled = false) }, 150000);
-  console.log(userObj)
+  unsavedMarks(true);
 }))
+
+window.addEventListener('beforeunload', e => {
+  if([...allSaveBtns].find(btn => btn.classList.contains('unsaved'))) {
+    e.preventDefault();
+    e.returnValue = '';
+  }
+})
 
 // Sign-in container btns/inputs
 const nameInput = document.querySelector('.user-name-input'),
@@ -359,7 +372,7 @@ signInForm.addEventListener('submit', e => {
             fetch(`${FAKE_SERVER_URL}user_content`, {
               method: 'POST',
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ userName: name, content: { todos: {}, urls: {}, notes: '', } })
+              body: JSON.stringify({ userName: name, content: { todos: {}, urls: {}, notes: '', hiddenTodos: {} } })
             })
             .then(resp => resp.json())
             .then(resp => {
@@ -380,10 +393,26 @@ signInForm.addEventListener('submit', e => {
 
 function reloadContent() {
   allTodosObj = userObj.content.todos;
-  allTodosArr = Object.keys(allTodosObj);
   allUrlsObj = userObj.content.urls;
   allUrlsArr = Object.keys(allUrlsObj);
   textBlock.innerHTML = userObj.content.notes;
+  hiddenTodosObj = userObj.content.hiddenTodos;
 
   showResponseFn('Успішно загружені данні');
+}
+
+// Unsaved btns mark
+function unsavedMarks(isSave) {
+  if(isSave) {
+    allSaveBtns.forEach(v => {
+      v.classList.remove('unsaved');
+      v.setAttribute('title', '')
+  });
+  }
+  else {
+    allSaveBtns.forEach(v => {
+      v.classList.add('unsaved');
+      v.setAttribute('title', 'unsaved content')
+  });
+  }
 }

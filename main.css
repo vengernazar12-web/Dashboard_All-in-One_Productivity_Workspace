@@ -42,10 +42,21 @@ body, input { font-family: Roboto, sans-serif; font-weight: 500; }
   align-items: center;
   margin-top: 25px;
 }
+html button { position: relative; }
 
-.dashboard-header {
-  text-align: center;
+html .--saved-btn.unsaved:after {
+  content: '';
+  display: block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: red;
+  position: absolute;
+  top: -10px;
+  right: -10px;
 }
+
+.dashboard-header { text-align: center; }
 
 .--opened-btn {
   background: linear-gradient(150deg, rgb(1, 1, 67), rgb(4, 4, 160));
@@ -265,10 +276,3 @@ html .del-anim {
   padding: 5px;
 }
 .show-response.show { animation: show-response-anim 5s; }
-
-/* Open wrap anim */
-@keyframes open-wrap-anim {
-  from { translate: 0 50px; scale: 0.95; }
-  to { transform: translateY(0); transform: scale(1) }
-}
-html .open-wrap-anim { animation: open-wrap-anim 2s; }

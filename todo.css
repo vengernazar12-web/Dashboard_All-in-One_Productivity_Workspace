@@ -26,12 +26,12 @@ body {
   padding-left: 10px;
   font-size: 1.25rem;
 }
-[data-todo-input]::placeholder, [data-todo-search]::placeholder { font-size: 1.25rem; }
+[data-todo-input]::placeholder, [data-todo-search]::placeholder { font-size: 1.1rem; }
 [data-todo-search] {
   position: absolute;
   top: 75px;
   left: 2.5%;
-  width: 70%;
+  width: 65%;
   height: max(4.5%, 25px);
   border-radius: 10px;
   border: 1px solid black;
@@ -48,16 +48,6 @@ body {
   border-radius: 10px;
   width: 12.5%;
   font-size: 0.8rem;
-}
-[data-sort-todos] {
-  position: absolute;
-  right: 12.5%;
-  top: 75px;
-  width: 12.5%;
-  border: 1px solid black;
-  height: max(4.5%, 25px);
-  border-radius: 10px;
-  font-size: 1rem;
 }
 
 [data-todos-container] {
@@ -167,8 +157,99 @@ body {
   top: 25px;
   right: 16%;
   height: max(4.5%, 25px);
-  font-size: 1rem;
+  font-size: 0.75rem;
   border-radius: 10px;
   width: 10%;
   border: 1px solid black;
 }
+
+/* Hidden todos */
+.hidden-todos-window {
+  position: absolute;
+  left: 10vw;
+  top: 10vh;
+  background: var(--block-bg);
+  width: 80vw;
+  height: 80vh;
+  border-radius: 7px;
+  display: none;
+  text-align: center;
+  padding-top: 10px;
+  border: 1px solid silver;
+}
+.close-hidden-wind-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: transparent;
+  width: 30px;
+  height: 30px;
+  font-size: 1.25rem;
+}
+.toggle-hidden-todos-window {
+  position: absolute;
+  top: 75px;
+  right: 12.5%;
+  height: max(4.5%, 25px);
+  border-radius: 7px;
+  width: 7.5%;
+  border: 1px solid black;
+}
+.hide-completed-todos {
+  position: absolute;
+  top: 75px;
+  right: 22.5%;
+  width: 7.5%;
+  height: max(4.5%, 25px);
+  border-radius: 7px;
+  border: 1px solid black;
+}
+
+.hidden-todos-container {
+  padding: 50px 5px 15px 5px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  overflow-y: auto;
+  height: calc(100% - 50px);
+}
+.hidden-todo-block {
+  width: clamp(250px, 30%, 100%);
+  background: var(--body-bg);
+  border-radius: 7px;
+  position: relative;
+  height: 100px;
+}
+.hidden-todo-block > h3 {
+  position: absolute;
+  top: 13px;
+  left: 5px;
+}
+.hidden-todo-block > p {
+  font-size: 0.6rem;
+  position: absolute;
+  top: 2px;
+  right: 2px;
+}
+.hidden-todo-block .delete-hidden-todo {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 25px;
+  height: 25px;
+  background-color: transparent;
+  font-size: 1rem;
+}
+
+.unhide-todos {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  padding: 5px;
+  background-color: transparent;
+  font-size: 1rem;
+  color: black;
+  transition: color .2s;
+}
+html .unhide-todos:hover { color: rgb(92, 69, 69); transform: scale(1); }

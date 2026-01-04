@@ -1,11 +1,11 @@
-<!DOCTYPE html><html lang="uk">
+<!DOCTYPE html><html lang="en">
 <head>
+  <title>Dashboard</title>
+  <meta charset="UTF-8">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@600&family=Roboto:wght@500&display=swap" rel="stylesheet">
-  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TODO</title>
   <link rel="stylesheet" href="todo.css">
   <link rel="stylesheet" href="main.css">
   <link rel="stylesheet" href="notes.css">
@@ -20,9 +20,7 @@
 </head>
 <body>
 
-<header class="dashboard-header">
-  <h1>Dashboard</h1>
-</header>
+<header class="dashboard-header"> <h1>Dashboard</h1> </header>
 
 <main class="all-dashboard-items">
   <button class="open-todo-wrap --opened-btn">TODO</button>
@@ -40,18 +38,26 @@
 <button class="show-all-dashboard-stats">📊</button>
 
 <div class="todo-wrap">
-  <p data-todos-number>Всього todo: Ще не ініціалізовано</p>
+  <p data-todos-number>Todos: ...</p>
   <p todo-symbols-length>0/25</p>
   <header class="drag-and-drop-block"></header>
   <button class="save-all-todos --saved-btn">Save</button>
-  <input type="text" data-todo-input placeholder="Ваш todo..." title="Add todo...">
-  <input type="text" data-todo-search placeholder="Пошук todo..." title="Search todo...">
-  <button data-sort-todos>Sort</button>
-  <button data-add-todo title="Добавити todo...">Add</button>
+  <input type="text" data-todo-input placeholder="Your todo..." title="Add todo...">
+  <input type="text" data-todo-search placeholder="Search todo..." title="Search todo...">
+  <button data-add-todo title="Add todo...">Add</button>
   <div data-todos-container><h1></h1></div>
 
   <button data-close-todo-wrap>❌</button>
   <button class="min-wrap">▢</button>
+
+  <button class="hide-completed-todos" title="Archive all completed todos">🗄️</button>
+  <button class="toggle-hidden-todos-window" title="Show hidden todos">🗂️</button>
+  <div class="hidden-todos-window">
+    <h2>Hidden todos</h2>
+    <button class="close-hidden-wind-btn">❌</button>
+    <div class="hidden-todos-container"></div>
+    <button class="unhide-todos">Unhide todos</button>
+  </div>
 </div>
 
 <div class="notes-wrap">
@@ -106,11 +112,11 @@
 <div class="save-urls-wrap">
   <header class="drag-and-drop-block"></header>
   <button class="save-all-urls --saved-btn">Save</button>
-  <button class="close-save-urls-wrap">❌</button>
+  <button class="close-add-urls-wrap">❌</button>
 
-  <input type="text" class="save-url-name-input" placeholder="Name your url...">
-  <input type="text" class="save-opened-url-input" placeholder="Open url...">
-  <button class="save-url-btn">Add</button>
+  <input type="text" class="add-url-name-input" placeholder="Name your url...">
+  <input type="text" class="add-opened-url-input" placeholder="Open url...">
+  <button class="add-url-btn">Add</button>
   <input type="text" class="search-url" placeholder="Search your urls...">
 
   <div class="all-urls-container"></div>
@@ -167,7 +173,7 @@
     required
     minlength="3"
     maxlength="16"
-    autocomplete="off";
+    autocomplete="off"
     >
 
     <label for="password">Your password</label>
@@ -179,7 +185,7 @@
     required
     minlength="8"
     maxlength="16"
-    autocomplete="off";
+    autocomplete="off"
     >
 
     <button class="sign-in-btn" type="submit">Sign-in</button>

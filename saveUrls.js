@@ -32,34 +32,30 @@ const saveUrlsWrap = document.querySelector('.save-urls-wrap');
 const allUrlsContainer = document.querySelector('.all-urls-container');
 allUrlsContainer.addEventListener('click', e => {
   if(e.target.classList.contains('del-url-btn')) {
-    if(localStorage.getItem('conf-before-delete') === 'true') {
-      if(!confirm('Delete?')) return;
-    }
+    if(localStorage.getItem('conf-before-delete') === 'true') if(!confirm('Delete?')) return;
+
     delete allUrlsObj[e.target.parentElement.lastElementChild.textContent];
     allUrlsArr = Object.keys(allUrlsObj);
 
-    if(localStorage.getItem('disabled-anim') === 'true') {
-      renderAllUrls();
-      return;
-    }
+    unsavedMarks(false);
+
+    if(localStorage.getItem('disabled-anim') === 'true') return renderAllUrls();
 
     e.target.parentElement.classList.add('del-anim');
 
-    setTimeout(() => {
-      renderAllUrls();
-    }, delAnimTime);
+    setTimeout(renderAllUrls(), delAnimTime);
   }
 })
 
-const nameUrlInput = document.querySelector('.save-url-name-input');
-const openedUrlInput = document.querySelector('.save-opened-url-input');
-const saveUrlBtn = document.querySelector('.save-url-btn');
+const nameUrlInput = document.querySelector('.add-url-name-input');
+const openedUrlInput = document.querySelector('.add-opened-url-input');
+const addUrlBtn = document.querySelector('.add-url-btn');
 
-saveUrlBtn.addEventListener('click', () => {
+addUrlBtn.addEventListener('click', () => {
   const value = nameUrlInput.value.trim();
   const opValue = openedUrlInput.value.trim();
   if(!value.length || !opValue.length) return;
-  if(allUrlsObj[value]) return alert('У вас уже є така назва!');
+  if(allUrlsObj[value]) return showResponseFn(`Url name "${value}" is already used`);
 
   allUrlsObj[value] = opValue;
   allUrlsArr = Object.keys(allUrlsObj);
@@ -67,6 +63,7 @@ saveUrlBtn.addEventListener('click', () => {
   nameUrlInput.value = '';
   openedUrlInput.value = '';
 
+  unsavedMarks(false);
   renderAllUrls();
 })
 

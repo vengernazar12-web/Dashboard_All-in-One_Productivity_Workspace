@@ -35,4 +35,6 @@ textBlock.addEventListener('input', () => {
   notesLimitNumber.textContent = `${lng}/2500`;
   if(lng > 2500) btnSaveNotes.disabled = true;
   else btnSaveNotes.disabled = false;
+  if(lng) unsavedMarks(false);
+  else unsavedMarks(true);
 })
