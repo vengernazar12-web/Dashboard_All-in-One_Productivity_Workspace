@@ -1,8 +1,8 @@
 const FAKE_SERVER_URL = 'https://695054688531714d9bd055c4.mockapi.io/dashboard/';
 
 let userObj = {};
-const mls = +localStorage.getItem('del-anim-time');
-let delAnimTime = mls !== null ? mls : 1500;
+const mls = localStorage.getItem('del-anim-time');
+let delAnimTime = mls !== null ? +mls : 1500;
 document.documentElement.style.setProperty('--del-animation-time', `${delAnimTime / 1000}s`);
 
 document.addEventListener('keydown', e => {
