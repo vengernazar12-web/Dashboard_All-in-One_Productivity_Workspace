@@ -6,27 +6,20 @@ let delAnimTime = mls !== null ? mls : 1500;
 document.documentElement.style.setProperty('--del-animation-time', `${delAnimTime / 1000}s`);
 
 document.addEventListener('keydown', e => {
-  if(e.key === '<' || e.key === '>' || e.key === '&') e.preventDefault();
+  if(e.key === '<' || e.key === '>' || e.key === '&' || e.key === '/') e.preventDefault();
+  if(notesWrap.classList.contains('show') && e.ctrlKey && e.code === 'KeyH') {
+    e.preventDefault();
+    openAddNoteForm.click();
+  }
 
-  if(e.key === 'Enter') {
+  else if(e.key === 'Enter') {
     if(todoWrap.classList.contains('show')) todoAddBtn.click();
     else if(calculatorWrap.classList.contains('show')) {
       allCalcBtnsObj['='].click();
       allCalcBtnsObj['='].classList.add('btn-active');
     }
     else if(saveUrlsWrap.classList.contains('show')) addUrlBtn.click();
-  }
-
-  else if(e.ctrlKey && e.code === 'KeyS') {
-    e.preventDefault();
-    btnSaveNotes.click();
-  }
-
-  else if(e.key === 'Escape') {
-    todoWrap.classList.remove('show');
-    notesWrap.classList.remove('show');
-    calculatorWrap.classList.remove('show');
-    saveUrlsWrap.classList.remove('show');
+    else if(addNotesForm.classList.contains('show')) addNotesButton.click();
   }
 
   else if(calculatorWrap.classList.contains('show')) {
@@ -59,7 +52,7 @@ document.querySelector('.show-all-dashboard-stats')
   renderTodos();
   todosNumberStats.textContent = `Todos ${todosContainer.children.length}`;
 
-  notesSymbolsNumber.textContent = `Notes SYMBOLs ${textBlock.textContent.replace(/\n/g, '').length}`;
+  notesSymbolsNumber.textContent = `Notes SYMBOLs ${''}`;
 
   renderAllUrls();
   savedUrlsNumber.textContent = `Saved URLs ${allUrlsContainer.children.length}`;
@@ -67,15 +60,16 @@ document.querySelector('.show-all-dashboard-stats')
   allStatsWrap.classList.toggle('show');
 })
 
-document.querySelectorAll('.min-wrap').forEach(b => {b.addEventListener('click', () => {
+document.querySelectorAll('.min-wrap').forEach(b => {
+  b.addEventListener('click', () => {
   b.parentElement.removeAttribute('style');
   b.parentElement.classList.toggle('minimized');
 })})
 
 /* Theme switcher */
-const todoSwitchTheme = document.querySelector('[data-theme-switcher]');
-todoSwitchTheme.addEventListener('click', () => setTodoTheme())
-function setTodoTheme() {
+const DashboardSwitchTheme = document.querySelector('[data-theme-switcher]');
+DashboardSwitchTheme.addEventListener('click', () => setDashboardTheme())
+function setDashboardTheme() {
   const theme = localStorage.getItem('todo-theme');
   if(theme === 'dark') {
     localStorage.setItem('todo-theme', 'light');
@@ -93,7 +87,7 @@ if(localStorage.getItem('todo-theme') === 'dark') {
   document.documentElement.classList.add('dark-theme');
   todoSwitchTheme.textContent = '🌑';
 }
-else todoSwitchTheme.textContent = '☀️';
+else DashboardSwitchTheme.textContent = '☀️';
 
 // Settings
 const settingsWindow = document.querySelector('.settings-window'),
@@ -149,20 +143,11 @@ confBefDelBtn.addEventListener('click', e => {
   localStorage.setItem('conf-before-delete', !isConfirm);
 })
 
-/* All opened btns */
+/* All OPEN btns */
 document.querySelector('.open-todo-wrap')
 .addEventListener('click', () => {
   renderTodos();
   todoWrap.classList.add('show');
-});
-
-document.querySelector('.open-notes-wrap')
-.addEventListener('click', () => {
-  reloadNotes();
-  notesWrap.classList.add('show');
-  notesLimitNumber.textContent = `${textBlock.textContent.replace(/\n/g, '').length}/2500`;
-  textBlock.style.fontSize = `${+localStorage.getItem('notes-font-size') || 1.2}rem`;
-  textBlock.focus();
 });
 
 document.querySelector('.open-calc-wrap')
@@ -184,15 +169,16 @@ document.querySelector('.toggle-hidden-todos-window')
   renderHiddenTodos();
 })
 
-/* All closed btns */
+// Open notes wrap
+document.querySelector('.open-notes-wrap')
+.addEventListener('click', () => {
+  notesWrap.classList.add('show');
+  if(allUserNotesCont.children.length >= 5) openAddNoteForm.style.display = 'none';
+})
+
+/* All CLOSE btns */
 document.querySelector('[data-close-todo-wrap]')
 .addEventListener('click', () => todoWrap.classList.remove('show'));
-
-document.querySelector('[data-close-notes-wrap]')
-.addEventListener('click', () => {
-  notesWrap.classList.remove('show');
-  reloadNotes();
-});
 
 document.querySelector('.close-calc-wrap')
 .addEventListener('click', () => calculatorWrap.classList.remove('show'));
@@ -207,6 +193,19 @@ document.querySelector('.close-settings-window')
 // Close hidden todos window
 document.querySelector('.close-hidden-wind-btn')
 .addEventListener('click', () => hiddenTodosWindow.classList.remove('show'))
+
+// Close notes wrap
+document.querySelector('.close-notes-wrap')
+.addEventListener('click', () => notesWrap.classList.remove('show'))
+
+document.querySelector('.close-notes-content-wrap')
+.addEventListener('click', e => {
+  const name = notesContentTitle.textContent;
+  allNotesObj[name].txt = userNotesText.innerText;
+  showResponseFn(`Save "${name}" note text`);
+  unsavedMarks(false);
+  notesContentWrap.classList.remove('show');
+});
 
 // Drag and drop window
 let isDrag = false,
@@ -257,8 +256,10 @@ function showSignInWindow() {
     .then(resp => {
       userObj = resp.find(obj => obj.userName === name);
       if(!userObj) {
-        userObj = { userName: name, content: { todos: {}, urls: {}, notes: '', }, hiddenTodos: {} };
-        showResponseFn('Сталась помилка при загрузці данних');
+        userObj = {
+          userName: name,
+          content: { todos: {}, urls: {}, notes: {}, }, hiddenTodos: {} };
+        showResponseFn('Failed loading data');
         localStorage.removeItem('user-account');
         allWrapBtns.forEach(v => v.disabled = false);
         return signInWind.classList.add('show-wind');
@@ -273,7 +274,7 @@ function showSignInWindow() {
     signInWind.classList.add('show-wind');
     allWrapBtns.forEach(v => v.disabled = false);
     return;
-  };
+  }
 }
 document.addEventListener('DOMContentLoaded', () => showSignInWindow());
 
@@ -290,23 +291,43 @@ function showResponseFn(text) {
 // All save btns
 const allSaveBtns = document.querySelectorAll('.--saved-btn');
 allSaveBtns.forEach(btn => btn.addEventListener('click', () => {
-  if(textBlock.textContent.replace(/\n/g, '').length > 2500) return showResponseFn('У вас занабто багато символів в NOTES');
+  allSaveBtns.forEach(b => b.disabled = true);
+  showResponseFn('Please wait...');
+
+  const heightNoteLng = Object.keys(allNotesObj).find(v => allNotesObj[v].txt.replaceAll('\n', '').length > 1000);
+  if(heightNoteLng) {
+    showResponseFn(`Note "${heightNoteLng}" is too long...`);
+    return allSaveBtns.forEach(b => b.disabled = false);
+  }
+
   userObj.content.todos = allTodosObj;
   userObj.content.urls = allUrlsObj;
-  userObj.content.notes = textBlock.innerHTML;
   userObj.content.hiddenTodos = hiddenTodosObj;
+  userObj.content.notes = allNotesObj;
   fetch(`${FAKE_SERVER_URL}user_content/${userObj.id}`, {
     method: 'PUT',
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(userObj),
   })
   .then(response => {
-    if(response.ok) {showResponseFn('Успішно збережено!'); sessionStorage.setItem('user-obj', JSON.stringify(userObj))}
-    else showResponseFn('Щось пішло не так :(')
+    if(response.ok) {
+      showResponseFn('Saved your data!');
+      sessionStorage.setItem('user-obj', JSON.stringify(userObj))}
+    else {
+      showResponseFn("Failed to save data :(");
+      sessionStorage.setItem('user-obj', JSON.stringify(userObj))
+      allSaveBtns.forEach(b => b.disabled = false)
+      return unsavedMarks(false);
+    }
   })
-  .catch(() => { showResponseFn('Error !') })
+  .catch(() => {
+    sessionStorage.setItem('user-obj', JSON.stringify(userObj));
+    showResponseFn('Error !');
+    setTimeout(() => showResponseFn('You must be online to avoid losing your todos/notes/URLs'), 2500);
+    allSaveBtns.forEach(b => b.disabled = false);
+    return unsavedMarks(false);
+  })
 
-  allSaveBtns.forEach(b => b.disabled = true);
   setTimeout(() => { allSaveBtns.forEach(b => b.disabled = false) }, 150000);
   unsavedMarks(true);
 }))
@@ -350,9 +371,9 @@ signInForm.addEventListener('submit', e => {
           localStorage.setItem('user-account', name);
           reloadContent()
           signInBtn.disabled = false;
-          return showResponseFn('Вітаємо !');
+          return showResponseFn('Welcome !');
         }
-        else { signInBtn.disabled = false; return showResponseText.textContent = "Сталась помилка !"};
+        else { signInBtn.disabled = false; return showResponseText.textContent = "Error !"};
       })
     }
     else {
@@ -361,7 +382,7 @@ signInForm.addEventListener('submit', e => {
           showResponseText.textContent = "Ім'я зайняте або пароль не правильний !";
           return signInBtn.disabled = false;
         }
-        showResponseText.textContent = 'Почекайте, іде загрузка...';
+        showResponseText.textContent = 'Loading...';
         fetch(`${FAKE_SERVER_URL}Userinfo`, {
           method: 'POST',
           headers: { "Content-Type": "application/json" },
@@ -372,7 +393,7 @@ signInForm.addEventListener('submit', e => {
             fetch(`${FAKE_SERVER_URL}user_content`, {
               method: 'POST',
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ userName: name, content: { todos: {}, urls: {}, notes: '', hiddenTodos: {} } })
+              body: JSON.stringify({ userName: name, content: { todos: {}, urls: {}, notes: {}, hiddenTodos: {} } })
             })
             .then(resp => resp.json())
             .then(resp => {
@@ -381,10 +402,10 @@ signInForm.addEventListener('submit', e => {
               reloadContent();
               signInWind.classList.remove('show-wind');
               signInBtn.disabled = false;
-              showResponseFn('Вітаємо !');
+              showResponseFn('Welcome !');
             });
           }
-          else { showResponseText.textContent = 'Сталась помилка...'; return showResponseFn('Сталась помилка !')}
+          else { showResponseText.textContent = 'Error...'; return showResponseFn('Error !')}
         })
       })
     }
@@ -395,10 +416,13 @@ function reloadContent() {
   allTodosObj = userObj.content.todos;
   allUrlsObj = userObj.content.urls;
   allUrlsArr = Object.keys(allUrlsObj);
-  textBlock.innerHTML = userObj.content.notes;
   hiddenTodosObj = userObj.content.hiddenTodos;
 
-  showResponseFn('Успішно загружені данні');
+  // Notes
+  allNotesObj = userObj.content.notes;
+  Object.keys(allNotesObj).forEach(note => generateNoteBlock( note, allNotesObj[note].description ))
+
+  showResponseFn('Data been loaded');
 }
 
 // Unsaved btns mark
@@ -407,12 +431,13 @@ function unsavedMarks(isSave) {
     allSaveBtns.forEach(v => {
       v.classList.remove('unsaved');
       v.setAttribute('title', '')
-  });
+    });
   }
   else {
     allSaveBtns.forEach(v => {
+      v.disabled = false;
       v.classList.add('unsaved');
       v.setAttribute('title', 'unsaved content')
-  });
+    });
   }
 }

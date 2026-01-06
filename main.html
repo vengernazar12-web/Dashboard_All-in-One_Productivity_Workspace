@@ -37,6 +37,7 @@
 </div>
 <button class="show-all-dashboard-stats">📊</button>
 
+<!-- Todos -->
 <div class="todo-wrap">
   <p data-todos-number>Todos: ...</p>
   <p todo-symbols-length>0/25</p>
@@ -45,7 +46,7 @@
   <input type="text" data-todo-input placeholder="Your todo..." title="Add todo...">
   <input type="text" data-todo-search placeholder="Search todo..." title="Search todo...">
   <button data-add-todo title="Add todo...">Add</button>
-  <div data-todos-container><h1></h1></div>
+  <div data-todos-container></div>
 
   <button data-close-todo-wrap>❌</button>
   <button class="min-wrap">▢</button>
@@ -54,28 +55,46 @@
   <button class="toggle-hidden-todos-window" title="Show hidden todos">🗂️</button>
   <div class="hidden-todos-window">
     <h2>Hidden todos</h2>
+    <hr>
     <button class="close-hidden-wind-btn">❌</button>
     <div class="hidden-todos-container"></div>
     <button class="unhide-todos">Unhide todos</button>
   </div>
 </div>
 
+<!-- Notes -->
 <div class="notes-wrap">
-  <p class="notes-symbols-limit-text">0/2500</p>
+  <h1>Notes</h1>
   <header class="drag-and-drop-block"></header>
-  <button data-save-text class="--saved-btn">SAVE</button>
-  <button class="reload-all-notes-tags" title="Reload text">🔄️</button>
-  <button data-close-notes-wrap>❌</button>
-  <input type="text" class="search-text-in-notes" placeholder="Search words...">
-
-  <div contenteditable="true" data-notes-text-block></div>
-
-  <button class="btn-up" title="UP">↑</button>
-  <button class="btn-down" title="DOWN">↓</button>
-
   <button class="min-wrap">▢</button>
+  <button class="close-notes-wrap">❌</button>
+  <hr>
+
+  <button class="--saved-btn btn-save_notes">Save</button>
+
+  <div class="all-user-notes-container"></div>
+
+  <button class="toggle-add-note-form" title="Ctrl + h">✚</button>
+  <div class="add-notes-inputs">
+    <input type="text" class="note-name-input" placeholder="Note name...">
+    <input type="text" class="note-description-input" placeholder="Note description...">
+    <button class="add-note-button">Add</button>
+  </div>
 </div>
 
+<div class="notes-content-wrap">
+  <button class="close-notes-content-wrap">❌</button>
+  <h3></h3>
+  <p class="notes-symbols-limit-text">_/1000</p>
+  <div class="notes-user-content" contenteditable="true"></div>
+</div>
+
+<div class="delete-note-confirm">
+  <p>Delete note?</p>
+  <button>YES</button>
+</div>
+
+<!-- Calculator -->
 <div class="calc-wrap">
   <header class="drag-and-drop-block"></header>
   <button class="close-calc-wrap">❌</button>
@@ -109,6 +128,7 @@
   <button class="min-wrap">▢</button>
 </div>
 
+<!-- Urls -->
 <div class="save-urls-wrap">
   <header class="drag-and-drop-block"></header>
   <button class="save-all-urls --saved-btn">Save</button>
@@ -124,6 +144,7 @@
   <button class="min-wrap">▢</button>
 </div>
 
+<!-- Settings -->
 <div class="settings-window">
   <h1>Your settings</h1>
   <button class="close-settings-window">❌</button>
