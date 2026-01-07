@@ -52,7 +52,9 @@ document.querySelector('.show-all-dashboard-stats')
   renderTodos();
   todosNumberStats.textContent = `Todos ${todosContainer.children.length}`;
 
-  notesSymbolsNumber.textContent = `Notes SYMBOLs ${''}`;
+  let notesLng = 0;
+  Object.keys(allNotesObj).forEach(v => notesLng += allNotesObj[v].txt.replaceAll('\n','').length);
+  notesSymbolsNumber.textContent = `Notes SYMBOLs ${notesLng}`;
 
   renderAllUrls();
   savedUrlsNumber.textContent = `Saved URLs ${allUrlsContainer.children.length}`;
@@ -103,6 +105,8 @@ document.querySelector('.open-settings-window')
   if(localStorage.getItem('conf-before-delete') === 'true') confBefDelBtn.textContent = '✔️';
   else confBefDelBtn.textContent = '✖️';
   settingsWindow.classList.add('show');
+
+  noteFontSizeSettInput.value = localStorage.getItem('notes-font-size') || 1.2;
 });
 
 animationTimeSelect.addEventListener('change', e => {
@@ -112,8 +116,8 @@ animationTimeSelect.addEventListener('change', e => {
   document.documentElement.style.setProperty('--del-animation-time', `${delAnimTime / 1000}s`);
 })
 
-document.querySelector('.notes-font-size-sett')
-.addEventListener('input', e => {
+const noteFontSizeSettInput = document.querySelector('.notes-font-size-sett');
+noteFontSizeSettInput.addEventListener('input', e => {
   const number = e.target.value;
   if(!e.target.value || !number) return localStorage.setItem('notes-font-size', 1.2);
   localStorage.setItem('notes-font-size', number);
@@ -281,6 +285,7 @@ document.addEventListener('DOMContentLoaded', () => showSignInWindow());
 const showResponseText = document.querySelector('.show-response');
 const hashPassword = password => btoa(password);
 
+// Show response function
 function showResponseFn(text) {
   showResponseText.classList.remove('show');
   void showResponseText.offsetWidth;

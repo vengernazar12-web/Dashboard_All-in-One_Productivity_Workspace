@@ -33,11 +33,11 @@
 
 .notes-user-content {
   position: absolute;
-  top: 55px;
+  top: 90px;
   width: 95%;
   margin-left: 2.5%;
   min-height: 150px;
-  max-height: calc(100% - 65px);
+  max-height: calc(100% - 95px);
   background: var(--block-bg);
   border-radius: 8px;
   padding: 5px;
@@ -119,6 +119,17 @@
 
 .notes-symbols-limit-text {
   position: absolute;
-  top: 35px;
-  right: 55px;
+  top: 72px;
+  right: 25px;
+}
+
+.search-note-text-input {
+  position: absolute;
+  top: 48px;
+  width: 80%;
+  left: 5%;
+  height: 25px;
+  border-radius: 10px;
+  border: 1px solid black;
+  padding: 5px;
 }

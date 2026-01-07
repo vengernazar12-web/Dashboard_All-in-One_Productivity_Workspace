@@ -24,6 +24,7 @@ allUserNotesCont.addEventListener('click', e => {
     const name = e.target.closest('.user-note-block').firstElementChild.textContent;
     renderNotesText(name);
     notesContentTitle.textContent = name;
+    userNotesText.style.fontSize = `${localStorage.getItem('notes-font-size') || 1.2}rem`;
     notesContentWrap.classList.add('show');
     notesSymbolsLimitText.textContent = `${userNotesText.textContent.replaceAll('\n', '').length}/1000`;
   }
@@ -136,3 +137,26 @@ function generateNoteBlock( name, desc ) {
 
   allUserNotesCont.appendChild(div);
 }
+
+const searchNoteTextInput = document.querySelector('.search-note-text-input');
+
+searchNoteTextInput.addEventListener('input', e => {
+  const searchText = searchNoteTextInput.value.trim()
+  .replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  if(!searchText) return userNotesText.innerHTML = allNotesObj[notesContentTitle.textContent].txt.replaceAll('\n', '<br>');
+
+  const regex = new RegExp(`(?<!<)${searchText}(?!>)`, "gi");
+  userNotesText.innerHTML = allNotesObj[notesContentTitle.textContent].txt
+  .replaceAll('\n', '<br>')
+  .replaceAll(regex, match => `<mark>${match}</mark>`);
+})
+
+searchNoteTextInput.addEventListener('focus', () => {
+  allNotesObj[notesContentTitle.textContent].txt = userNotesText.innerText;
+})
+searchNoteTextInput.addEventListener('blur', () => {
+  searchNoteTextInput.value = '';
+  userNotesText.innerHTML = allNotesObj[notesContentTitle.textContent].txt
+  .replaceAll(/<\/?mark/g, '')
+  .replaceAll('\n', '<br>');
+})
