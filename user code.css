@@ -1,0 +1,121 @@
+.user-code-wrap {
+  text-align: center;
+  padding: 5px;
+}
+.close-user-code-wrap {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  padding: 1px;
+  font-size: 1.5rem;
+  background-color: transparent;
+}
+
+.btn-save_codes {
+  position: absolute;
+  top: 10px;
+  left: 100px;
+  padding: 5px;
+  background-color: rgb(115, 115, 255);
+  color: white;
+  font-size: 1.55rem;
+  border-radius: 5px;
+}
+
+.add-new-block-code-form {
+  position: absolute;
+  top: 30%;
+  left: 5%;
+  width: 90%;
+  height: 25%;
+  background-color: rgb(175, 175, 175);
+  text-align: center;
+  border-radius: 8px;
+  border: 1px solid rgb(0, 255, 0);
+  padding: 5px;
+  display: none;
+}
+.code-block-name-input {
+  width: 95%;
+  height: 25px;
+  padding: 5px;
+  border-radius: 7px;
+  border: 1px solid black;
+  margin-top: 10px;
+}
+.add-code-block-btn {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  padding: 1px;
+  font-size: 1.3rem;
+  background-color: transparent;
+}
+.add-code-block-btn:hover { color: rgb(92, 92, 92); }
+
+.user-code-block {
+  width: 95%;
+  height: 60px;
+  background-color: rgb(40, 40, 40);
+  margin: 15px auto;
+  color: white;
+  overflow: hidden;
+  border-radius: 8px;
+  padding: 5px;
+  transition: height .4s, box-shadow .5s;
+  position: relative;
+}
+.user-code-block > h3 {
+  position: absolute;
+  top: px;
+  left: 10px;
+  max-width: calc(100% - 165px);
+  text-wrap: wrap;
+}
+.user-code-block > .code-symbols-limit {
+  position: absolute;
+  top: 12px;
+  right: 45px;
+  width: max-content;
+}
+
+.user-code-content {
+  background-color: rgb(74, 74, 74);
+  min-height: 50px;
+  border-radius: 7px;
+  padding: 5px;
+  resize: none;
+  width: 100%;
+  overflow: hidden;
+  color: white;
+}
+.copy-code-btn {
+  background-color: transparent;
+  position: absolute;
+  top: 90px;
+  right: 10px;
+  padding: 1px;
+}
+
+.delete-code-btn {
+  background-color: transparent;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 1px;
+}
+
+.lock-code-btn {
+  padding: 1px;
+  position: absolute;
+  top: 10px;
+  right: 135px;
+  background-color: transparent;
+}
+
+.copy-code-svg,
+.delete-code-svg,
+.lock-code-svg {
+  width: 20px;
+  height: 20px;
+}

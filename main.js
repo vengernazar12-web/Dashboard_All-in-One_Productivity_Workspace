@@ -6,10 +6,11 @@ let delAnimTime = mls !== null ? +mls : 1500;
 document.documentElement.style.setProperty('--del-animation-time', `${delAnimTime / 1000}s`);
 
 document.addEventListener('keydown', e => {
-  if(e.key === '<' || e.key === '>' || e.key === '&' || e.key === '/') e.preventDefault();
-  if(notesWrap.classList.contains('show') && e.ctrlKey && e.code === 'KeyH') {
+  if(!userCodeWrap.classList.contains('show') && e.key === '<' || e.key === '>' || e.key === '&' || e.key === '/') e.preventDefault();
+  if(e.ctrlKey && e.code === 'KeyH') {
     e.preventDefault();
-    openAddNoteForm.click();
+    if(notesWrap.classList.contains('show')) openAddNoteForm.click();
+    if(userCodeWrap.classList.contains('show')) toggleAddCodeBlockForm.click();
   }
 
   else if(e.key === 'Enter') {
@@ -20,6 +21,7 @@ document.addEventListener('keydown', e => {
     }
     else if(saveUrlsWrap.classList.contains('show')) addUrlBtn.click();
     else if(addNotesForm.classList.contains('show')) addNotesButton.click();
+    else if(addCodeBlockForm.classList.contains('show')) addCodeBlockBtn.click();
   }
 
   else if(calculatorWrap.classList.contains('show')) {
@@ -87,7 +89,7 @@ function setDashboardTheme() {
 
 if(localStorage.getItem('todo-theme') === 'dark') {
   document.documentElement.classList.add('dark-theme');
-  todoSwitchTheme.textContent = '🌑';
+  DashboardSwitchTheme.textContent = '🌑';
 }
 else DashboardSwitchTheme.textContent = '☀️';
 
@@ -180,6 +182,13 @@ document.querySelector('.open-notes-wrap')
   if(allUserNotesCont.children.length >= 5) openAddNoteForm.style.display = 'none';
 })
 
+// Open user code wrap
+document.querySelector('.open-user-code-wrap')
+.addEventListener('click', () => {
+  renderUserCodesBlocks();
+  userCodeWrap.classList.add('show');
+})
+
 /* All CLOSE btns */
 document.querySelector('[data-close-todo-wrap]')
 .addEventListener('click', () => todoWrap.classList.remove('show'));
@@ -210,6 +219,10 @@ document.querySelector('.close-notes-content-wrap')
   unsavedMarks(false);
   notesContentWrap.classList.remove('show');
 });
+
+// Close user code wrap
+document.querySelector('.close-user-code-wrap')
+.addEventListener('click', () => userCodeWrap.classList.remove('show'));
 
 // Drag and drop window
 let isDrag = false,
@@ -249,8 +262,7 @@ function showSignInWindow() {
   if(sesObj) {
     userObj = sesObj;
     reloadContent();
-    allWrapBtns.forEach(v => v.disabled = false);
-    return;
+    return allWrapBtns.forEach(v => v.disabled = false);
   }
   if(localStorage.getItem('user-account')) {
     const name = localStorage.getItem('user-account');
@@ -270,14 +282,12 @@ function showSignInWindow() {
       };
       sessionStorage.setItem('user-obj', JSON.stringify(userObj));
       reloadContent();
-      allWrapBtns.forEach(v => v.disabled = false);
-      return;
+      return allWrapBtns.forEach(v => v.disabled = false);
     })
   }
   else {
     signInWind.classList.add('show-wind');
-    allWrapBtns.forEach(v => v.disabled = false);
-    return;
+    return allWrapBtns.forEach(v => v.disabled = false);
   }
 }
 document.addEventListener('DOMContentLoaded', () => showSignInWindow());
@@ -309,6 +319,20 @@ allSaveBtns.forEach(btn => btn.addEventListener('click', () => {
   userObj.content.urls = allUrlsObj;
   userObj.content.hiddenTodos = hiddenTodosObj;
   userObj.content.notes = allNotesObj;
+
+  // User code blocks save
+  [...allUserCodesContainer.children].forEach(b => {
+    allUserCodesObj[b.firstElementChild.textContent].code = b.querySelector('.user-code-content')
+    .value
+    .trim()
+    .split('\n')
+    .map(v => v.trimRight())
+    .join('\n');
+  })
+  const heightCodeLng = Object.keys(allUserCodesObj).find(o => allUserCodesObj[o].code.replaceAll(' ','').replaceAll('\n','').length > 1000);
+  if(heightCodeLng) return showResponseFn(`Code "${heightCodeLng}" is too long...`)
+  userObj.content.codes = allUserCodesObj;
+
   fetch(`${FAKE_SERVER_URL}user_content/${userObj.id}`, {
     method: 'PUT',
     headers: { "Content-Type": "application/json" },
@@ -352,13 +376,14 @@ showSignInError = document.querySelector('.show-sign-in-error'),
 signInBtn = document.querySelector('.sign-in-btn');
 
 signInForm.addEventListener('submit', e => {
+  showResponseFn('Please wait a moment...');
   e.preventDefault();
   signInBtn.disabled = true;
 
   const name = nameInput.value.trim(); let pass = passwordInput.value.trim();
   if(!/[a-z]/.test(pass) || !/[A-Z]/.test(pass) || !/\d/.test(pass)) {
     signInBtn.disabled = false;
-    return showSignInError.textContent = 'Ваш пароль повинен містити принаймні 1 велику, 1 маленьку літери та цифри'
+    return showSignInError.textContent = 'Your password must contain at least 1 uppercase letter, 1 lowercase letter, and numbers';
   }
   pass = hashPassword(pass);
   let allUsInfo = fetch(`${FAKE_SERVER_URL}Userinfo`)
@@ -398,7 +423,7 @@ signInForm.addEventListener('submit', e => {
             fetch(`${FAKE_SERVER_URL}user_content`, {
               method: 'POST',
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ userName: name, content: { todos: {}, urls: {}, notes: {}, hiddenTodos: {} } })
+              body: JSON.stringify({userName: name, content: { todos: {}, urls: {}, notes: {}, hiddenTodos: {}, codes: {},}})
             })
             .then(resp => resp.json())
             .then(resp => {
@@ -426,6 +451,9 @@ function reloadContent() {
   // Notes
   allNotesObj = userObj.content.notes;
   Object.keys(allNotesObj).forEach(note => generateNoteBlock( note, allNotesObj[note].description ))
+
+  // Codes
+  allUserCodesObj = userObj.content.codes;
 
   showResponseFn('Data been loaded');
 }

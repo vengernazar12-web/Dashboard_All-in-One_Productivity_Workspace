@@ -78,16 +78,6 @@
 }
 .add-note-button:hover { color: rgb(92, 92, 92); }
 
-.toggle-add-note-form {
-  min-width: 50px;
-  min-height: 50px;
-  background-color: rgb(115, 115, 255);
-  color: white;
-  border-radius: 6px;
-  padding: 1px;
-  font-size: 2.3rem;
-}
-
 .btn-save_notes {
   position: absolute;
   top: 10px;

@@ -11,11 +11,13 @@
   <link rel="stylesheet" href="notes.css">
   <link rel="stylesheet" href="calculator.css">
   <link rel="stylesheet" href="saveUrls.css">
+  <link rel="stylesheet" href="user code.css">
   <script src="todo.js" defer></script>
   <script src="main.js" defer></script>
   <script src="notes.js" defer></script>
   <script src="calculator.js" defer></script>
   <script src="saveUrls.js" defer></script>
+  <script src="user code.js" defer></script>
   <link rel="icon" href="favicon-32x32.png" type="image/x-icon">
 </head>
 <body>
@@ -23,10 +25,11 @@
 <header class="dashboard-header"> <h1>Dashboard</h1> </header>
 
 <main class="all-dashboard-items">
-  <button class="open-todo-wrap --opened-btn">TODO</button>
-  <button class="open-notes-wrap --opened-btn">NOTES</button>
-  <button class="open-calc-wrap --opened-btn">CALCULATOR</button>
-  <button class="open-save-urls-wrap --opened-btn">SAVE URLS</button>
+  <button class="open-todo-wrap --opened-btn">Todo</button>
+  <button class="open-notes-wrap --opened-btn">Notes</button>
+  <button class="open-calc-wrap --opened-btn">Calculator</button>
+  <button class="open-save-urls-wrap --opened-btn">Save urls</button>
+  <button class="open-user-code-wrap --opened-btn">Your code</button>
   <button class="open-settings-window">⚙️</button>
 </main>
 
@@ -74,7 +77,7 @@
 
   <div class="all-user-notes-container"></div>
 
-  <button class="toggle-add-note-form" title="Ctrl + h">✚</button>
+  <button class="toggle-add-note-form --toggle-form-btn" title="Ctrl + h">✚</button>
   <div class="add-notes-inputs">
     <input type="text" class="note-name-input" placeholder="Note name...">
     <input type="text" class="note-description-input" placeholder="Note description...">
@@ -143,6 +146,24 @@
   <div class="all-urls-container"></div>
 
   <button class="min-wrap">▢</button>
+</div>
+
+<!-- User code wrap -->
+<div class="user-code-wrap">
+  <h2>All yours codes</h2>
+  <header class="drag-and-drop-block"></header>
+  <button class="min-wrap">▢</button>
+  <button class="--saved-btn btn-save_codes">Save</button>
+  <button class="close-user-code-wrap">❌</button>
+  <hr>
+  <div class="all-user-codes-container"></div>
+  <button class="toggle-add-new-block-code-form --toggle-form-btn" title="Ctrl + h">✚</button>
+
+  <div class="add-new-block-code-form">
+    <h3>Add your code</h3>
+    <input type="text" class="code-block-name-input" placeholder="Code title...">
+    <button class="add-code-block-btn">Add</button>
+  </div>
 </div>
 
 <!-- Settings -->

@@ -109,12 +109,15 @@ addNotesButton.addEventListener('click', () => {
 
   generateNoteBlock( name, desc );
 
-  if(allUserNotesCont.children.length >= 5) return openAddNoteForm.style.display = 'none';
+  if(allUserNotesCont.childElementCount >= 10) return openAddNoteForm.style.display = 'none';
 })
 
 const openAddNoteForm = document.querySelector('.toggle-add-note-form');
 openAddNoteForm.addEventListener('click', () => {
-  if(allUserNotesCont.children.length >= 5) {openAddNoteForm.style.display = 'none'; return showResponseFn('You have max notes 5/5')};
+  if(allUserNotesCont.childElementCount >= 10) {
+    openAddNoteForm.style.display = 'none';
+    return showResponseFn('You have max notes 10/10');
+  };
   addNotesForm.classList.toggle('show');
   addNoteInputName.focus();
 })
