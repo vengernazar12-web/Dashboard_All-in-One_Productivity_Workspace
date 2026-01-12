@@ -40,8 +40,10 @@ async function signFn(type) {
 
 async function reloadAllContent() {
   let initialContent = await client.auth.getSession();
-  const id = initialContent.data.session.user.id;
-  try {initialContent = await client.from('user_content').select('*').eq('id', id).single();}
+  try {
+    const id = initialContent.data.session.user.id;
+    initialContent = await client.from('user_content').select('*').eq('id', id).single();
+  }
   catch {
     await client.from('user_content').insert({ id, content: {} });
     return showResponseFn('Your content been created');
