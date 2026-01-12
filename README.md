@@ -1,16 +1,44 @@
-# Dashboard App
+# 🧠 Dashboard App
 
-### Це навчальна браузерна програма з такими функціями:
+A simple personal dashboard that lets you save and sync your todos, notes, code snippets and links across devices.
 
-* **TODO** – місце, де ви можете зберігати свої плани на день, тиждень або навіть місяць.
-* **NOTES** – ваш записничок, де можна писати що завгодно (ліміт 2500 символів).
-* **CALCULATOR** – простий калькулятор (поки що без дужок).
-* **SAVE URLS** – місце, де можна зберігати будь-які посилання (**URL**) та давати їм зрозумілі назви.
-* **THEME SWITCHER** – перемикач теми між світлою та темною.
+Built with **Vanilla JavaScript** and **Supabase**.
 
-## Сервер
-На сайті використовується фейковий сервер для зберігання даних.
+---
 
-> **Увага:** дуже рекомендується не спамити запитами та після кліку дочекатись повідомлення про успішне збереження.
+## ✨ Features
 
-#### Примітка: кожна кнопка **Save** зберігає одночасно всю інформацію
+- User authentication (email + password)
+- Cloud-synced data
+- Todos (with hidden / archived items)
+- Notes
+- Code snippets
+- Saved URLs
+- Works on desktop and mobile
+
+---
+
+## 🧰 Editor features
+
+- Auto-close brackets and quotes  
+  `() [] {} "" '' `` `
+- Tab inserts 2 spaces
+- Ctrl `+` / `-` changes text size
+- Cursor-aware editing
+
+---
+
+## 🗄 Data storage
+
+Each user has one row in the `user_content` table:
+
+```json
+{
+  "id": "auth.uid()",
+  "content": {
+    "todos": {},
+    "notes": {},
+    "codes": {},
+    "urls": {}
+  }
+}

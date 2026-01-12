@@ -1,17 +1,3 @@
-body, [data-todo-block] {
-  transition:
-    background 0.5s,
-    color 0.3s;
-}
-
-body {
-  min-height: 100%;
-  height: auto;
-  background: var(--body-bg);
-  color: var(--text-color);
-  padding: 10px;
-}
-
 .todo-wrap button { transition: transform .2s; cursor: pointer; }
 .todo-wrap button:hover, .todo-wrap input[type='checkbox']:hover  { transform: scale(1.1); }
 
@@ -128,6 +114,7 @@ body {
   width: 25px;
   height: 25px;
 }
+[data-todo-input-completed]:focus { outline: none; }
 
 [data-todos-number] {
   position: absolute;
@@ -152,7 +139,7 @@ body {
   right: 20%;
 }
 
-.save-all-todos {
+.todo-save-btn {
   position: absolute;
   top: 25px;
   right: 16%;

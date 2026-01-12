@@ -1,7 +1,5 @@
 const notesWrap = document.querySelector('.notes-wrap');
-notesWrap.addEventListener('click', () => {
-  deleteNoteConfirmBlock.classList.remove('show')
-})
+notesWrap.addEventListener('click', () => deleteNoteConfirmBlock.classList.remove('show'));
 
 const userNotesText = document.querySelector('.notes-user-content');
 userNotesText.addEventListener('input', e => {
@@ -47,9 +45,9 @@ allUserNotesCont.addEventListener('touchstart', e => {
       deleteNoteConfirmBlock.style.top = `${top}px`;
     }, 300);
   }
-})
+}, { passive: false })
 
-allUserNotesCont.addEventListener('touchmove', () => {clearTimeout(touchTime); longPress = false;});
+allUserNotesCont.addEventListener('touchmove', () => {clearTimeout(touchTime); longPress = false;}, { passive: false });
 
 allUserNotesCont.addEventListener('touchend', e => {
   longPress = false;
@@ -82,10 +80,10 @@ deleteNoteConfirmBlock.querySelector('button')
   delete allNotesObj[name];
   allUserNotesCont.textContent = '';
   Object.keys(allNotesObj).forEach(note => generateNoteBlock(note, allNotesObj[note].description));
+  noteSaveBtn.classList.add('unsaved');
 
   deleteNoteConfirmBlock.classList.remove('show');
   openAddNoteForm.style.display = 'inline';
-  unsavedMarks(false);
 })
 
 const addNoteInputName = document.querySelector('.note-name-input');
@@ -105,18 +103,17 @@ addNotesButton.addEventListener('click', () => {
 
   allNotesObj[name] = { description: desc, txt: '' };
 
-  unsavedMarks(false);
-
   generateNoteBlock( name, desc );
+  noteSaveBtn.classList.add('unsaved');
 
-  if(allUserNotesCont.childElementCount >= 10) return openAddNoteForm.style.display = 'none';
+  if(allUserNotesCont.childElementCount >= 15) return openAddNoteForm.style.display = 'none';
 })
 
 const openAddNoteForm = document.querySelector('.toggle-add-note-form');
 openAddNoteForm.addEventListener('click', () => {
-  if(allUserNotesCont.childElementCount >= 10) {
+  if(allUserNotesCont.childElementCount >= 15) {
     openAddNoteForm.style.display = 'none';
-    return showResponseFn('You have max notes 10/10');
+    return showResponseFn('You have max notes 15/15');
   };
   addNotesForm.classList.toggle('show');
   addNoteInputName.focus();
@@ -139,6 +136,10 @@ function generateNoteBlock( name, desc ) {
   div.classList.add('user-note-block');
 
   allUserNotesCont.appendChild(div);
+}
+function renderNotesBlocks() {
+  allUserNotesCont.textContent = '';
+  [...Object.keys(allNotesObj)].forEach(name => generateNoteBlock(name, allNotesObj[name].description));
 }
 
 const searchNoteTextInput = document.querySelector('.search-note-text-input');

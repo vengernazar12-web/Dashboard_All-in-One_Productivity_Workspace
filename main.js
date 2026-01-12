@@ -1,12 +1,9 @@
-const FAKE_SERVER_URL = 'https://695054688531714d9bd055c4.mockapi.io/dashboard/';
-
-let userObj = {};
 const mls = localStorage.getItem('del-anim-time');
 let delAnimTime = mls !== null ? +mls : 1500;
 document.documentElement.style.setProperty('--del-animation-time', `${delAnimTime / 1000}s`);
 
 document.addEventListener('keydown', e => {
-  if(!userCodeWrap.classList.contains('show') && e.key === '<' || e.key === '>' || e.key === '&' || e.key === '/') e.preventDefault();
+  if(!userCodeWrap.classList.contains('show') && (e.key === '<' || e.key === '>' || e.key === '&' || e.key === '/')) e.preventDefault();
   if(e.ctrlKey && e.code === 'KeyH') {
     e.preventDefault();
     if(notesWrap.classList.contains('show')) openAddNoteForm.click();
@@ -178,6 +175,7 @@ document.querySelector('.toggle-hidden-todos-window')
 // Open notes wrap
 document.querySelector('.open-notes-wrap')
 .addEventListener('click', () => {
+  renderNotesBlocks();
   notesWrap.classList.add('show');
   if(allUserNotesCont.children.length >= 5) openAddNoteForm.style.display = 'none';
 })
@@ -216,7 +214,7 @@ document.querySelector('.close-notes-content-wrap')
   const name = notesContentTitle.textContent;
   allNotesObj[name].txt = userNotesText.innerText;
   showResponseFn(`Save "${name}" note text`);
-  unsavedMarks(false);
+  noteSaveBtn.classList.add('unsaved');
   notesContentWrap.classList.remove('show');
 });
 
@@ -253,224 +251,11 @@ document.addEventListener('pointermove', e => {
   dragBlock.style.top = Math.min(top, window.innerHeight - bObj.height) + 'px';
 })
 
-// Server
-const signInWind = document.querySelector('.sign-in-window');
-const allWrapBtns = document.querySelectorAll('.--opened-btn');
-function showSignInWindow() {
-  allWrapBtns.forEach(v => v.disabled = true);
-  const sesObj = JSON.parse(sessionStorage.getItem('user-obj'));
-  if(sesObj) {
-    userObj = sesObj;
-    reloadContent();
-    return allWrapBtns.forEach(v => v.disabled = false);
-  }
-  if(localStorage.getItem('user-account')) {
-    const name = localStorage.getItem('user-account');
-
-    fetch(`${FAKE_SERVER_URL}user_content`)
-    .then(resp => resp.json())
-    .then(resp => {
-      userObj = resp.find(obj => obj.userName === name);
-      if(!userObj) {
-        userObj = {
-          userName: name,
-          content: { todos: {}, urls: {}, notes: {}, }, hiddenTodos: {} };
-        showResponseFn('Failed loading data');
-        localStorage.removeItem('user-account');
-        allWrapBtns.forEach(v => v.disabled = false);
-        return signInWind.classList.add('show-wind');
-      };
-      sessionStorage.setItem('user-obj', JSON.stringify(userObj));
-      reloadContent();
-      return allWrapBtns.forEach(v => v.disabled = false);
-    })
-  }
-  else {
-    signInWind.classList.add('show-wind');
-    return allWrapBtns.forEach(v => v.disabled = false);
-  }
-}
-document.addEventListener('DOMContentLoaded', () => showSignInWindow());
-
-const showResponseText = document.querySelector('.show-response');
-const hashPassword = password => btoa(password);
-
 // Show response function
+const showResponseText = document.querySelector('.show-response');
 function showResponseFn(text) {
   showResponseText.classList.remove('show');
   void showResponseText.offsetWidth;
   showResponseText.textContent = text;
   showResponseText.classList.add('show');
-}
-
-// All save btns
-const allSaveBtns = document.querySelectorAll('.--saved-btn');
-allSaveBtns.forEach(btn => btn.addEventListener('click', () => {
-  allSaveBtns.forEach(b => b.disabled = true);
-  showResponseFn('Please wait...');
-
-  const heightNoteLng = Object.keys(allNotesObj).find(v => allNotesObj[v].txt.replaceAll('\n', '').length > 1000);
-  if(heightNoteLng) {
-    showResponseFn(`Note "${heightNoteLng}" is too long...`);
-    return allSaveBtns.forEach(b => b.disabled = false);
-  }
-
-  userObj.content.todos = allTodosObj;
-  userObj.content.urls = allUrlsObj;
-  userObj.content.hiddenTodos = hiddenTodosObj;
-  userObj.content.notes = allNotesObj;
-
-  // User code blocks save
-  [...allUserCodesContainer.children].forEach(b => {
-    allUserCodesObj[b.firstElementChild.textContent].code = b.querySelector('.user-code-content')
-    .value
-    .trim()
-    .split('\n')
-    .map(v => v.trimRight())
-    .join('\n');
-  })
-  const heightCodeLng = Object.keys(allUserCodesObj).find(o => allUserCodesObj[o].code.replaceAll(' ','').replaceAll('\n','').length > 1000);
-  if(heightCodeLng) return showResponseFn(`Code "${heightCodeLng}" is too long...`)
-  userObj.content.codes = allUserCodesObj;
-
-  fetch(`${FAKE_SERVER_URL}user_content/${userObj.id}`, {
-    method: 'PUT',
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(userObj),
-  })
-  .then(response => {
-    if(response.ok) {
-      showResponseFn('Saved your data!');
-      sessionStorage.setItem('user-obj', JSON.stringify(userObj))}
-    else {
-      showResponseFn("Failed to save data :(");
-      sessionStorage.setItem('user-obj', JSON.stringify(userObj))
-      allSaveBtns.forEach(b => b.disabled = false)
-      return unsavedMarks(false);
-    }
-  })
-  .catch(() => {
-    sessionStorage.setItem('user-obj', JSON.stringify(userObj));
-    showResponseFn('Error !');
-    setTimeout(() => showResponseFn('You must be online to avoid losing your todos/notes/URLs'), 2500);
-    allSaveBtns.forEach(b => b.disabled = false);
-    return unsavedMarks(false);
-  })
-
-  setTimeout(() => { allSaveBtns.forEach(b => b.disabled = false) }, 150000);
-  unsavedMarks(true);
-}))
-
-window.addEventListener('beforeunload', e => {
-  if([...allSaveBtns].find(btn => btn.classList.contains('unsaved'))) {
-    e.preventDefault();
-    e.returnValue = '';
-  }
-})
-
-// Sign-in container btns/inputs
-const nameInput = document.querySelector('.user-name-input'),
-passwordInput = document.querySelector('.user-password-input'),
-signInForm = document.querySelector('.sign-in-container'),
-showSignInError = document.querySelector('.show-sign-in-error'),
-signInBtn = document.querySelector('.sign-in-btn');
-
-signInForm.addEventListener('submit', e => {
-  showResponseFn('Please wait a moment...');
-  e.preventDefault();
-  signInBtn.disabled = true;
-
-  const name = nameInput.value.trim(); let pass = passwordInput.value.trim();
-  if(!/[a-z]/.test(pass) || !/[A-Z]/.test(pass) || !/\d/.test(pass)) {
-    signInBtn.disabled = false;
-    return showSignInError.textContent = 'Your password must contain at least 1 uppercase letter, 1 lowercase letter, and numbers';
-  }
-  pass = hashPassword(pass);
-  let allUsInfo = fetch(`${FAKE_SERVER_URL}Userinfo`)
-  .then(response => response.json());
-
-  allUsInfo.then(response => {
-    if(response.find(obj => obj.userName === name && obj.userPassword === pass)) {
-      fetch(`${FAKE_SERVER_URL}user_content`)
-      .then(resp => resp.json())
-      .then(resp => {
-        const findObj = resp.find(obj => obj.userName === name);
-        if(findObj) {
-          userObj = findObj;
-          signInWind.classList.remove('show-wind');
-          localStorage.setItem('user-account', name);
-          reloadContent()
-          signInBtn.disabled = false;
-          return showResponseFn('Welcome !');
-        }
-        else { signInBtn.disabled = false; return showResponseText.textContent = "Error !"};
-      })
-    }
-    else {
-      allUsInfo.then(resp => {
-        if(resp.find(obj => obj.userName === name)) {
-          showResponseText.textContent = "Ім'я зайняте або пароль не правильний !";
-          return signInBtn.disabled = false;
-        }
-        showResponseText.textContent = 'Loading...';
-        fetch(`${FAKE_SERVER_URL}Userinfo`, {
-          method: 'POST',
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ userName: name, userPassword: pass }),
-        })
-        .then(resp => {
-          if(resp.ok) {
-            fetch(`${FAKE_SERVER_URL}user_content`, {
-              method: 'POST',
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({userName: name, content: { todos: {}, urls: {}, notes: {}, hiddenTodos: {}, codes: {},}})
-            })
-            .then(resp => resp.json())
-            .then(resp => {
-              userObj = resp;
-              localStorage.setItem('user-account', name);
-              reloadContent();
-              signInWind.classList.remove('show-wind');
-              signInBtn.disabled = false;
-              showResponseFn('Welcome !');
-            });
-          }
-          else { showResponseText.textContent = 'Error...'; return showResponseFn('Error !')}
-        })
-      })
-    }
-  })
-})
-
-function reloadContent() {
-  allTodosObj = userObj.content.todos;
-  allUrlsObj = userObj.content.urls;
-  allUrlsArr = Object.keys(allUrlsObj);
-  hiddenTodosObj = userObj.content.hiddenTodos;
-
-  // Notes
-  allNotesObj = userObj.content.notes;
-  Object.keys(allNotesObj).forEach(note => generateNoteBlock( note, allNotesObj[note].description ))
-
-  // Codes
-  allUserCodesObj = userObj.content.codes;
-
-  showResponseFn('Data been loaded');
-}
-
-// Unsaved btns mark
-function unsavedMarks(isSave) {
-  if(isSave) {
-    allSaveBtns.forEach(v => {
-      v.classList.remove('unsaved');
-      v.setAttribute('title', '')
-    });
-  }
-  else {
-    allSaveBtns.forEach(v => {
-      v.disabled = false;
-      v.classList.add('unsaved');
-      v.setAttribute('title', 'unsaved content')
-    });
-  }
 }

@@ -28,7 +28,14 @@ html.dark-theme {
 
 html .show { display: block; }
 
-body { min-height: 100vh; }
+body {
+  min-height: 100vh;
+  height: auto;
+  background: var(--body-bg);
+  color: var(--text-color);
+  padding: 10px;
+}
+
 body, input { font-family: Roboto, sans-serif; font-weight: 500; }
 .all-dashboard-items {
   display: flex;
@@ -40,7 +47,7 @@ body, input { font-family: Roboto, sans-serif; font-weight: 500; }
 }
 html button { position: relative; cursor: pointer; }
 
-html .--saved-btn.unsaved:after {
+html .unsaved:after {
   content: '';
   display: block;
   width: 15px;
@@ -104,11 +111,11 @@ hr { display: block; border: 2px solid rgb(123, 123, 255); height: 2px; width: 1
   position: absolute;
   top: 10px;
   right: 10px;
-  width: 50px;
-  height: 50px;
   font-size: 2.2rem;
   border-radius: 7px;
-  background-color: transparent;
+  background-color: color-mix(in srgb, black 45%, transparent);
+  border-radius: 10px;
+  padding: 1px;
 }
 
 .drag-and-drop-block {
@@ -117,75 +124,6 @@ hr { display: block; border: 2px solid rgb(123, 123, 255); height: 2px; width: 1
   left: 0;
   width: 100%;
   height: 35px;
-}
-
-/* Sign-in */
-.sign-in-window {
-  position: fixed;
-  inset: 0;
-  background: linear-gradient(90deg, rgb(28, 25, 25), rgb(55, 53, 53));
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  pointer-events: none;
-  color: white;
-}
-.sign-in-window.show-wind { opacity: 1; pointer-events: auto; }
-.sign-in-window h1 {
-  position: absolute;
-  top: 50px;
-  font-size: 2.5rem;
-}
-
-.sign-in-container {
-  width: 70vw;
-  height: 50vh;
-  background: linear-gradient(90deg, rgb(106, 0, 0), rgb(56, 0, 0));
-  border-radius: 25px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: start;
-}
-.sign-in-container label {
-  font-size: 1.5rem;
-  margin-top: 25px;
-  margin-bottom: 5px;
-}
-
-.user-name-input, .user-password-input {
-  width: 80%;
-  height: 30px;
-  border-radius: 10px;
-  border: 1px solid rgb(0, 0, 0);
-  padding: 5px;
-}
-.user-name-input { top: 50px; }
-.user-password-input { top: 100px; }
-.sign-in-btn {
-  position: absolute;
-  right: 20px;
-  bottom: 20px;
-  width: 30%;
-  height: 25px;
-  border-radius: 7px;
-  border: 1px solid silver;
-}
-.sign-in-btn:active { background-color: rgb(74, 63, 63); }
-
-.show-sign-in-error {
-  position: absolute;
-  top: 2px;
-  font-size: 0.75rem;
-}
-.show-sign-in-error::after {
-  content: '';
-  display: block;
-  height: 2px;
-  width: 100%;
-  background-color: black;
 }
 
 /* All stats */
@@ -208,8 +146,9 @@ hr { display: block; border: 2px solid rgb(123, 123, 255); height: 2px; width: 1
   top: 65px;
   right: 10px;
   padding: 1px;
-  background-color: transparent;
+  background-color: color-mix(in srgb, black 45%, transparent);
   font-size: 2rem;
+  border-radius: 10px;
 }
 .close-settings-window {
   position: absolute;
@@ -244,7 +183,6 @@ hr { display: block; border: 2px solid rgb(123, 123, 255); height: 2px; width: 1
   border-radius: 5px;
   padding-left: 5px;
 }
-
 .--toggle-form-btn {
   min-width: 50px;
   min-height: 50px;
@@ -261,6 +199,9 @@ mark {
   padding: 3px;
   border-radius: 3px;
 }
+
+svg {width: 20px; height: 20px;}
+.--saved-btn { background-color: black; }
 
 @media (hover: none), (max-width: 550px) {
   button, input { transition: none; cursor: auto; }
@@ -285,7 +226,7 @@ html .del-anim {
   100% { transform: translateY(5px); opacity: 0; }
 }
 .show-response {
-  position: absolute;
+  position: fixed;
   bottom: 60px;
   left: 7.5%;
   pointer-events: none;
@@ -298,4 +239,4 @@ html .del-anim {
   text-align: center;
   padding: 5px;
 }
-.show-response.show { animation: show-response-anim 5s; }
+.show-response.show { animation: show-response-anim 10s; }

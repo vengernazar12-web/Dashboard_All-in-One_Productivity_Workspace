@@ -11,15 +11,13 @@
   background-color: transparent;
 }
 
-.btn-save_codes {
+.code-save-btn {
   position: absolute;
   top: 10px;
-  left: 100px;
+  left: 50px;
   padding: 5px;
-  background-color: rgb(115, 115, 255);
-  color: white;
-  font-size: 1.55rem;
-  border-radius: 5px;
+  border-radius: 10px;
+  border: 1px solid black;
 }
 
 .add-new-block-code-form {
@@ -54,7 +52,7 @@
 .add-code-block-btn:hover { color: rgb(92, 92, 92); }
 
 .user-code-block {
-  width: 95%;
+  width: 97%;
   height: 60px;
   background-color: rgb(40, 40, 40);
   margin: 15px auto;
@@ -71,6 +69,7 @@
   left: 10px;
   max-width: calc(100% - 165px);
   text-wrap: wrap;
+  font-size: 1.1rem;
 }
 .user-code-block > .code-symbols-limit {
   position: absolute;
@@ -88,6 +87,7 @@
   width: 100%;
   overflow: hidden;
   color: white;
+  font-size: 0.75rem;
 }
 .copy-code-btn {
   background-color: transparent;
@@ -111,11 +111,4 @@
   top: 10px;
   right: 135px;
   background-color: transparent;
-}
-
-.copy-code-svg,
-.delete-code-svg,
-.lock-code-svg {
-  width: 20px;
-  height: 20px;
 }

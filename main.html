@@ -1,5 +1,6 @@
 <!DOCTYPE html><html lang="en">
 <head>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <title>Dashboard</title>
   <meta charset="UTF-8">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,12 +13,14 @@
   <link rel="stylesheet" href="calculator.css">
   <link rel="stylesheet" href="saveUrls.css">
   <link rel="stylesheet" href="user code.css">
+  <link rel="stylesheet" href="sign.css">
   <script src="todo.js" defer></script>
   <script src="main.js" defer></script>
   <script src="notes.js" defer></script>
   <script src="calculator.js" defer></script>
   <script src="saveUrls.js" defer></script>
   <script src="user code.js" defer></script>
+  <script src="sign.js" defer></script>
   <link rel="icon" href="favicon-32x32.png" type="image/x-icon">
 </head>
 <body>
@@ -45,7 +48,9 @@
   <p data-todos-number>Todos: ...</p>
   <p todo-symbols-length>0/25</p>
   <header class="drag-and-drop-block"></header>
-  <button class="save-all-todos --saved-btn">Save</button>
+  <button class="todo-save-btn --saved-btn" title="Save content">
+    <svg title="Save content"><use href="sprite.svg#save"></use></svg>
+  </button>
   <input type="text" data-todo-input placeholder="Your todo..." title="Add todo...">
   <input type="text" data-todo-search placeholder="Search todo..." title="Search todo...">
   <button data-add-todo title="Add todo...">Add</button>
@@ -54,14 +59,15 @@
   <button data-close-todo-wrap>❌</button>
   <button class="min-wrap">▢</button>
 
-  <button class="hide-completed-todos" title="Archive all completed todos">🗄️</button>
+  <button class="hide-completed-todos" title="Hide all completed todos">🗄️</button>
   <button class="toggle-hidden-todos-window" title="Show hidden todos">🗂️</button>
+
   <div class="hidden-todos-window">
     <h2>Hidden todos</h2>
     <hr>
     <button class="close-hidden-wind-btn">❌</button>
     <div class="hidden-todos-container"></div>
-    <button class="unhide-todos">Unhide todos</button>
+    <button class="unhide-todos">Unhide all</button>
   </div>
 </div>
 
@@ -73,7 +79,9 @@
   <button class="close-notes-wrap">❌</button>
   <hr>
 
-  <button class="--saved-btn btn-save_notes">Save</button>
+  <button class="note-save-btn --saved-btn" title="Save content">
+    <svg title="Save content"><use href="sprite.svg#save"></use></svg>
+  </button>
 
   <div class="all-user-notes-container"></div>
 
@@ -89,7 +97,7 @@
   <button class="close-notes-content-wrap">❌</button>
   <h3></h3>
   <input type="text" class="search-note-text-input" placeholder="Search text...">
-  <p class="notes-symbols-limit-text">_/1000</p>
+  <p class="notes-symbols-limit-text">_/1500</p>
   <div class="notes-user-content" contenteditable="true"></div>
 </div>
 
@@ -135,13 +143,15 @@
 <!-- Urls -->
 <div class="save-urls-wrap">
   <header class="drag-and-drop-block"></header>
-  <button class="save-all-urls --saved-btn">Save</button>
+  <button class="url-save-btn --saved-btn" title="Save content">
+    <svg title="Save content"><use href="sprite.svg#save"></use></svg>
+  </button>
   <button class="close-add-urls-wrap">❌</button>
 
-  <input type="text" class="add-url-name-input" placeholder="Name your url...">
   <input type="text" class="add-opened-url-input" placeholder="Open url...">
-  <button class="add-url-btn">Add</button>
+  <input type="text" class="add-url-name-input" placeholder="Name your url...">
   <input type="text" class="search-url" placeholder="Search your urls...">
+  <button class="add-url-btn">Add</button>
 
   <div class="all-urls-container"></div>
 
@@ -150,10 +160,12 @@
 
 <!-- User code wrap -->
 <div class="user-code-wrap">
-  <h2>All yours codes</h2>
+  <h2>Yours codes</h2>
   <header class="drag-and-drop-block"></header>
   <button class="min-wrap">▢</button>
-  <button class="--saved-btn btn-save_codes">Save</button>
+  <button class="code-save-btn --saved-btn" title="Save content">
+    <svg title="Save content"><use href="sprite.svg#save"></use></svg>
+  </button>
   <button class="close-user-code-wrap">❌</button>
   <hr>
   <div class="all-user-codes-container"></div>
@@ -202,40 +214,58 @@
   </div>
 </div>
 
-<!-- Sign-in account -->
-<div class="sign-in-window">
-  <h1>Sign-in</h1>
-  <form class="sign-in-container">
-    <p class="show-sign-in-error"></p>
-    <label for="name">Your name</label>
-    <input
-    id="name"
-    type="text"
-    class="user-name-input"
-    placeholder="Your name..."
-    required
-    minlength="3"
-    maxlength="16"
-    autocomplete="off"
-    >
+<!-- Sign-in window -->
+<div class="sign-window">
+  <div class="sign-forms-container">
+    <form class="sign-up-form">
+      <h3>You don't have account? Sign up</h3>
+      <label for="sign-up-email">Email</label>
+      <input
+      type="email"
+      name="user-email"
+      id="sign-up-email"
+      placeholder="Your email..."
+      autocomplete="false"
+      minlength="10"
+      required>
+      <label for="sign-up-password">Password</label>
+      <input
+      type="password"
+      name="user-password"
+      id="sign-up-password"
+      placeholder="Your password..."
+      autocomplete="false"
+      minlength="8"
+      maxlength="16"
+      required>
+      <button class="sign-up-btn">Sign up</button>
+    </form>
 
-    <label for="password">Your password</label>
-    <input
-    id="password"
-    type="password"
-    class="user-password-input"
-    placeholder="Your password..."
-    required
-    minlength="8"
-    maxlength="16"
-    autocomplete="off"
-    >
-
-    <button class="sign-in-btn" type="submit">Sign-in</button>
-  </form>
+    <form class="sign-in-form">
+      <h3>You have account? Sign in</h3>
+      <label for="sign-in-email">Email</label>
+      <input
+      type="email"
+      name="user-email"
+      id="sign-in-email"
+      placeholder="Your email..."
+      autocomplete="false"
+      minlength="10"
+      required>
+      <label for="sign-in-password">Password</label>
+      <input
+      type="password"
+      name="user-password"
+      id="sign-in-password"
+      placeholder="Your password..."
+      autocomplete="false"
+      minlength="8"
+      maxlength="16"
+      required>
+      <button class="sign-in-btn">Sign in</button>
+    </form>
+  </div>
 </div>
 
 <p class="show-response"></p>
-
-</body>
-</html>
+</body></html>

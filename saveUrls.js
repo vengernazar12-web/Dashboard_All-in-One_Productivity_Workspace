@@ -19,12 +19,10 @@ function createUrlElement(name, opened) {
 }
 
 function renderAllUrls() {
-  if(!allUrlsArr.length) return allUrlsContainer.innerHTML = '<h1>Немає URLs...</h1>'
+  if(!Object.keys(allUrlsObj).length) return allUrlsContainer.innerHTML = '<h1>Немає URLs...</h1>'
   allUrlsContainer.textContent = '';
 
-  allUrlsArr.forEach(u => createUrlElement(u, allUrlsObj[u]));
-
-  Object.keys(allUrlsObj);
+  Object.keys(allUrlsObj).forEach(u => createUrlElement(u, allUrlsObj[u]));
 }
 
 const saveUrlsWrap = document.querySelector('.save-urls-wrap');
@@ -35,9 +33,6 @@ allUrlsContainer.addEventListener('click', e => {
     if(localStorage.getItem('conf-before-delete') === 'true') if(!confirm('Delete?')) return;
 
     delete allUrlsObj[e.target.parentElement.lastElementChild.textContent];
-    allUrlsArr = Object.keys(allUrlsObj);
-
-    unsavedMarks(false);
 
     if(localStorage.getItem('disabled-anim') === 'true') return renderAllUrls();
 
@@ -58,17 +53,15 @@ addUrlBtn.addEventListener('click', () => {
   if(allUrlsObj[value]) return showResponseFn(`Url name "${value}" is already used`);
 
   allUrlsObj[value] = opValue;
-  allUrlsArr = Object.keys(allUrlsObj);
 
   nameUrlInput.value = '';
   openedUrlInput.value = '';
+  urlSaveBtn.classList.add('unsaved');
 
-  unsavedMarks(false);
   renderAllUrls();
 })
 
 let allUrlsObj = null;
-let allUrlsArr = null;
 
 document.querySelector('.search-url')
 .addEventListener('input', e => {
@@ -80,7 +73,7 @@ function renderFilteredUrls(text) {
   allUrlsContainer.textContent = '';
   text = text.toLowerCase();
 
-  allUrlsArr.forEach(name => {if(name.toLowerCase().includes(text)) createUrlElement(name, allUrlsObj[name])});
+  Object.keys(allUrlsObj).forEach(name => {if(name.toLowerCase().includes(text)) createUrlElement(name, allUrlsObj[name])});
 
   if(!allUrlsContainer.children.length) allUrlsContainer.innerHTML = '<h1>Нічого не знайдено...</h1>'
 }

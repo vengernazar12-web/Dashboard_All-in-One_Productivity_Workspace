@@ -1,0 +1,51 @@
+.sign-window {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 150vh;
+  width: 100%;
+  overflow: hidden;
+  background-color: rgb(36, 36, 36);
+  display: none;
+}
+.sign-forms-container {
+  width: 90%;
+  height: 90vh;
+  background-color: rgb(78, 78, 78);
+  margin: 5vh auto;
+  border-radius: 15px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+.sign-forms-container > form {
+  width: 95%;
+  height: 45%;
+  background-color: white;
+  border-radius: 10px;
+  color: black;
+  text-align: center;
+  padding: 5px;
+  position: relative;
+}
+.sign-forms-container > form > h3 { margin-bottom: 10px; }
+.sign-forms-container > form > input {
+  width: 95%;
+  height: 25px;
+  background-color: rgb(192, 192, 192);
+  outline: 1px solid black;
+  border-radius: 7px;
+  padding: 5px;
+  margin: 2px auto 15px auto;
+}
+.sign-forms-container > form > button {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  padding: 1px;
+  background-color: transparent;
+  font-size: 1.2rem;
+}
+.sign-forms-container > form > button:hover { color: rgb(95, 95, 95); }

@@ -101,8 +101,7 @@ todoWrap.addEventListener('click', e => {
     todoInput.focus();
 
     allTodosObj[val] = { date: time, isCompleted: false, }
-
-    unsavedMarks(false);
+    todoSaveBtn.classList.add('unsaved');
     renderTodos();
   }
   else if(e.target.closest('[data-del-todo-btn]')) {
@@ -113,12 +112,10 @@ todoWrap.addEventListener('click', e => {
     e.target.parentElement.style.transition = 'none';
     e.target.parentElement.lastElementChild.checked = false;
 
-    unsavedMarks(false);
-
     if(localStorage.getItem('disabled-anim') === 'true') return renderTodos();
 
     e.target.parentElement.classList.add('del-anim');
-
+    todoSaveBtn.classList.add('unsaved');
     setTimeout(renderTodos, delAnimTime);
   }
   else if(e.target.closest('[data-replace-todo-btn]') && e.target.classList.contains('rename-todo')) {
@@ -144,8 +141,8 @@ todoWrap.addEventListener('click', e => {
     const time = `${String(date).padStart(2, '0')}:${String(month + 1).padStart(2, '0')}:${year}`;
 
     allTodosObj[newName] = { date: time, isCompleted: block.lastElementChild.checked }
+    todoSaveBtn.classList.add('unsaved');
 
-    unsavedMarks(false);
     renderTodos();
   }
   else if(e.target.closest('[data-replace-todo-btn]')) {
@@ -159,7 +156,7 @@ todoWrap.addEventListener('click', e => {
   }
   else if(e.target.closest('[data-todo-input-completed]')) {
     allTodosObj[e.target.parentElement.firstElementChild.textContent].isCompleted = e.target.checked;
-    unsavedMarks(false);
+    todoSaveBtn.classList.add('unsaved');
   }
 
   else if(e.target.closest('[data-todo-input]')) {
@@ -175,6 +172,7 @@ todoWrap.addEventListener('click', e => {
   })
   renderTodos();
   renderHiddenTodos();
+  todoSaveBtn.classList.add('unsaved');
   }
 })
 
@@ -208,7 +206,7 @@ hiddenTodosContainer.addEventListener('click', e => {
   if(e.target.classList.contains('delete-hidden-todo')) {
     if(localStorage.getItem('conf-before-delete') === 'true') if(!confirm('Delete?')) return;
     delete hiddenTodosObj[e.target.parentElement.firstElementChild.textContent];
-    unsavedMarks(false);
+    todoSaveBtn.classList.add('unsaved');
     if(localStorage.getItem('disabled-anim') === 'true') {
       renderTodos();
       return renderHiddenTodos();
@@ -232,5 +230,4 @@ document.querySelector('.unhide-todos')
   })
   renderTodos();
   renderHiddenTodos();
-  unsavedMarks(false);
 })

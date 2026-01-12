@@ -75,14 +75,11 @@
   border: 1px solid black;
 }
 
-.save-all-urls {
-  height: clamp(20px, 24px, 25px);
+.url-save-btn {
   border-radius: 10px;
   position: absolute;
-  top: 5px;
+  top: 3px;
   right: 45px;
-  width: 15%;
   border: 1px solid silver;
-  background-color: black;
-  color: white;
+  padding: 5px;
 }
