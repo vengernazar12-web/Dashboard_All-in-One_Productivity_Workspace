@@ -40,9 +40,8 @@ async function signFn(type) {
 
 async function reloadAllContent() {
   let initialContent = await client.auth.getSession();
-  let id = null;
+  const id = initialContent.data.session.user.id;
   try {
-    id = initialContent.data.session.user.id;
     initialContent = await client.from('user_content').select('*').eq('id', id).single();
   }
   catch {
