@@ -232,7 +232,7 @@ html .del-anim {
   pointer-events: none;
   opacity: 0;
   width: 85%;
-  background-color: rgb(52, 47, 47);
+  background-color: color-mix(in srgb, black 80%, transparent);
   color: white;
   height: max-content;
   border-radius: 15px;

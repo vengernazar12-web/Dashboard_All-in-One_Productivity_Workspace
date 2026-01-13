@@ -25,12 +25,15 @@ async function signFn(type) {
       const {data, error} = await client.auth.signInWithPassword({email, password});
       if(error) return showResponseFn(error.message);
       if(!data.user.email_confirmed_at) return showResponseFn(`You must confirm your email address! Check you email address: ${data.user.email}`);
-      const {data: contentFetchData, error: contentFetchError} = await client.from('user_content')
+
+      const {data: contentFetchData, error: contentFetchError} = await client
+      .from('user_content')
       .select('id, content')
       .eq('id', data.session.user.id)
       .single();
+
       if(contentFetchError && contentError.code !== 'PGRST116') return showResponseFn('Something went wrong');
-      if(!contentFetchData) await client.from('user_content').insert({id: data.session.user.id, content: contentFetchData.content});
+      if(!contentFetchData) await client.from('user_content').insert({id: data.session.user.id, content: {}});
       showResponseFn('Welcome!');
       signWindow.classList.remove('show');
       reloadAllContent();
@@ -40,10 +43,12 @@ async function signFn(type) {
 
 async function reloadAllContent() {
   let initialContent = await client.auth.getSession();
-  const id = initialContent.data.session.user.id;
-  try {
-    initialContent = await client.from('user_content').select('*').eq('id', id).single();
+  if(!initialContent.data.session) {
+    showResponseFn('Please sign');
+    return signWindow.classList.add('show');
   }
+  const id = initialContent.data.session.user.id;
+  try {initialContent = await client.from('user_content').select('*').eq('id', id).single();}
   catch {
     await client.from('user_content').insert({ id, content: {} });
     return showResponseFn('Your content been created');
