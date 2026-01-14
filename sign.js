@@ -1,7 +1,7 @@
 const client = supabase.createClient(
-  'https://puguxxnjsfuanrbknnty.supabase.co',
-  'sb_publishable__sz-p0NsZ5RWqLnv88qpdg_pJQtrzGS'
-)
+  'https://ivzrhxvrwafrofotkmrv.supabase.co',
+  'sb_publishable_gaf3l7-dqfddZGEZjBbatA_-AjzhiZ-'
+);
 
 const signWindow = document.querySelector('.sign-window');
 
@@ -32,8 +32,7 @@ async function signFn(type) {
       .eq('id', data.session.user.id)
       .single();
 
-      if(contentFetchError && contentError.code !== 'PGRST116') return showResponseFn('Something went wrong');
-      if(!contentFetchData) await client.from('user_content').insert({id: data.session.user.id, content: {}});
+      if(contentFetchError && contentFetchError.code !== 'PGRST116') return showResponseFn('Something went wrong');
       showResponseFn('Welcome!');
       signWindow.classList.remove('show');
       reloadAllContent();
@@ -43,16 +42,9 @@ async function signFn(type) {
 
 async function reloadAllContent() {
   let initialContent = await client.auth.getSession();
-  if(!initialContent.data.session) {
-    showResponseFn('Please sign');
-    return signWindow.classList.add('show');
-  }
+  if(!initialContent.data.session) return signWindow.classList.add('show');
   const id = initialContent.data.session.user.id;
-  try {initialContent = await client.from('user_content').select('*').eq('id', id).single();}
-  catch {
-    await client.from('user_content').insert({ id, content: {} });
-    return showResponseFn('Your content been created');
-  }
+  initialContent = await client.from('user_content').select('*').eq('id', id).single();
   if(initialContent) {
     const content = initialContent.data.content;
     allTodosObj = content.todos || {};
