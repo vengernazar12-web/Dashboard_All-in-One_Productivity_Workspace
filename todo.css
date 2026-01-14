@@ -46,6 +46,7 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 50px;
+  padding-bottom: 110px;
 }
 
 [data-todo-block] {
