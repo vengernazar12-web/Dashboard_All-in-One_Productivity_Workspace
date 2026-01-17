@@ -37,12 +37,13 @@ body {
 }
 
 body, input { font-family: Roboto, sans-serif; font-weight: 500; }
+
 .all-dashboard-items {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   gap: 50px;
-  flex-wrap: wrap;
   align-items: center;
+  justify-content: space-around;
   margin-top: 25px;
 }
 html button { position: relative; cursor: pointer; }
@@ -147,7 +148,6 @@ hr { display: block; border: 2px solid rgb(123, 123, 255); height: 2px; width: 1
   right: 10px;
   padding: 1px;
   background-color: color-mix(in srgb, black 45%, transparent);
-  font-size: 2rem;
   border-radius: 10px;
 }
 .close-settings-window {

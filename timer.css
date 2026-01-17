@@ -1,0 +1,93 @@
+.timer-window {
+  position: absolute;
+  top: 7.5%;
+  left: 15%;
+  width: 70%;
+  height: 85%;
+  background-color: rgb(255, 255, 153);
+  border-radius: 4px;
+  display: none;
+  box-shadow: 0 0 7px black;
+  color: black;
+  padding: 5px;
+  overflow-y: auto;
+}
+.timer-window > header {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+  position: relative;
+}
+
+.show-timer-window {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  position: fixed;
+  top: 10px;
+  left: 10px;
+}
+
+.user-is-ready-window {
+  background-color: rgb(157, 255, 157);
+  width: 75%;
+  height: 65%;
+  position: fixed;
+  top: 20%;
+  left: 12.5%;
+  border-radius: 10px;
+  padding: 5px;
+  box-shadow: 0 0 7px black;
+  display: none;
+  color: black;
+  overflow-y: auto;
+}
+.user-is-ready-window > p { text-wrap: wrap; margin: 10px 10px; }
+
+.user-is-ready-window > .user-is-ready, .user-is-ready-window > .user-no-ready {
+  width: 35%;
+  height: 20%;
+  border-radius: 10px;
+  font-size: 1.4rem;
+  position: absolute;
+  bottom: 25px;
+}
+.user-is-ready-window > .user-is-ready { left: 10%; }
+.user-is-ready-window > .user-no-ready { right: 10%; }
+
+.close-timer-window {
+  padding: 1px;
+  background-color: transparent;
+  font-size: 1.2rem;
+}
+
+/* Set time and timer point */
+.set-time-input {
+  width: 90%;
+  padding: 5px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+.set-timer-point {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  width: 95%;
+}
+.set-timer-point > select {
+  width: min(150px, 95%);
+}
+
+/* Stop/start timer btn */
+.start-timer-btn, .stop-timer-btn {
+  width: 40%;
+  height: 20%;
+  border-radius: 50px;
+  position: absolute;
+  bottom: 2.5%;
+  font-size: 1.5rem;
+  display: none;
+}
+.start-timer-btn { left: 2.5%; background-color: yellowgreen; }
+.stop-timer-btn { right: 2.5%; background-color: red; }

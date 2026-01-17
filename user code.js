@@ -1,8 +1,48 @@
+/*All ready words*/ const allReadyWords = [
+'break','case','catch','class','const','continue','debugger','default',
+'delete','do','else','export','extends','finally','for','function',
+'if','import','in','instanceof','let','new','return','super','switch',
+'this','throw','try','typeof','var','void','while','with','yield',
+'Array','Boolean','Date','Error','Function','JSON','Math','Number',
+'Object','RegExp','String','Map','Set','WeakMap','WeakSet','Symbol',
+'Promise','BigInt','Intl','Reflect','Proxy','console','window','document',
+'charAt','charCodeAt','codePointAt','concat','includes','endsWith',
+'indexOf','lastIndexOf','localeCompare','match','matchAll','normalize',
+'padEnd','padStart','repeat','replace','replaceAll','search','slice',
+'split','startsWith','substring','toLocaleLowerCase','toLocaleUpperCase',
+'toLowerCase','toUpperCase','trim','trimStart','trimEnd','valueOf',
+'appendChild','removeChild','replaceChild','insertBefore','cloneNode',
+'getAttribute','setAttribute','removeAttribute','hasAttribute',
+'querySelector','querySelectorAll','getElementById','getElementsByClassName',
+'getElementsByTagName','addEventListener','removeEventListener','focus',
+'blur','scrollIntoView','contains','matches','closest','classList.add',
+'classList.remove','classList.toggle','classList.contains','textContent',
+'innerHTML','innerText','value',
+'alert','prompt','confirm','setTimeout','setInterval','clearTimeout',
+'clearInterval','fetch','localStorage','sessionStorage','JSON.stringify',
+'JSON.parse','Date.now','Math.random','Math.floor','Math.ceil','Math.round',
+'Math.max','Math.min','parseInt','parseFloat','isNaN','isFinite',
+'async', 'await', 'yield', 'static', 'get', 'set', 'of', 'constructor', 'super',
+'then', 'catch', 'finally', 'resolve', 'reject', 'all', 'race', 'any', 'allSettled',
+'findLast','findLastIndex','copyWithin','fill','at','every','some','from','of',
+'entries','keys','values','flatMap','flat','includes',
+'trimLeft','trimRight','raw','startsWith','endsWith',
+'preventDefault','stopPropagation','dispatchEvent','createElement','createTextNode',
+'getBoundingClientRect','insertAdjacentHTML','insertAdjacentElement','replaceWith',
+'scrollTop','scrollLeft','scrollHeight','scrollWidth','offsetTop','offsetLeft','offsetHeight','offsetWidth',
+'encodeURI','decodeURI','encodeURIComponent','decodeURIComponent','escape','unescape',
+'isFinite','isInteger','isSafeInteger','parseFloat','parseInt','toString','valueOf','hasOwnProperty','Object.keys','Object.values','Object.entries',
+'Math.abs','Math.sign','Math.trunc','Math.cbrt','Math.clz32','Math.imul','Math.log2','Math.log10','Math.exp','Math.expm1','Math.hypot','Math.fround','Math.sinh','Math.cosh','Math.tanh','Math.asinh','Math.acosh','Math.atanh','Math.randomInt',
+'onclick','oninput','onchange','onsubmit','onkeydown','onkeyup','onkeypress','onmousedown','onmouseup','onmousemove','onmouseenter','onmouseleave'
+]
 let allUserCodesObj = {};
-function renderUserCodesBlocks() {
-  allUserCodesContainer.textContent = '';
-  Object.keys(allUserCodesObj).forEach(name => {
-    const div = document.createElement('div'),
+// --------------------------------
+
+const getReadyCodeWords = document.querySelector('.give-ready-code-words');
+const getReadyCodeWordsBlock = getReadyCodeWords.querySelector('div');
+
+function createCodeBlock(name) {
+  const div = document.createElement('div'),
     h3 = document.createElement('h3'),
     textArea = document.createElement('textarea'),
     hr = document.createElement('hr'),
@@ -59,10 +99,22 @@ function renderUserCodesBlocks() {
 
       const autoCompleteSymbols = ['(', '{', '[', '<', "'", '"', '`'];
       const completedSymbols = [')', '}', ']', '>', "'", '"', '`'];
-      const autoCompleteSymbolsIndex = autoCompleteSymbols.indexOf(e.data);
-      if(autoCompleteSymbolsIndex !== -1) e.target.value += completedSymbols[autoCompleteSymbolsIndex];
+      const index = autoCompleteSymbols.indexOf(e.data);
+      if(index !== -1) {
+        const start = e.target.selectionStart;
+        const end = e.target.selectionEnd;
+        const first = e.target.value.slice(0, start);
+        const last = e.target.value.slice(end);
 
-      codeSaveBtn.classList.add('unsaved');
+        e.target.value = `${first}${completedSymbols[index]}${last}`;
+        e.target.selectionStart = start + 1;
+        e.target.selectionEnd = e.target.selectionStart;
+      }
+
+      // Give auto complete code words
+      const thisValue = e.target.value.slice(0, e.target.selectionStart).match(/[a-z]+$/i);
+      if(!thisValue) return getReadyCodeWords.classList.remove('show');
+      renderReadyCodeWords(thisValue[0], textArea.getBoundingClientRect());
     })
     textArea.addEventListener('keydown', e => {
       if(e.code === 'Tab') {
@@ -92,7 +144,34 @@ function renderUserCodesBlocks() {
 
     div.append(h3, hr, textArea, button_copyCode, button_deleteCode, codeSymbolsLimit, lockCodeBtn);
     allUserCodesContainer.appendChild(div);
+}
+
+function renderReadyCodeWords(txtValue, textAreaObj) {
+  getReadyCodeWordsBlock.textContent = '';
+  getReadyCodeWords.style.bottom = '';
+  getReadyCodeWords.classList.add('show');
+  allReadyWords.forEach(word => {
+    if(word.toLowerCase().includes(txtValue.toLowerCase())) {
+      const p = document.createElement('p');
+      p.textContent = word;
+      getReadyCodeWordsBlock.appendChild(p);
+    }
   })
+  if(!getReadyCodeWordsBlock.childElementCount) return getReadyCodeWords.classList.remove('show');
+
+  const helpContainerObj = getReadyCodeWords.getBoundingClientRect();
+  getReadyCodeWords.style.left = `${(textAreaObj.width - helpContainerObj.width) / 2}px`
+  let top = textAreaObj.top + window.scrollY - helpContainerObj.height;
+  if(top < window.scrollY) {
+    getReadyCodeWords.style.top = '';
+    top = textAreaObj.bottom + window.scrollY;
+  };
+  getReadyCodeWords.style.top = top + 'px';
+}
+
+function renderUserCodesBlocks() {
+  allUserCodesContainer.textContent = '';
+  Object.keys(allUserCodesObj).forEach(name => createCodeBlock(name));
 }
 
 const userCodeWrap = document.querySelector('.user-code-wrap');
@@ -165,4 +244,29 @@ toggleAddCodeBlockForm.addEventListener('click', () => {
   }
   addCodeBlockForm.classList.toggle('show');
   codeBlockName.focus();
+})
+
+
+// Search user code
+function renderFoundUserCodes(txt) {
+  const allChildren = [...allUserCodesContainer.children];
+
+  if(!txt.length) return allChildren.forEach(block => block.style.display = 'block');
+
+  for(let block of allChildren) {
+    block.style.display = 'none';
+    const name = block.firstElementChild.textContent.toLowerCase();
+    const initialCode = block.querySelector('.user-code-content').value.toLowerCase();
+    if(
+      name.includes(txt)
+      || initialCode.includes(txt)
+      || String(initialCode.replaceAll(' ','').replaceAll('\n','').length).includes(txt)
+    ) block.style.display = 'block';
+  }
+}
+
+const searchUserCodeArea = document.querySelector('.search-code-textarea');
+searchUserCodeArea.addEventListener('input', () => {
+  searchUserCodeArea.style.height = `${searchUserCodeArea.scrollHeight}px`;
+  renderFoundUserCodes(searchUserCodeArea.value.trim().toLowerCase());
 })

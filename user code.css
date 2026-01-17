@@ -112,3 +112,34 @@
   right: 135px;
   background-color: transparent;
 }
+
+/* Search code textarea */
+.search-code-textarea {
+  min-height: 40px;
+  resize: none;
+  width: 97%;
+  border-radius: 7px;
+  padding: 4px;
+  overflow: hidden;
+  border: 1px solid black;
+}
+
+/* Give ready code words block */
+.give-ready-code-words {
+  width: max-content;
+  background-color: rgb(29, 29, 29);
+  color: white;
+  border-radius: 3px;
+  height: max-content;
+  max-height: 30vh;
+  display: none;
+  position: fixed;
+  padding: 5px;
+  text-align: left;
+  overflow-y: auto;
+}
+.give-ready-code-words > p {
+  font-size: 0.35rem;
+  color: rgb(103, 103, 103);
+}
+.give-ready-code-words > div > p { font-size: 0.7rem; }

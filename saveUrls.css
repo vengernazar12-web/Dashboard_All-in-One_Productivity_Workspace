@@ -54,6 +54,7 @@
 }
 
 .url-block p, .url-block a { text-wrap: wrap; user-select: text; }
+.url-block p { font-size: 0.6rem; }
 
 .del-url-btn {
   width: 20px;

@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="saveUrls.css">
   <link rel="stylesheet" href="user code.css">
   <link rel="stylesheet" href="sign.css">
+  <link rel="stylesheet" href="timer.css">
   <script src="todo.js" defer></script>
   <script src="main.js" defer></script>
   <script src="notes.js" defer></script>
@@ -21,6 +22,7 @@
   <script src="saveUrls.js" defer></script>
   <script src="user code.js" defer></script>
   <script src="sign.js" defer></script>
+  <script src="timer.js" defer></script>
   <link rel="icon" href="favicon-32x32.png" type="image/x-icon">
 </head>
 <body>
@@ -33,15 +35,69 @@
   <button class="open-calc-wrap --opened-btn">Calculator</button>
   <button class="open-save-urls-wrap --opened-btn">Save urls</button>
   <button class="open-user-code-wrap --opened-btn">Your code</button>
-  <button class="open-settings-window">⚙️</button>
 </main>
 
+<!-- Show timer button -->
+<button class="show-timer-window" title="Timer">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" title="Timer">
+    <circle cx="12" cy="13" r="8" />
+    <path d="M12 9v4l2 2" />
+    <path d="M5 3 2 6" />
+    <path d="m22 6-3-3" />
+    <path d="M6.38 18.7 4 21" />
+    <path d="M17.64 18.67 20 21" />
+  </svg>
+</button>
+
+<!-- Timer window -->
+<div class="timer-window minimized">
+  <header class="drag-and-drop-block">
+    <h3>⏱ Focus timer</h3>
+    <button class="close-timer-window">❌</button>
+  </header>
+  <p class="timer-start-time"></p>
+  <p class="timer-duration"></p>
+
+  <hr>
+
+  <label for="set-time">Set your time (Your can write: number and s/m/h)</label>
+  <input class="set-time-input" type="text" id="set-time" placeholder="Set your time..." autocomplete="false">
+
+  <hr>
+
+  <div class="set-timer-point">
+    <label for="type">Select point type:</label>
+    <select id="type" class="select-type" title="Select point type...">
+      <option value="todos">todos</option>
+      <option value="notes">notes</option>
+      <option value="urls">urls</option>
+      <option value="codes">codes</option>
+    </select>
+    <label for="item">Select point item:</label>
+    <select id="item" class="select-type-item" title="Select point type...">
+      <option value="">----|----</option>
+    </select>
+  </div>
+
+  <button class="start-timer-btn show">Start</button>
+  <button class="stop-timer-btn">Stop</button>
+</div>
+
+<!-- All stats -->
 <div class="all-stats-wrap">
   <p class="todos-number-stats"></p>
   <p class="notes-symbols-number"></p>
   <p class="saved-urls-number"></p>
 </div>
 <button class="show-all-dashboard-stats">📊</button>
+
+<!-- Open setting window -->
+<button class="open-settings-window">
+  <svg xmlns="http://www.w3.org/2000/svg" style="width: 45px; height: 45px" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" />
+    <circle cx="12" cy="12" r="3" />
+  </svg>
+</button>
 
 <!-- Todos -->
 <div class="todo-wrap">
@@ -163,11 +219,10 @@
   <h2>Yours codes</h2>
   <header class="drag-and-drop-block"></header>
   <button class="min-wrap">▢</button>
-  <button class="code-save-btn --saved-btn" title="Save content">
-    <svg title="Save content"><use href="sprite.svg#save"></use></svg>
-  </button>
+  <button class="code-save-btn --saved-btn" title="Save content"><svg title="Save content"><use href="sprite.svg#save"></use></svg></button>
   <button class="close-user-code-wrap">❌</button>
   <hr>
+  <textarea class="search-code-textarea" type="text" placeholder="Search codes name/length/content"></textarea>
   <div class="all-user-codes-container"></div>
   <button class="toggle-add-new-block-code-form --toggle-form-btn" title="Ctrl + h">✚</button>
 
@@ -175,6 +230,11 @@
     <h3>Add your code</h3>
     <input type="text" class="code-block-name-input" placeholder="Code title...">
     <button class="add-code-block-btn">Add</button>
+  </div>
+
+  <div class="give-ready-code-words">
+    <div></div>
+    <p>Focus and enter</p>
   </div>
 </div>
 
@@ -212,6 +272,14 @@
     <p>Confirm before delete</p>
     <button class="conf-before-del-sett">✖️</button>
   </div>
+</div>
+
+<!-- User is ready window -->
+<div class="user-is-ready-window">
+  <h3>Are you ready?</h3>
+  <button class="user-is-ready">Yes</button>
+  <button class="user-no-ready">No</button>
+  <p>...</p>
 </div>
 
 <!-- Sign-in window -->
@@ -267,5 +335,6 @@
   </div>
 </div>
 
+<!-- Show response text -->
 <p class="show-response"></p>
 </body></html>
