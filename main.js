@@ -149,42 +149,54 @@ confBefDelBtn.addEventListener('click', e => {
 /* All OPEN btns */
 document.querySelector('.open-todo-wrap')
 .addEventListener('click', () => {
+  showPreloader();
   renderTodos();
   todoWrap.classList.add('show');
+  showPreloader(false);
 });
 
 document.querySelector('.open-calc-wrap')
 .addEventListener('click', () => {
+  showPreloader();
   calculatorWrap.classList.add('show');
   allCalcBtnsObj['='].click();
+  showPreloader(false);
 });
 
 document.querySelector('.open-save-urls-wrap')
 .addEventListener('click', () => {
+  showPreloader();
   renderAllUrls();
   saveUrlsWrap.classList.add('show');
+  showPreloader(false);
 });
 
 // Toggle hidden todos window
 document.querySelector('.toggle-hidden-todos-window')
 .addEventListener('click', () => {
+  showPreloader();
   hiddenTodosWindow.classList.toggle('show');
   renderHiddenTodos();
+  showPreloader(false);
 })
 
 // Open notes wrap
 document.querySelector('.open-notes-wrap')
 .addEventListener('click', () => {
+  showPreloader();
   renderNotesBlocks();
   notesWrap.classList.add('show');
   if(allUserNotesCont.children.length >= 5) openAddNoteForm.style.display = 'none';
+  showPreloader(false);
 })
 
 // Open user code wrap
 document.querySelector('.open-user-code-wrap')
 .addEventListener('click', () => {
+  showPreloader();
   renderUserCodesBlocks();
   userCodeWrap.classList.add('show');
+  showPreloader(false);
 })
 
 /* All CLOSE btns */

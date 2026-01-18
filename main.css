@@ -85,13 +85,7 @@ hr { display: block; border: 2px solid rgb(123, 123, 255); height: 2px; width: 1
   height: 20px;
   border-radius: 10px;
 }
-.todo-wrap,
-.notes-wrap,
-.calc-wrap,
-.save-urls-wrap,
-.settings-window,
-.notes-content-wrap,
-.user-code-wrap {
+.is-wrap {
   position: fixed;
   top: 0;
   left: 0;
@@ -240,3 +234,76 @@ html .del-anim {
   padding: 5px;
 }
 .show-response.show { animation: show-response-anim 10s; }
+
+/* Preloader animation and window */
+.loader {
+  transform: rotateZ(45deg);
+  perspective: 1000px;
+  border-radius: 50%;
+  width: 75px;
+  height: 75px;
+  color: #fff;
+  position: absolute;
+  bottom: 20%;
+  left: calc((100% - 75px) / 2);
+}
+.loader:before,
+.loader:after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: inherit;
+  height: inherit;
+  border-radius: 50%;
+  transform: rotateX(70deg);
+  animation: 1s spin linear infinite;
+}
+.loader:after {
+  color: #FF3D00;
+  transform: rotateY(70deg);
+  animation-delay: .4s;
+}
+
+@keyframes rotate {
+  0% { transform: translate(-50%, -50%) rotateZ(0deg); }
+  100% { transform: translate(-50%, -50%) rotateZ(360deg); }
+}
+
+@keyframes rotateccw {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(-360deg); }
+}
+
+@keyframes spin {
+  0%, 100% { box-shadow: .2rem 0px 0 0px currentcolor; }
+  12% { box-shadow: .2rem .2rem 0 0 currentcolor; }
+  25% { box-shadow: 0 .2rem 0 0px currentcolor; }
+  37% { box-shadow: -.2rem .2rem 0 0 currentcolor; }
+  50% { box-shadow: -.2rem 0 0 0 currentcolor; }
+  62% { box-shadow: -.2rem -.2rem 0 0 currentcolor; }
+  75% { box-shadow: 0px -.2rem 0 0 currentcolor; }
+  87% { box-shadow: .2rem -.2rem 0 0 currentcolor; }
+}
+
+/* Preloader window */
+.preloader-wrap {
+  text-align: center;
+  padding-top: 20px;
+}
+.preloader-wrap > h2 {
+  margin-bottom: 25px;
+}
+.preloader-wrap > img {
+  width: 100px;
+  height: 100px;
+  margin: 20px 0;
+  animation: pulse-load 0.5s infinite alternate;
+}
+
+@keyframes pulse-load {
+  0% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+.preloader-wrap > p { animation: pulse-load 0.5s infinite alternate; }

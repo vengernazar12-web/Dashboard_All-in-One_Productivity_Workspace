@@ -33,7 +33,7 @@
 'encodeURI','decodeURI','encodeURIComponent','decodeURIComponent','escape','unescape',
 'isFinite','isInteger','isSafeInteger','parseFloat','parseInt','toString','valueOf','hasOwnProperty','Object.keys','Object.values','Object.entries',
 'Math.abs','Math.sign','Math.trunc','Math.cbrt','Math.clz32','Math.imul','Math.log2','Math.log10','Math.exp','Math.expm1','Math.hypot','Math.fround','Math.sinh','Math.cosh','Math.tanh','Math.asinh','Math.acosh','Math.atanh','Math.randomInt',
-'onclick','oninput','onchange','onsubmit','onkeydown','onkeyup','onkeypress','onmousedown','onmouseup','onmousemove','onmouseenter','onmouseleave'
+'onclick','oninput','onchange','onsubmit','onkeydown','onkeyup','onkeypress','onmousedown','onmouseup','onmousemove','onmouseenter','onmouseleave',
 ]
 let allUserCodesObj = {};
 // --------------------------------
@@ -112,7 +112,7 @@ function createCodeBlock(name) {
       }
 
       // Give auto complete code words
-      const thisValue = e.target.value.slice(0, e.target.selectionStart).match(/[a-z]+$/i);
+      const thisValue = e.target.value.slice(0, e.target.selectionStart).match(/[a-z.]+$/i);
       if(!thisValue) return getReadyCodeWords.classList.remove('show');
       renderReadyCodeWords(thisValue[0], textArea.getBoundingClientRect());
     })
@@ -245,7 +245,6 @@ toggleAddCodeBlockForm.addEventListener('click', () => {
   addCodeBlockForm.classList.toggle('show');
   codeBlockName.focus();
 })
-
 
 // Search user code
 function renderFoundUserCodes(txt) {

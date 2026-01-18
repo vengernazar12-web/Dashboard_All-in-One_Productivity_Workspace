@@ -28,7 +28,7 @@
   margin: 10px;
   cursor: pointer;
 }
-.all-user-notes-container > div > h2 { text-wrap: wrap; font-size: 1.6rem; max-width: 45%; }
+.all-user-notes-container > div > h2 { text-wrap: wrap; font-size: 1.4rem; max-width: 45%; }
 .all-user-notes-container > div > p { text-wrap: wrap; max-width: 45%; }
 
 .notes-user-content {

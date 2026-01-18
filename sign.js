@@ -52,11 +52,11 @@ async function reloadAllContent() {
     allNotesObj = content.notes || {};
     allUrlsObj = content.urls || {};
     allUserCodesObj = content.codes || {};
+    showPreloader(false);
     return showResponseFn('Your content been loaded');
   }
-  else signWindow.classList.add('show');
+  else { showPreloader(false); signWindow.classList.add('show'); };
 }
-reloadAllContent();
 
 signUpForm.addEventListener('submit', e => {e.preventDefault(); signFn('up')});
 
@@ -66,19 +66,25 @@ signInForm.addEventListener('submit', e => {e.preventDefault(); signFn('in')});
 const todoSaveBtn = document.querySelector('.todo-save-btn');
 todoSaveBtn.addEventListener('click', async () => {
   todoSaveBtn.disabled = true;
+  showPreloader();
   showResponseFn('Please wait...');
 
   const {data, error} = await client.auth.getSession();
-  if(error) return showResponseFn(error.message);
+  if(error) {
+    showPreloader(false);
+    return showResponseFn(error.message);
+  };
 
   if(!data.session) {
     signWindow.classList.add('show');
+    showPreloader(false);
     return showResponseFn("Please sign in");
   }
 
   const id = data.session.user.id;
   const {data: initialContent, error: initialError} = await client.from('user_content').select('content').eq('id', id).single();
   if(initialError) {
+    showPreloader(false);
     setTimeout(() => {todoSaveBtn.disabled = false}, 150000);
     return showResponseFn("Something went wrong");
   }
@@ -87,6 +93,7 @@ todoSaveBtn.addEventListener('click', async () => {
 
   const {error: tableError} = await client.from('user_content').update({content: initialContent.content}).eq('id', id);
   if(tableError) {
+    showPreloader(false);
     setTimeout(() => todoSaveBtn.disabled = false, 15000);
     return showResponseFn("Your todos haven't been saved, pease try again later...");
   }
@@ -95,19 +102,25 @@ todoSaveBtn.addEventListener('click', async () => {
 
   setTimeout(() => todoSaveBtn.disabled = false, 15000);
   showResponseFn('Your todos have been saved');
+  showPreloader(false);
 })
 
 // Save notes content
 const noteSaveBtn = document.querySelector('.note-save-btn');
 noteSaveBtn.addEventListener('click', async () => {
   noteSaveBtn.disabled = true;
+  showPreloader();
   showResponseFn('Please wait...');
 
   const {data, error} = await client.auth.getSession();
-  if(error) return showResponseFn(error.message);
+  if(error) {
+    showPreloader(false);
+    return showResponseFn(error.message);
+  };
 
   if(!data.session) {
     showResponseFn('Please sign in');
+    showPreloader(false);
     return signWindow.classList.add('show');
   }
 
@@ -116,12 +129,14 @@ noteSaveBtn.addEventListener('click', async () => {
   const id = data.session.user.id;
   const {data: initialContent, error: initialError} = await client.from('user_content').select('content').eq('id', id).single();
   if(initialError) {
+    showPreloader(false);
     setTimeout(() => {noteSaveBtn.disabled = false}, 150000);
     return showResponseFn("Something went wrong");
   }
   initialContent.content.notes = allNotesObj;
   const {error: tableError} = await client.from('user_content').update({content: initialContent.content}).eq('id', id);
   if(tableError) {
+    showPreloader(false);
     setTimeout(() => noteSaveBtn.disabled = false, 150000);
     return showResponseFn("Your notes haven't been saved, pease try again later...");
   }
@@ -130,31 +145,39 @@ noteSaveBtn.addEventListener('click', async () => {
 
   setTimeout(() => noteSaveBtn.disabled = false, 150000);
   showResponseFn('Your notes have been saved');
+  showPreloader(false);
 })
 
 // Save urls content
 const urlSaveBtn = document.querySelector('.url-save-btn');
 urlSaveBtn.addEventListener('click', async () => {
   urlSaveBtn.disabled = true;
+  showPreloader();
   showResponseFn('Please wait...');
 
   const {data, error} = await client.auth.getSession();
-  if(error) return showResponseFn(error.message);
+  if(error) {
+    showPreloader(false);
+    return showResponseFn(error.message);
+  };
 
   if(!data.session) {
     showResponseFn('Please sign in');
+    showPreloader(false);
     return signWindow.classList.add('show');
   }
 
   const id = data.session.user.id;
   const {data: initialContent, error: initialError} = await client.from('user_content').select('content').eq('id', id).single();
   if(initialError) {
+    showPreloader(false);
     setTimeout(() => {urlSaveBtn.disabled = false}, 150000);
     return showResponseFn("Something went wrong");
   }
   initialContent.content.urls = allUrlsObj;
   const {error: tableError} = await client.from('user_content').update({content: initialContent.content}).eq('id', id);
   if(tableError) {
+    showPreloader(false);
     setTimeout(() => urlSaveBtn.disabled = false, 150000);
     return showResponseFn("Your urls haven't been saved, pease try again later...");
   }
@@ -163,17 +186,23 @@ urlSaveBtn.addEventListener('click', async () => {
 
   setTimeout(() => urlSaveBtn.disabled = false, 150000);
   showResponseFn('Your urls have been saved');
+  showPreloader(false);
 })
 
 // Save codes content
 const codeSaveBtn = document.querySelector('.code-save-btn');
 codeSaveBtn.addEventListener('click', async () => {
   codeSaveBtn.disabled = true;
+  showPreloader();
   showResponseFn('Please wait...');
 
   const {data, error} = await client.auth.getSession();
-  if(error) return showResponseFn(error.message);
+  if(error) {
+    showPreloader(false);
+    return showResponseFn(error.message);
+  };
   if(!data.session) {
+    showPreloader(false);
     showResponseFn('Please sign in');
     signWindow.classList.add('show');
   }
@@ -189,17 +218,22 @@ codeSaveBtn.addEventListener('click', async () => {
     .map(word => word.trimRight())
     .join('\n');
   })
-  if(isHeightLength) return showResponseFn('Some codes are too long.');
+  if(isHeightLength) {
+    showPreloader(false);
+    return showResponseFn('Some codes are too long.');
+  };
 
   const id = data.session.user.id;
   const {data: initialContent, error: initialError} = await client.from('user_content').select('content').eq('id', id).single();
   if(initialError) {
+    showPreloader(false);
     setTimeout(() => {codeSaveBtn.disabled = false}, 150000);
     return showResponseFn("Something went wrong");
   }
   initialContent.content.codes = allUserCodesObj;
   const {error: tableError} = await client.from('user_content').update({content: initialContent.content}).eq('id', id);
   if(tableError) {
+    showPreloader(false);
     setTimeout(() => codeSaveBtn.disabled = false, 150000);
     return showResponseFn("Your codes haven't been saved, pease try again later...");
   }
@@ -208,6 +242,7 @@ codeSaveBtn.addEventListener('click', async () => {
 
   setTimeout(() => codeSaveBtn.disabled = false, 150000);
   showResponseFn('Your codes have been saved');
+  showPreloader(false);
 })
 
 // Reload confirm
@@ -218,3 +253,5 @@ window.addEventListener('beforeunload', e => {
     return e.returnValue = '';
   }
 })
+
+reloadAllContent();

@@ -4,9 +4,9 @@ notesWrap.addEventListener('click', () => deleteNoteConfirmBlock.classList.remov
 const userNotesText = document.querySelector('.notes-user-content');
 userNotesText.addEventListener('input', e => {
   const lng = userNotesText.textContent.replaceAll('\n', '').length;
-  if(lng > 1000) notesSymbolsLimitText.style.color = 'red';
+  if(lng > 1500) notesSymbolsLimitText.style.color = 'red';
   else notesSymbolsLimitText.style.color = 'black';
-  notesSymbolsLimitText.textContent = `${lng}/1000`;
+  notesSymbolsLimitText.textContent = `${lng}/1500`;
 })
 
 const addNotesForm = document.querySelector('.add-notes-inputs');

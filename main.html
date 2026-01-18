@@ -23,7 +23,7 @@
   <script src="user code.js" defer></script>
   <script src="sign.js" defer></script>
   <script src="timer.js" defer></script>
-  <link rel="icon" href="favicon-32x32.png" type="image/x-icon">
+  <link rel="icon" href="favicon-32x32.png" type="image/png">
 </head>
 <body>
 
@@ -100,7 +100,7 @@
 </button>
 
 <!-- Todos -->
-<div class="todo-wrap">
+<div class="todo-wrap is-wrap">
   <p data-todos-number>Todos: ...</p>
   <p todo-symbols-length>0/25</p>
   <header class="drag-and-drop-block"></header>
@@ -128,7 +128,7 @@
 </div>
 
 <!-- Notes -->
-<div class="notes-wrap">
+<div class="notes-wrap is-wrap">
   <h1>Notes</h1>
   <header class="drag-and-drop-block"></header>
   <button class="min-wrap">▢</button>
@@ -149,7 +149,7 @@
   </div>
 </div>
 
-<div class="notes-content-wrap">
+<div class="notes-content-wrap is-wrap">
   <button class="close-notes-content-wrap">❌</button>
   <h3></h3>
   <input type="text" class="search-note-text-input" placeholder="Search text...">
@@ -163,7 +163,7 @@
 </div>
 
 <!-- Calculator -->
-<div class="calc-wrap">
+<div class="calc-wrap is-wrap">
   <header class="drag-and-drop-block"></header>
   <button class="close-calc-wrap">❌</button>
   <div class="calc-container">
@@ -197,7 +197,7 @@
 </div>
 
 <!-- Urls -->
-<div class="save-urls-wrap">
+<div class="save-urls-wrap is-wrap">
   <header class="drag-and-drop-block"></header>
   <button class="url-save-btn --saved-btn" title="Save content">
     <svg title="Save content"><use href="sprite.svg#save"></use></svg>
@@ -215,7 +215,7 @@
 </div>
 
 <!-- User code wrap -->
-<div class="user-code-wrap">
+<div class="user-code-wrap is-wrap">
   <h2>Yours codes</h2>
   <header class="drag-and-drop-block"></header>
   <button class="min-wrap">▢</button>
@@ -239,7 +239,7 @@
 </div>
 
 <!-- Settings -->
-<div class="settings-window">
+<div class="settings-window is-wrap">
   <h1>Your settings</h1>
   <button class="close-settings-window">❌</button>
   <div class="settings-block">
@@ -335,6 +335,24 @@
   </div>
 </div>
 
+<!-- Preloader window -->
+<div class="preloader-wrap is-wrap">
+  <h2>Loading...</h2>
+  <p>Loading your content. Please wait...</p>
+  <img src="dashboard-favicon-img.svg" alt="Smile img">
+  <span class="loader"></span>
+</div>
+
 <!-- Show response text -->
 <p class="show-response"></p>
+
+<script>
+const preloaderWrap = document.querySelector('.preloader-wrap');
+function showPreloader(show = true) {
+  if(show) preloaderWrap.classList.add('show');
+  else preloaderWrap.classList.remove('show');
+}
+showPreloader();
+</script>
+
 </body></html>
