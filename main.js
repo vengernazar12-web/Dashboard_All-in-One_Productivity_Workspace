@@ -3,8 +3,29 @@ let delAnimTime = mls !== null ? +mls : 1500;
 document.documentElement.style.setProperty('--del-animation-time', `${delAnimTime / 1000}s`);
 
 document.addEventListener('keydown', e => {
-  if(!userCodeWrap.classList.contains('show') && (e.key === '<' || e.key === '>' || e.key === '&' || e.key === '/')) e.preventDefault();
-  if(e.ctrlKey && e.code === 'KeyH') {
+  if(getReadyCodeWords.classList.contains('show')) {
+    if(e.key === 'ArrowDown') {
+      e.preventDefault();
+      if(codeWordIndex >= getReadyCodeWordsBlock.childElementCount - 1) return;
+      codeWordIndex++;
+      [...getReadyCodeWordsBlock.children][codeWordIndex].focus();
+    }
+    else if(e.key === 'ArrowUp') {
+      e.preventDefault();
+      if(codeWordIndex <= 0) return;
+      codeWordIndex--;
+      [...getReadyCodeWordsBlock.children][codeWordIndex].focus();
+    }
+    else if(e.key === 'Enter') {
+      e.preventDefault();
+      const activeElement = getReadyCodeWordsBlock.contains(document.activeElement)
+      ? document.activeElement : getReadyCodeWordsBlock.firstElementChild;
+
+      activeElement.click();
+    }
+  }
+  else if(notesWrap.classList.contains('show') && (e.key === '<' || e.key === '>' || e.key === '&' || e.key === '/')) e.preventDefault();
+  else if(e.ctrlKey && e.code === 'KeyH') {
     e.preventDefault();
     if(notesWrap.classList.contains('show')) openAddNoteForm.click();
     if(userCodeWrap.classList.contains('show')) toggleAddCodeBlockForm.click();
@@ -36,7 +57,7 @@ document.addEventListener('keydown', e => {
 })
 document.addEventListener('keyup', () => {
   if(calculatorWrap.classList.contains('show')) {
-    allNavBtns.forEach(v => v.classList.remove('btn-active'));
+    for(let v of allNavBtns) v.classList.remove('btn-active');
     delCalcSymbolBtn.classList.remove('btn-active');
   }
 })
@@ -52,7 +73,7 @@ document.querySelector('.show-all-dashboard-stats')
   todosNumberStats.textContent = `Todos ${todosContainer.children.length}`;
 
   let notesLng = 0;
-  Object.keys(allNotesObj).forEach(v => notesLng += allNotesObj[v].txt.replaceAll('\n','').length);
+  for(let v of Object.keys(allNotesObj)) notesLng += allNotesObj[v].txt.replaceAll('\n','').length;
   notesSymbolsNumber.textContent = `Notes SYMBOLs ${notesLng}`;
 
   renderAllUrls();
@@ -61,11 +82,11 @@ document.querySelector('.show-all-dashboard-stats')
   allStatsWrap.classList.toggle('show');
 })
 
-document.querySelectorAll('.min-wrap').forEach(b => {
+for(let b of document.querySelectorAll('.min-wrap')) {
   b.addEventListener('click', () => {
-  b.parentElement.removeAttribute('style');
-  b.parentElement.classList.toggle('minimized');
-})})
+    b.parentElement.removeAttribute('style');
+    b.parentElement.classList.toggle('minimized');
+})}
 
 /* Theme switcher */
 const DashboardSwitchTheme = document.querySelector('[data-theme-switcher]');
@@ -75,12 +96,12 @@ function setDashboardTheme() {
   if(theme === 'dark') {
     localStorage.setItem('todo-theme', 'light');
     document.documentElement.classList.remove('dark-theme');
-    todoSwitchTheme.textContent = '☀️';
+    DashboardSwitchTheme.textContent = '☀️';
   }
   else {
     localStorage.setItem('todo-theme', 'dark');
     document.documentElement.classList.add('dark-theme');
-    todoSwitchTheme.textContent = '🌑';
+    DashboardSwitchTheme.textContent = '🌑';
   }
 }
 
@@ -200,8 +221,15 @@ document.querySelector('.open-user-code-wrap')
 })
 
 /* All CLOSE btns */
+// Close todo wrap
 document.querySelector('[data-close-todo-wrap]')
-.addEventListener('click', () => todoWrap.classList.remove('show'));
+.addEventListener('click', () => {
+  todoWrap.classList.remove('show');
+  todoWrap.classList.remove('is-edit');
+  isEdit = false;
+  initialEditTodo = null;
+  todoColorBlock.classList.remove('show');
+});
 
 document.querySelector('.close-calc-wrap')
 .addEventListener('click', () => calculatorWrap.classList.remove('show'));

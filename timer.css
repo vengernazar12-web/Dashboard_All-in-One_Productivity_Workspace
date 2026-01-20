@@ -67,6 +67,7 @@
   padding: 5px;
   border-radius: 5px;
   margin-top: 10px;
+  outline: 1px solid silver;
 }
 .set-timer-point {
   display: flex;
@@ -76,7 +77,10 @@
   width: 95%;
 }
 .set-timer-point > select {
-  width: min(150px, 95%);
+  width: 90%;
+  height: 25px;
+  outline: 1px solid silver;
+  border-radius: 3px;
 }
 
 /* Stop/start timer btn */

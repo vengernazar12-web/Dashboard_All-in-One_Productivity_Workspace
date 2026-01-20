@@ -1,16 +1,14 @@
 const allCalcBtnsObj = {};
 const calcContainer = document.querySelector('.calc-container');
 const allNavBtns = document.querySelectorAll('.navigation-panel button');
-allNavBtns.forEach(v => allCalcBtnsObj[v.dataset.value] = v);
+for(let v of allNavBtns) allCalcBtnsObj[v.dataset.value] = v;
 
 const calculatorWrap = document.querySelector('.calc-wrap');
 const headerPanel = document.querySelector('.header-panel');
 const calculatorText = headerPanel.querySelector('p');
 
 const delCalcSymbolBtn = document.querySelector('.delete-symbol-btn');
-delCalcSymbolBtn.addEventListener('click', () => {
-  calculatorText.textContent = calculatorText.textContent.slice(0, -1);
-})
+delCalcSymbolBtn.addEventListener('click', () => { calculatorText.textContent = calculatorText.textContent.slice(0, -1); })
 
 const operators = ['+', '-', '/', '*']
 
@@ -28,9 +26,9 @@ calculatorWrap.addEventListener('click', e => {
     if(operators.includes(l) || l === '.') return;
     try {
       const exp = calculatorText
-                  .textContent
-                  .replaceAll('×', '*')
-                  .replaceAll('÷', '/')
+        .textContent
+        .replaceAll('×', '*')
+        .replaceAll('÷', '/')
       calculatorText.textContent = Function(`return ${exp}`)()
       isAnswer = true;
     }

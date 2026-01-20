@@ -104,12 +104,13 @@
   <p data-todos-number>Todos: ...</p>
   <p todo-symbols-length>0/25</p>
   <header class="drag-and-drop-block"></header>
-  <button class="todo-save-btn --saved-btn" title="Save content">
-    <svg title="Save content"><use href="sprite.svg#save"></use></svg>
-  </button>
-  <input type="text" data-todo-input placeholder="Your todo..." title="Add todo...">
-  <input type="text" data-todo-search placeholder="Search todo..." title="Search todo...">
-  <button data-add-todo title="Add todo...">Add</button>
+  <button class="todo-save-btn --saved-btn" title="Save content"><svg title="Save content"><use href="sprite.svg#save"></use></svg></button>
+
+  <input type="text" data-todo-input placeholder="Your todo...">
+  <input type="text" data-todo-search placeholder="Search todo...">
+  <button data-add-todo title="Add todo">Add</button>
+  <button class="start-edit-todos" title="Start edit mode">🖌️</button>
+
   <div data-todos-container></div>
 
   <button data-close-todo-wrap>❌</button>
@@ -124,6 +125,12 @@
     <button class="close-hidden-wind-btn">❌</button>
     <div class="hidden-todos-container"></div>
     <button class="unhide-todos">Unhide all</button>
+  </div>
+
+  <div class="set-todos-color-block">
+    <input type="color">
+    <button class="confirm-todo-color" title="Confirm todo color">OK</button>
+    <button class="reset-todo-color" title="Reset todo color">🔄️</button>
   </div>
 </div>
 
@@ -223,7 +230,9 @@
   <button class="close-user-code-wrap">❌</button>
   <hr>
   <textarea class="search-code-textarea" type="text" placeholder="Search codes name/length/content"></textarea>
+
   <div class="all-user-codes-container"></div>
+
   <button class="toggle-add-new-block-code-form --toggle-form-btn" title="Ctrl + h">✚</button>
 
   <div class="add-new-block-code-form">
@@ -232,9 +241,8 @@
     <button class="add-code-block-btn">Add</button>
   </div>
 
-  <div class="give-ready-code-words">
-    <div></div>
-    <p>Focus and enter</p>
+  <div class="get-ready-code-words">
+    <div class="all-ready-words-container"></div>
   </div>
 </div>
 
@@ -337,6 +345,7 @@
 
 <!-- Preloader window -->
 <div class="preloader-wrap is-wrap">
+  <p class="dashboard-preloader-p">Dashboard</p>
   <h2>Loading...</h2>
   <p>Loading your content. Please wait...</p>
   <img src="dashboard-favicon-img.svg" alt="Smile img">

@@ -208,8 +208,8 @@ codeSaveBtn.addEventListener('click', async () => {
   }
 
   let isHeightLength = false;
-  [...allUserCodesContainer.children].forEach(block => {
-    let userCode = block.querySelector('.user-code-content').value;
+  for(let block of allUserCodesContainer.children) {
+    const userCode = block.querySelector('.user-code-content').value;
     if(userCode.replaceAll(' ','').replaceAll('\n','').length > 1500) isHeightLength = true;
 
     allUserCodesObj[block.firstElementChild.textContent].code = userCode
@@ -217,7 +217,7 @@ codeSaveBtn.addEventListener('click', async () => {
     .split('\n')
     .map(word => word.trimRight())
     .join('\n');
-  })
+  }
   if(isHeightLength) {
     showPreloader(false);
     return showResponseFn('Some codes are too long.');

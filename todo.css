@@ -1,3 +1,10 @@
+.todo-wrap { transition: box-shadow 1s; }
+.todo-wrap.is-edit {
+  outline: 2px dashed rgba(255, 255, 255, 0.35);
+  outline-offset: -6px;
+}
+.todo-wrap.is-edit [data-todo-block] { outline: 3px dashed black; }
+
 .todo-wrap button { transition: transform .2s; cursor: pointer; }
 .todo-wrap button:hover, .todo-wrap input[type='checkbox']:hover  { transform: scale(1.1); }
 
@@ -17,12 +24,11 @@
   position: absolute;
   top: 75px;
   left: 2.5%;
-  width: 65%;
+  width: 52.5%;
   height: max(4.5%, 25px);
   border-radius: 10px;
   border: 1px solid black;
   padding-left: 10px;
-  font-size: 1.25rem;
 }
 
 [data-add-todo] {
@@ -37,11 +43,9 @@
 }
 
 [data-todos-container] {
-  width: 85%;
+  width: 100%;
   position: absolute;
   top: 150px;
-  left: 7.5%;
-  border-radius: 12px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -51,21 +55,20 @@
 
 [data-todo-block] {
   position: relative;
-  background: var(--block-bg);
   border-radius: 10px;
   height: 115px;
   transition: var(--is-comp-anim-transition);
   width: clamp(250px, 30%, 100%);
 }
 [data-todo-block]:has([data-todo-input-completed]:checked) {
-  background: linear-gradient(180deg, rgb(0, 255, 0), rgb(80, 147, 80));
-  box-shadow: 0 0 15px rgb(0, 255, 0);
+  box-shadow: 0 0 20px 1px rgb(0, 255, 0);
   color: black;
   transition: var(--is-comp-anim-transition);
 }
 [data-todo-block]:has([data-todo-input-completed]:checked) h2 {
   text-decoration: line-through;
   text-decoration-color: #4caf50;
+  text-decoration-thickness: 3px;
 }
 
 [data-todo-h2] { position: absolute; left: 5px; font-size: 1.2rem; top: 7px; }
@@ -153,7 +156,7 @@
 
 /* Hidden todos */
 .hidden-todos-window {
-  position: absolute;
+  position: fixed;
   left: 10vw;
   top: 10vh;
   background: var(--block-bg);
@@ -240,4 +243,40 @@
   color: black;
   transition: color .2s;
 }
-html .unhide-todos:hover { color: rgb(92, 69, 69); transform: scale(1); }
+
+/* Edit todos */
+.start-edit-todos {
+  position: absolute;
+  top: 75px;
+  right: 32.5%;
+  width: 10%;
+  height: max(4.5%, 25px);
+  border-radius: 10px;
+  border: 1px solid black;
+  font-size: 1.05rem;
+}
+.set-todos-color-block {
+  width: max-content;
+  height: max-content;
+  background-color: rgb(136, 136, 136);
+  padding: 5px;
+  position: absolute;
+  display: none;
+  border-radius: 5px;
+}
+.set-todos-color-block > input {
+  width: 50px;
+  height: 50px;
+  border: 1px solid black;
+}
+.set-todos-color-block > button {
+  color: black;
+  padding: 1px;
+  background-color: transparent;
+}
+.reset-todo-color {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  font-size: 1.05rem;
+}

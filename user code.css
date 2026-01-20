@@ -52,15 +52,15 @@
 .add-code-block-btn:hover { color: rgb(92, 92, 92); }
 
 .user-code-block {
-  width: 97%;
+  width: 99%;
   height: 60px;
   background-color: rgb(40, 40, 40);
   margin: 15px auto;
   color: white;
   overflow: hidden;
   border-radius: 8px;
-  padding: 5px;
-  transition: height .4s, box-shadow .5s;
+  padding: 3px;
+  transition: height .3s;
   position: relative;
 }
 .user-code-block > h3 {
@@ -82,7 +82,7 @@
   background-color: rgb(74, 74, 74);
   min-height: 50px;
   border-radius: 7px;
-  padding: 5px;
+  padding: 3px;
   resize: none;
   width: 100%;
   overflow: hidden;
@@ -125,12 +125,12 @@
 }
 
 /* Give ready code words block */
-.give-ready-code-words {
+.get-ready-code-words {
   width: max-content;
+  height: max-content;
   background-color: rgb(29, 29, 29);
   color: white;
   border-radius: 3px;
-  height: max-content;
   max-height: 30vh;
   display: none;
   position: fixed;
@@ -138,8 +138,17 @@
   text-align: left;
   overflow-y: auto;
 }
-.give-ready-code-words > p {
-  font-size: 0.35rem;
-  color: rgb(103, 103, 103);
+.all-ready-words-container > p {
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: background-color .5s, color .5s, border-radius .5s, padding-left .5s;
 }
-.give-ready-code-words > div > p { font-size: 0.7rem; }
+.all-ready-words-container > p { font-size: 0.7rem; cursor: pointer; }
+.all-ready-words-container > p:focus,
+.all-ready-words-container > p:hover {
+  background-color: black;
+  color: rgb(185, 185, 185);
+  border-radius: 8px;
+  padding: 1px 4px 1px 4px;
+  transition: background-color .5s, color .5s, border-radius .5s, padding-left .5s;
+}

@@ -38,8 +38,25 @@
 let allUserCodesObj = {};
 // --------------------------------
 
-const getReadyCodeWords = document.querySelector('.give-ready-code-words');
-const getReadyCodeWordsBlock = getReadyCodeWords.querySelector('div');
+let caretPosition = null;
+let codeWordIndex = -1;
+let initialTextAreaNav = null;
+let initialWordLng = 0;
+
+const getReadyCodeWords = document.querySelector('.get-ready-code-words');
+const getReadyCodeWordsBlock = getReadyCodeWords.querySelector('.all-ready-words-container');
+
+getReadyCodeWords.addEventListener('click', e => {
+  if(e.target.parentElement.classList.contains('all-ready-words-container')) {
+    const first = initialTextAreaNav.value.slice(0, caretPosition - initialWordLng);
+    const last = initialTextAreaNav.value.slice(caretPosition);
+    initialTextAreaNav.value = first + e.target.textContent + last;
+    initialTextAreaNav.focus();
+    initialTextAreaNav.selectionStart = first.length + e.target.textContent.length;
+    initialTextAreaNav.selectionEnd = initialTextAreaNav.selectionStart;
+    getReadyCodeWords.classList.remove('show');
+  }
+})
 
 function createCodeBlock(name) {
   const div = document.createElement('div'),
@@ -79,6 +96,13 @@ function createCodeBlock(name) {
     lockCodeBtn.innerHTML = '<svg><use href="sprite.svg#code-block-lock"></use></svg>';
     lockCodeBtn.style.color = allUserCodesObj[name].lock ? 'gold' : 'white';
 
+    textArea.addEventListener('focus', () => getReadyCodeWords.classList.remove('show'));
+    textArea.addEventListener('blur', e => {
+      caretPosition = e.target.selectionStart;
+      codeWordIndex = -1;
+      initialTextAreaNav = e.target;
+      initialWordLng = e.target.value.slice(0, caretPosition).match(/[a-z.]*$/i)[0].length;
+    })
     textArea.addEventListener('beforeinput', e => {
       if(allUserCodesObj[name].lock) {
         showResponseFn('You have locked this code');
@@ -97,6 +121,7 @@ function createCodeBlock(name) {
       }
       else codeSymbolsLimit.style.color = 'white';
 
+      // Auto complete code words
       const autoCompleteSymbols = ['(', '{', '[', '<', "'", '"', '`'];
       const completedSymbols = [')', '}', ']', '>', "'", '"', '`'];
       const index = autoCompleteSymbols.indexOf(e.data);
@@ -117,7 +142,37 @@ function createCodeBlock(name) {
       renderReadyCodeWords(thisValue[0], textArea.getBoundingClientRect());
     })
     textArea.addEventListener('keydown', e => {
-      if(e.code === 'Tab') {
+      if(getReadyCodeWords.classList.contains('show') && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) {
+        caretPosition = e.target.selectionStart;
+        codeWordIndex = -1;
+        initialTextAreaNav = e.target;
+        initialWordLng = e.target.value.slice(0, caretPosition).match(/[a-z.]+$/i)[0].length;
+      }
+      else if(e.key === 'Enter') {
+        const value = e.target.value;
+        const caretPos = e.target.selectionStart;
+        if(caretPos === 0 || caretPos !== e.target.selectionEnd) return;
+
+        const start = value.slice(0, caretPos);
+        const end = value.slice(caretPos);
+
+        const symbolBeforeCaret = value[caretPos - 1]
+        const symbolAfterCaret = value[caretPos];
+        if(
+          (symbolBeforeCaret === '(' && symbolAfterCaret === ')') ||
+          (symbolBeforeCaret === '{' && symbolAfterCaret === '}') ||
+          (symbolBeforeCaret === '[' && symbolAfterCaret === ']')
+        ) {
+          e.preventDefault();
+          e.target.value = start + '\n  \n' + end;
+          e.target.selectionStart = start.length + 3;
+          e.target.selectionEnd = e.target.selectionStart;
+        }
+
+        e.target.style.height = e.target.scrollHeight + 'px';
+        e.target.parentElement.style.height = e.target.parentElement.scrollHeight + 'px';
+      }
+      else if(e.code === 'Tab') {
         e.preventDefault();
         if(allUserCodesObj[e.target.parentElement.firstElementChild.textContent].lock) return showResponseFn('You have locked this code');
         const start = e.target.selectionStart,
@@ -150,13 +205,15 @@ function renderReadyCodeWords(txtValue, textAreaObj) {
   getReadyCodeWordsBlock.textContent = '';
   getReadyCodeWords.style.bottom = '';
   getReadyCodeWords.classList.add('show');
-  allReadyWords.forEach(word => {
+
+  for(let word of allReadyWords) {
     if(word.toLowerCase().includes(txtValue.toLowerCase())) {
       const p = document.createElement('p');
       p.textContent = word;
+      p.setAttribute('tabindex', '0');
       getReadyCodeWordsBlock.appendChild(p);
     }
-  })
+  }
   if(!getReadyCodeWordsBlock.childElementCount) return getReadyCodeWords.classList.remove('show');
 
   const helpContainerObj = getReadyCodeWords.getBoundingClientRect();
@@ -171,7 +228,7 @@ function renderReadyCodeWords(txtValue, textAreaObj) {
 
 function renderUserCodesBlocks() {
   allUserCodesContainer.textContent = '';
-  Object.keys(allUserCodesObj).forEach(name => createCodeBlock(name));
+  for(let name of Object.keys(allUserCodesObj)) createCodeBlock(name);
 }
 
 const userCodeWrap = document.querySelector('.user-code-wrap');
@@ -205,7 +262,7 @@ allUserCodesContainer.addEventListener('click', e => {
     }
     return codeSaveBtn.classList.add('unsaved');
   }
-  [...allUserCodesContainer.children].forEach(child => child.style.height = '60px');
+  for(let child of allUserCodesContainer.children) child.style.height = '60px';
   if(e.target.closest('.user-code-block')) { // Open code block
     const textarea = e.target.closest('.user-code-block').querySelector('.user-code-content');
     textarea.style.height = `${textarea.scrollHeight}px`;
@@ -248,9 +305,12 @@ toggleAddCodeBlockForm.addEventListener('click', () => {
 
 // Search user code
 function renderFoundUserCodes(txt) {
-  const allChildren = [...allUserCodesContainer.children];
+  const allChildren = allUserCodesContainer.children;
 
-  if(!txt.length) return allChildren.forEach(block => block.style.display = 'block');
+  if(!txt.length) {
+    for(let block of allChildren) block.style.display = 'block';
+    return;
+  };
 
   for(let block of allChildren) {
     block.style.display = 'none';

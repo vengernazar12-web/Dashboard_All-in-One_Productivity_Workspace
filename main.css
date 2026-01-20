@@ -205,14 +205,10 @@ svg {width: 20px; height: 20px;}
 
 /* Del animation */
 @keyframes del-anim {
-  from { opacity: 1; }
-  to { opacity: 0; }
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-15px); }
 }
-html .del-anim {
-  animation: del-anim var(--del-animation-time);
-  background: rgb(221, 115, 115);
-  color: red;
-}
+html .del-anim { animation: del-anim var(--del-animation-time); }
 /* Show response anim */
 @keyframes show-response-anim {
   0% { transform: translateY(5px); opacity: 0; }
@@ -292,6 +288,13 @@ html .del-anim {
   text-align: center;
   padding-top: 20px;
 }
+
+.preloader-wrap > .dashboard-preloader-p {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+}
+
 .preloader-wrap > h2 {
   margin-bottom: 25px;
 }

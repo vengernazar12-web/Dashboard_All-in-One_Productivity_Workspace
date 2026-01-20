@@ -1,12 +1,10 @@
 const userReadyWindow = document.querySelector('.user-is-ready-window');
 const userReadyTxtInfo = userReadyWindow.lastElementChild;
-function setUserReadyInfoTxt(type, name) {
-  userReadyTxtInfo.textContent = `Time is up! Ready to open: ${type} => ${name}?`;
-}
+function setUserReadyInfoTxt(type, name) { userReadyTxtInfo.textContent = `Time is up! Ready to open: ${type} => ${name}?`; }
 
 const timerWindow = document.querySelector('.timer-window');
 document.querySelector('.show-timer-window')
-.addEventListener('click', () => timerWindow.classList.add('show'));
+.addEventListener('click', () => timerWindow.classList.toggle('show'));
 
 document.querySelector('.close-timer-window')
 .addEventListener('click', () => timerWindow.classList.remove('show'));
@@ -54,13 +52,13 @@ const selectType = document.querySelector('.select-type');
 const selectitem = document.querySelector('.select-type-item');
 function renderSelectItems(container, isLastChild = false) {
   selectitem.textContent = '';
-  [...container.children].forEach(block => {
+  for(let block of container.children) {
     const option = document.createElement('option');
     const val = isLastChild ? block.lastElementChild.textContent : block.firstElementChild.textContent;
     option.value = val;
     option.textContent = val;
     selectitem.appendChild(option);
-  })
+  }
 }
 selectitem.addEventListener('focus', () => {
   const val = selectType.value;

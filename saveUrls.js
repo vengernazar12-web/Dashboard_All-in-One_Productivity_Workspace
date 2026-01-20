@@ -19,10 +19,11 @@ function createUrlElement(name, opened) {
 }
 
 function renderAllUrls() {
-  if(!Object.keys(allUrlsObj).length) return allUrlsContainer.innerHTML = '<h1>Немає URLs...</h1>'
+  const arr = Object.keys(allUrlsObj);
+  if(!arr.length) return allUrlsContainer.innerHTML = '<h1>Немає URLs...</h1>'
   allUrlsContainer.textContent = '';
 
-  Object.keys(allUrlsObj).forEach(u => createUrlElement(u, allUrlsObj[u]));
+  for(let u of arr) createUrlElement(u, allUrlsObj[u]);
 }
 
 const saveUrlsWrap = document.querySelector('.save-urls-wrap');
@@ -73,7 +74,9 @@ function renderFilteredUrls(text) {
   allUrlsContainer.textContent = '';
   text = text.toLowerCase();
 
-  Object.keys(allUrlsObj).forEach(name => {if(name.toLowerCase().includes(text)) createUrlElement(name, allUrlsObj[name])});
+  for(let name of Object.keys(allUrlsObj)) {
+    if(name.toLowerCase().includes(text)) createUrlElement(name, allUrlsObj[name]);
+  };
 
   if(!allUrlsContainer.children.length) allUrlsContainer.innerHTML = '<h1>Нічого не знайдено...</h1>'
 }
