@@ -1,32 +1,74 @@
 <!DOCTYPE html><html lang="en">
 <head>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <title>Dashboard</title>
-  <meta charset="UTF-8">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@600&family=Roboto:wght@500&display=swap" rel="stylesheet">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="todo.css">
-  <link rel="stylesheet" href="main.css">
-  <link rel="stylesheet" href="notes.css">
-  <link rel="stylesheet" href="calculator.css">
-  <link rel="stylesheet" href="saveUrls.css">
-  <link rel="stylesheet" href="user code.css">
-  <link rel="stylesheet" href="sign.css">
-  <link rel="stylesheet" href="timer.css">
-  <script src="todo.js" defer></script>
-  <script src="main.js" defer></script>
-  <script src="notes.js" defer></script>
-  <script src="calculator.js" defer></script>
-  <script src="saveUrls.js" defer></script>
-  <script src="user code.js" defer></script>
-  <script src="sign.js" defer></script>
-  <script src="timer.js" defer></script>
-  <link rel="icon" href="favicon-32x32.png" type="image/png">
-</head>
-<body>
+<!-- Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Supabase -->
 
+<!-- Core CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/codemirror.min.css">
+<!-- Core JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/codemirror.min.js"></script>
+<!-- JavaScript syntax highlighting -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/javascript/javascript.min.js"></script>
+<!-- Css syntax highlighting -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/css/css.min.js"></script>
+
+<!-- Html syntax highlighting -->
+<!-- XML base -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/xml/xml.min.js"></script>
+<!-- HTML mixed -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/htmlmixed/htmlmixed.min.js"></script>
+
+<!-- Hints -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/hint/show-hint.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/hint/xml-hint.min.js"></script> <!-- обов'язково -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/hint/html-hint.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/hint/javascript-hint.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/hint/css-hint.min.js"></script>
+
+<!-- Auto-close tags for HTML/XML -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/edit/closetag.min.js"></script>
+<!-- Autocomplete -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/hint/show-hint.min.css">
+<!-- Auto close brackets -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/edit/closebrackets.min.js"></script>
+<!-- Code folding -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/fold/foldcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/fold/foldgutter.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/fold/brace-fold.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/fold/foldgutter.min.css">
+<!-- Highlight active line -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/selection/active-line.min.js"></script>
+<!-- Match brackets -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/edit/matchbrackets.min.js"></script>
+<!-- Comment / Uncomment -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/comment/comment.min.js"></script>
+<title>Dashboard</title>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@600&family=Roboto:wght@500&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="todo.css">
+<link rel="stylesheet" href="main.css">
+<link rel="stylesheet" href="notes.css">
+<link rel="stylesheet" href="calculator.css">
+<link rel="stylesheet" href="saveUrls.css">
+<link rel="stylesheet" href="user code.css">
+<link rel="stylesheet" href="sign.css">
+<link rel="stylesheet" href="timer.css">
+<script src="todo.js" defer></script>
+<script src="main.js" defer></script>
+<script src="notes.js" defer></script>
+<script src="calculator.js" defer></script>
+<script src="saveUrls.js" defer></script>
+<script src="user code.js" defer></script>
+<script src="sign.js" defer></script>
+<script src="timer.js" defer></script>
+<link rel="icon" href="favicon-32x32.png" type="image/png">
+</head>
+
+<body>
 <header class="dashboard-header"> <h1>Dashboard</h1> </header>
 
 <main class="all-dashboard-items">
@@ -238,11 +280,31 @@
   <div class="add-new-block-code-form">
     <h3>Add your code</h3>
     <input type="text" class="code-block-name-input" placeholder="Code title...">
+    <select class="user-code-lang">
+      <option value="HTML">HTML</option>
+      <option value="CSS">CSS</option>
+      <option value="JavaScript">JavaScript</option>
+    </select>
     <button class="add-code-block-btn">Add</button>
   </div>
 
-  <div class="get-ready-code-words">
-    <div class="all-ready-words-container"></div>
+  <div class="focus-code-wrap is-wrap">
+    <h3 class="focus-code-title"></h3>
+    <p class="focus-code-symbols">_/1500</p>
+    <textarea class="focus-textarea"></textarea>
+    <div class="all-focus-btns">
+      <button class="unfocus-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 3v3a2 2 0 0 1-2 2H3" />
+          <path d="M21 8h-3a2 2 0 0 1-2-2V3" />
+          <path d="M3 16h3a2 2 0 0 1 2 2v3" />
+          <path d="M16 21v-3a2 2 0 0 1 2-2h3" />
+        </svg>
+      </button>
+      <button class="copy"><svg><use href="sprite.svg#copy-code"></use></svg></button>
+      <button class="delete"><svg><use href="sprite.svg#delete-code"></use></svg></button>
+      <button class="lock"><svg><use href="sprite.svg#code-block-lock"></use></svg></button>
+    </div>
   </div>
 </div>
 

@@ -1,9 +1,19 @@
+const calculatorWrap = document.querySelector('.calc-wrap');
+document.querySelector('.open-calc-wrap')
+.addEventListener('click', () => {
+  showPreloader();
+  calculatorWrap.classList.add('show');
+  allCalcBtnsObj['='].click();
+  showPreloader(false);
+});
+document.querySelector('.close-calc-wrap')
+.addEventListener('click', () => calculatorWrap.classList.remove('show'));
+
 const allCalcBtnsObj = {};
 const calcContainer = document.querySelector('.calc-container');
 const allNavBtns = document.querySelectorAll('.navigation-panel button');
 for(let v of allNavBtns) allCalcBtnsObj[v.dataset.value] = v;
 
-const calculatorWrap = document.querySelector('.calc-wrap');
 const headerPanel = document.querySelector('.header-panel');
 const calculatorText = headerPanel.querySelector('p');
 

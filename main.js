@@ -3,33 +3,14 @@ let delAnimTime = mls !== null ? +mls : 1500;
 document.documentElement.style.setProperty('--del-animation-time', `${delAnimTime / 1000}s`);
 
 document.addEventListener('keydown', e => {
-  if(getReadyCodeWords.classList.contains('show')) {
-    if(e.key === 'ArrowDown') {
-      e.preventDefault();
-      if(codeWordIndex >= getReadyCodeWordsBlock.childElementCount - 1) return;
-      codeWordIndex++;
-      [...getReadyCodeWordsBlock.children][codeWordIndex].focus();
-    }
-    else if(e.key === 'ArrowUp') {
-      e.preventDefault();
-      if(codeWordIndex <= 0) return;
-      codeWordIndex--;
-      [...getReadyCodeWordsBlock.children][codeWordIndex].focus();
-    }
-    else if(e.key === 'Enter') {
-      e.preventDefault();
-      const activeElement = getReadyCodeWordsBlock.contains(document.activeElement)
-      ? document.activeElement : getReadyCodeWordsBlock.firstElementChild;
-
-      activeElement.click();
-    }
-  }
-  else if(notesWrap.classList.contains('show') && (e.key === '<' || e.key === '>' || e.key === '&' || e.key === '/')) e.preventDefault();
+  if(notesWrap.classList.contains('show') && (e.key === '<' || e.key === '>' || e.key === '&' || e.key === '/')) e.preventDefault();
   else if(e.ctrlKey && e.code === 'KeyH') {
     e.preventDefault();
     if(notesWrap.classList.contains('show')) openAddNoteForm.click();
     if(userCodeWrap.classList.contains('show')) toggleAddCodeBlockForm.click();
   }
+
+  else if(focusWrap.classList.contains('show') && e.key === 'Escape') closeFocusBtn.click();
 
   else if(e.key === 'Enter') {
     if(todoWrap.classList.contains('show')) todoAddBtn.click();
@@ -167,100 +148,9 @@ confBefDelBtn.addEventListener('click', e => {
   localStorage.setItem('conf-before-delete', !isConfirm);
 })
 
-/* All OPEN btns */
-document.querySelector('.open-todo-wrap')
-.addEventListener('click', () => {
-  showPreloader();
-  renderTodos();
-  todoWrap.classList.add('show');
-  showPreloader(false);
-});
-
-document.querySelector('.open-calc-wrap')
-.addEventListener('click', () => {
-  showPreloader();
-  calculatorWrap.classList.add('show');
-  allCalcBtnsObj['='].click();
-  showPreloader(false);
-});
-
-document.querySelector('.open-save-urls-wrap')
-.addEventListener('click', () => {
-  showPreloader();
-  renderAllUrls();
-  saveUrlsWrap.classList.add('show');
-  showPreloader(false);
-});
-
-// Toggle hidden todos window
-document.querySelector('.toggle-hidden-todos-window')
-.addEventListener('click', () => {
-  showPreloader();
-  hiddenTodosWindow.classList.toggle('show');
-  renderHiddenTodos();
-  showPreloader(false);
-})
-
-// Open notes wrap
-document.querySelector('.open-notes-wrap')
-.addEventListener('click', () => {
-  showPreloader();
-  renderNotesBlocks();
-  notesWrap.classList.add('show');
-  if(allUserNotesCont.children.length >= 5) openAddNoteForm.style.display = 'none';
-  showPreloader(false);
-})
-
-// Open user code wrap
-document.querySelector('.open-user-code-wrap')
-.addEventListener('click', () => {
-  showPreloader();
-  renderUserCodesBlocks();
-  userCodeWrap.classList.add('show');
-  showPreloader(false);
-})
-
-/* All CLOSE btns */
-// Close todo wrap
-document.querySelector('[data-close-todo-wrap]')
-.addEventListener('click', () => {
-  todoWrap.classList.remove('show');
-  todoWrap.classList.remove('is-edit');
-  isEdit = false;
-  initialEditTodo = null;
-  todoColorBlock.classList.remove('show');
-});
-
-document.querySelector('.close-calc-wrap')
-.addEventListener('click', () => calculatorWrap.classList.remove('show'));
-
-document.querySelector('.close-add-urls-wrap')
-.addEventListener('click', () => saveUrlsWrap.classList.remove('show'))
-
 // Close settings
 document.querySelector('.close-settings-window')
 .addEventListener('click', () => settingsWindow.classList.remove('show'));
-
-// Close hidden todos window
-document.querySelector('.close-hidden-wind-btn')
-.addEventListener('click', () => hiddenTodosWindow.classList.remove('show'))
-
-// Close notes wrap
-document.querySelector('.close-notes-wrap')
-.addEventListener('click', () => notesWrap.classList.remove('show'))
-
-document.querySelector('.close-notes-content-wrap')
-.addEventListener('click', e => {
-  const name = notesContentTitle.textContent;
-  allNotesObj[name].txt = userNotesText.innerText;
-  showResponseFn(`Save "${name}" note text`);
-  noteSaveBtn.classList.add('unsaved');
-  notesContentWrap.classList.remove('show');
-});
-
-// Close user code wrap
-document.querySelector('.close-user-code-wrap')
-.addEventListener('click', () => userCodeWrap.classList.remove('show'));
 
 // Drag and drop window
 let isDrag = false,

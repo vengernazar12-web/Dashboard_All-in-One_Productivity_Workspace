@@ -209,7 +209,7 @@ codeSaveBtn.addEventListener('click', async () => {
 
   let isHeightLength = false;
   for(let block of allUserCodesContainer.children) {
-    const userCode = block.querySelector('.user-code-content').value;
+    const userCode = block.querySelector('textarea')._editor.getValue();
     if(userCode.replaceAll(' ','').replaceAll('\n','').length > 1500) isHeightLength = true;
 
     allUserCodesObj[block.firstElementChild.textContent].code = userCode

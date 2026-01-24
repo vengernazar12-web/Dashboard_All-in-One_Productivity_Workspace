@@ -1,5 +1,24 @@
 const notesWrap = document.querySelector('.notes-wrap');
 notesWrap.addEventListener('click', () => deleteNoteConfirmBlock.classList.remove('show'));
+document.querySelector('.open-notes-wrap')
+.addEventListener('click', () => {
+  showPreloader();
+  renderNotesBlocks();
+  notesWrap.classList.add('show');
+  if(allUserNotesCont.children.length >= 5) openAddNoteForm.style.display = 'none';
+  showPreloader(false);
+})
+document.querySelector('.close-notes-wrap')
+.addEventListener('click', () => notesWrap.classList.remove('show'))
+
+document.querySelector('.close-notes-content-wrap')
+.addEventListener('click', e => {
+  const name = notesContentTitle.textContent;
+  allNotesObj[name].txt = userNotesText.innerText;
+  showResponseFn(`Save "${name}" note text`);
+  noteSaveBtn.classList.add('unsaved');
+  notesContentWrap.classList.remove('show');
+});
 
 const userNotesText = document.querySelector('.notes-user-content');
 userNotesText.addEventListener('input', e => {

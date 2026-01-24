@@ -1,3 +1,14 @@
+const saveUrlsWrap = document.querySelector('.save-urls-wrap');
+document.querySelector('.open-save-urls-wrap')
+.addEventListener('click', () => {
+  showPreloader();
+  renderAllUrls();
+  saveUrlsWrap.classList.add('show');
+  showPreloader(false);
+});
+document.querySelector('.close-add-urls-wrap')
+.addEventListener('click', () => saveUrlsWrap.classList.remove('show'))
+
 function createUrlElement(name, opened) {
   const div = document.createElement('div');
   div.classList.add('url-block');
@@ -25,8 +36,6 @@ function renderAllUrls() {
 
   for(let u of arr) createUrlElement(u, allUrlsObj[u]);
 }
-
-const saveUrlsWrap = document.querySelector('.save-urls-wrap');
 
 const allUrlsContainer = document.querySelector('.all-urls-container');
 allUrlsContainer.addEventListener('click', e => {

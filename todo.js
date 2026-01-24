@@ -1,4 +1,29 @@
 const todoWrap = document.querySelector('.todo-wrap');
+document.querySelector('.open-todo-wrap')
+.addEventListener('click', () => {
+  showPreloader();
+  renderTodos();
+  todoWrap.classList.add('show');
+  showPreloader(false);
+});
+document.querySelector('[data-close-todo-wrap]')
+.addEventListener('click', () => {
+  todoWrap.classList.remove('show');
+  todoWrap.classList.remove('is-edit');
+  isEdit = false;
+  initialEditTodo = null;
+  todoColorBlock.classList.remove('show');
+});
+document.querySelector('.close-hidden-wind-btn')
+.addEventListener('click', () => hiddenTodosWindow.classList.remove('show'));
+document.querySelector('.toggle-hidden-todos-window')
+.addEventListener('click', () => {
+  showPreloader();
+  hiddenTodosWindow.classList.toggle('show');
+  renderHiddenTodos();
+  showPreloader(false);
+})
+
 function createTodoElement(txt, date, isCompleted = false) {
   const div = document.createElement('div');
   const h2 = document.createElement('h2');

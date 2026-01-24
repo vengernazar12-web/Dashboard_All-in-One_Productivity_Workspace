@@ -27,6 +27,7 @@
   width: 90%;
   height: 25%;
   background-color: rgb(175, 175, 175);
+  color: black;
   text-align: center;
   border-radius: 8px;
   border: 1px solid rgb(0, 255, 0);
@@ -40,6 +41,7 @@
   border-radius: 7px;
   border: 1px solid black;
   margin-top: 10px;
+  margin-bottom: 10px;
 }
 .add-code-block-btn {
   position: absolute;
@@ -53,15 +55,14 @@
 
 .user-code-block {
   width: 99%;
-  height: 60px;
   background-color: rgb(40, 40, 40);
   margin: 15px auto;
   color: white;
   overflow: hidden;
   border-radius: 8px;
   padding: 3px;
-  transition: height .3s;
   position: relative;
+  transition: height .2s;
 }
 .user-code-block > h3 {
   position: absolute;
@@ -71,45 +72,65 @@
   text-wrap: wrap;
   font-size: 1.1rem;
 }
-.user-code-block > .code-symbols-limit {
+.code-lang-text {
   position: absolute;
-  top: 12px;
-  right: 45px;
-  width: max-content;
+  top: 45px;
+  left: 5px;
+  color: rgba(255, 255, 255, 0.6);
 }
 
+/* Code editor styles */
 .user-code-content {
-  background-color: rgb(74, 74, 74);
   min-height: 50px;
-  border-radius: 7px;
-  padding: 3px;
-  resize: none;
-  width: 100%;
+  border: 1px solid #444;
+  border-radius: 6px;
   overflow: hidden;
-  color: white;
-  font-size: 0.75rem;
+}
+.CodeMirror-scroll { overflow-y: auto; }
+.CodeMirror-hscrollbar { height: 0 !important; }
+.user-code-content .CodeMirror {
+  background-color: rgb(175, 175, 175);
+  color: black;
+  text-align: left;
+  max-height: 90vh;
+  font-size: 0.7rem;
+}
+.CodeMirror-gutters {
+  background-color: #1b1b1b;
+  border-right: 1px solid #333;
+}
+.CodeMirror-matchingbracket { border: 2px solid gold; }
+.CodeMirror .CodeMirror-nonmatchingbracket { border: 2px solid red; }
+.CodeMirror .CodeMirror-selected { background-color: rgba(0, 120, 133, 0.4); }
+/* Code editor styles */
+
+.code-symbols-limit {
+  position: absolute;
+  top: 7px;
+  right: 34px;
+  width: max-content;
 }
 .copy-code-btn {
   background-color: transparent;
   position: absolute;
-  top: 90px;
-  right: 10px;
+  top: 34px;
+  right: 5px;
   padding: 1px;
 }
 
 .delete-code-btn {
   background-color: transparent;
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 5px;
+  right: 5px;
   padding: 1px;
 }
 
 .lock-code-btn {
   padding: 1px;
   position: absolute;
-  top: 10px;
-  right: 135px;
+  top: 5px;
+  right: 122px;
   background-color: transparent;
 }
 
@@ -124,31 +145,50 @@
   border: 1px solid black;
 }
 
-/* Give ready code words block */
-.get-ready-code-words {
-  width: max-content;
-  height: max-content;
-  background-color: rgb(29, 29, 29);
-  color: white;
-  border-radius: 3px;
-  max-height: 30vh;
-  display: none;
-  position: fixed;
+/* Focus */
+.focus-code-btn {
+  position: absolute;
+  top: 34px;
+  right: 34px;
+  background-color: transparent;
+}
+.focus-code-wrap {
   padding: 5px;
+  background: rgb(0, 0, 0);
+  color: white;
+}
+.focus-code-wrap .CodeMirror {
+  position: absolute;
+  top: 5vh;
+  left: 1vw;
+  width: 90vw;
+  height: 94vh;
+  border: 1px solid white;
   text-align: left;
-  overflow-y: auto;
-}
-.all-ready-words-container > p {
+  border-radius: 3px;
   font-size: 0.7rem;
-  cursor: pointer;
-  transition: background-color .5s, color .5s, border-radius .5s, padding-left .5s;
 }
-.all-ready-words-container > p { font-size: 0.7rem; cursor: pointer; }
-.all-ready-words-container > p:focus,
-.all-ready-words-container > p:hover {
-  background-color: black;
-  color: rgb(185, 185, 185);
-  border-radius: 8px;
-  padding: 1px 4px 1px 4px;
-  transition: background-color .5s, color .5s, border-radius .5s, padding-left .5s;
+.focus-code-wrap > .all-focus-btns {
+  width: 9vw;
+  position: absolute;
+  top: 5%;
+  right: 0.2vw;
+}
+.focus-code-wrap > .all-focus-btns > button {
+  background-color: transparent;
+  margin-bottom: 15px;
+}
+.focus-code-wrap > .all-focus-btns > button > svg {
+  width: 20px;
+  height: 20px;
+}
+.focus-code-wrap > .focus-code-symbols {
+  position: absolute;
+  top: 5px;
+  right: 10vw;
+}
+.focus-code-wrap > .focus-code-title {
+  position: absolute;
+  top: 5px;
+  left: 10px;
 }
