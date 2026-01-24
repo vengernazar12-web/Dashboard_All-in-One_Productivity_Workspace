@@ -203,6 +203,25 @@ svg {width: 20px; height: 20px;}
   .min-wrap { display: none; }
 }
 
+/* Progress */
+.is-wrap > progress {
+  height: 30px;
+  width: 95%;
+  position: fixed;
+  bottom: 5px;
+  left: 2.5%;
+  appearance: none;
+}
+.is-wrap > progress::-webkit-progress-bar {
+  background-color: #eee;
+  border-radius: 10px;
+}
+.is-wrap > progress::-webkit-progress-value {
+  background-color: #4caf50;
+  border-radius: 10px;
+}
+.is-wrap > progress::-moz-progress-bar { background-color: #4caf50; }
+
 /* Del animation */
 @keyframes del-anim {
   from { opacity: 1; transform: translateY(0); }

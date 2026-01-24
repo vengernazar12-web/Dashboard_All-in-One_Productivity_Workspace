@@ -5,8 +5,11 @@ document.querySelector('.open-todo-wrap')
   renderTodos();
   todoWrap.classList.add('show');
   showPreloader(false);
+  const todosLng = Object.keys(allTodosObj).length + Object.keys(hiddenTodosObj).length;
+  todosNumberText.textContent = `Todos: ${todosLng}/50`;
+  todoProgress.value = todosLng;
 });
-document.querySelector('[data-close-todo-wrap]')
+todoWrap.querySelector('[data-close-todo-wrap]')
 .addEventListener('click', () => {
   todoWrap.classList.remove('show');
   todoWrap.classList.remove('is-edit');
@@ -14,9 +17,9 @@ document.querySelector('[data-close-todo-wrap]')
   initialEditTodo = null;
   todoColorBlock.classList.remove('show');
 });
-document.querySelector('.close-hidden-wind-btn')
+todoWrap.querySelector('.close-hidden-wind-btn')
 .addEventListener('click', () => hiddenTodosWindow.classList.remove('show'));
-document.querySelector('.toggle-hidden-todos-window')
+todoWrap.querySelector('.toggle-hidden-todos-window')
 .addEventListener('click', () => {
   showPreloader();
   hiddenTodosWindow.classList.toggle('show');
@@ -90,20 +93,20 @@ function renderFilteredTodos(txt) {
   if(!todosContainer.children.length) todosContainer.innerHTML = `<h1>No todo found...</h1>`;
 }
 
-const todoNameLengthTxt = document.querySelector('[todo-symbols-length]');
+const todoNameLengthTxt = todoWrap.querySelector('[todo-symbols-length]');
 
 let allTodosObj = {};
 let hiddenTodosObj = {};
 
-const todosContainer = document.querySelector('[data-todos-container]');
+const todosContainer = todoWrap.querySelector('[data-todos-container]');
 
-const todoInput = document.querySelector('[data-todo-input]');
+const todoInput = todoWrap.querySelector('[data-todo-input]');
 todoInput.addEventListener('input', () => todoNameLengthTxt.textContent = `${todoInput.value.trim().length} / 25`)
-const todoAddBtn = document.querySelector('[data-add-todo]');
+const todoAddBtn = todoWrap.querySelector('[data-add-todo]');
 
-const todosNumberText = document.querySelector('[data-todos-number]');
+const todosNumberText = todoWrap.querySelector('[data-todos-number]');
 
-const searchTodoInput = document.querySelector('[data-todo-search]');
+const searchTodoInput = todoWrap.querySelector('[data-todo-search]');
 searchTodoInput.addEventListener('input', e => {
   const txt = e.target.value.trim().toLowerCase();
 
@@ -113,8 +116,8 @@ searchTodoInput.addEventListener('input', e => {
 })
 
 // Hidden todos
-const hiddenTodosContainer = document.querySelector('.hidden-todos-container'),
-hiddenTodosWindow = document.querySelector('.hidden-todos-window');
+const hiddenTodosWindow = todoWrap.querySelector('.hidden-todos-window'),
+hiddenTodosContainer = hiddenTodosWindow.querySelector('.hidden-todos-container')
 
 function renderHiddenTodos() {
   hiddenTodosContainer.textContent = '';
@@ -158,7 +161,7 @@ hiddenTodosContainer.addEventListener('click', e => {
 })
 
 // Unhide todos
-document.querySelector('.unhide-todos')
+todoWrap.querySelector('.unhide-todos')
 .addEventListener('click', () => {
   for(let h of Object.keys(hiddenTodosObj)) {
     allTodosObj[h] = hiddenTodosObj[h];
@@ -179,7 +182,7 @@ function isWhiteColor(hex) {
 }
 let isEdit = false, initialEditTodo = null;
 
-const todoColorBlock = document.querySelector('.set-todos-color-block');
+const todoColorBlock = todoWrap.querySelector('.set-todos-color-block');
 const todoColorInput = todoColorBlock.querySelector('input');
 
 // Confirm todo color btn
@@ -204,6 +207,8 @@ todoColorBlock.querySelector('.reset-todo-color').addEventListener('click', () =
   todoColorBlock.classList.remove('show');
 })
 
+/* Progress */ const todoProgress = todoWrap.querySelector('.todo-progress');
+
 // Todo wrap click event
 todoWrap.addEventListener('click', e => {
   const closestEditTodo = isEdit ? e.target.closest('[data-todo-block]') : null;
@@ -223,6 +228,8 @@ todoWrap.addEventListener('click', e => {
     todoColorBlock.classList.remove('show');
   }
   else if(e.target.closest('[data-add-todo]')) { // Add todo btn
+    let todosLng = Object.keys(allTodosObj).length + Object.keys(hiddenTodosObj).length;
+    if(todosLng >= 50) return showResponseFn('Your have todos limit');
     const val = todoInput.value.trim();
     if(!val) return;
     if(allTodosObj[val] || hiddenTodosObj[val]) return showResponseFn(`Todo name "${val}" is already used`);
@@ -241,6 +248,8 @@ todoWrap.addEventListener('click', e => {
     allTodosObj[val] = { date: time, isCompleted: false, }
     todoSaveBtn.classList.add('unsaved');
     renderTodos();
+    todoProgress.value = todosLng + 1;
+    todosNumberText.textContent = `Todos: ${todosLng + 1}/50`;
   }
   else if(e.target.closest('[data-del-todo-btn]')) { // Delete todo btn
     if(localStorage.getItem('conf-before-delete') === 'true') if(!confirm('Delete?')) return;
@@ -255,6 +264,10 @@ todoWrap.addEventListener('click', e => {
     e.target.parentElement.classList.add('del-anim');
     todoSaveBtn.classList.add('unsaved');
     setTimeout(renderTodos, delAnimTime);
+
+    const todosLng = Object.keys(allTodosObj).length + Object.keys(hiddenTodosObj).length;
+    todoProgress.value = todosLng;
+    todosNumberText.textContent = `Todos: ${todosLng}/50`;
   }
   else if(e.target.closest('[data-replace-todo-btn]') && e.target.classList.contains('rename-todo')) { // Rename todo
     const block = e.target.parentElement;
@@ -296,7 +309,6 @@ todoWrap.addEventListener('click', e => {
     allTodosObj[e.target.parentElement.firstElementChild.textContent].isCompleted = e.target.checked;
     todoSaveBtn.classList.add('unsaved');
   }
-
   else if(e.target.closest('[data-todo-input]')) { // Set todo name input
     searchTodoInput.value = '';
     renderTodos();

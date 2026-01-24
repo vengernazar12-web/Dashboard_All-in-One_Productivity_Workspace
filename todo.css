@@ -121,10 +121,11 @@
 [data-todo-input-completed]:focus { outline: none; }
 
 [data-todos-number] {
-  position: absolute;
-  top: 5px;
-  left: 3%;
-  font-size: 0.8rem;
+  position: fixed;
+  bottom: 10px;
+  left: 45%;
+  color: black;
+  z-index: 10;
 }
 
 [data-close-todo-wrap] {

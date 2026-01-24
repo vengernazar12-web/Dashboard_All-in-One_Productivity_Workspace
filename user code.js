@@ -3,8 +3,11 @@ document.querySelector('.open-user-code-wrap')
 .addEventListener('click', () => {
   renderUserCodesBlocks();
   userCodeWrap.classList.add('show');
+  const codesBlocksLng = Object.keys(allUserCodesObj).length;
+  codeBlocksLimitText.textContent = `Codes: ${codesBlocksLng}/15`;
+  codeProgress.value = codesBlocksLng;
 })
-document.querySelector('.close-user-code-wrap')
+userCodeWrap.querySelector('.close-user-code-wrap')
 .addEventListener('click', () => userCodeWrap.classList.remove('show'));
 
 let allUserCodesObj = {};
@@ -138,12 +141,14 @@ function renderUserCodesBlocks() {
   for(let name of Object.keys(allUserCodesObj)) createCodeBlock(name);
 }
 
-const addCodeBlockForm = document.querySelector('.add-new-block-code-form');
+const addCodeBlockForm = userCodeWrap.querySelector('.add-new-block-code-form');
 const codeBlockName = addCodeBlockForm.querySelector('.code-block-name-input');
 const codeBlockLang = addCodeBlockForm.querySelector('.user-code-lang');
 
-const addCodeBlockBtn = document.querySelector('.add-code-block-btn');
+const addCodeBlockBtn = addCodeBlockForm.querySelector('.add-code-block-btn');
 addCodeBlockBtn.addEventListener('click', () => {
+  const codeBlocksLng = Object.keys(allUserCodesObj).length;
+  if(codeBlocksLng >= 15) return showResponseFn('You have code blocks limit');
   const name = codeBlockName.value.trim();
   if(!name.length) { addCodeBlockForm.classList.remove('show'); return showResponseFn("You don't have a block name")};
   if(allUserCodesObj[name]) return showResponseFn('You used this name');
@@ -160,10 +165,13 @@ addCodeBlockBtn.addEventListener('click', () => {
 
   codeSaveBtn.classList.add('unsaved');
 
+  codeBlocksLimitText.textContent = `Codes: ${codeBlocksLng + 1}/15`;
+  codeProgress.value = codeBlocksLng + 1;
+
   if(allUserCodesContainer.childElementCount >= 15) return toggleAddCodeBlockForm.style.display = 'none';
 })
 
-const toggleAddCodeBlockForm = document.querySelector('.toggle-add-new-block-code-form');
+const toggleAddCodeBlockForm = userCodeWrap.querySelector('.toggle-add-new-block-code-form');
 toggleAddCodeBlockForm.addEventListener('click', () => {
   if(allUserCodesContainer.childElementCount >= 15) {
     toggleAddCodeBlockForm.style.display = 'none';
@@ -194,14 +202,14 @@ function renderFoundUserCodes(txt) {
   }
 }
 
-const searchUserCodeArea = document.querySelector('.search-code-textarea');
+const searchUserCodeArea = userCodeWrap.querySelector('.search-code-textarea');
 searchUserCodeArea.addEventListener('input', () => {
   searchUserCodeArea.style.height = `${searchUserCodeArea.scrollHeight}px`;
   renderFoundUserCodes(searchUserCodeArea.value.trim().toLowerCase());
 })
 
 // Focus
-const focusWrap = document.querySelector('.focus-code-wrap');
+const focusWrap = userCodeWrap.querySelector('.focus-code-wrap');
 const focusCodeTitle = focusWrap.querySelector('.focus-code-title');
 const focusCodeSymbols = focusWrap.querySelector('.focus-code-symbols');
 const closeFocusBtn = focusWrap.querySelector('.unfocus-btn');
@@ -282,7 +290,7 @@ focusWrap.addEventListener('click', e => {
 })
 
 // All user code container
-const allUserCodesContainer = document.querySelector('.all-user-codes-container');
+const allUserCodesContainer = userCodeWrap.querySelector('.all-user-codes-container');
 allUserCodesContainer.addEventListener('click', e => {
   const targetBlock = e.target.closest('.user-code-block');
   if(e.target.closest('.delete-code-btn')) { // Delete code
@@ -291,6 +299,11 @@ allUserCodesContainer.addEventListener('click', e => {
     delete allUserCodesObj[targetBlock.firstElementChild.textContent];
     renderUserCodesBlocks();
     codeSaveBtn.classList.add('unsaved');
+
+    const codeBlocksLng = Object.keys(allUserCodesObj).length;
+    codeBlocksLimitText.textContent = `Codes: ${codeBlocksLng}/15`;
+    codeProgress.value = codeBlocksLng;
+
     return showResponseFn('Block been deleted');
   }
   else if(e.target.closest('.lock-code-btn')) { // Lock code
@@ -341,3 +354,7 @@ allUserCodesContainer.addEventListener('click', e => {
     wrapper.scrollTop = 0;
   }
 })
+
+// Code-progress and code-blocks-limit
+const codeProgress = userCodeWrap.querySelector('.code-progress');
+const codeBlocksLimitText = userCodeWrap.querySelector('.code-blocks-limit');

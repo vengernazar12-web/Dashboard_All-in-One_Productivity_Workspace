@@ -39,6 +39,7 @@
   flex-wrap: wrap;
   gap: 15px;
   justify-content: center;
+  padding-bottom: 110px;
 }
 
 .url-block {
@@ -85,4 +86,12 @@
   padding: 1px;
   height: 25px;
   width: 17.5%;
+}
+
+.url-blocks-limit {
+  position: fixed;
+  bottom: 10px;
+  left: 45%;
+  color: black;
+  z-index: 10;
 }

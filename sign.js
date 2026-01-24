@@ -5,11 +5,8 @@ const client = supabase.createClient(
 
 const signWindow = document.querySelector('.sign-window');
 
-const signUpForm = document.querySelector('.sign-up-form');
-const signInForm = document.querySelector('.sign-in-form');
-
-const signUpBtn = signUpForm.querySelector('.sign-up-btn');
-const signInBtn = signInForm.querySelector('.sign-in-btn');
+const signUpForm = signWindow.querySelector('.sign-up-form');
+const signInForm = signWindow.querySelector('.sign-in-form');
 
 async function signFn(type) {
   const email = type === 'up' ? signUpForm['user-email'].value : signInForm['user-email'].value;
@@ -63,9 +60,10 @@ signUpForm.addEventListener('submit', e => {e.preventDefault(); signFn('up')});
 signInForm.addEventListener('submit', e => {e.preventDefault(); signFn('in')});
 
 // Save todos content
-const todoSaveBtn = document.querySelector('.todo-save-btn');
+const todoSaveBtn = todoWrap.querySelector('.todo-save-btn');
 todoSaveBtn.addEventListener('click', async () => {
   todoSaveBtn.disabled = true;
+  if((Object.keys(allTodosObj).length + Object.keys(hiddenTodosObj).length) > 50) return showResponseFn('You have todos limit');
   showPreloader();
   showResponseFn('Please wait...');
 
@@ -106,7 +104,7 @@ todoSaveBtn.addEventListener('click', async () => {
 })
 
 // Save notes content
-const noteSaveBtn = document.querySelector('.note-save-btn');
+const noteSaveBtn = notesWrap.querySelector('.note-save-btn');
 noteSaveBtn.addEventListener('click', async () => {
   noteSaveBtn.disabled = true;
   showPreloader();
@@ -149,9 +147,10 @@ noteSaveBtn.addEventListener('click', async () => {
 })
 
 // Save urls content
-const urlSaveBtn = document.querySelector('.url-save-btn');
+const urlSaveBtn = saveUrlsWrap.querySelector('.url-save-btn');
 urlSaveBtn.addEventListener('click', async () => {
   urlSaveBtn.disabled = true;
+  if(Object.keys(allUrlsObj).length > 50) return showResponseFn('Your have urls limit');
   showPreloader();
   showResponseFn('Please wait...');
 
@@ -190,7 +189,7 @@ urlSaveBtn.addEventListener('click', async () => {
 })
 
 // Save codes content
-const codeSaveBtn = document.querySelector('.code-save-btn');
+const codeSaveBtn = userCodeWrap.querySelector('.code-save-btn');
 codeSaveBtn.addEventListener('click', async () => {
   codeSaveBtn.disabled = true;
   showPreloader();

@@ -143,7 +143,7 @@
 
 <!-- Todos -->
 <div class="todo-wrap is-wrap">
-  <p data-todos-number>Todos: ...</p>
+  <p data-todos-number>Todos: _/50</p>
   <p todo-symbols-length>0/25</p>
   <header class="drag-and-drop-block"></header>
   <button class="todo-save-btn --saved-btn" title="Save content"><svg title="Save content"><use href="sprite.svg#save"></use></svg></button>
@@ -174,11 +174,14 @@
     <button class="confirm-todo-color" title="Confirm todo color">OK</button>
     <button class="reset-todo-color" title="Reset todo color">🔄️</button>
   </div>
+
+  <progress class="todo-progress" max="50"></progress>
 </div>
 
 <!-- Notes -->
 <div class="notes-wrap is-wrap">
   <h1>Notes</h1>
+  <p class="notes-blocks-limit">_/15</p>
   <header class="drag-and-drop-block"></header>
   <button class="min-wrap">▢</button>
   <button class="close-notes-wrap">❌</button>
@@ -196,6 +199,8 @@
     <input type="text" class="note-description-input" placeholder="Note description...">
     <button class="add-note-button">Add</button>
   </div>
+
+  <progress class="note-progress" max="15"></progress>
 </div>
 
 <div class="notes-content-wrap is-wrap">
@@ -213,6 +218,8 @@
 
 <!-- Calculator -->
 <div class="calc-wrap is-wrap">
+  <h2>Calculator is deprecated for now</h2>
+  <h3>This module is not under active development and may change in the future.</h3>
   <header class="drag-and-drop-block"></header>
   <button class="close-calc-wrap">❌</button>
   <div class="calc-container">
@@ -247,6 +254,7 @@
 
 <!-- Urls -->
 <div class="save-urls-wrap is-wrap">
+  <p class="url-blocks-limit">_/50</p>
   <header class="drag-and-drop-block"></header>
   <button class="url-save-btn --saved-btn" title="Save content">
     <svg title="Save content"><use href="sprite.svg#save"></use></svg>
@@ -261,11 +269,14 @@
   <div class="all-urls-container"></div>
 
   <button class="min-wrap">▢</button>
+
+  <progress class="ulr-progress" max="50"></progress>
 </div>
 
 <!-- User code wrap -->
 <div class="user-code-wrap is-wrap">
-  <h2>Yours codes</h2>
+  <h2>Your codes</h2>
+  <p class="code-blocks-limit">_/15</p>
   <header class="drag-and-drop-block"></header>
   <button class="min-wrap">▢</button>
   <button class="code-save-btn --saved-btn" title="Save content"><svg title="Save content"><use href="sprite.svg#save"></use></svg></button>
@@ -306,6 +317,8 @@
       <button class="lock"><svg><use href="sprite.svg#code-block-lock"></use></svg></button>
     </div>
   </div>
+
+  <progress class="code-progress" max="15"></progress>
 </div>
 
 <!-- Settings -->
@@ -410,7 +423,7 @@
   <p class="dashboard-preloader-p">Dashboard</p>
   <h2>Loading...</h2>
   <p>Loading your content. Please wait...</p>
-  <img src="dashboard-favicon-img.svg" alt="Smile img">
+  <img src="dashboard-favicon-img.svg" alt="Smile img" >
   <span class="loader"></span>
 </div>
 

@@ -78,7 +78,14 @@
   left: 5px;
   color: rgba(255, 255, 255, 0.6);
 }
-
+.all-user-codes-container { padding-bottom: 110px; }
+.code-blocks-limit {
+  position: fixed;
+  bottom: 10px;
+  left: 45%;
+  color: black;
+  z-index: 10;
+}
 /* Code editor styles */
 .user-code-content {
   min-height: 50px;

@@ -1,3 +1,7 @@
+// Calculator module — currently inactive.
+// Development is paused while other dashboard features are being improved.
+// This part may be redesigned or removed in the future.
+
 const calculatorWrap = document.querySelector('.calc-wrap');
 document.querySelector('.open-calc-wrap')
 .addEventListener('click', () => {
