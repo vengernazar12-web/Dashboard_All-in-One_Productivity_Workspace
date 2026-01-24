@@ -12,7 +12,7 @@
   position: absolute;
   top: 25px;
   left: 2.5%;
-  width: 70%;
+  width: 95%;
   height: max(4.5%, 25px);
   border-radius: 10px;
   border: 1px solid black;
@@ -24,7 +24,7 @@
   position: absolute;
   top: 75px;
   left: 2.5%;
-  width: 52.5%;
+  width: 95%;
   height: max(4.5%, 25px);
   border-radius: 10px;
   border: 1px solid black;
@@ -33,8 +33,8 @@
 
 [data-add-todo] {
   position: absolute;
-  top: 25px;
-  right: 2.5%;
+  top: 115px;
+  left: 2.5%;
   border: 1px solid black;
   height: max(4.5%, 25px);
   border-radius: 10px;
@@ -45,7 +45,7 @@
 [data-todos-container] {
   width: 100%;
   position: absolute;
-  top: 150px;
+  top: 175px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -122,16 +122,16 @@
 
 [data-todos-number] {
   position: absolute;
-  top: 2px;
-  left: 10%;
+  top: 5px;
+  left: 3%;
   font-size: 0.8rem;
 }
 
 [data-close-todo-wrap] {
-  width: 7.5%;
+  width: 10%;
   height: max(4.5%, 25px);
   position: absolute;
-  top: 75px;
+  top: 115px;
   right: 2.5%;
   border-radius: 10px;
   border: 1px solid black;
@@ -139,14 +139,14 @@
 
 [todo-symbols-length] {
   position: absolute;
-  top: 2px;
-  right: 20%;
+  top: 5px;
+  right: 3%;
 }
 
 .todo-save-btn {
   position: absolute;
-  top: 25px;
-  right: 16%;
+  top: 115px;
+  right: 15%;
   height: max(4.5%, 25px);
   font-size: 0.75rem;
   border-radius: 10px;
@@ -179,18 +179,18 @@
 }
 .toggle-hidden-todos-window {
   position: absolute;
-  top: 75px;
-  right: 12.5%;
+  top: 115px;
+  right: 27.5%;
   height: max(4.5%, 25px);
   border-radius: 7px;
-  width: 7.5%;
+  width: 10%;
   border: 1px solid black;
 }
 .hide-completed-todos {
   position: absolute;
-  top: 75px;
-  right: 22.5%;
-  width: 7.5%;
+  top: 115px;
+  right: 40%;
+  width: 10%;
   height: max(4.5%, 25px);
   border-radius: 7px;
   border: 1px solid black;
@@ -247,8 +247,8 @@
 /* Edit todos */
 .start-edit-todos {
   position: absolute;
-  top: 75px;
-  right: 32.5%;
+  top: 115px;
+  left: 17.5%;
   width: 10%;
   height: max(4.5%, 25px);
   border-radius: 10px;

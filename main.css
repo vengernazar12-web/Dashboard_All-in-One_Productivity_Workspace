@@ -46,7 +46,7 @@ body, input { font-family: Roboto, sans-serif; font-weight: 500; }
   justify-content: space-around;
   margin-top: 25px;
 }
-html button { position: relative; cursor: pointer; }
+html button { cursor: pointer; }
 
 html .unsaved:after {
   content: '';
@@ -68,11 +68,11 @@ hr { display: block; border: 2px solid rgb(123, 123, 255); height: 2px; width: 1
 .dashboard-header { text-align: center; }
 
 .--opened-btn {
-  background: linear-gradient(150deg, rgb(1, 1, 67), rgb(4, 4, 160));
+  background: linear-gradient(150deg, rgb(0, 0, 65), rgb(4, 4, 160));
   color: white;
-  box-shadow: 0 0 5px blue;
-  width: clamp(170px, 24vw, 25vw);
-  height: clamp(55px, 60px, 65px);
+  box-shadow: 0 0 3px blue, 2px 2px black;
+  width: clamp(170px, 25vw, 25vw);
+  height: 60px;
   border-radius: 15px;
   border: 1px solid black;
 }
