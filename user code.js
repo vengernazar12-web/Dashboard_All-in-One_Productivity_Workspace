@@ -3,9 +3,6 @@ document.querySelector('.open-user-code-wrap')
 .addEventListener('click', () => {
   renderUserCodesBlocks();
   userCodeWrap.classList.add('show');
-  const codesBlocksLng = Object.keys(allUserCodesObj).length;
-  codeBlocksLimitText.textContent = `Codes: ${codesBlocksLng}/15`;
-  codeProgress.value = codesBlocksLng;
 })
 userCodeWrap.querySelector('.close-user-code-wrap')
 .addEventListener('click', () => userCodeWrap.classList.remove('show'));
@@ -139,6 +136,9 @@ function createCodeBlock(name) {
 function renderUserCodesBlocks() {
   allUserCodesContainer.textContent = '';
   for(let name of Object.keys(allUserCodesObj)) createCodeBlock(name);
+  const userCodeBlocksLng = Object.keys(allUserCodesObj).length;
+  codeBlocksLimitText.textContent = `Codes: ${userCodeBlocksLng}/15`;
+  codeProgress.value = userCodeBlocksLng;
 }
 
 const addCodeBlockForm = userCodeWrap.querySelector('.add-new-block-code-form');
@@ -147,8 +147,7 @@ const codeBlockLang = addCodeBlockForm.querySelector('.user-code-lang');
 
 const addCodeBlockBtn = addCodeBlockForm.querySelector('.add-code-block-btn');
 addCodeBlockBtn.addEventListener('click', () => {
-  const codeBlocksLng = Object.keys(allUserCodesObj).length;
-  if(codeBlocksLng >= 15) return showResponseFn('You have code blocks limit');
+  if(Object.keys(allUserCodesObj).length >= 15) return showResponseFn('You have code blocks limit');
   const name = codeBlockName.value.trim();
   if(!name.length) { addCodeBlockForm.classList.remove('show'); return showResponseFn("You don't have a block name")};
   if(allUserCodesObj[name]) return showResponseFn('You used this name');
@@ -164,9 +163,6 @@ addCodeBlockBtn.addEventListener('click', () => {
   addCodeBlockForm.classList.remove('show');
 
   codeSaveBtn.classList.add('unsaved');
-
-  codeBlocksLimitText.textContent = `Codes: ${codeBlocksLng + 1}/15`;
-  codeProgress.value = codeBlocksLng + 1;
 
   if(allUserCodesContainer.childElementCount >= 15) return toggleAddCodeBlockForm.style.display = 'none';
 })
@@ -299,10 +295,6 @@ allUserCodesContainer.addEventListener('click', e => {
     delete allUserCodesObj[targetBlock.firstElementChild.textContent];
     renderUserCodesBlocks();
     codeSaveBtn.classList.add('unsaved');
-
-    const codeBlocksLng = Object.keys(allUserCodesObj).length;
-    codeBlocksLimitText.textContent = `Codes: ${codeBlocksLng}/15`;
-    codeProgress.value = codeBlocksLng;
 
     return showResponseFn('Block been deleted');
   }

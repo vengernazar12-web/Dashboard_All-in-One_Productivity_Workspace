@@ -114,14 +114,13 @@ svg {width: 20px; height: 20px;}
   --body-bg: linear-gradient(180deg, rgb(157, 233, 157), rgb(89, 219, 89)) no-repeat fixed;
   --text-color: black;
   --block-bg: linear-gradient(180deg, rgb(254, 254, 81), rgb(251, 251, 153));
+
   --del-animation-time: 1.5s;
   --is-comp-anim-transition: box-shadow 1s;
 }
 html.dark-theme {
   --body-bg: linear-gradient( 180deg, rgb(63, 108, 63), rgb(30, 61, 30)) no-repeat fixed;
-
   --text-color: rgb(225, 240, 225);
-
   --block-bg: linear-gradient( 180deg, rgb(170, 170, 60), rgb(120, 120, 40)
   );
 }

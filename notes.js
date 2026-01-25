@@ -8,9 +8,6 @@ document.querySelector('.open-notes-wrap')
   notesWrap.classList.add('show');
   if(allUserNotesCont.childElementCount >= 5) openAddNoteForm.style.display = 'none';
   showPreloader(false);
-  const noteLng = Object.keys(allNotesObj).length;
-  noteProgress.value = noteLng;
-  notesBlocksLimitText.textContent = `Notes: ${noteLng}/15`;
 })
 // Close note wrap
 document.querySelector('.close-notes-wrap')
@@ -48,8 +45,7 @@ const addNoteInputDescription = addNotesForm.querySelector('.note-description-in
 
 const addNotesButton = addNotesForm.querySelector('.add-note-button');
 addNotesButton.addEventListener('click', () => {
-  const notesBlocksLng = Object.keys(allNotesObj).length;
-  if(notesBlocksLng >= 15) return showResponseFn('Your have note blocks limit');
+  if(Object.keys(allNotesObj).length >= 15) return showResponseFn('Your have note blocks limit');
   const name = addNoteInputName.value.trim();
   const desc = addNoteInputDescription.value.trim();
 
@@ -66,9 +62,6 @@ addNotesButton.addEventListener('click', () => {
   noteSaveBtn.classList.add('unsaved');
 
   if(allUserNotesCont.childElementCount >= 15) return openAddNoteForm.style.display = 'none';
-
-  noteProgress.value = notesBlocksLng + 1;
-  notesBlocksLimitText.textContent = `Notes: ${notesBlocksLng + 1}/15`;
 })
 
 // All notes
@@ -93,7 +86,7 @@ const userNotesText = notesContentWrap.querySelector('.notes-user-content');
 userNotesText.addEventListener('input', e => {
   const lng = userNotesText.textContent.replaceAll('\n', '').length;
   if(lng > 1500) notesSymbolsLimitText.style.color = 'red';
-  else notesSymbolsLimitText.style.color = 'black';
+  else notesSymbolsLimitText.style.color = 'var(--text-color)';
   notesSymbolsLimitText.textContent = `${lng}/1500`;
 })
 
@@ -151,10 +144,6 @@ deleteNoteConfirmBlock.querySelector('button').addEventListener('click', () => {
 
   deleteNoteConfirmBlock.classList.remove('show');
   openAddNoteForm.style.display = 'inline';
-
-  const notesBlocksLng = Object.keys(allNotesObj).length;
-  noteProgress.value = notesBlocksLng;
-  notesBlocksLimitText.textContent = `Notes: ${notesBlocksLng}/15`;
 })
 
 /* Render functions */
@@ -177,6 +166,9 @@ function renderNotesText(name) {
 function renderNotesBlocks() {
   allUserNotesCont.textContent = '';
   for(let name of Object.keys(allNotesObj)) generateNoteBlock(name, allNotesObj[name].description);
+  const notesBlocksLng = Object.keys(allNotesObj).length;
+  noteProgress.value = notesBlocksLng;
+  notesBlocksLimitText.textContent = `Notes: ${notesBlocksLng}/15`;
 }
 
 // Search note text

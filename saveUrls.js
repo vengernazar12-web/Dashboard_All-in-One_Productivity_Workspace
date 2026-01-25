@@ -6,10 +6,6 @@ document.querySelector('.open-save-urls-wrap')
   renderAllUrls();
   urlsWrap.classList.add('show');
   showPreloader(false);
-
-  const urlsBlocksLng = Object.keys(allUrlsObj).length;
-  urlProgress.value = urlsBlocksLng;
-  urlBlocksLimitText.textContent = `Urls: ${urlsBlocksLng}/50`;
 });
 // Close urls wrap
 urlsWrap.querySelector('.close-add-urls-wrap')
@@ -57,6 +53,7 @@ function renderAllUrls() {
   urlBlocksLimitText.textContent = `Urls: ${urlsBlocksLng}/50`;
 }
 
+// Add url
 const nameUrlInput = urlsWrap.querySelector('.add-url-name-input');
 const openedUrlInput = urlsWrap.querySelector('.add-opened-url-input');
 
