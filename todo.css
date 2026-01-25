@@ -3,12 +3,12 @@
   outline: 2px dashed rgba(255, 255, 255, 0.35);
   outline-offset: -6px;
 }
-.todo-wrap.is-edit [data-todo-block] { outline: 3px dashed black; }
+.todo-wrap.is-edit .todo-block { outline: 3px dashed black; }
 
 .todo-wrap button { transition: transform .2s; cursor: pointer; }
 .todo-wrap button:hover, .todo-wrap input[type='checkbox']:hover  { transform: scale(1.1); }
 
-[data-todo-input] {
+.todo-input {
   position: absolute;
   top: 25px;
   left: 2.5%;
@@ -19,8 +19,8 @@
   padding-left: 10px;
   font-size: 1.25rem;
 }
-[data-todo-input]::placeholder, [data-todo-search]::placeholder { font-size: 1.1rem; }
-[data-todo-search] {
+.todo-input::placeholder, .todo-search::placeholder { font-size: 1.1rem; }
+.todo-search {
   position: absolute;
   top: 75px;
   left: 2.5%;
@@ -31,7 +31,7 @@
   padding-left: 10px;
 }
 
-[data-add-todo] {
+.add-todo {
   position: absolute;
   top: 115px;
   left: 2.5%;
@@ -42,7 +42,7 @@
   font-size: 0.8rem;
 }
 
-[data-todos-container] {
+.todos-container {
   width: 100%;
   position: absolute;
   top: 175px;
@@ -53,33 +53,33 @@
   padding-bottom: 110px;
 }
 
-[data-todo-block] {
+.todo-block {
   position: relative;
   border-radius: 10px;
   height: 115px;
   transition: var(--is-comp-anim-transition);
   width: clamp(250px, 30%, 100%);
 }
-[data-todo-block]:has([data-todo-input-completed]:checked) {
+.todo-block:has(.todo-input-completed:checked) {
   box-shadow: 0 0 20px 1px rgb(0, 255, 0);
   color: black;
   transition: var(--is-comp-anim-transition);
 }
-[data-todo-block]:has([data-todo-input-completed]:checked) h2 {
+.todo-block:has(.todo-input-completed:checked) h2 {
   text-decoration: line-through;
   text-decoration-color: #4caf50;
   text-decoration-thickness: 3px;
 }
 
-[data-todo-h2] { position: absolute; left: 5px; font-size: 1.2rem; top: 7px; }
-[data-todo-p] {
+.todo-h2 { position: absolute; left: 5px; font-size: 1.2rem; top: 7px; }
+.todo-p {
   position: absolute;
   top: 2px;
   right: 3px;
   font-size: 0.75rem;
 }
 
-[data-del-todo-btn] {
+.del-todo-btn {
   position: absolute;
   bottom: 5px;
   left: 45%;
@@ -89,7 +89,7 @@
   background-color: transparent;
   font-size: 1.25rem;
 }
-[data-replace-todo-btn] {
+.replace-todo-btn {
   position: absolute;
   bottom: 5px;
   right: 2px;
@@ -99,7 +99,7 @@
   background-color: transparent;
   font-size: 1.25rem;
 }
-[data-replace-todo-input] {
+.replace-todo-input {
   position: absolute;
   bottom: 35px;
   left: 5%;
@@ -109,18 +109,18 @@
   padding-left: 10px;
   height: 25px;
 }
-[data-replace-todo-input].show { display: block; }
+.replace-todo-input.show { display: block; }
 
-[data-todo-input-completed] {
+.todo-input-completed {
   position: absolute;
   bottom: 5px;
   left: 5px;
   width: 25px;
   height: 25px;
 }
-[data-todo-input-completed]:focus { outline: none; }
+.todo-input-completed:focus { outline: none; }
 
-[data-todos-number] {
+.todos-number {
   position: fixed;
   bottom: 10px;
   left: 45%;
@@ -128,7 +128,7 @@
   z-index: 10;
 }
 
-[data-close-todo-wrap] {
+.close-todo-wrap {
   width: 10%;
   height: max(4.5%, 25px);
   position: absolute;
@@ -138,7 +138,7 @@
   border: 1px solid black;
 }
 
-[todo-symbols-length] {
+.symbols-length {
   position: absolute;
   top: 5px;
   right: 3%;
@@ -168,6 +168,7 @@
   text-align: center;
   padding-top: 10px;
   border: 1px solid silver;
+  overflow-y: auto;
 }
 .close-hidden-wind-btn {
   position: absolute;
@@ -198,16 +199,15 @@
 }
 
 .hidden-todos-container {
-  padding: 50px 5px 15px 5px;
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 15px;
-  overflow-y: auto;
-  height: calc(100% - 50px);
+  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+  min-height: calc(100% - 50px);
+  padding-bottom: 10px;
 }
 .hidden-todo-block {
-  width: clamp(250px, 30%, 100%);
+  width: 95%;
   background: var(--body-bg);
   border-radius: 7px;
   position: relative;
@@ -238,7 +238,7 @@
   position: absolute;
   top: 5px;
   left: 5px;
-  padding: 5px;
+  padding: 1px;
   background-color: transparent;
   font-size: 1rem;
   color: black;

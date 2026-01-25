@@ -69,8 +69,9 @@
 </head>
 
 <body>
-<header class="dashboard-header"> <h1>Dashboard</h1> </header>
+<header class="dashboard-header"><h1>Dashboard</h1></header>
 
+<!-- First window -->
 <main class="all-dashboard-items">
   <button class="open-todo-wrap --opened-btn">Todo</button>
   <button class="open-notes-wrap --opened-btn">Notes</button>
@@ -79,7 +80,7 @@
   <button class="open-user-code-wrap --opened-btn">Your code</button>
 </main>
 
-<!-- Show timer button -->
+<!-- Timer -->
 <button class="show-timer-window" title="Timer">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" title="Timer">
     <circle cx="12" cy="13" r="8" />
@@ -91,7 +92,6 @@
   </svg>
 </button>
 
-<!-- Timer window -->
 <div class="timer-window minimized">
   <header class="drag-and-drop-block">
     <h3>⏱ Focus timer</h3>
@@ -143,19 +143,19 @@
 
 <!-- Todos -->
 <div class="todo-wrap is-wrap">
-  <p data-todos-number>Todos: _/50</p>
-  <p todo-symbols-length>0/25</p>
+  <p class='todos-number'>Todos: _/50</p>
+  <p class='todo-symbols-length'>0/25</p>
   <header class="drag-and-drop-block"></header>
   <button class="todo-save-btn --saved-btn" title="Save content"><svg title="Save content"><use href="sprite.svg#save"></use></svg></button>
 
-  <input type="text" data-todo-input placeholder="Your todo...">
-  <input type="text" data-todo-search placeholder="Search todo...">
-  <button data-add-todo title="Add todo">Add</button>
+  <input type="text" class='todo-input' placeholder="Your todo...">
+  <input type="text" class='todo-search' placeholder="Search todo...">
+  <button class='add-todo' title="Add todo">Add</button>
   <button class="start-edit-todos" title="Start edit mode">🖌️</button>
 
-  <div data-todos-container></div>
+  <div class='todos-container'></div>
 
-  <button data-close-todo-wrap>❌</button>
+  <button class='close-todo-wrap'>❌</button>
   <button class="min-wrap">▢</button>
 
   <button class="hide-completed-todos" title="Hide all completed todos">🗄️</button>
@@ -166,7 +166,7 @@
     <hr>
     <button class="close-hidden-wind-btn">❌</button>
     <div class="hidden-todos-container"></div>
-    <button class="unhide-todos">Unhide all</button>
+    <button class="unhide-todos">Unhide</button>
   </div>
 
   <div class="set-todos-color-block">
@@ -200,6 +200,11 @@
     <button class="add-note-button">Add</button>
   </div>
 
+  <div class="delete-note-confirm">
+    <p>Delete note?</p>
+    <button>YES</button>
+  </div>
+
   <progress class="note-progress" max="15"></progress>
 </div>
 
@@ -209,11 +214,6 @@
   <input type="text" class="search-note-text-input" placeholder="Search text...">
   <p class="notes-symbols-limit-text">_/1500</p>
   <div class="notes-user-content" contenteditable="true"></div>
-</div>
-
-<div class="delete-note-confirm">
-  <p>Delete note?</p>
-  <button>YES</button>
 </div>
 
 <!-- Calculator -->
@@ -430,7 +430,7 @@
 <!-- Show response text -->
 <p class="show-response"></p>
 
-<script>
+<script> // Initialization show preloader
 const preloaderWrap = document.querySelector('.preloader-wrap');
 function showPreloader(show = true) {
   if(show) preloaderWrap.classList.add('show');
@@ -438,5 +438,4 @@ function showPreloader(show = true) {
 }
 showPreloader();
 </script>
-
 </body></html>

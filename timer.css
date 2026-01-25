@@ -1,3 +1,12 @@
+.show-timer-window {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  position: fixed;
+  top: 10px;
+  left: 10px;
+}
+
 .timer-window {
   position: absolute;
   top: 7.5%;
@@ -19,15 +28,6 @@
   position: relative;
 }
 
-.show-timer-window {
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
-  position: fixed;
-  top: 10px;
-  left: 10px;
-}
-
 .user-is-ready-window {
   background-color: rgb(157, 255, 157);
   width: 75%;
@@ -44,7 +44,8 @@
 }
 .user-is-ready-window > p { text-wrap: wrap; margin: 10px 10px; }
 
-.user-is-ready-window > .user-is-ready, .user-is-ready-window > .user-no-ready {
+.user-is-ready-window > .user-is-ready,
+.user-is-ready-window > .user-no-ready {
   width: 35%;
   height: 20%;
   border-radius: 10px;

@@ -1,3 +1,4 @@
+/* Propagation styles (all) */
 * {
   padding: 0;
   margin: 0;
@@ -7,34 +8,8 @@
   user-select: none;
 }
 ::-webkit-scrollbar { width: 0; }
-
-input:focus { outline: 3px solid rgb(104, 104, 182); }
-
-:root {
-  --body-bg: linear-gradient(180deg, rgb(157, 233, 157), rgb(89, 219, 89)) no-repeat fixed;
-  --text-color: black;
-  --block-bg: linear-gradient(180deg, rgb(254, 254, 81), rgb(251, 251, 153));
-  --del-animation-time: 1.5s;
-  --is-comp-anim-transition: box-shadow 1s;
-}
-html.dark-theme {
-  --body-bg: linear-gradient( 180deg, rgb(63, 108, 63), rgb(30, 61, 30)) no-repeat fixed;
-
-  --text-color: rgb(225, 240, 225);
-
-  --block-bg: linear-gradient( 180deg, rgb(170, 170, 60), rgb(120, 120, 40)
-  );
-}
-
+input:focus { outline: 2px solid rgb(104, 104, 182); }
 html .show { display: block; }
-
-body {
-  min-height: 100vh;
-  height: auto;
-  background: var(--body-bg);
-  color: var(--text-color);
-  padding: 10px;
-}
 
 body, input { font-family: Roboto, sans-serif; font-weight: 500; }
 
@@ -47,25 +22,17 @@ body, input { font-family: Roboto, sans-serif; font-weight: 500; }
   margin-top: 25px;
 }
 html button { cursor: pointer; }
-
-html .unsaved:after {
-  content: '';
-  display: block;
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  background-color: red;
-  position: absolute;
-  top: -5px;
-  right: -5px;
-}
-
 html button:disabled { background-color: rgb(79, 70, 70); color: white; border: none; cursor: not-allowed; }
 html button:disabled:hover { transform: scale(1); transition: none; }
 
-hr { display: block; border: 2px solid rgb(123, 123, 255); height: 2px; width: 100%; border-radius: 50%; margin: 25px 0; }
-
-.dashboard-header { text-align: center; }
+hr {
+  display: block;
+  border: 2px solid rgb(145, 145, 255);
+  height: 2px;
+  width: 100%;
+  border-radius: 50%;
+  margin: 25px 0;
+}
 
 .--opened-btn {
   background: linear-gradient(150deg, rgb(0, 0, 65), rgb(4, 4, 160));
@@ -102,6 +69,73 @@ hr { display: block; border: 2px solid rgb(123, 123, 255); height: 2px; width: 1
   border-radius: 3px;
 }
 
+.drag-and-drop-block {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;
+}
+
+mark {
+  background-color: rgb(255, 101, 46);
+  color: black;
+  padding: 3px;
+  border-radius: 3px;
+}
+
+svg {width: 20px; height: 20px;}
+.--saved-btn { background-color: black; }
+.--saved-btn.unsaved:after {
+  content: '';
+  display: block;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: red;
+  position: absolute;
+  top: -5px;
+  right: -5px;
+}
+
+.--toggle-form-btn {
+  min-width: 50px;
+  min-height: 50px;
+  background-color: rgb(115, 115, 255);
+  color: white;
+  border-radius: 6px;
+  padding: 1px;
+  font-size: 2.3rem;
+  translate: 0 -105px;
+}
+
+/* Theme styles */
+:root {
+  --body-bg: linear-gradient(180deg, rgb(157, 233, 157), rgb(89, 219, 89)) no-repeat fixed;
+  --text-color: black;
+  --block-bg: linear-gradient(180deg, rgb(254, 254, 81), rgb(251, 251, 153));
+  --del-animation-time: 1.5s;
+  --is-comp-anim-transition: box-shadow 1s;
+}
+html.dark-theme {
+  --body-bg: linear-gradient( 180deg, rgb(63, 108, 63), rgb(30, 61, 30)) no-repeat fixed;
+
+  --text-color: rgb(225, 240, 225);
+
+  --block-bg: linear-gradient( 180deg, rgb(170, 170, 60), rgb(120, 120, 40)
+  );
+}
+/* Theme styles */
+
+body {
+  min-height: 100vh;
+  background: var(--body-bg);
+  color: var(--text-color);
+  padding: 10px;
+}
+
+.dashboard-header { text-align: center; }
+
 .show-all-dashboard-stats {
   position: absolute;
   top: 10px;
@@ -111,14 +145,6 @@ hr { display: block; border: 2px solid rgb(123, 123, 255); height: 2px; width: 1
   background-color: color-mix(in srgb, black 45%, transparent);
   border-radius: 10px;
   padding: 1px;
-}
-
-.drag-and-drop-block {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 35px;
 }
 
 /* All stats */
@@ -177,26 +203,6 @@ hr { display: block; border: 2px solid rgb(123, 123, 255); height: 2px; width: 1
   border-radius: 5px;
   padding-left: 5px;
 }
-.--toggle-form-btn {
-  min-width: 50px;
-  min-height: 50px;
-  background-color: rgb(115, 115, 255);
-  color: white;
-  border-radius: 6px;
-  padding: 1px;
-  font-size: 2.3rem;
-  transform: translateY(-105px);
-}
-
-mark {
-  background-color: rgb(255, 101, 46);
-  color: black;
-  padding: 3px;
-  border-radius: 3px;
-}
-
-svg {width: 20px; height: 20px;}
-.--saved-btn { background-color: black; }
 
 @media (hover: none), (max-width: 550px) {
   button, input { transition: none; cursor: auto; }

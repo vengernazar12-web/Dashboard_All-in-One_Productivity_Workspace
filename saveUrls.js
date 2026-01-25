@@ -1,20 +1,27 @@
-const saveUrlsWrap = document.querySelector('.save-urls-wrap');
+const urlsWrap = document.querySelector('.save-urls-wrap');
+// Open urls wrap
 document.querySelector('.open-save-urls-wrap')
 .addEventListener('click', () => {
   showPreloader();
   renderAllUrls();
-  saveUrlsWrap.classList.add('show');
+  urlsWrap.classList.add('show');
   showPreloader(false);
 
   const urlsBlocksLng = Object.keys(allUrlsObj).length;
   urlProgress.value = urlsBlocksLng;
   urlBlocksLimitText.textContent = `Urls: ${urlsBlocksLng}/50`;
 });
-saveUrlsWrap.querySelector('.close-add-urls-wrap')
-.addEventListener('click', () => saveUrlsWrap.classList.remove('show'))
+// Close urls wrap
+urlsWrap.querySelector('.close-add-urls-wrap')
+.addEventListener('click', () => urlsWrap.classList.remove('show'))
 
-let allUrlsObj = null;
+let allUrlsObj = {};
 
+/* Url progress */
+const urlProgress = urlsWrap.querySelector('.ulr-progress');
+const urlBlocksLimitText = urlsWrap.querySelector('.url-blocks-limit');
+
+// Render urls blocks
 function createUrlElement(name, opened) {
   const div = document.createElement('div');
   div.classList.add('url-block');
@@ -34,42 +41,28 @@ function createUrlElement(name, opened) {
 
   allUrlsContainer.appendChild(div);
 }
-
 function renderAllUrls() {
   const arr = Object.keys(allUrlsObj);
-  if(!arr.length) return allUrlsContainer.innerHTML = '<h1>Немає URLs...</h1>'
+  if(!arr.length) {
+    urlProgress.value = 0;
+    urlBlocksLimitText.textContent = 'Urls: 0/50';
+    return allUrlsContainer.innerHTML = '<h1>Немає URLs...</h1>';
+  }
   allUrlsContainer.textContent = '';
 
   for(let u of arr) createUrlElement(u, allUrlsObj[u]);
+
+  const urlsBlocksLng = Object.keys(allUrlsObj).length;
+  urlProgress.value = urlsBlocksLng;
+  urlBlocksLimitText.textContent = `Urls: ${urlsBlocksLng}/50`;
 }
 
-const allUrlsContainer = saveUrlsWrap.querySelector('.all-urls-container');
-allUrlsContainer.addEventListener('click', e => {
-  if(e.target.classList.contains('del-url-btn')) {
-    if(localStorage.getItem('conf-before-delete') === 'true') if(!confirm('Delete?')) return;
+const nameUrlInput = urlsWrap.querySelector('.add-url-name-input');
+const openedUrlInput = urlsWrap.querySelector('.add-opened-url-input');
 
-    delete allUrlsObj[e.target.parentElement.lastElementChild.textContent];
-
-    if(localStorage.getItem('disabled-anim') === 'true') return renderAllUrls();
-
-    e.target.parentElement.classList.add('del-anim');
-
-    setTimeout(renderAllUrls(), delAnimTime);
-    urlSaveBtn.classList.add('unsaved');
-
-    const urlsBlocksLng = Object.keys(allUrlsObj).length;
-    urlProgress.value = urlsBlocksLng;
-    urlBlocksLimitText.textContent = `Urls: ${urlsBlocksLng}/50`;
-  }
-})
-
-const nameUrlInput = saveUrlsWrap.querySelector('.add-url-name-input');
-const openedUrlInput = saveUrlsWrap.querySelector('.add-opened-url-input');
-const addUrlBtn = saveUrlsWrap.querySelector('.add-url-btn');
-
+const addUrlBtn = urlsWrap.querySelector('.add-url-btn');
 addUrlBtn.addEventListener('click', () => {
-  const urlsBlocksLng = Object.keys(allUrlsObj).length;
-  if(urlsBlocksLng >= 50) return showResponseFn('Your have urls limit');
+  if(Object.keys(allUrlsObj).length >= 50) return showResponseFn('Your have urls limit');
 
   const value = nameUrlInput.value.trim();
   const opValue = openedUrlInput.value.trim();
@@ -83,12 +76,27 @@ addUrlBtn.addEventListener('click', () => {
   urlSaveBtn.classList.add('unsaved');
 
   renderAllUrls();
-
-  urlProgress.value = urlsBlocksLng + 1;
-  urlBlocksLimitText.textContent = `Urls: ${urlsBlocksLng + 1}/50`;
 })
 
-saveUrlsWrap.querySelector('.search-url')
+const allUrlsContainer = urlsWrap.querySelector('.all-urls-container');
+allUrlsContainer.addEventListener('click', e => {
+  if(e.target.classList.contains('del-url-btn')) {
+    if(localStorage.getItem('conf-before-delete') === 'true' && !confirm('Delete?')) return;
+
+    delete allUrlsObj[e.target.parentElement.lastElementChild.textContent];
+
+    if(localStorage.getItem('disabled-anim') === 'true') return renderAllUrls();
+
+    e.target.parentElement.classList.add('del-anim');
+    console.log()
+
+    setTimeout(renderAllUrls, delAnimTime);
+    urlSaveBtn.classList.add('unsaved');
+  }
+})
+
+// Search urls
+urlsWrap.querySelector('.search-url')
 .addEventListener('input', e => {
   const value = e.target.value;
   if(!value.length) return renderAllUrls();
@@ -99,12 +107,9 @@ function renderFilteredUrls(text) {
   text = text.toLowerCase();
 
   for(let name of Object.keys(allUrlsObj)) {
-    if(name.toLowerCase().includes(text)) createUrlElement(name, allUrlsObj[name]);
+    if(name.toLowerCase().includes(text) || allUrlsObj[name].toLowerCase().includes(text))
+      createUrlElement(name, allUrlsObj[name]);
   };
 
   if(!allUrlsContainer.children.length) allUrlsContainer.innerHTML = '<h1>Нічого не знайдено...</h1>'
 }
-
-/* Progress and urls-blocks limit text */
-const urlProgress = saveUrlsWrap.querySelector('.ulr-progress');
-const urlBlocksLimitText = saveUrlsWrap.querySelector('.url-blocks-limit');

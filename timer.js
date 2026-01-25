@@ -1,19 +1,20 @@
-const userReadyWindow = document.querySelector('.user-is-ready-window');
-const userReadyTxtInfo = userReadyWindow.lastElementChild;
-function setUserReadyInfoTxt(type, name) { userReadyTxtInfo.textContent = `Time is up! Ready to open: ${type} => ${name}?`; }
-
 const timerWindow = document.querySelector('.timer-window');
+// Open timer window
 document.querySelector('.show-timer-window')
 .addEventListener('click', () => timerWindow.classList.toggle('show'));
-
+// Close timer window
 document.querySelector('.close-timer-window')
 .addEventListener('click', () => timerWindow.classList.remove('show'));
 
-function userIsReadyEvent() {};
-const userIsReadyBtn = document.querySelector('.user-is-ready');
+const userReadyWindow = document.querySelector('.user-is-ready-window');
+const userReadyTxtInfo = userReadyWindow.lastElementChild;
+function setUserReadyInfoTxt(type, name) {
+  userReadyTxtInfo.textContent = `Time is up! Ready to open:\n${type} => ${name}?`;
+}
 
-document.querySelector('.user-no-ready')
-.addEventListener('click', () => {
+const userIsReadyBtn = userReadyWindow.querySelector('.user-is-ready');
+
+userReadyWindow.querySelector('.user-no-ready').addEventListener('click', () => {
   userReadyWindow.classList.remove('show');
   userIsReadyBtn.removeEventListener('click', userIsReadyEvent);
 });

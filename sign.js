@@ -2,23 +2,25 @@ const client = supabase.createClient(
   'https://ivzrhxvrwafrofotkmrv.supabase.co',
   'sb_publishable_gaf3l7-dqfddZGEZjBbatA_-AjzhiZ-'
 );
-
 const signWindow = document.querySelector('.sign-window');
 
 const signUpForm = signWindow.querySelector('.sign-up-form');
 const signInForm = signWindow.querySelector('.sign-in-form');
 
+// Sign-in/up fn
 async function signFn(type) {
   const email = type === 'up' ? signUpForm['user-email'].value : signInForm['user-email'].value;
   const password = type === 'up' ? signUpForm['user-password'].value : signInForm['user-password'].value;
 
   try {
+    // Sign-up
     if(type === 'up') {
       const {error} = await client.auth.signUp({email, password});
       if(error) return showResponseFn(error.message);
       showResponseFn('Check your email address and use sign-in form');
     }
     else {
+      // Sign in
       const {data, error} = await client.auth.signInWithPassword({email, password});
       if(error) return showResponseFn(error.message);
       if(!data.user.email_confirmed_at) return showResponseFn(`You must confirm your email address! Check you email address: ${data.user.email}`);
@@ -37,27 +39,8 @@ async function signFn(type) {
   } catch(e) { showResponseFn('Error!') };
 }
 
-async function reloadAllContent() {
-  let initialContent = await client.auth.getSession();
-  if(!initialContent.data.session) return signWindow.classList.add('show');
-  const id = initialContent.data.session.user.id;
-  initialContent = await client.from('user_content').select('*').eq('id', id).single();
-  if(initialContent) {
-    const content = initialContent.data.content;
-    allTodosObj = content.todos || {};
-    hiddenTodosObj = content.hiddenTodos || {};
-    allNotesObj = content.notes || {};
-    allUrlsObj = content.urls || {};
-    allUserCodesObj = content.codes || {};
-    showPreloader(false);
-    return showResponseFn('Your content been loaded');
-  }
-  else { showPreloader(false); signWindow.classList.add('show'); };
-}
-
-signUpForm.addEventListener('submit', e => {e.preventDefault(); signFn('up')});
-
-signInForm.addEventListener('submit', e => {e.preventDefault(); signFn('in')});
+signUpForm.addEventListener('submit', e => { e.preventDefault(); signFn('up'); });
+signInForm.addEventListener('submit', e => { e.preventDefault(); signFn('in'); });
 
 // Save todos content
 const todoSaveBtn = todoWrap.querySelector('.todo-save-btn');
@@ -147,7 +130,7 @@ noteSaveBtn.addEventListener('click', async () => {
 })
 
 // Save urls content
-const urlSaveBtn = saveUrlsWrap.querySelector('.url-save-btn');
+const urlSaveBtn = urlsWrap.querySelector('.url-save-btn');
 urlSaveBtn.addEventListener('click', async () => {
   urlSaveBtn.disabled = true;
   if(Object.keys(allUrlsObj).length > 50) return showResponseFn('Your have urls limit');
@@ -245,12 +228,33 @@ codeSaveBtn.addEventListener('click', async () => {
 })
 
 // Reload confirm
-const allSavedBtn = [...document.querySelectorAll('.--saved-btn')];
+const allSavedBtn = document.querySelectorAll('.--saved-btn');
 window.addEventListener('beforeunload', e => {
-  if(allSavedBtn.find(btn => btn.classList.contains('unsaved'))) {
-    e.preventDefault();
-    return e.returnValue = '';
+  for(let btn of allSavedBtn) {
+    if(btn.classList.contains('unsaved')) {
+      e.preventDefault();
+      e.returnValue = '';
+      break;
+    }
   }
 })
 
+// Initialization all content objects
+async function reloadAllContent() {
+  let initialContent = await client.auth.getSession();
+  if(!initialContent.data.session) return signWindow.classList.add('show');
+  const id = initialContent.data.session.user.id;
+  initialContent = await client.from('user_content').select('*').eq('id', id).single();
+  if(initialContent) {
+    const content = initialContent.data.content;
+    allTodosObj = content.todos || {};
+    hiddenTodosObj = content.hiddenTodos || {};
+    allNotesObj = content.notes || {};
+    allUrlsObj = content.urls || {};
+    allUserCodesObj = content.codes || {};
+    showPreloader(false);
+    return showResponseFn('Your content been loaded');
+  }
+  else { showPreloader(false); signWindow.classList.add('show'); };
+}
 reloadAllContent();

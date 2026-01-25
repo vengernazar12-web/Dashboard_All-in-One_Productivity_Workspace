@@ -1,7 +1,9 @@
 const mls = localStorage.getItem('del-anim-time');
 let delAnimTime = mls !== null ? +mls : 1500;
 document.documentElement.style.setProperty('--del-animation-time', `${delAnimTime / 1000}s`);
+// ============================
 
+// Key... events
 document.addEventListener('keydown', e => {
   if(notesWrap.classList.contains('show') && (e.key === '<' || e.key === '>' || e.key === '&' || e.key === '/')) e.preventDefault();
   else if(e.ctrlKey && e.code === 'KeyH') {
@@ -47,6 +49,7 @@ const allStatsWrap = document.querySelector('.all-stats-wrap');
 const todosNumberStats = allStatsWrap.querySelector('.todos-number-stats');
 const notesSymbolsNumber = allStatsWrap.querySelector('.notes-symbols-number');
 const savedUrlsNumber = allStatsWrap.querySelector('.saved-urls-number');
+
 // All stats
 document.querySelector('.show-all-dashboard-stats')
 .addEventListener('click', () => {
@@ -63,6 +66,7 @@ document.querySelector('.show-all-dashboard-stats')
   allStatsWrap.classList.toggle('show');
 })
 
+/* Open/close mini-window events */
 for(let b of document.querySelectorAll('.min-wrap')) {
   b.addEventListener('click', () => {
     b.parentElement.removeAttribute('style');
@@ -139,7 +143,7 @@ disAnimBtn.addEventListener('click', e => {
   localStorage.setItem('disabled-anim', !isDis);
 })
 
-// Conf before delete
+// Conf before delete sett
 const confBefDelBtn = document.querySelector('.conf-before-del-sett');
 confBefDelBtn.addEventListener('click', e => {
   const isConfirm = localStorage.getItem('conf-before-delete') === 'true';

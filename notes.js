@@ -1,5 +1,6 @@
 const notesWrap = document.querySelector('.notes-wrap');
 notesWrap.addEventListener('click', () => deleteNoteConfirmBlock.classList.remove('show'));
+// Open note wrap
 document.querySelector('.open-notes-wrap')
 .addEventListener('click', () => {
   showPreloader();
@@ -11,9 +12,10 @@ document.querySelector('.open-notes-wrap')
   noteProgress.value = noteLng;
   notesBlocksLimitText.textContent = `Notes: ${noteLng}/15`;
 })
+// Close note wrap
 document.querySelector('.close-notes-wrap')
 .addEventListener('click', () => notesWrap.classList.remove('show'))
-
+// Close notes content wrap
 document.querySelector('.close-notes-content-wrap')
 .addEventListener('click', e => {
   const name = notesContentTitle.textContent;
@@ -22,11 +24,24 @@ document.querySelector('.close-notes-content-wrap')
   noteSaveBtn.classList.add('unsaved');
   notesContentWrap.classList.remove('show');
 });
+
 let allNotesObj = {};
 
-/* Note progress */ const noteProgress = notesWrap.querySelector('.note-progress');
+// Note progress
+const noteProgress = notesWrap.querySelector('.note-progress');
+const notesBlocksLimitText = notesWrap.querySelector('.notes-blocks-limit');
 
 // Add note form
+const openAddNoteForm = notesWrap.querySelector('.toggle-add-note-form');
+openAddNoteForm.addEventListener('click', () => {
+  if(allUserNotesCont.childElementCount >= 15) {
+    openAddNoteForm.style.display = 'none';
+    return showResponseFn('You have max notes 15/15');
+  };
+  addNotesForm.classList.toggle('show');
+  addNoteInputName.focus();
+})
+
 const addNotesForm = notesWrap.querySelector('.add-notes-inputs');
 const addNoteInputName = addNotesForm.querySelector('.note-name-input');
 const addNoteInputDescription = addNotesForm.querySelector('.note-description-input');
@@ -56,31 +71,7 @@ addNotesButton.addEventListener('click', () => {
   notesBlocksLimitText.textContent = `Notes: ${notesBlocksLng + 1}/15`;
 })
 
-const openAddNoteForm = notesWrap.querySelector('.toggle-add-note-form');
-openAddNoteForm.addEventListener('click', () => {
-  if(allUserNotesCont.childElementCount >= 15) {
-    openAddNoteForm.style.display = 'none';
-    return showResponseFn('You have max notes 15/15');
-  };
-  addNotesForm.classList.toggle('show');
-  addNoteInputName.focus();
-})
-
-/**/
-const notesContentWrap = document.querySelector('.notes-content-wrap');
-const notesSymbolsLimitText = notesContentWrap.querySelector('.notes-symbols-limit-text');
-const notesBlocksLimitText = notesWrap.querySelector('.notes-blocks-limit');
-
-const notesContentTitle = notesContentWrap.querySelector('h3');
-
-const userNotesText = notesContentWrap.querySelector('.notes-user-content');
-userNotesText.addEventListener('input', e => {
-  const lng = userNotesText.textContent.replaceAll('\n', '').length;
-  if(lng > 1500) notesSymbolsLimitText.style.color = 'red';
-  else notesSymbolsLimitText.style.color = 'black';
-  notesSymbolsLimitText.textContent = `${lng}/1500`;
-})
-
+// All notes
 const allUserNotesCont = notesWrap.querySelector('.all-user-notes-container');
 allUserNotesCont.addEventListener('click', e => {
   if(e.target.closest('.user-note-block')) {
@@ -93,11 +84,24 @@ allUserNotesCont.addEventListener('click', e => {
   }
 })
 
+/* Notes content wrap */
+const notesContentWrap = document.querySelector('.notes-content-wrap');
+const notesSymbolsLimitText = notesContentWrap.querySelector('.notes-symbols-limit-text');
+const notesContentTitle = notesContentWrap.querySelector('h3');
+
+const userNotesText = notesContentWrap.querySelector('.notes-user-content');
+userNotesText.addEventListener('input', e => {
+  const lng = userNotesText.textContent.replaceAll('\n', '').length;
+  if(lng > 1500) notesSymbolsLimitText.style.color = 'red';
+  else notesSymbolsLimitText.style.color = 'black';
+  notesSymbolsLimitText.textContent = `${lng}/1500`;
+})
+
 // Delete note
 let touchTime = null, longPress = false;
-
 let deleteTargetBlock = null;
-const deleteNoteConfirmBlock = document.querySelector('.delete-note-confirm');
+
+const deleteNoteConfirmBlock = notesWrap.querySelector('.delete-note-confirm');
 
 allUserNotesCont.addEventListener('touchstart', e => {
   if(e.target.closest('.user-note-block')) {
@@ -122,6 +126,7 @@ allUserNotesCont.addEventListener('touchend', e => {
   }
 })
 
+// Open delete note block
 allUserNotesCont.addEventListener('contextmenu', e => {
   if(e.target.closest('.user-note-block')) {
     e.preventDefault();
@@ -152,7 +157,7 @@ deleteNoteConfirmBlock.querySelector('button').addEventListener('click', () => {
   notesBlocksLimitText.textContent = `Notes: ${notesBlocksLng}/15`;
 })
 
-function renderNotesText(name) { userNotesText.innerHTML = allNotesObj[name].txt.replaceAll('\n', '<br>'); }
+/* Render functions */
 function generateNoteBlock( name, desc ) {
   const div = document.createElement('div'),
   h2 = document.createElement('h2'),
@@ -166,13 +171,16 @@ function generateNoteBlock( name, desc ) {
 
   allUserNotesCont.appendChild(div);
 }
+function renderNotesText(name) {
+  userNotesText.innerHTML = allNotesObj[name].txt.replaceAll('\n', '<br>');
+}
 function renderNotesBlocks() {
   allUserNotesCont.textContent = '';
   for(let name of Object.keys(allNotesObj)) generateNoteBlock(name, allNotesObj[name].description);
 }
 
-const searchNoteTextInput = document.querySelector('.search-note-text-input');
-
+// Search note text
+const searchNoteTextInput = notesContentWrap.querySelector('.search-note-text-input');
 searchNoteTextInput.addEventListener('input', e => {
   const searchText = searchNoteTextInput.value.trim()
   .replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -183,7 +191,6 @@ searchNoteTextInput.addEventListener('input', e => {
   .replaceAll('\n', '<br>')
   .replaceAll(regex, match => `<mark>${match}</mark>`);
 })
-
 searchNoteTextInput.addEventListener('focus', () => { allNotesObj[notesContentTitle.textContent].txt = userNotesText.innerText; })
 searchNoteTextInput.addEventListener('blur', () => {
   searchNoteTextInput.value = '';
