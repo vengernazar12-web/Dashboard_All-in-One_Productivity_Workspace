@@ -66,11 +66,11 @@ openAddNoteForm.addEventListener('click', () => {
   addNoteInputName.focus();
 })
 
-/* Limits texts */
-const notesSymbolsLimitText = notesWrap.querySelector('.notes-symbols-limit-text');
+/**/
+const notesContentWrap = document.querySelector('.notes-content-wrap');
+const notesSymbolsLimitText = notesContentWrap.querySelector('.notes-symbols-limit-text');
 const notesBlocksLimitText = notesWrap.querySelector('.notes-blocks-limit');
 
-const notesContentWrap = document.querySelector('.notes-content-wrap');
 const notesContentTitle = notesContentWrap.querySelector('h3');
 
 const userNotesText = notesContentWrap.querySelector('.notes-user-content');
@@ -81,7 +81,7 @@ userNotesText.addEventListener('input', e => {
   notesSymbolsLimitText.textContent = `${lng}/1500`;
 })
 
-const allUserNotesCont = document.querySelector('.all-user-notes-container');
+const allUserNotesCont = notesWrap.querySelector('.all-user-notes-container');
 allUserNotesCont.addEventListener('click', e => {
   if(e.target.closest('.user-note-block')) {
     const name = e.target.closest('.user-note-block').firstElementChild.textContent;

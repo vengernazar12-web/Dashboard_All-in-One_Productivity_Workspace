@@ -185,6 +185,7 @@ hr { display: block; border: 2px solid rgb(123, 123, 255); height: 2px; width: 1
   border-radius: 6px;
   padding: 1px;
   font-size: 2.3rem;
+  transform: translateY(-105px);
 }
 
 mark {
