@@ -1,38 +1,37 @@
-# 🧠 Dashboard App
+# Dashboard App
 
 A simple personal dashboard that lets you save and sync your todos, notes, code snippets and links across devices.
 
-Built with **Vanilla JavaScript** and **Supabase**.
+Built with Vanilla JavaScript and Supabase for backend storage and authentication.
 
 ---
 
-## ✨ Features
+## 🚀 Features
 
-- User authentication (email + password)
-- Cloud-synced data
-- Todos (with hidden / archived items)
-- Notes
-- Code snippets
-- Saved URLs
-- Works on desktop and mobile
+This project includes:
 
----
-
-## 🧰 Editor features
-
-- Auto-close brackets and quotes  
-  `() [] {} "" '' `` `
-- Tab inserts 2 spaces
-- Ctrl `+` / `-` changes text size
-- Cursor-aware editing
+✨ **User authentication** (email + password)
+☁️ Cloud-synced data with Supabase
+📋 **Todos** (with hidden / archived items)
+📝 **Notes**
+🧠 **Code snippets** editor
+🔗 **Saved URLs** manager
+📱 Works on desktop and mobile screens
 
 ---
 
-## 🗄 Data storage
+## 🔧 Getting Started
 
-Each user has one row in the `user_content` table:
+To run this project locally:
 
-```json
+1. Clone the repository
+   ```bash
+   git clone https://github.com/vengernazar12-web/dashboard-js.git
+
+🗃 Data Structure
+
+Each authenticated user has one row in the Supabase user_content table:
+
 {
   "id": "auth.uid()",
   "content": {
@@ -42,3 +41,25 @@ Each user has one row in the `user_content` table:
     "urls": {}
   }
 }
+
+🧰 Technologies Used
+
+HTML5
+
+CSS3
+
+Vanilla JavaScript
+
+Supabase (auth + database)
+
+🧩 How to Use
+
+After signing in:
+
+Manage your daily todos
+
+Write and save notes
+
+Store favorite links
+
+Add and edit your code snippets
