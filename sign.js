@@ -133,7 +133,7 @@ noteSaveBtn.addEventListener('click', async () => {
 const urlSaveBtn = urlsWrap.querySelector('.url-save-btn');
 urlSaveBtn.addEventListener('click', async () => {
   urlSaveBtn.disabled = true;
-  if(Object.keys(allUrlsObj).length > 50) return showResponseFn('Your have urls limit');
+  if(allUrlsArr.length > 50) return showResponseFn('Your have urls limit');
   showPreloader();
   showResponseFn('Please wait...');
 
@@ -147,7 +147,7 @@ urlSaveBtn.addEventListener('click', async () => {
     showResponseFn('Please sign in');
     showPreloader(false);
     return signWindow.classList.add('show');
-  }
+  };
 
   const id = data.session.user.id;
   const {data: initialContent, error: initialError} = await client.from('user_content').select('content').eq('id', id).single();
@@ -156,13 +156,23 @@ urlSaveBtn.addEventListener('click', async () => {
     setTimeout(() => {urlSaveBtn.disabled = false}, 150000);
     return showResponseFn("Something went wrong");
   }
-  initialContent.content.urls = allUrlsObj;
+  initialContent.content.urls = allUrlsArr;
   const {error: tableError} = await client.from('user_content').update({content: initialContent.content}).eq('id', id);
   if(tableError) {
     showPreloader(false);
     setTimeout(() => urlSaveBtn.disabled = false, 150000);
     return showResponseFn("Your urls haven't been saved, pease try again later...");
   }
+
+  // Upload and remove imgs
+  for(let path in filesToUpload) {
+    const {error} = await client.storage.from('images').upload(path, filesToUpload[path]);
+    if(error) return showResponseFn(`Error: ${error}`);
+  };
+  for(let path of filesToRemove) client.storage.from('images').remove([path]);
+  filesToRemove = []; filesToUpload = {};
+  localImgUrls = {};
+  // Upload and remove imgs
 
   urlSaveBtn.classList.remove('unsaved');
 
@@ -250,7 +260,7 @@ async function reloadAllContent() {
     allTodosObj = content.todos || {};
     hiddenTodosObj = content.hiddenTodos || {};
     allNotesObj = content.notes || {};
-    allUrlsObj = content.urls || {};
+    allUrlsArr = content.urls || [];
     allUserCodesObj = content.codes || {};
     showPreloader(false);
     return showResponseFn('Your content been loaded');

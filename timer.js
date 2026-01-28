@@ -47,10 +47,10 @@ function findItem(wrap, name) {
   return {block, open: isCanOpen, wrap: typeWrap};
 }
 
-const setTimeInput = document.querySelector('.set-time-input');
-const selectType = document.querySelector('.select-type');
+const setTimeInput = timerWindow.querySelector('.set-time-input');
+const selectType = timerWindow.querySelector('.select-type');
 
-const selectitem = document.querySelector('.select-type-item');
+const selectitem = timerWindow.querySelector('.select-type-item');
 function renderSelectItems(container, isLastChild = false) {
   selectitem.textContent = '';
   for(let block of container.children) {
@@ -81,10 +81,10 @@ selectitem.addEventListener('focus', () => {
   }
 })
 
-const timerStartTime = document.querySelector('.timer-start-time');
-const timerDuration = document.querySelector('.timer-duration');
+const timerStartTime = timerWindow.querySelector('.timer-start-time');
+const timerDuration = timerWindow.querySelector('.timer-duration');
 
-const startTimerBtn = document.querySelector('.start-timer-btn');
+const startTimerBtn = timerWindow.querySelector('.start-timer-btn');
 startTimerBtn.addEventListener('click', () => {
   const userTime = setTimeInput.value.match(/\d+\.?\d*[smh]/i);
   const type = selectType.value;
@@ -146,7 +146,7 @@ startTimerBtn.addEventListener('click', () => {
   timerDuration.textContent = `Timer duration: ${userTime}`;
 })
 
-const stopTimerBtn = document.querySelector('.stop-timer-btn');
+const stopTimerBtn = timerWindow.querySelector('.stop-timer-btn');
 stopTimerBtn.addEventListener('click', () => {
   clearTimeout(timer);
   timerStartTime.textContent = '';

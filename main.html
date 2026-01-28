@@ -21,7 +21,7 @@
 
 <!-- Hints -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/hint/show-hint.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/hint/xml-hint.min.js"></script> <!-- обов'язково -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/hint/xml-hint.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/hint/html-hint.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/hint/javascript-hint.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/hint/css-hint.min.js"></script>
@@ -43,6 +43,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/edit/matchbrackets.min.js"></script>
 <!-- Comment / Uncomment -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/comment/comment.min.js"></script>
+
+<!-- imageCompression -->
+<script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js"></script>
+
 <title>Dashboard</title>
 <meta charset="UTF-8">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -63,8 +67,8 @@
 <script src="calculator.js" defer></script>
 <script src="saveUrls.js" defer></script>
 <script src="user code.js" defer></script>
-<script src="sign.js" defer></script>
 <script src="timer.js" defer></script>
+<script src="sign.js" defer></script>
 <link rel="icon" href="favicon-32x32.png" type="image/png">
 </head>
 
@@ -260,17 +264,57 @@
     <svg title="Save content"><use href="sprite.svg#save"></use></svg>
   </button>
   <button class="close-add-urls-wrap">❌</button>
+  <button class="toggle-add-url-form --toggle-form-btn" title="Add new url">✚</button>
 
-  <input type="text" class="add-opened-url-input" placeholder="Open url...">
-  <input type="text" class="add-url-name-input" placeholder="Name your url...">
   <input type="text" class="search-url" placeholder="Search your urls...">
-  <button class="add-url-btn">Add</button>
 
   <div class="all-urls-container"></div>
 
   <button class="min-wrap">▢</button>
 
-  <progress class="ulr-progress" max="50"></progress>
+  <div class="add-url-form">
+    <h3>Add new url</h3>
+    <input type="text" class="add-opened-url-input" placeholder="Url...">
+    <input type="text" class="add-url-name-input" placeholder="Url name...">
+    <input
+    type = "file"
+    class = "add-url-img-input"
+    accept = "
+    image/png,
+    image/jpeg,
+    image/jpg,
+    image/webp,
+    image/svg+xml,
+    image/bmp,
+    image/tiff
+    ">
+    <button class="add-url-btn">Add</button>
+  </div>
+
+  <div class="edit-url-form">
+    <h4>Edit your url card</h4>
+    <p>Select item</p>
+    <select id="select-item">
+      <option value="name">Name</option>
+      <option value="url">Url</option>
+      <option value="image">Image</option>
+    </select>
+    <input
+    type = "text"
+    placeholder="Enter your changes..."
+    accept = "
+    image/png,
+    image/jpeg,
+    image/jpg,
+    image/webp,
+    image/svg+xml,
+    image/bmp,
+    image/tiff
+    ">
+    <button class="confirm-edit-url-btn">OK</button>
+  </div>
+
+  <progress class="ulr-progress" max="25"></progress>
 </div>
 
 <!-- User code wrap -->

@@ -55,7 +55,7 @@ function createTodoElement(txt, date, isCompleted = false) {
   btnDelTodo.classList.add('del-todo-btn');
   btnReplaceTodo.classList.add('replace-todo-btn');
   inputCompletedTodo.classList.add('todo-input-completed');
-  replaceTodoInput.setAttribute('placeholder', 'Назва...');
+  replaceTodoInput.setAttribute('placeholder', 'Name...');
   replaceTodoInput.classList.add('replace-todo-input');
   replaceTodoInput.setAttribute('type', 'text');
 

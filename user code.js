@@ -103,7 +103,7 @@ function createCodeBlock(name) {
   button_copyCode.innerHTML = '<svg><use href="sprite.svg#copy-code"></use></svg>';
 
   button_deleteCode.classList.add('delete-code-btn');
-  button_deleteCode.innerHTML = '<svg><use href="sprite.svg#delete-code"></use></svg>';
+  button_deleteCode.innerHTML = '<svg> <use href="sprite.svg#delete-code"></use> </svg>';
   button_deleteCode.setAttribute('title', 'delete');
 
   codeSymbolsLimit.classList.add('code-symbols-limit');

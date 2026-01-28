@@ -9,7 +9,8 @@ document.addEventListener('keydown', e => {
   else if(e.ctrlKey && e.code === 'KeyH') {
     e.preventDefault();
     if(notesWrap.classList.contains('show')) openAddNoteForm.click();
-    if(userCodeWrap.classList.contains('show')) toggleAddCodeBlockForm.click();
+    else if(userCodeWrap.classList.contains('show')) toggleAddCodeBlockForm.click();
+    else if(urlsWrap.classList.contains('show')) toggleUrlFormBtn.click();
   }
 
   else if(focusWrap.classList.contains('show') && e.key === 'Escape') closeFocusBtn.click();
@@ -20,7 +21,7 @@ document.addEventListener('keydown', e => {
       allCalcBtnsObj['='].click();
       allCalcBtnsObj['='].classList.add('btn-active');
     }
-    else if(saveUrlsWrap.classList.contains('show')) addUrlBtn.click();
+    else if(urlsWrap.classList.contains('show')) addUrlBtn.click();
     else if(addNotesForm.classList.contains('show')) addNotesButton.click();
     else if(addCodeBlockForm.classList.contains('show')) addCodeBlockBtn.click();
   }
