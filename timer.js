@@ -1,3 +1,6 @@
+// Set preloader text
+whatIsLoadingText.textContent = 'Loading timer utilities...';
+
 const timerWindow = document.querySelector('.timer-window');
 // Open timer window
 document.querySelector('.show-timer-window')
@@ -155,3 +158,6 @@ stopTimerBtn.addEventListener('click', () => {
   startTimerBtn.classList.add('show');
   userIsReadyBtn.removeEventListener('click', userIsReadyEvent);
 })
+
+// Set preloader value
+preloaderProgress.value = 7;

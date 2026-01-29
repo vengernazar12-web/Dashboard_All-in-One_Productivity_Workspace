@@ -1,4 +1,13 @@
-let filesToRemove = [], filesToUpload = {};
+// Set preloader text
+whatIsLoadingText.textContent = 'Loading URL handling...';
+
+// Path
+let filesToRemove = [],
+// Path: imgUrl
+filesToUpload = {},
+// Url-name: imgUrl
+localImgUrls = {};
+
 const compressImgOptions = {
   maxSizeMB: 0.5,
   maxWidthOrHeight: 225,
@@ -62,7 +71,6 @@ function createUrlElement(name, url, imgUrl) {
   div.append(img, delBtn, editBtn, textsBlock);
   allUrlsContainer.appendChild(div);
 }
-let localImgUrls = {};
 function renderAllUrls() {
   if(!allUrlsArr.length) {
     urlProgress.value = 0;
@@ -75,6 +83,8 @@ function renderAllUrls() {
 
   urlProgress.value = allUrlsArr.length;
   urlBlocksLimitText.textContent = `Urls: ${allUrlsArr.length}/25`;
+
+  showUnsavedImgs();
 }
 
 // Add url
@@ -144,6 +154,15 @@ urlsWrap.querySelector('.search-url')
   ) createUrlElement(urlObj.title, urlObj.url, urlObj.imgUrl);
   if(!allUrlsContainer.childElementCount) return allUrlsContainer.innerHTML = '<h1>...</h1>';
 })
+
+// Show unsaved imgs
+function showUnsavedImgs() {
+  for(let block of allUrlsContainer.children) {
+    const title = block.querySelector('a').textContent;
+    const imgPath = allUrlsArr.find(obj => obj.title === title)?.imgPath;
+    if(filesToUpload[imgPath] || localImgUrls[title]) block.classList.add('unsaved');
+  }
+}
 
 // Edit url card
 let initEditUrlName = null;
@@ -257,3 +276,6 @@ allUrlsContainer.addEventListener('click', e => {
     editUrlForm.style.top = `${targetBtnObj.top + urlsWrap.scrollTop}px`;
   }
 })
+
+// Set preloader value
+preloaderProgress.value = 5;

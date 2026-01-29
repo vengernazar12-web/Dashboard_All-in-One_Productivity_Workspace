@@ -53,22 +53,24 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@600&family=Roboto:wght@500&display=swap" rel="stylesheet">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="todo.css">
+
 <link rel="stylesheet" href="main.css">
+<link rel="stylesheet" href="todo.css">
 <link rel="stylesheet" href="notes.css">
 <link rel="stylesheet" href="calculator.css">
 <link rel="stylesheet" href="saveUrls.css">
 <link rel="stylesheet" href="user code.css">
 <link rel="stylesheet" href="sign.css">
 <link rel="stylesheet" href="timer.css">
-<script src="todo.js" defer></script>
-<script src="main.js" defer></script>
-<script src="notes.js" defer></script>
-<script src="calculator.js" defer></script>
-<script src="saveUrls.js" defer></script>
-<script src="user code.js" defer></script>
-<script src="timer.js" defer></script>
-<script src="sign.js" defer></script>
+
+<script src="main.js" defer></script> <!--1-->
+<script src="todo.js" defer></script> <!--2-->
+<script src="notes.js" defer></script> <!--3-->
+<script src="calculator.js" defer></script> <!--4-->
+<script src="saveUrls.js" defer></script> <!--5-->
+<script src="user code.js" defer></script> <!--6-->
+<script src="timer.js" defer></script> <!--7-->
+<script src="sign.js" defer></script> <!--8-->
 <link rel="icon" href="favicon-32x32.png" type="image/png">
 </head>
 
@@ -468,18 +470,24 @@
   <h2>Loading...</h2>
   <p>Loading your content. Please wait...</p>
   <img src="dashboard-favicon-img.svg" alt="Smile img" >
+  <!-- Progress max = all scripts -->
+  <progress class="preloader-progress" max="8"></progress>
+  <p class="what-is-loading-text">Loading...</p>
+
   <span class="loader"></span>
 </div>
 
 <!-- Show response text -->
 <p class="show-response"></p>
 
-<script> // Initialization show preloader
-const preloaderWrap = document.querySelector('.preloader-wrap');
-function showPreloader(show = true) {
-  if(show) preloaderWrap.classList.add('show');
-  else preloaderWrap.classList.remove('show');
-}
-showPreloader();
+<script> // Initialization preloader
+  const preloaderWrap = document.querySelector('.preloader-wrap');
+  function showPreloader(show = true) {
+    if(show) preloaderWrap.classList.add('show');
+    else preloaderWrap.classList.remove('show');
+  }
+  showPreloader();
+  const preloaderProgress = preloaderWrap.querySelector('.preloader-progress');
+  const whatIsLoadingText = preloaderWrap.querySelector('.what-is-loading-text');
 </script>
 </body></html>

@@ -1,3 +1,6 @@
+// Set preloader text
+whatIsLoadingText.textContent = 'Loading task management...';
+
 const todoWrap = document.querySelector('.todo-wrap');
 // Open todo wrap
 document.querySelector('.open-todo-wrap')
@@ -249,6 +252,7 @@ todoWrap.addEventListener('click', e => {
     allTodosObj[val] = { date: time, isCompleted: false, }
     todoSaveBtn.classList.add('unsaved');
     renderTodos();
+    todoNameLengthTxt.textContent = '0/25';
   }
   else if(e.target.closest('.del-todo-btn')) { // Delete todo btn
     if(localStorage.getItem('conf-before-delete') === 'true') if(!confirm('Delete?')) return;
@@ -318,3 +322,6 @@ todoWrap.addEventListener('click', e => {
     renderHiddenTodos();
   }
 })
+
+// Set preloader value
+preloaderProgress.value = 2;

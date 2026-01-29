@@ -1,3 +1,6 @@
+// Set preloader text
+whatIsLoadingText.textContent = 'Loading notes system...';
+
 const notesWrap = document.querySelector('.notes-wrap');
 notesWrap.addEventListener('click', () => deleteNoteConfirmBlock.classList.remove('show'));
 // Open note wrap
@@ -190,3 +193,6 @@ searchNoteTextInput.addEventListener('blur', () => {
   .replaceAll(/<\/?mark/g, '')
   .replaceAll('\n', '<br>');
 })
+
+// Set preloader value
+preloaderProgress.value = 3;

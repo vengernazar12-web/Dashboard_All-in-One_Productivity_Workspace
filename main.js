@@ -1,3 +1,6 @@
+// Set preloader text
+whatIsLoadingText.textContent = 'Loading core functionality...';
+
 const mls = localStorage.getItem('del-anim-time');
 let delAnimTime = mls !== null ? +mls : 1500;
 document.documentElement.style.setProperty('--del-animation-time', `${delAnimTime / 1000}s`);
@@ -194,3 +197,6 @@ function showResponseFn(text) {
   showResponseText.textContent = text;
   showResponseText.classList.add('show');
 }
+
+// Set preloader value
+preloaderProgress.value = 1;

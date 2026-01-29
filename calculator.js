@@ -2,6 +2,9 @@
 // Development is paused while other dashboard features are being improved.
 // This part may be redesigned or removed in the future.
 
+// Set preloader text
+whatIsLoadingText.textContent = 'Loading calculator module...';
+
 const calculatorWrap = document.querySelector('.calc-wrap');
 document.querySelector('.open-calc-wrap')
 .addEventListener('click', () => {
@@ -60,3 +63,6 @@ calculatorWrap.addEventListener('click', e => {
 
   headerPanel.scrollLeft = headerPanel.scrollWidth;
 })
+
+// Set preloader value
+preloaderProgress.value = 4;

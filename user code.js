@@ -1,3 +1,6 @@
+// Set preloader text
+whatIsLoadingText.textContent = 'Loading user code editor...';
+
 const userCodeWrap = document.querySelector('.user-code-wrap');
 document.querySelector('.open-user-code-wrap')
 .addEventListener('click', () => {
@@ -350,3 +353,6 @@ allUserCodesContainer.addEventListener('click', e => {
 // Code-progress and code-blocks-limit
 const codeProgress = userCodeWrap.querySelector('.code-progress');
 const codeBlocksLimitText = userCodeWrap.querySelector('.code-blocks-limit');
+
+// Set preloader value
+preloaderProgress.value = 6;
