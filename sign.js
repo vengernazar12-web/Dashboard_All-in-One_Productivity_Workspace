@@ -45,9 +45,16 @@ async function signFn(type) {
 signUpForm.addEventListener('submit', e => { e.preventDefault(); signFn('up'); });
 signInForm.addEventListener('submit', e => { e.preventDefault(); signFn('in'); });
 
+// is unsaved marks
+let isTodosUnsaved = false,
+isNotesUnsaved = false,
+isUrlsUnsaved = false,
+isCodesUnsaved = false;
+
 // Save todos content
 const todoSaveBtn = todoWrap.querySelector('.todo-save-btn');
 todoSaveBtn.addEventListener('click', async () => {
+  /* Is unsaved check */ if(!isTodosUnsaved) return showResponseFn('No changes detected — nothing to save.');
   // Set max function action
   preloaderProgress.max = 3;
   preloaderProgress.value = 0;
@@ -56,7 +63,7 @@ todoSaveBtn.addEventListener('click', async () => {
   todoSaveBtn.disabled = true;
   showPreloader();
   showResponseFn('Please wait...');
-  if((Object.keys(allTodosObj).length + Object.keys(hiddenTodosObj).length) > 50) return showResponseFn('You have todos limit');
+  if((Object.keys(allTodosObj).length + Object.keys(hiddenTodosObj).length) > 50) { showPreloader(false); return showResponseFn('You have todos limit')};
 
   const {data, error} = await client.auth.getSession();
   if(error) {
@@ -98,6 +105,7 @@ todoSaveBtn.addEventListener('click', async () => {
   whatIsLoadingText.textContent = 'Content saved';
 
   todoSaveBtn.classList.remove('unsaved');
+  isTodosUnsaved = false;
 
   setTimeout(() => todoSaveBtn.disabled = false, 15000);
   showResponseFn('Your todos have been saved');
@@ -107,6 +115,7 @@ todoSaveBtn.addEventListener('click', async () => {
 // Save notes content
 const noteSaveBtn = notesWrap.querySelector('.note-save-btn');
 noteSaveBtn.addEventListener('click', async () => {
+  /* Is unsaved check */ if(!isNotesUnsaved) return showResponseFn('No changes detected — nothing to save.');
   // Set max function action
   preloaderProgress.max = 4;
   preloaderProgress.value = 0;
@@ -116,7 +125,7 @@ noteSaveBtn.addEventListener('click', async () => {
   showPreloader();
   showResponseFn('Please wait...');
 
-  if(Object.keys(allNotesObj).find(name => allNotesObj[name].txt.replaceAll('\n','').length > 1500)) return showResponseFn('Some notes are too long!');
+  if(Object.keys(allNotesObj).find(name => allNotesObj[name].txt.replaceAll('\n','').length > 1500)) { showPreloader(false); return showResponseFn('Some notes are too long!')};
 
   preloaderProgress.value = 1;
   whatIsLoadingText.textContent = 'The texts have been checked';
@@ -159,6 +168,7 @@ noteSaveBtn.addEventListener('click', async () => {
   whatIsLoadingText.textContent = 'Content saved';
 
   noteSaveBtn.classList.remove('unsaved');
+  isNotesUnsaved = false;
 
   setTimeout(() => noteSaveBtn.disabled = false, 150000);
   showResponseFn('Your notes have been saved');
@@ -168,6 +178,7 @@ noteSaveBtn.addEventListener('click', async () => {
 // Save urls content
 const urlSaveBtn = urlsWrap.querySelector('.url-save-btn');
 urlSaveBtn.addEventListener('click', async () => {
+  /* Is unsaved check */ if(!isUrlsUnsaved) return showResponseFn('No changes detected — nothing to save.');
   // Set max function action
   preloaderProgress.max = 5;
   preloaderProgress.value = 0;
@@ -176,7 +187,7 @@ urlSaveBtn.addEventListener('click', async () => {
   urlSaveBtn.disabled = true;
   showPreloader();
   showResponseFn('Please wait...');
-  if(allUrlsArr.length > 50) return showResponseFn('Your have urls limit');
+  if(allUrlsArr.length > 50) { showPreloader(false); return showResponseFn('Your have urls limit')};
 
   const {data, error} = await client.auth.getSession();
   if(error) {
@@ -251,6 +262,7 @@ urlSaveBtn.addEventListener('click', async () => {
   // Upload and remove imgs
 
   urlSaveBtn.classList.remove('unsaved');
+  isUrlsUnsaved = false;
 
   setTimeout(() => urlSaveBtn.disabled = false, 150000);
   showResponseFn('Your urls have been saved');
@@ -260,6 +272,7 @@ urlSaveBtn.addEventListener('click', async () => {
 // Save codes content
 const codeSaveBtn = userCodeWrap.querySelector('.code-save-btn');
 codeSaveBtn.addEventListener('click', async () => {
+  /* Is unsaved check */ if(!isCodesUnsaved) return showResponseFn('No changes detected — nothing to save.');
   // Set max function action
   preloaderProgress.max = 4;
   preloaderProgress.value = 0;
@@ -326,6 +339,7 @@ codeSaveBtn.addEventListener('click', async () => {
   whatIsLoadingText.textContent = 'Content saved';
 
   codeSaveBtn.classList.remove('unsaved');
+  isCodesUnsaved = false;
 
   setTimeout(() => codeSaveBtn.disabled = false, 150000);
   showResponseFn('Your codes have been saved');

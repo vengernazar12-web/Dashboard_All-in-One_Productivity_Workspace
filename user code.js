@@ -82,6 +82,7 @@ function createCodeBlock(name) {
     codeSymbolsLimit.style.color = lng > 1500 ? 'red' : 'white';
 
     codeSaveBtn.classList.add('unsaved');
+    isCodesUnsaved = true;
   });
   editor.on('beforeChange', (_, change) => {
     if(allUserCodesObj[name].lock && !isInitialization) {
@@ -166,6 +167,7 @@ addCodeBlockBtn.addEventListener('click', () => {
   addCodeBlockForm.classList.remove('show');
 
   codeSaveBtn.classList.add('unsaved');
+  isCodesUnsaved = true;
 
   if(allUserCodesContainer.childElementCount >= 15) return toggleAddCodeBlockForm.style.display = 'none';
 })
@@ -228,7 +230,10 @@ focusCodeEditor.on('inputRead', (cm, change) => {
     const cursor = cm.getCursor();
     const word = (cm.getLine(cursor.line).slice(0, cursor.ch).match(/[a-z.]+$/i) || '')[0];
     if(isUserWrite && word) cm.showHint({completeSingle: false});
-  }, 200)
+  }, 200);
+
+  codeSaveBtn.classList.add('unsaved');
+  isCodesUnsaved = true;
 })
 focusCodeEditor.on('change', () => {
   const valueLng = focusCodeEditor.getValue().replaceAll('\n','').replaceAll(' ','').length;
@@ -298,6 +303,7 @@ allUserCodesContainer.addEventListener('click', e => {
     delete allUserCodesObj[targetBlock.firstElementChild.textContent];
     renderUserCodesBlocks();
     codeSaveBtn.classList.add('unsaved');
+    isCodesUnsaved = true;
 
     return showResponseFn('Block been deleted');
   }
@@ -314,6 +320,7 @@ allUserCodesContainer.addEventListener('click', e => {
       targetBlock.style.boxShadow = '0 0 0 0';
       initialBtn.style.color = 'white';
     }
+    isCodesUnsaved = true;
     return codeSaveBtn.classList.add('unsaved');
   }
   else if(e.target.closest('.copy-code-btn')) { // Copy code

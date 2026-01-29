@@ -18,11 +18,12 @@ document.querySelector('.close-notes-wrap')
 // Close notes content wrap
 document.querySelector('.close-notes-content-wrap')
 .addEventListener('click', e => {
+  noteSaveBtn.classList.add('unsaved')
   const name = notesContentTitle.textContent;
   allNotesObj[name].txt = userNotesText.innerText;
   showResponseFn(`Save "${name}" note text`);
-  noteSaveBtn.classList.add('unsaved');
   notesContentWrap.classList.remove('show');
+  isNotesUnsaved = true;
 });
 
 let allNotesObj = {};
@@ -63,6 +64,7 @@ addNotesButton.addEventListener('click', () => {
 
   generateNoteBlock( name, desc );
   noteSaveBtn.classList.add('unsaved');
+  isNotesUnsaved = true;
 
   if(allUserNotesCont.childElementCount >= 15) return openAddNoteForm.style.display = 'none';
 })
@@ -147,6 +149,7 @@ deleteNoteConfirmBlock.querySelector('button').addEventListener('click', () => {
 
   deleteNoteConfirmBlock.classList.remove('show');
   openAddNoteForm.style.display = 'inline';
+  isNotesUnsaved = true;
 })
 
 /* Render functions */
@@ -163,9 +166,7 @@ function generateNoteBlock( name, desc ) {
 
   allUserNotesCont.appendChild(div);
 }
-function renderNotesText(name) {
-  userNotesText.innerHTML = allNotesObj[name].txt.replaceAll('\n', '<br>');
-}
+function renderNotesText(name) { userNotesText.innerHTML = allNotesObj[name].txt.replaceAll('\n', '<br>'); }
 function renderNotesBlocks() {
   allUserNotesCont.textContent = '';
   for(let name of Object.keys(allNotesObj)) generateNoteBlock(name, allNotesObj[name].description);

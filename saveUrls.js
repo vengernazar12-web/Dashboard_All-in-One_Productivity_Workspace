@@ -136,6 +136,7 @@ addUrlBtn.addEventListener('click', async () => {
   renderAllUrls();
   addUrlForm.classList.remove('show');
   urlSaveBtn.classList.add('unsaved');
+  isUrlsUnsaved = true;
 
   nameUrlInput.value = '';
   openedUrlInput.value = '';
@@ -237,6 +238,7 @@ confirmEditUrlBtn.addEventListener('click', async () => {
     editUrlForm.classList.remove('show');
     urlSaveBtn.classList.add('unsaved');
   }
+  isUrlsUnsaved = true;
 })
 
 // Delegation
@@ -255,6 +257,7 @@ allUrlsContainer.addEventListener('click', e => {
     allUrlsArr = allUrlsArr.filter(obj => obj.title !== delUrlName);
 
     urlSaveBtn.classList.add('unsaved');
+    isUrlsUnsaved = true;
     if(localStorage.getItem('disabled-anim') === 'true') return renderAllUrls();
 
     targetUrlBlock.classList.add('del-anim');

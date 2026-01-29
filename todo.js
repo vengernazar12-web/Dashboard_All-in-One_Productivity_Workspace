@@ -111,6 +111,7 @@ const todoAddBtn = todoWrap.querySelector('.add-todo');
 
 const todosNumberText = todoWrap.querySelector('.todos-number');
 
+// Search
 const searchTodoInput = todoWrap.querySelector('.todo-search');
 searchTodoInput.addEventListener('input', e => {
   const txt = e.target.value.trim().toLowerCase();
@@ -175,6 +176,7 @@ todoWrap.querySelector('.unhide-todos')
   renderTodos();
   renderHiddenTodos();
   todoSaveBtn.classList.add('unsaved');
+  isTodosUnsaved = true;
 })
 
 // Set todos color
@@ -191,7 +193,8 @@ const todoColorBlock = todoWrap.querySelector('.set-todos-color-block');
 const todoColorInput = todoColorBlock.querySelector('input');
 
 // Confirm todo color btn
-todoColorBlock.querySelector('.confirm-todo-color').addEventListener('click', () => {
+todoColorBlock.querySelector('.confirm-todo-color')
+.addEventListener('click', () => {
   const hex = todoColorInput.value;
   const isWhiteHex = isWhiteColor(hex);
   initialEditTodo.style.background = hex;
@@ -201,15 +204,20 @@ todoColorBlock.querySelector('.confirm-todo-color').addEventListener('click', ()
   allTodosObj[initialEditTodo.firstElementChild.textContent].color = hex;
 
   todoSaveBtn.classList.add('unsaved');
+  isTodosUnsaved = true;
 })
 // Reset todo color btn
-todoColorBlock.querySelector('.reset-todo-color').addEventListener('click', () => {
+todoColorBlock.querySelector('.reset-todo-color')
+.addEventListener('click', () => {
   if(!confirm('Reset todo color?')) return;
 
   delete allTodosObj[initialEditTodo.firstElementChild.textContent].color;
   renderTodos();
   showResponseFn(`Reset todo(${initialEditTodo.firstElementChild.textContent}) color`);
   todoColorBlock.classList.remove('show');
+
+  todoSaveBtn.classList.add('unsaved');
+  isTodosUnsaved = true;
 })
 
 /* Progress */ const todoProgress = todoWrap.querySelector('.todo-progress');
@@ -226,7 +234,7 @@ todoWrap.addEventListener('click', e => {
     todoColorBlock.style.right = `${Math.max( 0, targetTodoObj.right - targetTodoObj.width - todoColorBlockObj.width )}px`;
     todoColorBlock.style.top = `${Math.max( todoWrap.scrollTop, targetTodoObj.top - todoColorBlockObj.height + todoWrap.scrollTop + targetTodoObj.height / 2 )}px`;
   }
-  else if(e.target.classList.contains('.start-edit-todos')) { // Start edit btn
+  else if(e.target.classList.contains('start-edit-todos')) { // Start edit btn
     isEdit = !isEdit;
     todoWrap.classList.toggle('is-edit');
     showResponseFn(isEdit ? 'Edit mode on' : 'Edit mode off');
@@ -251,6 +259,8 @@ todoWrap.addEventListener('click', e => {
 
     allTodosObj[val] = { date: time, isCompleted: false, }
     todoSaveBtn.classList.add('unsaved');
+    isTodosUnsaved = true;
+
     renderTodos();
     todoNameLengthTxt.textContent = '0/25';
   }
@@ -266,6 +276,8 @@ todoWrap.addEventListener('click', e => {
 
     e.target.parentElement.classList.add('del-anim');
     todoSaveBtn.classList.add('unsaved');
+    isTodosUnsaved = true;
+
     setTimeout(renderTodos, delAnimTime);
   }
   else if(e.target.closest('.replace-todo-btn') && e.target.classList.contains('.rename-todo')) { // Rename todo
@@ -292,6 +304,7 @@ todoWrap.addEventListener('click', e => {
 
     allTodosObj[newName] = { date: time, isCompleted: block.lastElementChild.checked }
     todoSaveBtn.classList.add('unsaved');
+    isTodosUnsaved = true;
 
     renderTodos();
   }
@@ -307,19 +320,25 @@ todoWrap.addEventListener('click', e => {
   else if(e.target.closest('.todo-input-completed')) { // Complete todo
     allTodosObj[e.target.parentElement.firstElementChild.textContent].isCompleted = e.target.checked;
     todoSaveBtn.classList.add('unsaved');
+    isTodosUnsaved = true;
   }
   else if(e.target.closest('.todo-input')) { // Set todo name input
     searchTodoInput.value = '';
     renderTodos();
   }
   else if(e.target.closest('.hide-completed-todos')) { // Hide complete todos btn
-    for(let todo of Object.keys(allTodosObj)) {
+    const arr = Object.keys(allTodosObj);
+    if(!arr.length) return showResponseFn("Completed todos not found");
+    for(let todo of arr) {
       if(allTodosObj[todo].isCompleted) {
-      hiddenTodosObj[todo] = allTodosObj[todo];
-      delete allTodosObj[todo]
-    }}
+        hiddenTodosObj[todo] = allTodosObj[todo];
+        delete allTodosObj[todo]
+      }}
     renderTodos();
     renderHiddenTodos();
+
+    todoSaveBtn.classList.add('unsaved');
+    isTodosUnsaved = true;
   }
 })
 
