@@ -141,7 +141,7 @@ function renderUserCodesBlocks() {
   allUserCodesContainer.textContent = '';
   for(let name of Object.keys(allUserCodesObj)) createCodeBlock(name);
   const userCodeBlocksLng = Object.keys(allUserCodesObj).length;
-  codeBlocksLimitText.textContent = `Codes: ${userCodeBlocksLng}/15`;
+  codeBlocksLimitText.textContent = `Codes: ${userCodeBlocksLng}/25`;
   codeProgress.value = userCodeBlocksLng;
 }
 
@@ -151,7 +151,7 @@ const codeBlockLang = addCodeBlockForm.querySelector('.user-code-lang');
 
 const addCodeBlockBtn = addCodeBlockForm.querySelector('.add-code-block-btn');
 addCodeBlockBtn.addEventListener('click', () => {
-  if(Object.keys(allUserCodesObj).length >= 15) return showResponseFn('You have code blocks limit');
+  if(Object.keys(allUserCodesObj).length >= 25) return showResponseFn('You have code blocks limit');
   const name = codeBlockName.value.trim();
   if(!name.length) { addCodeBlockForm.classList.remove('show'); return showResponseFn("You don't have a block name")};
   if(allUserCodesObj[name]) return showResponseFn('You used this name');
@@ -169,14 +169,14 @@ addCodeBlockBtn.addEventListener('click', () => {
   codeSaveBtn.classList.add('unsaved');
   isCodesUnsaved = true;
 
-  if(allUserCodesContainer.childElementCount >= 15) return toggleAddCodeBlockForm.style.display = 'none';
+  if(allUserCodesContainer.childElementCount >= 25) return toggleAddCodeBlockForm.style.display = 'none';
 })
 
 const toggleAddCodeBlockForm = userCodeWrap.querySelector('.toggle-add-new-block-code-form');
 toggleAddCodeBlockForm.addEventListener('click', () => {
-  if(allUserCodesContainer.childElementCount >= 15) {
+  if(allUserCodesContainer.childElementCount >= 25) {
     toggleAddCodeBlockForm.style.display = 'none';
-    return showResponseFn('You have blocks limit 15/15');
+    return showResponseFn('You have blocks limit 25/25');
   }
   addCodeBlockForm.classList.toggle('show');
   codeBlockName.focus();
@@ -362,4 +362,4 @@ const codeProgress = userCodeWrap.querySelector('.code-progress');
 const codeBlocksLimitText = userCodeWrap.querySelector('.code-blocks-limit');
 
 // Set preloader value
-preloaderProgress.value = 6;
+preloaderProgress.value = 5;

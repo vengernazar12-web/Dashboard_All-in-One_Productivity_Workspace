@@ -160,4 +160,4 @@ stopTimerBtn.addEventListener('click', () => {
 })
 
 // Set preloader value
-preloaderProgress.value = 7;
+preloaderProgress.value = 6;

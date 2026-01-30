@@ -63,7 +63,7 @@ todoSaveBtn.addEventListener('click', async () => {
   todoSaveBtn.disabled = true;
   showPreloader();
   showResponseFn('Please wait...');
-  if((Object.keys(allTodosObj).length + Object.keys(hiddenTodosObj).length) > 50) { showPreloader(false); return showResponseFn('You have todos limit')};
+  if((Object.keys(allTodosObj).length + Object.keys(hiddenTodosObj).length) > 100) { showPreloader(false); return showResponseFn('You have todos limit')};
 
   const {data, error} = await client.auth.getSession();
   if(error) {
@@ -125,7 +125,13 @@ noteSaveBtn.addEventListener('click', async () => {
   showPreloader();
   showResponseFn('Please wait...');
 
-  if(Object.keys(allNotesObj).find(name => allNotesObj[name].txt.replaceAll('\n','').length > 1500)) {
+  const arr = Object.keys(allNotesObj);
+
+  if(arr.length > 25) {
+    showPreloader(false);
+    return showResponseFn('You have notes blocks limit');
+  };
+  if(arr.find(name => allNotesObj[name].txt.replaceAll('\n','').length > 2000)) {
     showPreloader(false);
     return showResponseFn('Some notes are too long!');
   };
@@ -285,6 +291,11 @@ codeSaveBtn.addEventListener('click', async () => {
   showPreloader();
   showResponseFn('Please wait...');
 
+  if(Object.keys(allUserCodesObj).length > 25) {
+    showPreloader(false);
+    return showResponseFn('Your have codes blocks limit');
+  };
+
   let isHeightLength = false;
   for(let block of allUserCodesContainer.children) {
     const userCode = block.querySelector('textarea')._editor.getValue();
@@ -380,7 +391,7 @@ async function reloadAllContent() {
   else { showPreloader(false); signWindow.classList.add('show'); };
 }
 // Set preloader value
-preloaderProgress.value = 8;
+preloaderProgress.value = 7;
 
 // Starter function
 reloadAllContent();

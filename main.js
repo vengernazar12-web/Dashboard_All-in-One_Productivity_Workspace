@@ -20,32 +20,9 @@ document.addEventListener('keydown', e => {
 
   else if(e.key === 'Enter') {
     if(todoWrap.classList.contains('show')) todoAddBtn.click();
-    else if(calculatorWrap.classList.contains('show')) {
-      allCalcBtnsObj['='].click();
-      allCalcBtnsObj['='].classList.add('btn-active');
-    }
     else if(urlsWrap.classList.contains('show')) addUrlBtn.click();
     else if(addNotesForm.classList.contains('show')) addNotesButton.click();
     else if(addCodeBlockForm.classList.contains('show')) addCodeBlockBtn.click();
-  }
-
-  else if(calculatorWrap.classList.contains('show')) {
-    let button = e.key;
-    if(button === 'Backspace') {
-      delCalcSymbolBtn.click();
-      return delCalcSymbolBtn.classList.add('btn-active');
-    };
-    if(button === '=') button = '+';
-    if(allCalcBtnsObj[button]) {
-      allCalcBtnsObj[button].click();
-      allCalcBtnsObj[button].classList.add('btn-active');
-    };
-  }
-})
-document.addEventListener('keyup', () => {
-  if(calculatorWrap.classList.contains('show')) {
-    for(let v of allNavBtns) v.classList.remove('btn-active');
-    delCalcSymbolBtn.classList.remove('btn-active');
   }
 })
 

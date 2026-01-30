@@ -36,9 +36,9 @@ const notesBlocksLimitText = notesWrap.querySelector('.notes-blocks-limit');
 // Add note form
 const openAddNoteForm = notesWrap.querySelector('.toggle-add-note-form');
 openAddNoteForm.addEventListener('click', () => {
-  if(allUserNotesCont.childElementCount >= 15) {
+  if(allUserNotesCont.childElementCount >= 25) {
     openAddNoteForm.style.display = 'none';
-    return showResponseFn('You have max notes 15/15');
+    return showResponseFn('You have max notes 25/25');
   };
   addNotesForm.classList.toggle('show');
   addNoteInputName.focus();
@@ -50,7 +50,7 @@ const addNoteInputDescription = addNotesForm.querySelector('.note-description-in
 
 const addNotesButton = addNotesForm.querySelector('.add-note-button');
 addNotesButton.addEventListener('click', () => {
-  if(Object.keys(allNotesObj).length >= 15) return showResponseFn('Your have note blocks limit');
+  if(allUserNotesCont.childElementCount >= 25) return showResponseFn('Your have note blocks limit');
   const name = addNoteInputName.value.trim();
   const desc = addNoteInputDescription.value.trim();
 
@@ -67,7 +67,7 @@ addNotesButton.addEventListener('click', () => {
   noteSaveBtn.classList.add('unsaved');
   isNotesUnsaved = true;
 
-  if(allUserNotesCont.childElementCount >= 15) return openAddNoteForm.style.display = 'none';
+  if(allUserNotesCont.childElementCount >= 25) openAddNoteForm.style.display = 'none';
 })
 
 // All notes
@@ -79,7 +79,7 @@ allUserNotesCont.addEventListener('click', e => {
     notesContentTitle.textContent = name;
     userNotesText.style.fontSize = `${localStorage.getItem('notes-font-size') || 1.2}rem`;
     notesContentWrap.classList.add('show');
-    notesSymbolsLimitText.textContent = `${userNotesText.textContent.replaceAll('\n', '').length}/1500`;
+    notesSymbolsLimitText.textContent = `${userNotesText.textContent.replaceAll('\n', '').length}/2000`;
   }
 })
 
@@ -91,9 +91,9 @@ const notesContentTitle = notesContentWrap.querySelector('h3');
 const userNotesText = notesContentWrap.querySelector('.notes-user-content');
 userNotesText.addEventListener('input', e => {
   const lng = userNotesText.textContent.replaceAll('\n', '').length;
-  if(lng > 1500) notesSymbolsLimitText.style.color = 'red';
+  if(lng > 2000) notesSymbolsLimitText.style.color = 'red';
   else notesSymbolsLimitText.style.color = 'var(--text-color)';
-  notesSymbolsLimitText.textContent = `${lng}/1500`;
+  notesSymbolsLimitText.textContent = `${lng}/2000`;
 })
 
 // Delete note
@@ -177,7 +177,7 @@ function renderNotesBlocks() {
   for(let name of Object.keys(allNotesObj)) generateNoteBlock(name, allNotesObj[name].description);
   const notesBlocksLng = Object.keys(allNotesObj).length;
   noteProgress.value = notesBlocksLng;
-  notesBlocksLimitText.textContent = `Notes: ${notesBlocksLng}/15`;
+  notesBlocksLimitText.textContent = `Notes: ${notesBlocksLng}/25`;
 }
 
 // Search note text

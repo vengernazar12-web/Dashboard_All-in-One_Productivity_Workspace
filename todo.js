@@ -80,7 +80,7 @@ function createTodoElement(txt, date, isCompleted = false) {
 function renderTodos() {
   let allTodosArr = Object.keys(allTodosObj);
   if(!allTodosArr.length) {
-    todosNumberText.textContent = 'Todos: 0/50';
+    todosNumberText.textContent = 'Todos: 0/100';
     todoProgress.value = 0;
     return todosContainer.innerHTML = '<h1>No todo...</h1>';
   };
@@ -90,19 +90,7 @@ function renderTodos() {
 
   const todosBlocksLng = Object.keys(allTodosObj).length + Object.keys(hiddenTodosObj).length;
   todoProgress.value = todosBlocksLng;
-  todosNumberText.textContent = `Todos: ${todosBlocksLng}/50`;
-}
-function renderFilteredTodos(txt) {
-  todosContainer.textContent = '';
-  for(let todoName of Object.keys(allTodosObj)) {
-    const infoObj = allTodosObj[todoName];
-    if(
-      todoName.toLowerCase().includes(txt)
-      || infoObj.date.includes(txt)
-      || infoObj.mark.toLowerCase().includes(txt)
-    ) createTodoElement(v, infoObj.date, infoObj.isCompleted);
-  }
-  if(!todosContainer.children.length) todosContainer.innerHTML = `<h1>No todo found...</h1>`;
+  todosNumberText.textContent = `Todos: ${todosBlocksLng}/100`;
 }
 
 const todoTxtLength = todoWrap.querySelector('.todo-symbols-length');
@@ -124,10 +112,18 @@ const todosNumberText = todoWrap.querySelector('.todos-number');
 const searchTodoInput = todoWrap.querySelector('.todo-search');
 searchTodoInput.addEventListener('input', () => {
   const txt = searchTodoInput.value.trim().toLowerCase();
-
   if(!txt) return renderTodos();
 
-  renderFilteredTodos(txt);
+  todosContainer.textContent = '';
+  for(let todoName of Object.keys(allTodosObj)) {
+    const infoObj = allTodosObj[todoName];
+    if(
+      todoName.toLowerCase().includes(txt)
+      || infoObj.date.includes(txt)
+      || infoObj.mark.toLowerCase().includes(txt)
+    ) createTodoElement(todoName, infoObj.date, infoObj.isCompleted);
+  }
+  if(!todosContainer.children.length) todosContainer.innerHTML = `<h1>No todo found...</h1>`;
 })
 searchTodoInput.addEventListener('focus', () => {
   todoNameInput.value = '';
@@ -286,7 +282,7 @@ editTodoBlock.querySelector('.confirm-todo-edit-mark')
 todoWrap.addEventListener('click', e => {
   if(!e.target.closest('.edit-todo-block')) editTodoBlock.classList.remove('show');
   if(e.target.closest('.add-todo')) { // Add todo btn
-    if(Object.keys(allTodosObj).length + Object.keys(hiddenTodosObj).length >= 50) return showResponseFn('Your have todos limit');
+    if(Object.keys(allTodosObj).length + Object.keys(hiddenTodosObj).length >= 100) return showResponseFn('Your have todos limit');
     const val = todoNameInput.value.trim();
     if(!val) return;
     if(allTodosObj[val] || hiddenTodosObj[val]) return showResponseFn(`Todo name "${val}" is already used`);

@@ -281,4 +281,4 @@ allUrlsContainer.addEventListener('click', e => {
 })
 
 // Set preloader value
-preloaderProgress.value = 5;
+preloaderProgress.value = 4;

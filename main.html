@@ -57,7 +57,6 @@
 <link rel="stylesheet" href="main.css">
 <link rel="stylesheet" href="todo.css">
 <link rel="stylesheet" href="notes.css">
-<link rel="stylesheet" href="calculator.css">
 <link rel="stylesheet" href="saveUrls.css">
 <link rel="stylesheet" href="user code.css">
 <link rel="stylesheet" href="sign.css">
@@ -66,11 +65,10 @@
 <script src="main.js" defer></script> <!--1-->
 <script src="todo.js" defer></script> <!--2-->
 <script src="notes.js" defer></script> <!--3-->
-<script src="calculator.js" defer></script> <!--4-->
-<script src="saveUrls.js" defer></script> <!--5-->
-<script src="user code.js" defer></script> <!--6-->
-<script src="timer.js" defer></script> <!--7-->
-<script src="sign.js" defer></script> <!--8-->
+<script src="saveUrls.js" defer></script> <!--4-->
+<script src="user code.js" defer></script> <!--5-->
+<script src="timer.js" defer></script> <!--6-->
+<script src="sign.js" defer></script> <!--7-->
 <link rel="icon" href="favicon-32x32.png" type="image/png">
 </head>
 
@@ -81,7 +79,6 @@
 <main class="all-dashboard-items">
   <button class="open-todo-wrap --opened-btn">Todo</button>
   <button class="open-notes-wrap --opened-btn">Notes</button>
-  <button class="open-calc-wrap --opened-btn">Calculator</button>
   <button class="open-save-urls-wrap --opened-btn">Save urls</button>
   <button class="open-user-code-wrap --opened-btn">Your code</button>
 </main>
@@ -149,7 +146,7 @@
 
 <!-- Todos -->
 <div class="todo-wrap is-wrap">
-  <p class='todos-number'>Todos: _/50</p>
+  <p class='todos-number'>Todos: _/100</p>
   <p class='todo-symbols-length'>0/25</p>
   <header class="drag-and-drop-block"></header>
   <button class="todo-save-btn --saved-btn" title="Save content"><svg title="Save content"><use href="sprite.svg#save"></use></svg></button>
@@ -186,13 +183,13 @@
     <button class="confirm-todo-edit-mark" title="Confirm mark">Confirm</button>
   </div>
 
-  <progress class="todo-progress" max="50"></progress>
+  <progress class="todo-progress" max="100"></progress>
 </div>
 
 <!-- Notes -->
 <div class="notes-wrap is-wrap">
   <h1>Notes</h1>
-  <p class="notes-blocks-limit">_/15</p>
+  <p class="notes-blocks-limit">_/25</p>
   <header class="drag-and-drop-block"></header>
   <button class="min-wrap">▢</button>
   <button class="close-notes-wrap">❌</button>
@@ -216,56 +213,20 @@
     <button>YES</button>
   </div>
 
-  <progress class="note-progress" max="15"></progress>
+  <progress class="note-progress" max="25"></progress>
 </div>
 
 <div class="notes-content-wrap is-wrap">
   <button class="close-notes-content-wrap">❌</button>
   <h3></h3>
   <input type="text" class="search-note-text-input" placeholder="Search text...">
-  <p class="notes-symbols-limit-text">_/1500</p>
+  <p class="notes-symbols-limit-text">_/2000</p>
   <div class="notes-user-content" contenteditable="true"></div>
-</div>
-
-<!-- Calculator -->
-<div class="calc-wrap is-wrap">
-  <h2>Calculator is deprecated for now</h2>
-  <h3>This module is not under active development and may change in the future.</h3>
-  <header class="drag-and-drop-block"></header>
-  <button class="close-calc-wrap">❌</button>
-  <div class="calc-container">
-    <div class="header-panel"><p></p></div>
-    <button class="delete-symbol-btn">⌫</button>
-    <div class="navigation-panel">
-      <div class="numbers-panel">
-        <button data-value="7">7</button>
-        <button data-value="8">8</button>
-        <button data-value="9">9</button>
-        <button data-value="4">4</button>
-        <button data-value="5">5</button>
-        <button data-value="6">6</button>
-        <button data-value="1">1</button>
-        <button data-value="2">2</button>
-        <button data-value="3">3</button>
-        <button data-value=".">.</button>
-        <button data-value="0">0</button>
-        <button data-value="=">=</button>
-      </div>
-      <div class="operators-panel">
-        <button data-value="/">÷</button>
-        <button data-value="*">×</button>
-        <button data-value="-">-</button>
-        <button data-value="+">+</button>
-      </div>
-    </div>
-  </div>
-
-  <button class="min-wrap">▢</button>
 </div>
 
 <!-- Urls -->
 <div class="save-urls-wrap is-wrap">
-  <p class="url-blocks-limit">_/50</p>
+  <p class="url-blocks-limit">_/25</p>
   <header class="drag-and-drop-block"></header>
   <button class="url-save-btn --saved-btn" title="Save content">
     <svg title="Save content"><use href="sprite.svg#save"></use></svg>
@@ -327,7 +288,7 @@
 <!-- User code wrap -->
 <div class="user-code-wrap is-wrap">
   <h2>Your codes</h2>
-  <p class="code-blocks-limit">_/15</p>
+  <p class="code-blocks-limit">_/25</p>
   <header class="drag-and-drop-block"></header>
   <button class="min-wrap">▢</button>
   <button class="code-save-btn --saved-btn" title="Save content"><svg title="Save content"><use href="sprite.svg#save"></use></svg></button>
@@ -369,7 +330,7 @@
     </div>
   </div>
 
-  <progress class="code-progress" max="15"></progress>
+  <progress class="code-progress" max="25"></progress>
 </div>
 
 <!-- Settings -->
@@ -476,7 +437,7 @@
   <p>Loading your content. Please wait...</p>
   <img src="dashboard-favicon-img.svg" alt="Smile img" >
   <!-- Progress max = all scripts -->
-  <progress class="preloader-progress" max="8"></progress>
+  <progress class="preloader-progress" max="7"></progress>
   <p class="what-is-loading-text">Loading...</p>
 
   <span class="loader"></span>
