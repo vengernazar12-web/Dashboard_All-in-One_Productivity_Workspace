@@ -6,21 +6,30 @@
 .todo-wrap.is-edit .todo-block { outline: 3px dashed black; }
 
 .todo-wrap button { transition: transform .2s; cursor: pointer; }
-.todo-wrap button:hover, .todo-wrap input[type='checkbox']:hover  { transform: scale(1.1); }
 
-.todo-input {
+.todo-name-input {
   position: absolute;
   top: 25px;
+  left: 2.5%;
+  width: 80%;
+  height: max(4.5%, 25px);
+  border-radius: 10px;
+  border: 1px solid black;
+  padding-left: 10px;
+  font-size: 1.1rem;
+}
+.todo-search {
+  position: absolute;
+  top: 125px;
   left: 2.5%;
   width: 95%;
   height: max(4.5%, 25px);
   border-radius: 10px;
   border: 1px solid black;
   padding-left: 10px;
-  font-size: 1.25rem;
+  font-size: 1.1rem;
 }
-.todo-input::placeholder, .todo-search::placeholder { font-size: 1.1rem; }
-.todo-search {
+.todo-mark-input {
   position: absolute;
   top: 75px;
   left: 2.5%;
@@ -29,12 +38,13 @@
   border-radius: 10px;
   border: 1px solid black;
   padding-left: 10px;
+  font-size: 1.1rem;
 }
 
 .add-todo {
   position: absolute;
-  top: 115px;
-  left: 2.5%;
+  top: 25px;
+  right: 2.5%;
   border: 1px solid black;
   height: max(4.5%, 25px);
   border-radius: 10px;
@@ -45,23 +55,24 @@
 .todos-container {
   width: 100%;
   position: absolute;
-  top: 175px;
+  top: 225px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 50px;
+  gap: 15px;
   padding-bottom: 110px;
 }
 
 .todo-block {
   position: relative;
   border-radius: 10px;
-  height: 115px;
+  width: 95%;
+  height: 100px;
   transition: var(--is-comp-anim-transition);
-  width: clamp(250px, 30%, 100%);
+  border: 1px solid var(--border-color);
 }
 .todo-block:has(.todo-input-completed:checked) {
-  box-shadow: 0 0 20px 1px rgb(0, 255, 0);
+  outline: 6px solid rgb(0, 255, 0);
   color: black;
   transition: var(--is-comp-anim-transition);
 }
@@ -69,6 +80,18 @@
   text-decoration: line-through;
   text-decoration-color: #4caf50;
   text-decoration-thickness: 3px;
+}
+
+.marked::after {
+  content: attr(data-mark);
+  background: linear-gradient(100deg, rgb(255, 88, 88), red);
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border-radius: 5px 0 10px 0;
+  border: 1px solid var(--border-color);
+  padding: 2px;
+  color: white;
 }
 
 .todo-h2 { position: absolute; left: 5px; font-size: 1.2rem; top: 7px; }
@@ -82,35 +105,21 @@
 .del-todo-btn {
   position: absolute;
   bottom: 5px;
-  left: 45%;
-  width: 10%;
-  height: 20%;
+  left: 40px;
   border-radius: 7px;
   background-color: transparent;
   font-size: 1.25rem;
+  padding: 1px;
 }
-.replace-todo-btn {
+.edit-todo-btn {
   position: absolute;
   bottom: 5px;
-  right: 2px;
-  width: 10%;
-  height: 20%;
+  left: 75px;
   border-radius: 7px;
   background-color: transparent;
   font-size: 1.25rem;
+  padding: 1px;
 }
-.replace-todo-input {
-  position: absolute;
-  bottom: 35px;
-  left: 5%;
-  width: 90%;
-  border-radius: 7px;
-  display: none;
-  padding-left: 10px;
-  height: 25px;
-}
-.replace-todo-input.show { display: block; }
-
 .todo-input-completed {
   position: absolute;
   bottom: 5px;
@@ -132,7 +141,7 @@
   width: 10%;
   height: max(4.5%, 25px);
   position: absolute;
-  top: 115px;
+  top: 165px;
   right: 2.5%;
   border-radius: 10px;
   border: 1px solid black;
@@ -141,12 +150,12 @@
 .todo-symbols-length {
   position: absolute;
   top: 5px;
-  right: 3%;
+  right: 20%;
 }
 
 .todo-save-btn {
   position: absolute;
-  top: 115px;
+  top: 165px;
   right: 15%;
   height: max(4.5%, 25px);
   font-size: 0.75rem;
@@ -156,20 +165,7 @@
 }
 
 /* Hidden todos */
-.hidden-todos-window {
-  position: fixed;
-  left: 10vw;
-  top: 10vh;
-  background: var(--block-bg);
-  width: 80vw;
-  height: 80vh;
-  border-radius: 7px;
-  display: none;
-  text-align: center;
-  padding-top: 10px;
-  border: 1px solid silver;
-  overflow-y: auto;
-}
+.hidden-todos-window { text-align: center; }
 .close-hidden-wind-btn {
   position: absolute;
   top: 5px;
@@ -181,21 +177,21 @@
 }
 .toggle-hidden-todos-window {
   position: absolute;
-  top: 115px;
-  right: 27.5%;
+  top: 165px;
+  left: calc(2.5% + 115px);
   height: max(4.5%, 25px);
   border-radius: 7px;
-  width: 10%;
   border: 1px solid black;
+  padding: 1px 5px;
 }
 .hide-completed-todos {
   position: absolute;
-  top: 115px;
-  right: 40%;
-  width: 10%;
+  top: 165px;
+  left: 2.5%;
   height: max(4.5%, 25px);
   border-radius: 7px;
   border: 1px solid black;
+  padding: 1px 5px;
 }
 
 .hidden-todos-container {
@@ -246,38 +242,84 @@
 }
 
 /* Edit todos */
-.start-edit-todos {
-  position: absolute;
-  top: 115px;
-  left: 17.5%;
-  width: 10%;
-  height: max(4.5%, 25px);
-  border-radius: 10px;
-  border: 1px solid black;
-  font-size: 1.05rem;
-}
-.set-todos-color-block {
-  width: max-content;
-  height: max-content;
-  background-color: rgb(136, 136, 136);
+.edit-todo-block {
+  width: 75%;
+  height: 50%;
+  background: var(--body-bg);
+  color: var(--text-color);
   padding: 5px;
-  position: absolute;
+  position: fixed;
   display: none;
   border-radius: 5px;
+  top: 20%;
+  left: 12.5%;
+  text-align: center;
+  border: 2px solid var(--border-color);
 }
-.set-todos-color-block > input {
-  width: 50px;
-  height: 50px;
-  border: 1px solid black;
+.edit-todo-block > .todo-bgc-input {
+  width: 70px;
+  height: 70px;
+  border: 1px solid var(--border-color);
+  position: absolute;
+  top: 15%;
+  left: 5px;
 }
-.set-todos-color-block > button {
+.edit-todo-block > button {
   color: black;
   padding: 1px;
-  background-color: transparent;
+  border-radius: 5px;
+  padding: 2px;
+  height: 25px;
+  border: 1px solid var(--border-color);
 }
-.reset-todo-color {
+.edit-todo-block > button:hover { outline: 1px solid rgb(116, 3, 3); }
+.edit-todo-block > .reset-todo-color {
   position: absolute;
   top: 2px;
-  right: 2px;
-  font-size: 1.05rem;
+  left: 80px;
+  top: 15%;
+}
+
+.edit-todo-block > .edit-mark-label {
+  position: absolute;
+  top: calc(15% + 85px);
+  left: 2.5%;
+}
+.edit-todo-block > .edit-todo-mark {
+  position: absolute;
+  top: calc(15% + 110px);
+  left: 2.5%;
+  height: 25px;
+  border-radius: 5px;
+  border: 1px solid var(--border-color);
+  padding-left: 5px;
+  width: 95%;
+}
+
+/* Change confirm */
+.edit-todo-block > .confirm-todo-edit-color {
+  position: absolute;
+  top: calc(15% + 45px);
+  left: 80px;
+}
+.edit-todo-block > .confirm-todo-edit-mark {
+  position: absolute;
+  top: calc(15% + 145px);
+  right: 5px;
+  width: 25%;
+  min-width: max-content;
+  padding: 2px;
+}
+
+/* Preview todo mark */
+.edit-todo-block > .preview-todo-mark {
+  background: linear-gradient(100deg, rgb(255, 88, 88), red);
+  position: absolute;
+  top: calc(15% + 145px);
+  min-width: 10px;
+  height: 25px;
+  border-radius: 5px 0 10px 0;
+  border: 1px solid var(--border-color);
+  padding: 2px;
+  color: white;
 }

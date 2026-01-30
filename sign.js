@@ -125,7 +125,10 @@ noteSaveBtn.addEventListener('click', async () => {
   showPreloader();
   showResponseFn('Please wait...');
 
-  if(Object.keys(allNotesObj).find(name => allNotesObj[name].txt.replaceAll('\n','').length > 1500)) { showPreloader(false); return showResponseFn('Some notes are too long!')};
+  if(Object.keys(allNotesObj).find(name => allNotesObj[name].txt.replaceAll('\n','').length > 1500)) {
+    showPreloader(false);
+    return showResponseFn('Some notes are too long!');
+  };
 
   preloaderProgress.value = 1;
   whatIsLoadingText.textContent = 'The texts have been checked';

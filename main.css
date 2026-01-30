@@ -120,18 +120,19 @@ html .unsaved:after {
 
 /* Theme styles */
 :root {
-  --body-bg: linear-gradient(180deg, rgb(89, 89, 89), rgb(182, 182, 182)) no-repeat fixed;
+  --body-bg: linear-gradient(180deg, rgb(158, 158, 158), rgb(208, 208, 208)) no-repeat fixed;
   --text-color: black;
-  --block-bg: linear-gradient(180deg, rgb(122, 122, 122), rgb(87, 87, 87));
+  --block-bg: linear-gradient(180deg, rgb(135, 135, 135), rgb(101, 101, 101));
+  --border-color: black;
 
   --del-animation-time: 1.5s;
   --is-comp-anim-transition: box-shadow 1s;
 }
 html.dark-theme {
-  --body-bg: linear-gradient( 180deg, rgb(52, 52, 52), rgb(19, 19, 19)) no-repeat fixed;
+  --body-bg: linear-gradient( 180deg, rgb(38, 38, 38), black) no-repeat fixed;
   --text-color: white;
-  --block-bg: linear-gradient( 180deg, rgb(51, 51, 51), rgb(62, 62, 62)
-  );
+  --block-bg: linear-gradient( 180deg, rgb(69, 69, 69), rgb(62, 62, 62));
+  --border-color: white;
 }
 /* Theme styles */
 

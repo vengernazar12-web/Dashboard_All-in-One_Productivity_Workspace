@@ -154,20 +154,20 @@
   <header class="drag-and-drop-block"></header>
   <button class="todo-save-btn --saved-btn" title="Save content"><svg title="Save content"><use href="sprite.svg#save"></use></svg></button>
 
-  <input type="text" class='todo-input' placeholder="Your todo...">
-  <input type="text" class='todo-search' placeholder="Search todo...">
+  <input type="text" class='todo-name-input' placeholder="Your todo...">
+  <input type="text" class="todo-mark-input" placeholder="Todo mark...">
   <button class='add-todo' title="Add todo">Add</button>
-  <button class="start-edit-todos" title="Start edit mode">🖌️</button>
+  <input type="text" class='todo-search' placeholder="Search todo...">
 
   <div class='todos-container'></div>
 
   <button class='close-todo-wrap'>❌</button>
   <button class="min-wrap">▢</button>
 
-  <button class="hide-completed-todos" title="Hide all completed todos">🗄️</button>
+  <button class="hide-completed-todos" title="Hide all completed todos">Hide completed</button>
   <button class="toggle-hidden-todos-window" title="Show hidden todos">🗂️</button>
 
-  <div class="hidden-todos-window">
+  <div class="hidden-todos-window is-wrap">
     <h2>Hidden todos</h2>
     <hr>
     <button class="close-hidden-wind-btn">❌</button>
@@ -175,10 +175,15 @@
     <button class="unhide-todos">Unhide</button>
   </div>
 
-  <div class="set-todos-color-block">
-    <input type="color">
-    <button class="confirm-todo-color" title="Confirm todo color">OK</button>
-    <button class="reset-todo-color" title="Reset todo color">🔄️</button>
+  <div class="edit-todo-block">
+    <h3></h3>
+    <input type="color" class="todo-bgc-input">
+    <button class="reset-todo-color" title="Reset color">Reset color</button>
+    <button class="confirm-todo-edit-color" title="Confirm color">Confirm color</button>
+    <label for="mark" class="edit-mark-label"></label>
+    <input type="text" class="edit-todo-mark" id="mark" placeholder="Todo mark...">
+    <div class="preview-todo-mark" title="Mark preview"></div>
+    <button class="confirm-todo-edit-mark" title="Confirm mark">Confirm</button>
   </div>
 
   <progress class="todo-progress" max="50"></progress>

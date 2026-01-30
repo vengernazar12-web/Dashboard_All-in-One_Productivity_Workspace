@@ -18,9 +18,10 @@ document.querySelector('.close-notes-wrap')
 // Close notes content wrap
 document.querySelector('.close-notes-content-wrap')
 .addEventListener('click', e => {
+  if(userNotesText.textContent.trim() === noteTxt.trim()) return notesContentWrap.classList.remove('show');
   noteSaveBtn.classList.add('unsaved')
   const name = notesContentTitle.textContent;
-  allNotesObj[name].txt = userNotesText.innerText;
+  allNotesObj[name].txt = userNotesText.textContent.trim();
   showResponseFn(`Save "${name}" note text`);
   notesContentWrap.classList.remove('show');
   isNotesUnsaved = true;
@@ -166,7 +167,11 @@ function generateNoteBlock( name, desc ) {
 
   allUserNotesCont.appendChild(div);
 }
-function renderNotesText(name) { userNotesText.innerHTML = allNotesObj[name].txt.replaceAll('\n', '<br>'); }
+let noteTxt = null;
+function renderNotesText(name) {
+  userNotesText.innerHTML = allNotesObj[name].txt.replaceAll('\n', '<br>');
+  noteTxt = userNotesText.textContent;
+}
 function renderNotesBlocks() {
   allUserNotesCont.textContent = '';
   for(let name of Object.keys(allNotesObj)) generateNoteBlock(name, allNotesObj[name].description);

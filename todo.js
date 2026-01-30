@@ -16,8 +16,7 @@ todoWrap.querySelector('.close-todo-wrap')
   todoWrap.classList.remove('show');
   todoWrap.classList.remove('is-edit');
   isEdit = false;
-  initialEditTodo = null;
-  todoColorBlock.classList.remove('show');
+  initEditingBlock = null;
 });
 // Close hidden todo wrap
 todoWrap.querySelector('.close-hidden-wind-btn')
@@ -39,9 +38,8 @@ function createTodoElement(txt, date, isCompleted = false) {
   const h2 = document.createElement('h2');
   const p = document.createElement('p');
   const btnDelTodo = document.createElement('button');
-  const btnReplaceTodo = document.createElement('button');
+  const btnEditTodo = document.createElement('button');
   const inputCompletedTodo = document.createElement('input');
-  const replaceTodoInput = document.createElement('input');
 
   div.classList.add('todo-block');
   const savedTodoBg = allTodosObj[txt].color;
@@ -53,28 +51,30 @@ function createTodoElement(txt, date, isCompleted = false) {
     div.style.color = 'var(--text-color)';
   }
 
+  if(allTodosObj[txt].mark) {
+    div.classList.add('marked');
+    div.setAttribute('data-mark', allTodosObj[txt].mark);
+  }
+
   h2.classList.add('todo-h2');
   p.classList.add('todo-p');
   btnDelTodo.classList.add('del-todo-btn');
-  btnReplaceTodo.classList.add('replace-todo-btn');
   inputCompletedTodo.classList.add('todo-input-completed');
-  replaceTodoInput.setAttribute('placeholder', 'Name...');
-  replaceTodoInput.classList.add('replace-todo-input');
-  replaceTodoInput.setAttribute('type', 'text');
+  btnEditTodo.classList.add('edit-todo-btn');
 
   h2.textContent = txt;
   p.textContent = date;
   btnDelTodo.textContent = '❌';
-  btnReplaceTodo.textContent = '✏️';
+  btnEditTodo.textContent = '✏️';
 
   inputCompletedTodo.setAttribute('type', 'checkbox')
   inputCompletedTodo.checked = isCompleted;
 
   inputCompletedTodo.title = 'Complete todo';
   btnDelTodo.title = 'Delete todo';
-  btnReplaceTodo.title = 'Edit todo name';
+  btnEditTodo.title = 'Edit todo name';
 
-  div.append(h2, p, btnDelTodo, btnReplaceTodo, replaceTodoInput, inputCompletedTodo);
+  div.append(h2, p, btnDelTodo, btnEditTodo, inputCompletedTodo);
   todosContainer.appendChild(div);
 }
 function renderTodos() {
@@ -94,31 +94,46 @@ function renderTodos() {
 }
 function renderFilteredTodos(txt) {
   todosContainer.textContent = '';
-  for(let v of Object.keys(allTodosObj)) {
-    const infoObj = allTodosObj[v];
-    if(v.toLowerCase().includes(txt) || infoObj.date.includes(txt)) { createTodoElement(v, infoObj.date, infoObj.isCompleted); }
+  for(let todoName of Object.keys(allTodosObj)) {
+    const infoObj = allTodosObj[todoName];
+    if(
+      todoName.toLowerCase().includes(txt)
+      || infoObj.date.includes(txt)
+      || infoObj.mark.toLowerCase().includes(txt)
+    ) createTodoElement(v, infoObj.date, infoObj.isCompleted);
   }
   if(!todosContainer.children.length) todosContainer.innerHTML = `<h1>No todo found...</h1>`;
 }
 
-const todoNameLengthTxt = todoWrap.querySelector('.todo-symbols-length');
+const todoTxtLength = todoWrap.querySelector('.todo-symbols-length');
 
 const todosContainer = todoWrap.querySelector('.todos-container');
 
-const todoInput = todoWrap.querySelector('.todo-input');
-todoInput.addEventListener('input', () => todoNameLengthTxt.textContent = `${todoInput.value.trim().length} / 25`)
+const todoNameInput = todoWrap.querySelector('.todo-name-input');
+todoNameInput.addEventListener('input', () => todoTxtLength.textContent = `${todoNameInput.value.trim().length}/25`);
+todoNameInput.addEventListener('focus', () => {
+  todoTxtLength.textContent = '0/25';
+  todoNameInput.value = '';
+  editTodoBlock.classList.remove('show');
+});
 const todoAddBtn = todoWrap.querySelector('.add-todo');
 
 const todosNumberText = todoWrap.querySelector('.todos-number');
 
 // Search
 const searchTodoInput = todoWrap.querySelector('.todo-search');
-searchTodoInput.addEventListener('input', e => {
-  const txt = e.target.value.trim().toLowerCase();
+searchTodoInput.addEventListener('input', () => {
+  const txt = searchTodoInput.value.trim().toLowerCase();
 
   if(!txt) return renderTodos();
 
   renderFilteredTodos(txt);
+})
+searchTodoInput.addEventListener('focus', () => {
+  todoNameInput.value = '';
+  todoMarkInput.value = '';
+  todoTxtLength.textContent = '0/25';
+  editTodoBlock.classList.remove('show');
 })
 
 // Hidden todos
@@ -187,34 +202,79 @@ function isWhiteColor(hex) {
   const b = parseInt(bHex, 16);
   return 0.299 * r + 0.587 * g + 0.114 * b >= 140 ? true : false;
 }
-let isEdit = false, initialEditTodo = null;
 
-const todoColorBlock = todoWrap.querySelector('.set-todos-color-block');
-const todoColorInput = todoColorBlock.querySelector('input');
+// Todo mark input
+const todoMarkInput = todoWrap.querySelector('.todo-mark-input');
+todoMarkInput.addEventListener('input', () => todoTxtLength.textContent = `${todoMarkInput.value.length}/12`)
+todoMarkInput.addEventListener('focus', () => {
+  todoTxtLength.textContent = '0/12';
+  todoMarkInput.value = '';
+  editTodoBlock.classList.remove('show');
+});
 
-// Confirm todo color btn
-todoColorBlock.querySelector('.confirm-todo-color')
+// Edit todo
+let initEditingBlock = null;
+
+const editTodoBlock = todoWrap.querySelector('.edit-todo-block');
+const editTodoBlockTitle = editTodoBlock.firstElementChild;
+const editTodoColorInput = editTodoBlock.querySelector('.todo-bgc-input');
+const editTodoMarkInput = editTodoBlock.querySelector('.edit-todo-mark');
+const editTodoMarkInputLabel = editTodoBlock.querySelector('.edit-mark-label');
+const editPreviewTodoMark = editTodoBlock.querySelector('.preview-todo-mark');
+
+editTodoMarkInput.addEventListener('input', () => {
+  editTodoMarkInputLabel.textContent = `${editTodoMarkInput.value.trim().length}/12`;
+  editPreviewTodoMark.textContent = editTodoMarkInput.value;
+});
+
+// Reset todo color
+editTodoBlock.querySelector('.reset-todo-color')
 .addEventListener('click', () => {
-  const hex = todoColorInput.value;
-  const isWhiteHex = isWhiteColor(hex);
-  initialEditTodo.style.background = hex;
-  initialEditTodo.style.color = isWhiteHex ? '#000' : '#fff';
-  allTodosObj[initialEditTodo.firstElementChild.textContent].color = hex;
-  todoColorBlock.classList.remove('show');
-  allTodosObj[initialEditTodo.firstElementChild.textContent].color = hex;
+  if(!confirm('Reset todo color?')) return;
+
+  const todoName = initEditingBlock.firstElementChild.textContent;
+  if(!allTodosObj[todoName].color) return showResponseFn("You don't have a todo color");
+
+  delete allTodosObj[todoName].color;
+
+  renderTodos();
+  editTodoBlock.classList.remove('show');
 
   todoSaveBtn.classList.add('unsaved');
   isTodosUnsaved = true;
 })
-// Reset todo color btn
-todoColorBlock.querySelector('.reset-todo-color')
-.addEventListener('click', () => {
-  if(!confirm('Reset todo color?')) return;
 
-  delete allTodosObj[initialEditTodo.firstElementChild.textContent].color;
+// Confirm color btn
+editTodoBlock.querySelector('.confirm-todo-edit-color')
+.addEventListener('click', () => {
+  const colorVal = editTodoColorInput.value;
+  const todoName = initEditingBlock.firstElementChild.textContent;
+
+  if(allTodosObj[todoName].color === colorVal) return editTodoBlock.classList.remove('show');
+
+  allTodosObj[todoName].color = colorVal;
+
   renderTodos();
-  showResponseFn(`Reset todo(${initialEditTodo.firstElementChild.textContent}) color`);
-  todoColorBlock.classList.remove('show');
+  editTodoBlock.classList.remove('show');
+
+  todoSaveBtn.classList.add('unsaved');
+  isTodosUnsaved = true;
+})
+
+// Confirm mark btn
+editTodoBlock.querySelector('.confirm-todo-edit-mark')
+.addEventListener('click', () => {
+  const markVal = editTodoMarkInput.value.trim();
+  const todoName = initEditingBlock.firstElementChild.textContent;
+
+  if(allTodosObj[todoName].mark === markVal) return editTodoBlock.classList.remove('show');
+
+  if(markVal.length > 12) return showResponseFn('Todo mark is too long');
+
+  allTodosObj[todoName].mark = markVal;
+
+  renderTodos();
+  editTodoBlock.classList.remove('show');
 
   todoSaveBtn.classList.add('unsaved');
   isTodosUnsaved = true;
@@ -224,28 +284,19 @@ todoColorBlock.querySelector('.reset-todo-color')
 
 // Todo wrap click event
 todoWrap.addEventListener('click', e => {
-  const closestEditTodo = isEdit ? e.target.closest('.todo-block') : null;
-  if(closestEditTodo) { // Open todo color editor
-    todoColorBlock.classList.add('show');
-    initialEditTodo = closestEditTodo;
-    const targetTodoObj = initialEditTodo.getBoundingClientRect();
-    const todoColorBlockObj = todoColorBlock.getBoundingClientRect();
-
-    todoColorBlock.style.right = `${Math.max( 0, targetTodoObj.right - targetTodoObj.width - todoColorBlockObj.width )}px`;
-    todoColorBlock.style.top = `${Math.max( todoWrap.scrollTop, targetTodoObj.top - todoColorBlockObj.height + todoWrap.scrollTop + targetTodoObj.height / 2 )}px`;
-  }
-  else if(e.target.classList.contains('start-edit-todos')) { // Start edit btn
-    isEdit = !isEdit;
-    todoWrap.classList.toggle('is-edit');
-    showResponseFn(isEdit ? 'Edit mode on' : 'Edit mode off');
-    todoColorBlock.classList.remove('show');
-  }
-  else if(e.target.closest('.add-todo')) { // Add todo btn
+  if(!e.target.closest('.edit-todo-block')) editTodoBlock.classList.remove('show');
+  if(e.target.closest('.add-todo')) { // Add todo btn
     if(Object.keys(allTodosObj).length + Object.keys(hiddenTodosObj).length >= 50) return showResponseFn('Your have todos limit');
-    const val = todoInput.value.trim();
+    const val = todoNameInput.value.trim();
     if(!val) return;
     if(allTodosObj[val] || hiddenTodosObj[val]) return showResponseFn(`Todo name "${val}" is already used`);
     if(val.length > 25) return showResponseFn('Todo name is too long');
+
+    const mark = todoMarkInput.value.trim();
+    if(mark.length > 12) return showResponseFn('Todo mark is too long');
+
+    todoMarkInput.value = '';
+    todoNameInput.value = '';
 
     const d = new Date();
     const date = d.getDate(),
@@ -253,16 +304,15 @@ todoWrap.addEventListener('click', e => {
     year = d.getFullYear();
     const time = `${String(date).padStart(2, '0')}:${String(month + 1).padStart(2, '0')}:${year}`;
 
-    todoInput.value = '';
+    todoNameInput.focus();
 
-    todoInput.focus();
+    allTodosObj[val] = { date: time, isCompleted: false, mark, }
 
-    allTodosObj[val] = { date: time, isCompleted: false, }
     todoSaveBtn.classList.add('unsaved');
     isTodosUnsaved = true;
 
     renderTodos();
-    todoNameLengthTxt.textContent = '0/25';
+    todoTxtLength.textContent = '0/25';
   }
   else if(e.target.closest('.del-todo-btn')) { // Delete todo btn
     if(localStorage.getItem('conf-before-delete') === 'true') if(!confirm('Delete?')) return;
@@ -280,42 +330,17 @@ todoWrap.addEventListener('click', e => {
 
     setTimeout(renderTodos, delAnimTime);
   }
-  else if(e.target.closest('.replace-todo-btn') && e.target.classList.contains('.rename-todo')) { // Rename todo
-    const block = e.target.parentElement;
-    const replaceTodoInput = block.querySelector('replace-todo-input');
-    const newName = replaceTodoInput.value;
-    const oldName = block.firstElementChild.textContent;
+  else if(e.target.closest('.edit-todo-btn')) { // Open edit todo block
+    const targetBlock = e.target.closest('.edit-todo-btn').parentElement;
+    const todoName = targetBlock.firstElementChild.textContent;
 
-    e.target.classList.remove('rename-todo');
-    replaceTodoInput.classList.remove('show');
-    e.target.textContent = '✏️';
+    editTodoBlockTitle.textContent = todoName;
+    initEditingBlock = targetBlock;
+    editTodoMarkInput.value = allTodosObj[todoName].mark;
+    editTodoMarkInputLabel.textContent = `${editTodoMarkInput.value.length}/12`;
+    editPreviewTodoMark.textContent = editTodoMarkInput.value;
 
-    if(!newName.trim()) return;
-    if(allTodosObj[newName] || hiddenTodosObj[newName]) return showResponseFn(`Todo name "${newName}" is already used`);
-    if(newName.length > 25) return showResponseFn('Todo name is too long');
-
-    delete allTodosObj[oldName];
-
-    const d = new Date();
-    const date = d.getDate(),
-    month = d.getMonth(),
-    year = d.getFullYear();
-    const time = `${String(date).padStart(2, '0')}:${String(month + 1).padStart(2, '0')}:${year}`;
-
-    allTodosObj[newName] = { date: time, isCompleted: block.lastElementChild.checked }
-    todoSaveBtn.classList.add('unsaved');
-    isTodosUnsaved = true;
-
-    renderTodos();
-  }
-  else if(e.target.closest('.replace-todo-btn')) { // Open rename todo input
-    const replaceTodoInput = e.target.parentElement.querySelector('.replace-todo-input');
-
-    e.target.classList.add('rename-todo');
-    replaceTodoInput.classList.add('show');
-    e.target.textContent = '✅';
-
-    replaceTodoInput.focus();
+    editTodoBlock.classList.add('show');
   }
   else if(e.target.closest('.todo-input-completed')) { // Complete todo
     allTodosObj[e.target.parentElement.firstElementChild.textContent].isCompleted = e.target.checked;
@@ -333,7 +358,8 @@ todoWrap.addEventListener('click', e => {
       if(allTodosObj[todo].isCompleted) {
         hiddenTodosObj[todo] = allTodosObj[todo];
         delete allTodosObj[todo]
-      }}
+      }
+    }
     renderTodos();
     renderHiddenTodos();
 
