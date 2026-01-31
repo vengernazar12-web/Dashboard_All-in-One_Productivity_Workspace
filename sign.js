@@ -374,8 +374,15 @@ window.addEventListener('beforeunload', e => {
 
 // Initialization all content objects
 async function reloadAllContent() {
-  let {data: sessionData} = await client.auth.getSession();
-  if(!sessionData.session) return signWindow.classList.add('show');
+  let {data: sessionData, error: sessionError} = await client.auth.getSession();
+  if(sessionError) {
+    signWindow.classList.add('show');
+    return showResponseFn(sessionError);
+  };
+  if(!sessionData.session) {
+    showPreloader(false);
+    return signWindow.classList.add('show');
+  };
   const id = sessionData.session.user.id;
   const {data: initialContent, error} = await client.from('user_content').select('*').eq('id', id).single();
   if(error) {
@@ -392,8 +399,10 @@ async function reloadAllContent() {
     allUserCodesObj = content.codes || {};
     setTimeout(() => showPreloader(false), 500);
     return showResponseFn('Your content been loaded');
-  }
-  else { showPreloader(false); signWindow.classList.add('show'); };
+  } else {
+    showPreloader(false);
+    signWindow.classList.add('show');
+  };
 }
 // Set preloader value
 preloaderProgress.value = 7;
