@@ -374,12 +374,17 @@ window.addEventListener('beforeunload', e => {
 
 // Initialization all content objects
 async function reloadAllContent() {
-  let initialContent = await client.auth.getSession();
-  if(!initialContent.data.session) return signWindow.classList.add('show');
-  const id = initialContent.data.session.user.id;
-  initialContent = await client.from('user_content').select('*').eq('id', id).single();
+  let {data: sessionData} = await client.auth.getSession();
+  if(!sessionData.session) return signWindow.classList.add('show');
+  const id = sessionData.session.user.id;
+  const {data: initialContent, error} = await client.from('user_content').select('*').eq('id', id).single();
+  if(error) {
+    showResponseFn('Something went wrong, please sign in or sign up');
+    showPreloader(false);
+    return signWindow.classList.add('show');
+  }
   if(initialContent) {
-    const content = initialContent.data.content;
+    const content = initialContent.content;
     allTodosObj = content.todos || {};
     hiddenTodosObj = content.hiddenTodos || {};
     allNotesObj = content.notes || {};
