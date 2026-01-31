@@ -141,9 +141,9 @@
   background-color: transparent;
 }
 
-/* Search code textarea */
-.search-code-textarea {
-  min-height: 40px;
+/* Search code */
+.search-code-input {
+  height: 30px;
   resize: none;
   width: 97%;
   border-radius: 7px;
@@ -198,4 +198,69 @@
   position: absolute;
   top: 5px;
   left: 10px;
+}
+
+/* Code snippets */
+.code-snippets-block { z-index: 15; }
+.open-code-snippets-btn {
+  position: absolute;
+  top: 70px;
+  right: 3%;
+  padding: 2px;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+}
+.code-snippets-container {
+  height: calc(100% - 50px);
+  margin-top: 50px;
+  width: 100%;
+  overflow-y: auto;
+}
+
+.snippet-block {
+  text-align: left;
+  padding: 5px;
+  max-height: 35%;
+  background: var(--block-bg);
+  color: var(--text-color);
+  border-radius: 5px;
+  position: relative;
+  margin-bottom: 22px;
+  overflow: auto;
+}
+.snippet-block > h3 {
+  position: absolute;
+  top: 0px;
+  left: 2px;
+}
+.snippet-block > pre {
+  padding: 10px 2px;
+}
+.snippet-block > button {
+  background-color: transparent;
+  padding: 1px;
+  position: absolute;
+  top: 2px;
+  right: 5px;
+}
+
+.close-code-snippets-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: transparent;
+  padding: 1px;
+  font-size: 1.25rem;
+}
+
+/* Search snippets */
+.search-snippets-input {
+  position: fixed;
+  top: 10px;
+  left: 5px;
+  width: calc(100% - 50px);
+  height: 25px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding-left: 5px;
 }

@@ -26,27 +26,6 @@ document.addEventListener('keydown', e => {
   }
 })
 
-const allStatsWrap = document.querySelector('.all-stats-wrap');
-const todosNumberStats = allStatsWrap.querySelector('.todos-number-stats');
-const notesSymbolsNumber = allStatsWrap.querySelector('.notes-symbols-number');
-const savedUrlsNumber = allStatsWrap.querySelector('.saved-urls-number');
-
-// All stats
-document.querySelector('.show-all-dashboard-stats')
-.addEventListener('click', () => {
-  renderTodos();
-  todosNumberStats.textContent = `Todos ${todosContainer.children.length}`;
-
-  let notesLng = 0;
-  for(let v of Object.keys(allNotesObj)) notesLng += allNotesObj[v].txt.replaceAll('\n','').length;
-  notesSymbolsNumber.textContent = `Notes SYMBOLs ${notesLng}`;
-
-  renderAllUrls();
-  savedUrlsNumber.textContent = `Saved URLs ${allUrlsContainer.children.length}`;
-
-  allStatsWrap.classList.toggle('show');
-})
-
 /* Open/close mini-window events */
 for(let b of document.querySelectorAll('.min-wrap')) {
   b.addEventListener('click', () => {

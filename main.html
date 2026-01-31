@@ -62,13 +62,14 @@
 <link rel="stylesheet" href="sign.css">
 <link rel="stylesheet" href="timer.css">
 
+<script src="code-snippets-obj.js" async></script>
 <script src="main.js" defer></script> <!--1-->
 <script src="todo.js" defer></script> <!--2-->
 <script src="notes.js" defer></script> <!--3-->
 <script src="saveUrls.js" defer></script> <!--4-->
 <script src="user code.js" defer></script> <!--5-->
 <script src="timer.js" defer></script> <!--6-->
-<script src="sign.js" defer></script> <!--7-->
+<script src="sign.js" defer></script> <!--max-->
 <link rel="icon" href="favicon-32x32.png" type="image/png">
 </head>
 
@@ -127,14 +128,6 @@
   <button class="start-timer-btn show">Start</button>
   <button class="stop-timer-btn">Stop</button>
 </div>
-
-<!-- All stats -->
-<div class="all-stats-wrap">
-  <p class="todos-number-stats"></p>
-  <p class="notes-symbols-number"></p>
-  <p class="saved-urls-number"></p>
-</div>
-<button class="show-all-dashboard-stats">📊</button>
 
 <!-- Open setting window -->
 <button class="open-settings-window">
@@ -294,7 +287,7 @@
   <button class="code-save-btn --saved-btn" title="Save content"><svg title="Save content"><use href="sprite.svg#save"></use></svg></button>
   <button class="close-user-code-wrap">❌</button>
   <hr>
-  <textarea class="search-code-textarea" type="text" placeholder="Search codes name/length/content"></textarea>
+  <input type="text" class="search-code-input" placeholder="Search name/length...">
 
   <div class="all-user-codes-container"></div>
 
@@ -331,6 +324,14 @@
   </div>
 
   <progress class="code-progress" max="25"></progress>
+
+  <!-- Code snippets -->
+  <button class="open-code-snippets-btn">Code snippets</button>
+  <div class="code-snippets-block is-wrap">
+    <button class="close-code-snippets-btn">❌</button>
+    <input type="text" class="search-snippets-input" placeholder="Search snippets...">
+    <div class="code-snippets-container"></div>
+  </div>
 </div>
 
 <!-- Settings -->

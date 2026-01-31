@@ -9,10 +9,10 @@ filesToUpload = {},
 localImgUrls = {};
 
 const compressImgOptions = {
-  maxSizeMB: 0.5,
-  maxWidthOrHeight: 225,
+  maxSizeMB: 0.35,
+  maxWidthOrHeight: 475,
   fileType: 'image/webp',
-  initialQuality: 1,
+  initialQuality: 0.8,
   useWebWorker: true
 };
 // ==========================================
@@ -37,12 +37,15 @@ const urlProgress = urlsWrap.querySelector('.ulr-progress');
 const urlBlocksLimitText = urlsWrap.querySelector('.url-blocks-limit');
 
 // Render urls blocks
-function createUrlElement(name, url, imgUrl) {
+function createUrlElement(name, url, imgUrl, searchVal = null) {
+  let markRegexp = new RegExp(searchVal, 'gi');
+
   const div = document.createElement('div');
   div.classList.add('url-block');
 
   const p = document.createElement('p');
-  p.textContent = url;
+  if(!searchVal) p.textContent = url;
+  else p.innerHTML = url.replace(markRegexp, '<mark>$&</mark>');
 
   const delBtn = document.createElement('button');
   delBtn.classList.add('del-url-btn');
@@ -55,7 +58,8 @@ function createUrlElement(name, url, imgUrl) {
   editBtn.innerHTML = '<svg><use href="sprite.svg#edit"></use></svg>';
 
   const a = document.createElement('a');
-  a.textContent = name;
+  if(!searchVal) a.textContent = name;
+  else a.innerHTML = name.replace(markRegexp, '<mark>$&</mark>');
   a.href = url;
   a.setAttribute('target', '_blank');
 
@@ -72,6 +76,8 @@ function createUrlElement(name, url, imgUrl) {
   allUrlsContainer.appendChild(div);
 }
 function renderAllUrls() {
+  searchUrlInput.value = '';
+
   if(!allUrlsArr.length) {
     urlProgress.value = 0;
     urlBlocksLimitText.textContent = 'Urls: 0/25';
@@ -144,16 +150,27 @@ addUrlBtn.addEventListener('click', async () => {
 })
 
 // Search urls
-urlsWrap.querySelector('.search-url')
-.addEventListener('input', e => {
-  allUrlsContainer.textContent = '';
-  const val = e.target.value.toLowerCase().replaceAll(' ','_');
-  if(!val) return renderAllUrls();
-  for(
-    let urlObj of allUrlsArr.filter(obj => obj.title.toLowerCase().includes(val)
-    || obj.url.toLowerCase().includes(val))
-  ) createUrlElement(urlObj.title, urlObj.url, urlObj.imgUrl);
-  if(!allUrlsContainer.childElementCount) return allUrlsContainer.innerHTML = '<h1>...</h1>';
+let searchUrlTimer = null;
+
+const searchUrlInput = urlsWrap.querySelector('.search-url');
+searchUrlInput.addEventListener('input', () => {
+  clearTimeout(searchUrlTimer);
+
+  searchUrlTimer = setTimeout(() => {
+    allUrlsContainer.textContent = '';
+    const val = searchUrlInput.value.toLowerCase();
+    if(!val) return renderAllUrls();
+
+    const filterArr = allUrlsArr.filter(
+      obj => obj.title.toLowerCase().includes(val)
+      || obj.url.toLowerCase().includes(val)
+    )
+    for(let urlObj of filterArr) createUrlElement(urlObj.title, urlObj.url, urlObj.imgUrl, val.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+
+    clearTimeout(searchUrlTimer);
+
+    if(!allUrlsContainer.childElementCount) return allUrlsContainer.innerHTML = '<h1>...</h1>';
+  }, 500);
 })
 
 // Show unsaved imgs

@@ -33,15 +33,19 @@ todoWrap.querySelector('.toggle-hidden-todos-window')
 let allTodosObj = {};
 let hiddenTodosObj = {};
 
-function createTodoElement(txt, date, isCompleted = false) {
+function createTodoElement(txt, date, isCompleted = false, searchVal = null) {
+  let markRegexp = null;
+  if(searchVal) markRegexp = new RegExp(searchVal, 'ig');
+
   const div = document.createElement('div');
   const h2 = document.createElement('h2');
   const p = document.createElement('p');
   const btnDelTodo = document.createElement('button');
   const btnEditTodo = document.createElement('button');
-  const inputCompletedTodo = document.createElement('input');
+  const inputCompletedTodo = document.createElement('input')
+  const mark = document.createElement('span');
 
-  div.classList.add('todo-block');
+  // Is custom color
   const savedTodoBg = allTodosObj[txt].color;
   if(savedTodoBg) {
     div.style.backgroundColor = savedTodoBg;
@@ -51,33 +55,50 @@ function createTodoElement(txt, date, isCompleted = false) {
     div.style.color = 'var(--text-color)';
   }
 
-  if(allTodosObj[txt].mark) {
-    div.classList.add('marked');
-    div.setAttribute('data-mark', allTodosObj[txt].mark);
-  }
-
+  // Set class
+  div.classList.add('todo-block');
   h2.classList.add('todo-h2');
   p.classList.add('todo-p');
   btnDelTodo.classList.add('del-todo-btn');
   inputCompletedTodo.classList.add('todo-input-completed');
   btnEditTodo.classList.add('edit-todo-btn');
 
-  h2.textContent = txt;
-  p.textContent = date;
-  btnDelTodo.textContent = '❌';
-  btnEditTodo.textContent = '✏️';
-
+  // Set attribute
   inputCompletedTodo.setAttribute('type', 'checkbox')
   inputCompletedTodo.checked = isCompleted;
 
+  // Set title attribute
   inputCompletedTodo.title = 'Complete todo';
   btnDelTodo.title = 'Delete todo';
   btnEditTodo.title = 'Edit todo name';
 
+  // Set text
+  btnDelTodo.textContent = '❌';
+  btnEditTodo.textContent = '✏️';
+
+  if(!searchVal) h2.textContent = txt;
+  else h2.innerHTML = txt.replace(markRegexp, '<mark>$&</mark>');
+
+  if(!searchVal) p.textContent = date;
+  else p.innerHTML = date.replace(markRegexp, '<mark>$&</mark>');
+
+  // Append
   div.append(h2, p, btnDelTodo, btnEditTodo, inputCompletedTodo);
+
+  // Set mark text and append mark
+  if(allTodosObj[txt].mark) {
+    if(!searchVal) mark.textContent = allTodosObj[txt].mark;
+    else mark.innerHTML = allTodosObj[txt].mark.replace(markRegexp, '<mark>$&</mark>');
+
+    mark.classList.add('todo-mark');
+    div.appendChild(mark);
+  };
+
   todosContainer.appendChild(div);
 }
 function renderTodos() {
+  searchTodoInput.value = '';
+
   let allTodosArr = Object.keys(allTodosObj);
   if(!allTodosArr.length) {
     todosNumberText.textContent = 'Todos: 0/100';
@@ -121,7 +142,7 @@ searchTodoInput.addEventListener('input', () => {
       todoName.toLowerCase().includes(txt)
       || infoObj.date.includes(txt)
       || infoObj.mark.toLowerCase().includes(txt)
-    ) createTodoElement(todoName, infoObj.date, infoObj.isCompleted);
+    ) createTodoElement(todoName, infoObj.date, infoObj.isCompleted, txt.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
   }
   if(!todosContainer.children.length) todosContainer.innerHTML = `<h1>No todo found...</h1>`;
 })
@@ -338,8 +359,13 @@ todoWrap.addEventListener('click', e => {
 
     editTodoBlock.classList.add('show');
   }
-  else if(e.target.closest('.todo-input-completed')) { // Complete todo
-    allTodosObj[e.target.parentElement.firstElementChild.textContent].isCompleted = e.target.checked;
+  else if(e.target.classList.contains('todo-input-completed')) { // Complete todo
+    allTodosObj[
+      e.target
+      .parentElement
+      .firstElementChild
+      .textContent
+    ].isCompleted = e.target.checked;
     todoSaveBtn.classList.add('unsaved');
     isTodosUnsaved = true;
   }

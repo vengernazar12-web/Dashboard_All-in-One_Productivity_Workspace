@@ -7,7 +7,16 @@
   border: none;
   user-select: none;
 }
-::-webkit-scrollbar { width: 0; }
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--scroll-bg);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-track, ::-webkit-scrollbar-corner { background: transparent; }
+
 input:focus { outline: 2px solid rgb(104, 104, 182); }
 html .show { display: block; }
 
@@ -31,7 +40,7 @@ hr {
   height: 2px;
   width: 100%;
   border-radius: 50%;
-  margin: 25px 0;
+  margin: 30px 0;
 }
 
 .--opened-btn {
@@ -82,6 +91,7 @@ mark {
   color: black;
   padding: 3px;
   border-radius: 3px;
+  text-transform: uppercase;
 }
 
 svg {width: 20px; height: 20px;}
@@ -124,6 +134,7 @@ html .unsaved:after {
   --text-color: black;
   --block-bg: linear-gradient(180deg, rgb(135, 135, 135), rgb(101, 101, 101));
   --border-color: black;
+  --scroll-bg: rgb(44, 44, 44);
 
   --del-animation-time: 1.5s;
   --is-comp-anim-transition: box-shadow 1s;
@@ -133,6 +144,7 @@ html.dark-theme {
   --text-color: white;
   --block-bg: linear-gradient( 180deg, rgb(69, 69, 69), rgb(62, 62, 62));
   --border-color: white;
+  --scroll-bg: rgb(151, 151, 151);
 }
 /* Theme styles */
 
@@ -173,7 +185,7 @@ body {
 .settings-window { text-align: center; padding-bottom: 50px; }
 .open-settings-window {
   position: fixed;
-  top: 65px;
+  top: 15px;
   right: 10px;
   padding: 1px;
   background-color: color-mix(in srgb, black 45%, transparent);

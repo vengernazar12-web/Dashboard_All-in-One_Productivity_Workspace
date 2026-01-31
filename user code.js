@@ -7,8 +7,14 @@ document.querySelector('.open-user-code-wrap')
   renderUserCodesBlocks();
   userCodeWrap.classList.add('show');
 })
+// Close code wrap
 userCodeWrap.querySelector('.close-user-code-wrap')
-.addEventListener('click', () => userCodeWrap.classList.remove('show'));
+.addEventListener('click', () => {
+  userCodeWrap.classList.remove('show');
+
+  for(let block of allUserCodesContainer.children)
+    allUserCodesObj[block.firstElementChild.textContent].code = block.querySelector('.user-code-textarea')._editor.getValue();
+});
 
 let allUserCodesObj = {};
 // --------------------------------
@@ -68,6 +74,7 @@ function createCodeBlock(name) {
       const cursor = cm.getCursor();
       const word = (cm.getLine(cursor.line).slice(0, cursor.ch).match(/[a-z.]+$/i) || '')[0];
       if (isUserWrite && word) cm.showHint({completeSingle: false});
+      clearTimeout(hintTimer);
     }, 200);
 
     const info = cm.getScrollInfo();
@@ -95,9 +102,7 @@ function createCodeBlock(name) {
   isInitialization = false;
 
   textarea._editor = editor;
-  textarea.spellcheck = false;
-
-
+  textarea.classList.add('user-code-textarea');
   textareaWrap.classList.add('user-code-content');
 
   hr.style.margin = '65px 0 10px 0';
@@ -138,9 +143,13 @@ function createCodeBlock(name) {
 }
 
 function renderUserCodesBlocks() {
+  searchUserCodeInput.value = '';
   allUserCodesContainer.textContent = '';
-  for(let name of Object.keys(allUserCodesObj)) createCodeBlock(name);
-  const userCodeBlocksLng = Object.keys(allUserCodesObj).length;
+
+  const arr = Object.keys(allUserCodesObj);
+  for(let name of arr) createCodeBlock(name);
+
+  const userCodeBlocksLng = arr.length;
   codeBlocksLimitText.textContent = `Codes: ${userCodeBlocksLng}/25`;
   codeProgress.value = userCodeBlocksLng;
 }
@@ -183,8 +192,19 @@ toggleAddCodeBlockForm.addEventListener('click', () => {
 })
 
 // Search user code
-function renderFoundUserCodes(txt) {
+const searchUserCodeInput = userCodeWrap.querySelector('.search-code-input');
+searchUserCodeInput.addEventListener('input', () => {
+  const txt = searchUserCodeInput.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').trim();
+  const matchRegexp = new RegExp(txt, 'i');
+  const markRegexp = new RegExp(txt, 'gi');
+
   const allChildren = allUserCodesContainer.children;
+
+  for(let block of allChildren) {
+    block.firstElementChild.textContent = block.firstElementChild.textContent;
+    const codeLengthTxt = block.querySelector('p.code-symbols-limit');
+    codeLengthTxt.textContent = codeLengthTxt.textContent;
+  };
 
   if(!txt.length) {
     for(let block of allChildren) block.style.display = 'block';
@@ -193,20 +213,17 @@ function renderFoundUserCodes(txt) {
 
   for(let block of allChildren) {
     block.style.display = 'none';
-    const name = block.firstElementChild.textContent.toLowerCase();
-    const initialCode = block.querySelector('.user-code-content').value.toLowerCase();
+    const name = block.firstElementChild.textContent;
     if(
-      name.includes(txt)
-      || initialCode.includes(txt)
-      || String(initialCode.replaceAll(' ','').replaceAll('\n','').length).includes(txt)
-    ) block.style.display = 'block';
+      name.match(matchRegexp)
+      || String(allUserCodesObj[name].code.replaceAll(' ','').replaceAll('\n','').length).includes(txt)
+    ) {
+      block.style.display = 'block';
+      block.firstElementChild.innerHTML = name.replace(markRegexp, '<mark>$&</mark>');
+      const codeLengthTxt = block.querySelector('p.code-symbols-limit');
+      codeLengthTxt.innerHTML = codeLengthTxt.textContent.replace(markRegexp, '<mark>$&</mark>');
+    };
   }
-}
-
-const searchUserCodeArea = userCodeWrap.querySelector('.search-code-textarea');
-searchUserCodeArea.addEventListener('input', () => {
-  searchUserCodeArea.style.height = `${searchUserCodeArea.scrollHeight}px`;
-  renderFoundUserCodes(searchUserCodeArea.value.trim().toLowerCase());
 })
 
 // Focus
@@ -230,6 +247,7 @@ focusCodeEditor.on('inputRead', (cm, change) => {
     const cursor = cm.getCursor();
     const word = (cm.getLine(cursor.line).slice(0, cursor.ch).match(/[a-z.]+$/i) || '')[0];
     if(isUserWrite && word) cm.showHint({completeSingle: false});
+    clearTimeout(hintTimer);
   }, 200);
 
   codeSaveBtn.classList.add('unsaved');
@@ -360,6 +378,81 @@ allUserCodesContainer.addEventListener('click', e => {
 // Code-progress and code-blocks-limit
 const codeProgress = userCodeWrap.querySelector('.code-progress');
 const codeBlocksLimitText = userCodeWrap.querySelector('.code-blocks-limit');
+
+// Code snippets
+const codeSnippetsBlock = userCodeWrap.querySelector('.code-snippets-block');
+codeSnippetsBlock.addEventListener('click', e => {
+  if(e.target.classList.contains('close-code-snippets-btn')) codeSnippetsBlock.classList.remove('show');
+  else if(e.target.closest('.copy-code-snippet')) {
+    navigator.clipboard.writeText(
+      e.target.closest('.copy-code-snippet')
+      .parentElement
+      .querySelector('pre')
+      .textContent
+    );
+    showResponseFn('Code copied!');
+  }
+})
+
+const codeSnippetsContainer = codeSnippetsBlock.querySelector('.code-snippets-container');
+
+function renderCodeSnippets() {
+  codeSnippetsContainer.textContent = '';
+
+  for(let t in codeSnippetsBlocksInfo) {
+    const div = document.createElement('div'),
+      title = document.createElement('h3'),
+      code = document.createElement('pre'),
+      copy = document.createElement('button');
+
+    div.classList.add('snippet-block');
+    title.textContent = t;
+    code.textContent = codeSnippetsBlocksInfo[t];
+    copy.innerHTML = '<svg><use href="/sprite.svg#copy-code"></use></svg>';
+    copy.classList.add('copy-code-snippet');
+
+    div.append(title, code, copy);
+    codeSnippetsContainer.appendChild(div);
+  }
+}
+
+// Open code snippets
+userCodeWrap.querySelector('.open-code-snippets-btn')
+.addEventListener('click', () => {
+  renderCodeSnippets();
+  codeSnippetsBlock.classList.add('show');
+})
+
+// Search snippets
+const searchSnippetsInput = codeSnippetsBlock.querySelector('.search-snippets-input');
+searchSnippetsInput.addEventListener('input', () => {
+  const val = searchSnippetsInput.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').trim();
+  if(!val) return renderCodeSnippets();
+  const matchRegexp = new RegExp(val, 'i');
+  const regex = new RegExp(val, 'gi');
+
+  codeSnippetsContainer.textContent = '';
+
+  for(let t in codeSnippetsBlocksInfo) {
+    if(t.match(matchRegexp) || codeSnippetsBlocksInfo[t].match(matchRegexp)) {
+      const div = document.createElement('div'),
+        h3 = document.createElement('h3'),
+        pre = document.createElement('pre'),
+        copy = document.createElement('button');
+
+      div.classList.add('snippet-block');
+      copy.classList.add('copy-code-snippet');
+      h3.innerHTML = t.replaceAll(regex, '<mark>$&</mark>');
+      copy.innerHTML = '<svg><use href="/sprite.svg#copy-code"></use></svg>';
+      pre.innerHTML = codeSnippetsBlocksInfo[t].replaceAll(regex, '<mark>$&</mark>');
+
+      div.append(h3, pre, copy);
+      codeSnippetsContainer.appendChild(div);
+    }
+  }
+
+  if(!codeSnippetsContainer.childElementCount) showResponseFn('Snippets not found');
+})
 
 // Set preloader value
 preloaderProgress.value = 5;

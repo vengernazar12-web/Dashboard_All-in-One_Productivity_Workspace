@@ -405,7 +405,7 @@ async function reloadAllContent() {
   };
 }
 // Set preloader value
-preloaderProgress.value = 7;
+preloaderProgress.value = preloaderProgress.max;
 
 // Starter function
 reloadAllContent();
