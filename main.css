@@ -21,6 +21,7 @@ input:focus { outline: 2px solid rgb(104, 104, 182); }
 html .show { display: block; }
 
 body, input { font-family: Roboto, sans-serif; font-weight: 500; }
+button { background-color: transparent; }
 
 .all-dashboard-items {
   display: flex;
@@ -198,7 +199,6 @@ body {
   width: 35px;
   height: 35px;
   font-size: 1.5rem;
-  background-color: transparent;
 }
 .settings-block {
   width: 90%;
@@ -216,7 +216,6 @@ body {
   height: 35px;
   width: 35px;
   font-size: 1.6rem;
-  background-color: transparent;
 }
 
 .notes-font-size-sett {

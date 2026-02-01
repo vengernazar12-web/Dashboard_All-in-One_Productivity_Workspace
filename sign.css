@@ -45,7 +45,6 @@
   bottom: 10px;
   right: 10px;
   padding: 1px;
-  background-color: transparent;
   font-size: 1.2rem;
 }
 .sign-forms-container > form > button:hover { color: rgb(95, 95, 95); }

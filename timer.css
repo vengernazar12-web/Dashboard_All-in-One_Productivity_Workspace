@@ -5,6 +5,12 @@
   position: fixed;
   top: 10px;
   left: 10px;
+  color: var(--text-color);
+}
+
+.show-timer-window > svg {
+  width: 30px;
+  height: 30px;
 }
 
 .timer-window {

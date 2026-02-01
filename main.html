@@ -86,14 +86,7 @@
 
 <!-- Timer -->
 <button class="show-timer-window" title="Timer">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" title="Timer">
-    <circle cx="12" cy="13" r="8" />
-    <path d="M12 9v4l2 2" />
-    <path d="M5 3 2 6" />
-    <path d="m22 6-3-3" />
-    <path d="M6.38 18.7 4 21" />
-    <path d="M17.64 18.67 20 21" />
-  </svg>
+  <svg><use href="#timer"></use></svg>
 </button>
 
 <div class="timer-window minimized">
@@ -142,7 +135,7 @@
   <p class='todos-number'>Todos: _/100</p>
   <p class='todo-symbols-length'>0/25</p>
   <header class="drag-and-drop-block"></header>
-  <button class="todo-save-btn --saved-btn" title="Save content"><svg title="Save content"><use href="sprite.svg#save"></use></svg></button>
+  <button class="todo-save-btn --saved-btn" title="Save content"><svg><use href="#save"></use></svg></button>
 
   <input type="text" class='todo-name-input' placeholder="Your todo...">
   <input type="text" class="todo-mark-input" placeholder="Todo mark...">
@@ -189,7 +182,7 @@
   <hr>
 
   <button class="note-save-btn --saved-btn" title="Save content">
-    <svg title="Save content"><use href="sprite.svg#save"></use></svg>
+    <svg><use href="#save"></use></svg>
   </button>
 
   <div class="all-user-notes-container"></div>
@@ -222,7 +215,7 @@
   <p class="url-blocks-limit">_/25</p>
   <header class="drag-and-drop-block"></header>
   <button class="url-save-btn --saved-btn" title="Save content">
-    <svg title="Save content"><use href="sprite.svg#save"></use></svg>
+    <svg><use href="#save"></use></svg>
   </button>
   <button class="close-add-urls-wrap">❌</button>
   <button class="toggle-add-url-form --toggle-form-btn" title="Add new url">✚</button>
@@ -284,7 +277,7 @@
   <p class="code-blocks-limit">_/25</p>
   <header class="drag-and-drop-block"></header>
   <button class="min-wrap">▢</button>
-  <button class="code-save-btn --saved-btn" title="Save content"><svg title="Save content"><use href="sprite.svg#save"></use></svg></button>
+  <button class="code-save-btn --saved-btn" title="Save content"><svg><use href="#save"></use></svg></button>
   <button class="close-user-code-wrap">❌</button>
   <hr>
   <input type="text" class="search-code-input" placeholder="Search name/length...">
@@ -304,27 +297,6 @@
     <button class="add-code-block-btn">Add</button>
   </div>
 
-  <div class="focus-code-wrap is-wrap">
-    <h3 class="focus-code-title"></h3>
-    <p class="focus-code-symbols">_/1500</p>
-    <textarea class="focus-textarea"></textarea>
-    <div class="all-focus-btns">
-      <button class="unfocus-btn">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M8 3v3a2 2 0 0 1-2 2H3" />
-          <path d="M21 8h-3a2 2 0 0 1-2-2V3" />
-          <path d="M3 16h3a2 2 0 0 1 2 2v3" />
-          <path d="M16 21v-3a2 2 0 0 1 2-2h3" />
-        </svg>
-      </button>
-      <button class="copy"><svg><use href="sprite.svg#copy-code"></use></svg></button>
-      <button class="delete"><svg><use href="sprite.svg#delete-code"></use></svg></button>
-      <button class="lock"><svg><use href="sprite.svg#code-block-lock"></use></svg></button>
-    </div>
-  </div>
-
-  <progress class="code-progress" max="25"></progress>
-
   <!-- Code snippets -->
   <button class="open-code-snippets-btn">Code snippets</button>
   <div class="code-snippets-block is-wrap">
@@ -332,6 +304,23 @@
     <input type="text" class="search-snippets-input" placeholder="Search snippets...">
     <div class="code-snippets-container"></div>
   </div>
+
+  <!-- Focus code -->
+  <div class="focus-code-wrap is-wrap">
+    <h3 class="focus-code-title"></h3>
+    <p class="focus-code-symbols">_/1500</p>
+    <textarea class="focus-textarea"></textarea>
+    <div class="all-focus-btns">
+      <button class="unfocus-btn">
+        <svg><use href="#unfocus"></use></svg>
+      </button>
+      <button class="copy"><svg><use href="#copy-code"></use></svg></button>
+      <button class="delete"><svg><use href="#delete-code"></use></svg></button>
+      <button class="lock"><svg><use href="#code-block-lock"></use></svg></button>
+    </div>
+  </div>
+
+  <progress class="code-progress" max="25"></progress>
 </div>
 
 <!-- Settings -->
@@ -457,4 +446,67 @@
   const preloaderProgress = preloaderWrap.querySelector('.preloader-progress');
   const whatIsLoadingText = preloaderWrap.querySelector('.what-is-loading-text');
 </script>
+
+<!-- Svg icons -->
+<svg xmlns="http://www.w3.org/2000/svg" display='none'>
+  <symbol id='copy-code' viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+    <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+  </symbol>
+
+  <symbol id='delete-code' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+    <path d="M3 6h18" />
+    <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+  </symbol>
+
+  <symbol id='code-block-lock' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
+    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+  </symbol>
+
+  <symbol id='save' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" />
+    <path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7" />
+    <path d="M7 3v4a1 1 0 0 0 1 1h7" />
+  </symbol>
+
+  <symbol id="edit" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="m18.226 5.226-2.52-2.52A2.4 2.4 0 0 0 14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-.351" />
+    <path d="M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z" />
+    <path d="M8 18h1" />
+  </symbol>
+
+  <symbol id="favorite-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 5h6" />
+    <path d="M3 12h13" />
+    <path d="M3 19h13" />
+    <path d="m16 8-3-3 3-3" />
+    <path d="M21 19V7a2 2 0 0 0-2-2h-6" />
+  </symbol>
+
+  <symbol id="timer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" title="Timer">
+    <circle cx="12" cy="13" r="8" />
+    <path d="M12 9v4l2 2" />
+    <path d="M5 3 2 6" />
+    <path d="m22 6-3-3" />
+    <path d="M6.38 18.7 4 21" />
+    <path d="M17.64 18.67 20 21" />
+  </symbol>
+
+  <symbol id="focus" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="3"/>
+    <path d="M3 7V5a2 2 0 0 1 2-2h2"/>
+    <path d="M17 3h2a2 2 0 0 1 2 2v2"/>
+    <path d="M21 17v2a2 2 0 0 1-2 2h-2"/>
+    <path d="M7 21H5a2 2 0 0 1-2-2v-2"/>
+  </symbol>
+
+  <symbol id="unfocus" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 3v3a2 2 0 0 1-2 2H3" />
+    <path d="M21 8h-3a2 2 0 0 1-2-2V3" />
+    <path d="M3 16h3a2 2 0 0 1 2 2v3" />
+    <path d="M16 21v-3a2 2 0 0 1 2-2h3" />
+  </symbol>
+</svg>
 </body></html>

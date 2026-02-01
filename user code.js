@@ -109,30 +109,22 @@ function createCodeBlock(name) {
 
   button_copyCode.classList.add('copy-code-btn');
   button_copyCode.setAttribute('title', 'copy');
-  button_copyCode.innerHTML = '<svg><use href="sprite.svg#copy-code"></use></svg>';
+  button_copyCode.innerHTML = '<svg><use href="#copy-code"></use></svg>';
 
   button_deleteCode.classList.add('delete-code-btn');
-  button_deleteCode.innerHTML = '<svg> <use href="sprite.svg#delete-code"></use> </svg>';
+  button_deleteCode.innerHTML = '<svg> <use href="#delete-code"></use> </svg>';
   button_deleteCode.setAttribute('title', 'delete');
 
   codeSymbolsLimit.classList.add('code-symbols-limit');
   codeSymbolsLimit.textContent = `${editor.getValue().replaceAll(' ','').replaceAll('\n','').length}/1500`;
 
   lockCodeBtn.classList.add('lock-code-btn');
-  lockCodeBtn.innerHTML = '<svg><use href="sprite.svg#code-block-lock"></use></svg>';
+  lockCodeBtn.innerHTML = '<svg><use href="#code-block-lock"></use></svg>';
   lockCodeBtn.style.color = allUserCodesObj[name].lock ? 'gold' : 'white';
   lockCodeBtn.setAttribute('title', 'lock');
 
   focusCodeBtn.classList.add('focus-code-btn');
-  focusCodeBtn.innerHTML = `
-  <svg id="focus" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-  <circle cx="12" cy="12" r="3"/>
-  <path d="M3 7V5a2 2 0 0 1 2-2h2"/>
-  <path d="M17 3h2a2 2 0 0 1 2 2v2"/>
-  <path d="M21 17v2a2 2 0 0 1-2 2h-2"/>
-  <path d="M7 21H5a2 2 0 0 1-2-2v-2"/>
-  </svg>
-  `
+  focusCodeBtn.innerHTML = '<svg><use href="#focus"></use></svg>';
   focusCodeBtn.setAttribute('title', 'focus');
 
   codeLangTxt.classList.add('code-lang-text');
@@ -250,8 +242,10 @@ focusCodeEditor.on('inputRead', (cm, change) => {
     clearTimeout(hintTimer);
   }, 200);
 
-  codeSaveBtn.classList.add('unsaved');
-  isCodesUnsaved = true;
+  if(!codeSaveBtn.classList.contains('unsaved')) {
+    codeSaveBtn.classList.add('unsaved');
+    isCodesUnsaved = true;
+  }
 })
 focusCodeEditor.on('change', () => {
   const valueLng = focusCodeEditor.getValue().replaceAll('\n','').replaceAll(' ','').length;
@@ -286,7 +280,6 @@ focusWrap.addEventListener('click', e => {
     allUserCodesObj[focusWrap.firstElementChild.textContent].code = focusCodeEditor.getValue();
     renderUserCodesBlocks();
     focusWrap.classList.remove('show');
-    codeSaveBtn.classList.add('unsaved');
   }
   else if(initTarget.closest('.copy')) { // Copy focus code
     navigator.clipboard.writeText(focusCodeEditor.getValue());
@@ -380,6 +373,8 @@ const codeProgress = userCodeWrap.querySelector('.code-progress');
 const codeBlocksLimitText = userCodeWrap.querySelector('.code-blocks-limit');
 
 // Code snippets
+let favoriteSnippets = JSON.parse(localStorage.getItem('favorite-snippets') || "[]");
+
 const codeSnippetsBlock = userCodeWrap.querySelector('.code-snippets-block');
 codeSnippetsBlock.addEventListener('click', e => {
   if(e.target.classList.contains('close-code-snippets-btn')) codeSnippetsBlock.classList.remove('show');
@@ -392,28 +387,46 @@ codeSnippetsBlock.addEventListener('click', e => {
     );
     showResponseFn('Code copied!');
   }
+  else if(e.target.closest('.snippet-fav-btn')) {
+    const name = e.target.closest('.snippet-fav-btn').parentElement.firstElementChild.textContent;
+    if(favoriteSnippets.includes(name)) favoriteSnippets = favoriteSnippets.filter(snName => snName !== name);
+    else favoriteSnippets.push(name);
+    renderCodeSnippets();
+    searchSnippetsInput.value = '';
+
+    localStorage.setItem('favorite-snippets', JSON.stringify(favoriteSnippets));
+  }
 })
 
 const codeSnippetsContainer = codeSnippetsBlock.querySelector('.code-snippets-container');
 
+function createSnippetBlock(t, isFavorite) {
+  const div = document.createElement('div'),
+    title = document.createElement('h3'),
+    code = document.createElement('pre'),
+    copy = document.createElement('button'),
+    favBtn = document.createElement('button');
+
+  div.classList.add('snippet-block');
+  title.textContent = t;
+  code.textContent = codeSnippetsBlocksInfo[t];
+  copy.innerHTML = '<svg><use href="#copy-code"></use></svg>';
+  copy.classList.add('copy-code-snippet');
+  favBtn.innerHTML = '<svg><use href="#favorite-icon"></use></svg>';
+  favBtn.classList.add('snippet-fav-btn');
+  favBtn.style.color = isFavorite ? 'gold' : 'white';
+
+  div.append(title, code, favBtn, copy);
+  codeSnippetsContainer.appendChild(div);
+}
+
 function renderCodeSnippets() {
   codeSnippetsContainer.textContent = '';
 
+  for(let t of favoriteSnippets) createSnippetBlock(t, true);
   for(let t in codeSnippetsBlocksInfo) {
-    const div = document.createElement('div'),
-      title = document.createElement('h3'),
-      code = document.createElement('pre'),
-      copy = document.createElement('button');
-
-    div.classList.add('snippet-block');
-    title.textContent = t;
-    code.textContent = codeSnippetsBlocksInfo[t];
-    copy.innerHTML = '<svg><use href="/sprite.svg#copy-code"></use></svg>';
-    copy.classList.add('copy-code-snippet');
-
-    div.append(title, code, copy);
-    codeSnippetsContainer.appendChild(div);
-  }
+    if(!favoriteSnippets.includes(t)) createSnippetBlock(t, false);
+  };
 }
 
 // Open code snippets
@@ -421,6 +434,7 @@ userCodeWrap.querySelector('.open-code-snippets-btn')
 .addEventListener('click', () => {
   renderCodeSnippets();
   codeSnippetsBlock.classList.add('show');
+  searchSnippetsInput.value = '';
 })
 
 // Search snippets
@@ -443,7 +457,7 @@ searchSnippetsInput.addEventListener('input', () => {
       div.classList.add('snippet-block');
       copy.classList.add('copy-code-snippet');
       h3.innerHTML = t.replaceAll(regex, '<mark>$&</mark>');
-      copy.innerHTML = '<svg><use href="/sprite.svg#copy-code"></use></svg>';
+      copy.innerHTML = '<svg><use href="#copy-code"></use></svg>';
       pre.innerHTML = codeSnippetsBlocksInfo[t].replaceAll(regex, '<mark>$&</mark>');
 
       div.append(h3, pre, copy);
