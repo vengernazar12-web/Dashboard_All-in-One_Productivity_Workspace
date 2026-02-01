@@ -37,7 +37,7 @@ const urlProgress = urlsWrap.querySelector('.ulr-progress');
 const urlBlocksLimitText = urlsWrap.querySelector('.url-blocks-limit');
 
 // Render urls blocks
-function createUrlElement(name, url, imgUrl, searchVal = null) {
+function createUrlElement(name, url, imgUrl, searchVal, isFavorite) {
   let markRegexp = new RegExp(searchVal, 'gi');
 
   const div = document.createElement('div');
@@ -50,12 +50,12 @@ function createUrlElement(name, url, imgUrl, searchVal = null) {
   const delBtn = document.createElement('button');
   delBtn.classList.add('del-url-btn');
   delBtn.setAttribute('title', 'Delete url');
-  delBtn.innerHTML = '<svg><use href="sprite.svg#delete-code"></use></svg>';
+  delBtn.innerHTML = '<svg><use href="#delete-code"></use></svg>';
 
   const editBtn = document.createElement('button');
   editBtn.classList.add('open-edit-url-form-btn');
   editBtn.setAttribute('title', 'Edit');
-  editBtn.innerHTML = '<svg><use href="sprite.svg#edit"></use></svg>';
+  editBtn.innerHTML = '<svg><use href="#edit"></use></svg>';
 
   const a = document.createElement('a');
   if(!searchVal) a.textContent = name;
@@ -72,9 +72,16 @@ function createUrlElement(name, url, imgUrl, searchVal = null) {
   textsBlock.classList.add('urlAndName-block');
   textsBlock.append(p, a);
 
-  div.append(img, delBtn, editBtn, textsBlock);
+  const favBtn = document.createElement('button');
+  favBtn.innerHTML = '<svg><use href="#favorite-icon"></use></svg>';
+  favBtn.style.color = isFavorite ? 'orange' : 'white';
+  favBtn.style.backgroundColor = isFavorite ? 'white' : 'black';
+  favBtn.classList.add('fav-url-btn');
+
+  div.append(img, delBtn, editBtn, favBtn, textsBlock);
   allUrlsContainer.appendChild(div);
 }
+
 function renderAllUrls() {
   searchUrlInput.value = '';
 
@@ -85,7 +92,11 @@ function renderAllUrls() {
   }
   allUrlsContainer.textContent = '';
 
-  for(let obj of allUrlsArr) createUrlElement(obj.title, obj.url, localImgUrls[obj.title] || obj.imgUrl);
+  // Render favorite urls
+  for(let obj of allUrlsArr) if(obj.isFav) createUrlElement(obj.title, obj.url, localImgUrls[obj.title] || obj.imgUrl, null, true);
+
+  // Render no favorite urls
+  for(let obj of allUrlsArr) if(!obj.isFav) createUrlElement(obj.title, obj.url, localImgUrls[obj.title] || obj.imgUrl, null, false);
 
   urlProgress.value = allUrlsArr.length;
   urlBlocksLimitText.textContent = `Urls: ${allUrlsArr.length}/25`;
@@ -98,6 +109,7 @@ const addUrlForm = urlsWrap.querySelector('.add-url-form');
 const nameUrlInput = addUrlForm.querySelector('.add-url-name-input');
 const openedUrlInput = addUrlForm.querySelector('.add-opened-url-input');
 const imageUrlInput = addUrlForm.querySelector('.add-url-img-input');
+
 // Toggle add url form btn
 const toggleUrlFormBtn = urlsWrap.querySelector('.toggle-add-url-form');
 toggleUrlFormBtn.addEventListener('click', () => {
@@ -155,19 +167,22 @@ let searchUrlTimer = null;
 const searchUrlInput = urlsWrap.querySelector('.search-url');
 searchUrlInput.addEventListener('input', () => {
   clearTimeout(searchUrlTimer);
-
   searchUrlTimer = setTimeout(() => {
     allUrlsContainer.textContent = '';
-    const val = searchUrlInput.value.toLowerCase();
+
+    const val = searchUrlInput.value.toLowerCase().trim();
     if(!val) return renderAllUrls();
+    const safeVal = val.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
     const filterArr = allUrlsArr.filter(
       obj => obj.title.toLowerCase().includes(val)
       || obj.url.toLowerCase().includes(val)
     )
-    for(let urlObj of filterArr) createUrlElement(urlObj.title, urlObj.url, urlObj.imgUrl, val.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
 
-    clearTimeout(searchUrlTimer);
+    // Render favorite urls
+    for(let urlObj of filterArr) if(urlObj.isFav) createUrlElement(urlObj.title, urlObj.url, urlObj.imgUrl, safeVal, true)
+
+    for(let urlObj of filterArr) if(!urlObj.isFav) createUrlElement(urlObj.title, urlObj.url, urlObj.imgUrl, safeVal, false);
 
     if(!allUrlsContainer.childElementCount) return allUrlsContainer.innerHTML = '<h1>...</h1>';
   }, 500);
@@ -259,6 +274,7 @@ confirmEditUrlBtn.addEventListener('click', async () => {
 })
 
 // Delegation
+let favoriteUrlTimer = null;
 allUrlsContainer.addEventListener('click', e => {
   editUrlForm.classList.remove('show');
   if(e.target.closest('.del-url-btn')) {
@@ -294,6 +310,18 @@ allUrlsContainer.addEventListener('click', e => {
 
     editUrlForm.style.left = `${Math.max(0, targetBtnObj.left - editUrlFormObj.width)}px`;
     editUrlForm.style.top = `${targetBtnObj.top + urlsWrap.scrollTop}px`;
+  }
+  else if(e.target.closest('.fav-url-btn')) {
+    const urlName = e.target.closest('.fav-url-btn').parentElement.querySelector('a').textContent;
+    const findUrlObj = allUrlsArr.find(obj => obj.title === urlName);
+
+    findUrlObj.isFav = !findUrlObj.isFav;
+
+    clearTimeout(favoriteUrlTimer);
+    favoriteUrlTimer = setTimeout(renderAllUrls, 1000);
+
+    urlSaveBtn.classList.add('unsaved');
+    isUrlsUnsaved = true;
   }
 })
 

@@ -322,3 +322,11 @@
   padding: 2px;
   color: white;
 }
+
+/* Todo favorite */
+.fav-todo-btn {
+  position: absolute;
+  bottom: 2px;
+  left: 110px;
+}
+.fav-todo-btn > svg { width: 25px; height: 25px; }

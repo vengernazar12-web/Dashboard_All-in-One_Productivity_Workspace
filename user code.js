@@ -408,13 +408,16 @@ function createSnippetBlock(t, isFavorite) {
     favBtn = document.createElement('button');
 
   div.classList.add('snippet-block');
+
   title.textContent = t;
+
   code.textContent = codeSnippetsBlocksInfo[t];
   copy.innerHTML = '<svg><use href="#copy-code"></use></svg>';
   copy.classList.add('copy-code-snippet');
+
   favBtn.innerHTML = '<svg><use href="#favorite-icon"></use></svg>';
   favBtn.classList.add('snippet-fav-btn');
-  favBtn.style.color = isFavorite ? 'gold' : 'white';
+  favBtn.style.color = isFavorite ? 'yellow' : 'var(--text-color)';
 
   div.append(title, code, favBtn, copy);
   codeSnippetsContainer.appendChild(div);
