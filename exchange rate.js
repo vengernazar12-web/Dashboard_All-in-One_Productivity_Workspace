@@ -129,6 +129,10 @@ async function setRateInfo(values) {
     const value1 = values[0];
     if(value1) {
       if(cachedFlags[value1]) firstFlagImg.src = cachedFlags[value1];
+      else if(value1 === 'USD') {
+        firstFlagImg.src = 'https://flagcdn.com/us.svg';
+        cachedFlags[value1] = 'https://flagcdn.com/us.svg';
+      }
       else {
         const resp1 = await fetch(`${CURRENCY_API}${value1}`);
         const data1 = await resp1.json();
@@ -141,6 +145,10 @@ async function setRateInfo(values) {
     const value2 = values[1];
     if(value2) {
       if(cachedFlags[value2]) secondFlagImg.src = cachedFlags[value2];
+      else if(value2 === 'USD') {
+        secondFlagImg.src = 'https://flagcdn.com/us.svg';
+        cachedFlags[value2] = 'https://flagcdn.com/us.svg';
+      }
       else {
         const resp2 = await fetch(`${CURRENCY_API}${value2}`);
         const data2 = await resp2.json();

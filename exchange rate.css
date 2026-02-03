@@ -5,7 +5,7 @@
   width: 60vw;
   height: auto;
   position: fixed;
-  top: 4vh;
+  top: 0;
   left: 20vw;
   color: var(--text-color);
 }
