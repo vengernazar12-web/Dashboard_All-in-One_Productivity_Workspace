@@ -39,7 +39,7 @@
   top: -100%;
   width: 30%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .exchange-rate-nav-block > .first-flag { left: 0; }
