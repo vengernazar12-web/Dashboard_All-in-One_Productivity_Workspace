@@ -61,6 +61,8 @@
 <link rel="stylesheet" href="user code.css">
 <link rel="stylesheet" href="sign.css">
 <link rel="stylesheet" href="timer.css">
+<link rel="stylesheet" href="exchange rate.css">
+<link rel="stylesheet" href="weather.css">
 
 <script src="code-snippets-obj.js" async></script>
 <script src="main.js" defer></script> <!--1-->
@@ -69,8 +71,10 @@
 <script src="saveUrls.js" defer></script> <!--4-->
 <script src="user code.js" defer></script> <!--5-->
 <script src="timer.js" defer></script> <!--6-->
+<script src="exchange rate.js" defer></script> <!--7-->
+<script src="weather.js" defer></script> <!--8-->
 <script src="sign.js" defer></script> <!--max-->
-<link rel="icon" href="favicon-32x32.png" type="image/png">
+<link rel="icon" href="/all-imgs/favicon-32x32.png" type="image/png">
 </head>
 
 <body>
@@ -78,10 +82,12 @@
 
 <!-- First window -->
 <main class="all-dashboard-items">
-  <button class="open-todo-wrap --opened-btn">Todo</button>
-  <button class="open-notes-wrap --opened-btn">Notes</button>
-  <button class="open-save-urls-wrap --opened-btn">Save urls</button>
+  <button class="open-todo-wrap --opened-btn">Your todos</button>
+  <button class="open-notes-wrap --opened-btn">Your notes</button>
+  <button class="open-save-urls-wrap --opened-btn">Your urls</button>
   <button class="open-user-code-wrap --opened-btn">Your code</button>
+  <button class="open-exchange-rate-wrap --opened-btn">Exchange rate</button>
+  <button class="open-weather-wrap --opened-btn">Weather</button>
 </main>
 
 <!-- Timer -->
@@ -181,9 +187,10 @@
   <button class="close-notes-wrap">❌</button>
   <hr>
 
-  <button class="note-save-btn --saved-btn" title="Save content">
-    <svg><use href="#save"></use></svg>
-  </button>
+  <button class="note-save-btn --saved-btn" title="Save content"><svg><use href="#save"></use></svg></button>
+
+  <!-- Search note blocks -->
+  <input type="text" class="search-note-blocks-input" placeholder="Search note blocks...">
 
   <div class="all-user-notes-container"></div>
 
@@ -192,11 +199,6 @@
     <input type="text" class="note-name-input" placeholder="Note name...">
     <input type="text" class="note-description-input" placeholder="Note description...">
     <button class="add-note-button">Add</button>
-  </div>
-
-  <div class="delete-note-confirm">
-    <p>Delete note?</p>
-    <button>YES</button>
   </div>
 
   <progress class="note-progress" max="25"></progress>
@@ -218,7 +220,7 @@
     <svg><use href="#save"></use></svg>
   </button>
   <button class="close-add-urls-wrap">❌</button>
-  <button class="toggle-add-url-form --toggle-form-btn" title="Add new url">✚</button>
+  <button class="toggle-add-url-form --toggle-form-btn" title="Add new url(ctrl + h)">✚</button>
 
   <input type="text" class="search-url" placeholder="Search your urls...">
 
@@ -323,6 +325,56 @@
   <progress class="code-progress" max="25"></progress>
 </div>
 
+<!-- Exchange rate wrap -->
+<div class="exchange-rate-wrap is-wrap">
+  <button class="close-exchange-rate-wrap-btn">❌</button>
+
+  <svg><use href="#dollar"></use></svg>
+
+  <div class="exchange-rate-nav-block">
+    <img alt="Flag" class="first-flag">
+    <img alt="Flag" class="second-flag">
+    <select class="first-select"></select>
+    <button class="swap-selects">Swap</button>
+    <select class="second-select"></select>
+    <input type="number" class="rate-calc-input" placeholder="How...">
+    <p class="how-rate-text"></p>
+  </div>
+
+  <p class="exchange-rate-answer"></p>
+</div>
+
+<!-- Weather wrap -->
+<div class="weather-wrap is-wrap">
+  <button class="close-weather-wrap-btn">❌</button>
+
+  <!-- Weather info block -->
+  <div class="weather-info-block">
+    <h3 class="city-name">Country, City</h3>
+    <p class="last-update-txt">Last update:</p>
+    <hr>
+    <p class="temperature-txt">Temperature:</p>
+    <p class="feels-like-txt">Feels like:</p>
+    <p class="wind-txt">Wind:</p>
+    <p class="humidity-txt">Humidity:</p>
+    <p class="cloud-txt">Cloud:</p>
+    <p class="pressure-txt">Pressure:</p>
+    <hr>
+    <p class="weather-text">weather</p>
+    <img src="/all-imgs/dashboard-favicon-img.svg" alt="Weather icon" class="weather-icon">
+  </div>
+
+  <!-- Search city -->
+  <button class="open-search-city-window">Search city</button>
+  <div class="search-city-window">
+    <input type="text" class="search-city-input" placeholder="Search city/country">
+    <hr>
+    <div class="all-found-cities-cont">
+      <h2>City/country...</h2>
+    </div>
+  </div>
+</div>
+
 <!-- Settings -->
 <div class="settings-window is-wrap">
   <h1>Your settings</h1>
@@ -425,9 +477,9 @@
   <p class="dashboard-preloader-p">Dashboard</p>
   <h2>Loading...</h2>
   <p>Loading your content. Please wait...</p>
-  <img src="dashboard-favicon-img.svg" alt="Smile img" >
+  <img src="/all-imgs/dashboard-favicon-img.svg" alt="Smile img" >
   <!-- Progress max = all scripts -->
-  <progress class="preloader-progress" max="7"></progress>
+  <progress class="preloader-progress" max="9"></progress>
   <p class="what-is-loading-text">Loading...</p>
 
   <span class="loader"></span>
@@ -454,7 +506,7 @@
     <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
   </symbol>
 
-  <symbol id='delete-code' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <symbol id='delete-code' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
     <path d="M3 6h18" />
     <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
@@ -471,13 +523,13 @@
     <path d="M7 3v4a1 1 0 0 0 1 1h7" />
   </symbol>
 
-  <symbol id="edit" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <symbol id="edit" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <path d="m18.226 5.226-2.52-2.52A2.4 2.4 0 0 0 14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-.351" />
     <path d="M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z" />
     <path d="M8 18h1" />
   </symbol>
 
-  <symbol id="favorite-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <symbol id="favorite-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
     <path d="M3 5h6" />
     <path d="M3 12h13" />
     <path d="M3 19h13" />
@@ -508,5 +560,14 @@
     <path d="M3 16h3a2 2 0 0 1 2 2v3" />
     <path d="M16 21v-3a2 2 0 0 1 2-2h3" />
   </symbol>
+
+  <symbol id="dollar" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
+    <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" />
+    <path d="M12 18V6" />
+  </symbol>
 </svg>
+
+<!-- ExchangeRate  -->
+<a href="https://www.exchangerate-api.com" style="display: none">Rates By Exchange Rate API</a>
 </body></html>

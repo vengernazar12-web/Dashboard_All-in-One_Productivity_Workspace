@@ -3,7 +3,7 @@ whatIsLoadingText.textContent = 'Loading task management...';
 
 const todoWrap = document.querySelector('.todo-wrap');
 // Open todo wrap
-document.querySelector('.open-todo-wrap')
+allDashboardItem.querySelector('.open-todo-wrap')
 .addEventListener('click', () => {
   showPreloader();
   renderTodos();
@@ -75,8 +75,8 @@ function createTodoElement(name, searchVal = null, isFavorite) {
   btnEditTodo.title = 'Edit todo name';
 
   // Set text
-  btnDelTodo.textContent = '❌';
-  btnEditTodo.textContent = '✏️';
+  btnDelTodo.innerHTML = '<svg><use href="#delete-code"></use></svg>';
+  btnEditTodo.innerHTML = '<svg><use href="#edit"></use></svg>';
 
   if(!searchVal) h2.textContent = name;
   else h2.innerHTML = name.replace(markRegexp, '<mark>$&</mark>');
@@ -327,6 +327,7 @@ editTodoBlock.querySelector('.confirm-todo-edit-mark')
 /* Progress */ const todoProgress = todoWrap.querySelector('.todo-progress');
 
 // Todo wrap click event
+let delTodoTimer = null;
 todoWrap.addEventListener('click', e => {
   if(!e.target.classList.contains('edit-todo-block')) editTodoBlock.classList.remove('show');
   if(e.target.classList.contains('add-todo')) { // Add todo btn
@@ -358,23 +359,26 @@ todoWrap.addEventListener('click', e => {
     renderTodos();
     todoTxtLength.textContent = '0/25';
   }
-  else if(e.target.classList.contains('del-todo-btn')) { // Delete todo btn
+  else if(e.target.closest('.del-todo-btn')) { // Delete todo btn
     if(localStorage.getItem('conf-before-delete') === 'true') if(!confirm('Delete?')) return;
 
-    delete allTodosObj[e.target.parentElement.firstElementChild.textContent]
+    const todoBlock = e.target.closest('.del-todo-btn').parentElement;
 
-    e.target.parentElement.style.transition = 'none';
-    e.target.parentElement.lastElementChild.checked = false;
+    delete allTodosObj[todoBlock.firstElementChild.textContent]
 
-    if(localStorage.getItem('disabled-anim') === 'true') return renderTodos();
+    todoBlock.style.transition = 'none';
+    todoBlock.lastElementChild.checked = false;
 
-    e.target.parentElement.classList.add('del-anim');
     todoSaveBtn.classList.add('unsaved');
     isTodosUnsaved = true;
 
-    setTimeout(renderTodos, delAnimTime);
+    if(localStorage.getItem('disabled-anim') === 'true') return renderTodos();
+
+    todoBlock.classList.add('del-anim');
+    clearTimeout(delTodoTimer);
+    delTodoTimer = setTimeout(renderTodos, delAnimTime);
   }
-  else if(e.target.classList.contains('edit-todo-btn')) { // Open edit todo block
+  else if(e.target.closest('.edit-todo-btn')) { // Open edit todo block
     const targetBlock = e.target.closest('.edit-todo-btn').parentElement;
     const todoName = targetBlock.firstElementChild.textContent;
 

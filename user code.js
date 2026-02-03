@@ -2,7 +2,7 @@
 whatIsLoadingText.textContent = 'Loading user code editor...';
 
 const userCodeWrap = document.querySelector('.user-code-wrap');
-document.querySelector('.open-user-code-wrap')
+allDashboardItem.querySelector('.open-user-code-wrap')
 .addEventListener('click', () => {
   renderUserCodesBlocks();
   userCodeWrap.classList.add('show');

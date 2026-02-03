@@ -361,7 +361,7 @@ codeSaveBtn.addEventListener('click', async () => {
 })
 
 // Reload confirm
-const allSavedBtn = document.querySelectorAll('.--saved-btn');
+const allSavedBtn = document.querySelectorAll('.is-wrap > .--saved-btn');
 window.addEventListener('beforeunload', e => {
   for(let btn of allSavedBtn) {
     if(btn.classList.contains('unsaved')) {

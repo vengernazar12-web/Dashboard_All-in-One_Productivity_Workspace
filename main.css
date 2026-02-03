@@ -23,21 +23,12 @@ html .show { display: block; }
 body, input { font-family: Roboto, sans-serif; font-weight: 500; }
 button { background-color: transparent; }
 
-.all-dashboard-items {
-  display: flex;
-  flex-direction: column;
-  gap: 50px;
-  align-items: center;
-  justify-content: space-around;
-  margin-top: 25px;
-}
 html button { cursor: pointer; }
 html button:disabled { background-color: rgb(79, 70, 70); color: white; border: none; cursor: not-allowed; }
-html button:disabled:hover { transform: scale(1); transition: none; }
 
 hr {
   display: block;
-  border: 2px solid rgb(145, 145, 255);
+  border: 2px solid var(--border-color);
   height: 2px;
   width: 100%;
   border-radius: 50%;
@@ -70,6 +61,7 @@ hr {
   height: 100vh;
   display: none;
   background: var(--body-bg);
+  color: var(--text-color);
   overflow-y: auto;
 }
 .minimized {
@@ -132,7 +124,7 @@ html .unsaved:after {
 :root {
   --body-bg: linear-gradient(180deg, rgb(158, 158, 158), rgb(208, 208, 208)) no-repeat fixed;
   --text-color: black;
-  --block-bg: linear-gradient(180deg, rgb(135, 135, 135), rgb(101, 101, 101));
+  --block-bg: linear-gradient(180deg, rgb(135, 135, 135), rgb(95, 94, 94));
   --border-color: black;
   --scroll-bg: rgb(44, 44, 44);
 
@@ -166,6 +158,16 @@ body {
   background-color: color-mix(in srgb, black 45%, transparent);
   border-radius: 10px;
   padding: 1px;
+}
+
+/* All dashboard items */
+.all-dashboard-items {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-top: 25px;
 }
 
 /* All stats */
@@ -253,7 +255,7 @@ body {
   from { opacity: 1; transform: translateY(0); }
   to { opacity: 0; transform: translateY(-15px); }
 }
-html .del-anim { animation: del-anim var(--del-animation-time); }
+html .del-anim { animation: del-anim var(--del-animation-time) forwards; }
 /* Show response anim */
 @keyframes show-response-anim {
   0% { transform: translateY(5px); opacity: 0; }

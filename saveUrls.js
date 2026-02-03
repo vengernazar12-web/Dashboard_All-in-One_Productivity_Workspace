@@ -19,7 +19,7 @@ const compressImgOptions = {
 const urlsWrap = document.querySelector('.save-urls-wrap');
 const allUrlsContainer = urlsWrap.querySelector('.all-urls-container');
 // Open urls wrap
-document.querySelector('.open-save-urls-wrap')
+allDashboardItem.querySelector('.open-save-urls-wrap')
 .addEventListener('click', () => {
   showPreloader();
   renderAllUrls();
@@ -128,7 +128,7 @@ addUrlBtn.addEventListener('click', async () => {
   if(!url) return showResponseFn('Please enter the URL');
 
   let userUploadImg = imageUrlInput.files[0];
-  let imgUrl = '/Classic-dashboard-img.webp';
+  let imgUrl = '/all-imgs/Classic-dashboard-img.webp';
   let imgPath = null;
 
   if(userUploadImg) {
@@ -275,9 +275,10 @@ confirmEditUrlBtn.addEventListener('click', async () => {
 
 // Delegation
 let favoriteUrlTimer = null;
+let delUrlTimer = null;
 allUrlsContainer.addEventListener('click', e => {
   editUrlForm.classList.remove('show');
-  if(e.target.closest('.del-url-btn')) {
+  if(e.target.closest('.del-url-btn')) { // Delete url
     if(localStorage.getItem('conf-before-delete') === 'true' && !confirm('Delete?')) return;
 
     const targetBtn = e.target.closest('.del-url-btn');
@@ -291,13 +292,14 @@ allUrlsContainer.addEventListener('click', e => {
 
     urlSaveBtn.classList.add('unsaved');
     isUrlsUnsaved = true;
+
     if(localStorage.getItem('disabled-anim') === 'true') return renderAllUrls();
 
     targetUrlBlock.classList.add('del-anim');
-
-    setTimeout(renderAllUrls, delAnimTime);
+    clearTimeout(delUrlTimer);
+    delUrlTimer = setTimeout(renderAllUrls, delAnimTime);
   }
-  else if(e.target.closest('.open-edit-url-form-btn')) {
+  else if(e.target.closest('.open-edit-url-form-btn')) { // Open url edit
     editUrlForm.classList.add('show');
 
     const targetBtn = e.target.closest('.open-edit-url-form-btn');
@@ -311,7 +313,7 @@ allUrlsContainer.addEventListener('click', e => {
     editUrlForm.style.left = `${Math.max(0, targetBtnObj.left - editUrlFormObj.width)}px`;
     editUrlForm.style.top = `${targetBtnObj.top + urlsWrap.scrollTop}px`;
   }
-  else if(e.target.closest('.fav-url-btn')) {
+  else if(e.target.closest('.fav-url-btn')) { // Favorite url btn
     const urlName = e.target.closest('.fav-url-btn').parentElement.querySelector('a').textContent;
     const findUrlObj = allUrlsArr.find(obj => obj.title === urlName);
 

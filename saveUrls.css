@@ -78,6 +78,7 @@
   right: 2px;
   border: 1px solid black;
   padding: 2px;
+  color: white;
 }
 
 .url-blocks-limit {
@@ -94,7 +95,8 @@
   width: 30px;
   height: 30px;
   border-radius: 5px;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
+  padding: 1px;
 }
 .url-save-btn {
   border-radius: 5px;
@@ -170,6 +172,7 @@
   border-radius: 5px;
   border: 1px solid black;
   padding: 2px;
+  color: black;
 }
 .edit-url-form {
   position: absolute;

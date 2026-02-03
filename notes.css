@@ -12,30 +12,47 @@
   padding-bottom: 110px;
 }
 
-.all-user-notes-container > div {
+/* Note block */
+.note-block {
   width: 90%;
   min-height: 70px;
-  background: linear-gradient(180deg, rgb(8, 8, 97), blue);
+  background: var(--block-bg);
   border-radius: 12px;
-  color: white;
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
   padding: 5px;
-  display: flex;
-  justify-content: space-between;
   margin: 10px;
   cursor: pointer;
 }
-.all-user-notes-container > div > h2 {
+.note-block > h2, .note-block > p {
   text-wrap: wrap;
   word-wrap: break-word;
-  font-size: 1.4rem;
-  max-width: 45%;
 }
-.all-user-notes-container > div > p {
-  text-wrap: wrap;
-  word-wrap: break-word;
-  max-width: 45%;
+.note-block > hr { margin: 10px 0; }
+.note-block > .note-block-btns-cont {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
 }
+.note-block-btns-cont > button {
+  width: 30%;
+  background-color: rgba(10, 25, 60, 0.75);
+  border-radius: 10px;
+  padding: 2px;
+  border: 1px solid var(--border-color);
+  color: white;
+}
+.note-block-btns-cont > button:hover { background-color: rgb(10, 25, 60); }
 
+/* Search note blocks */
+.search-note-blocks-input {
+  width: 95%;
+  height: 25px;
+  border-radius: 10px;
+  padding-left: 5px;
+  border: 1px solid blue;
+}
+/* Search note text */
 .search-note-text-input {
   position: absolute;
   top: 48px;
@@ -102,24 +119,6 @@
   font-size: 1.3rem;
 }
 .add-note-button:hover { color: rgb(92, 92, 92); }
-
-/* Delete note */
-.delete-note-confirm {
-  height: 65px;
-  width: 120px;
-  background-color: rgb(255, 161, 61);
-  border-radius: 8px;
-  padding: 5px;
-  position: fixed;
-  text-align: center;
-  display: none;
-}
-.delete-note-confirm > button {
-  padding: 1px;
-  font-weight: 700;
-  font-size: 1.2rem;
-}
-.delete-note-confirm > button:hover { color: rgb(80, 80, 80); }
 
 /* Limits texts */
 .notes-blocks-limit {

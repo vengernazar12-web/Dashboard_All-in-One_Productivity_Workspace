@@ -1,0 +1,67 @@
+.exchange-rate-wrap { text-align: center; }
+.exchange-rate-wrap * { user-select: text; }
+
+.exchange-rate-wrap > svg {
+  width: 60vw;
+  height: auto;
+  position: fixed;
+  top: 4vh;
+  left: 20vw;
+  color: var(--text-color);
+}
+
+.close-exchange-rate-wrap-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 1.5rem;
+  padding: 1px;
+}
+
+.exchange-rate-nav-block {
+  width: 85%;
+  position: absolute;
+  top: 30vh;
+  left: 7.5%;
+  background: var(--block-bg);
+  color: var(--text-color);
+  padding: 10px;
+  border-radius: 10;
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  gap: 5px;
+  border-radius: 10px;
+}
+
+.exchange-rate-nav-block > img {
+  position: absolute;
+  top: -100%;
+  width: 30%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.exchange-rate-nav-block > .first-flag { left: 0; }
+.exchange-rate-nav-block > .second-flag { right: 0; }
+
+.exchange-rate-nav-block > select,
+.exchange-rate-nav-block > button,
+.exchange-rate-nav-block > input {
+  width: 31%;
+  border-radius: 5px;
+  border: 1px solid var(--border-color);
+}
+.exchange-rate-nav-block > button:disabled {
+  background-color: rgb(64, 64, 64);
+  color: white;
+  border: 1px solid black;
+}
+
+.exchange-rate-nav-block > .swap-selects {
+  background-color: #fff;
+  color: black;
+  padding: 2px;
+}
+
+.exchange-rate-answer { margin-top: calc(30vh + 75px); }

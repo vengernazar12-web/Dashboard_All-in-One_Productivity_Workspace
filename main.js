@@ -6,6 +6,9 @@ let delAnimTime = mls !== null ? +mls : 1500;
 document.documentElement.style.setProperty('--del-animation-time', `${delAnimTime / 1000}s`);
 // ============================
 
+// All dashboard items(.--opened-btns)
+const allDashboardItem = document.querySelector('.all-dashboard-items');
+
 // Key... events
 document.addEventListener('keydown', e => {
   if(notesWrap.classList.contains('show') && (e.key === '<' || e.key === '>' || e.key === '&' || e.key === '/')) e.preventDefault();
@@ -20,7 +23,7 @@ document.addEventListener('keydown', e => {
 
   else if(e.key === 'Enter') {
     if(todoWrap.classList.contains('show')) todoAddBtn.click();
-    else if(urlsWrap.classList.contains('show')) addUrlBtn.click();
+    else if(addUrlForm.classList.contains('show')) addUrlBtn.click();
     else if(addNotesForm.classList.contains('show')) addNotesButton.click();
     else if(addCodeBlockForm.classList.contains('show')) addCodeBlockBtn.click();
   }
@@ -81,11 +84,18 @@ animationTimeSelect.addEventListener('change', e => {
   document.documentElement.style.setProperty('--del-animation-time', `${delAnimTime / 1000}s`);
 })
 
+// Note font-size sett
 const noteFontSizeSettInput = document.querySelector('.notes-font-size-sett');
 noteFontSizeSettInput.addEventListener('input', e => {
   const number = e.target.value;
   if(!e.target.value || !number) return localStorage.setItem('notes-font-size', 1.2);
   localStorage.setItem('notes-font-size', number);
+})
+noteFontSizeSettInput.addEventListener('blur', () => {
+  let value = noteFontSizeSettInput.value;
+  if(value.startsWith('.')) value = '0' + value;
+  if(value.endsWith('.')) value += '0';
+  localStorage.setItem('notes-font-size', value);
 })
 
 if(localStorage.getItem('disabled-anim') === 'true') document.documentElement.style.setProperty('--is-comp-anim-transition', 'none');
