@@ -305,18 +305,25 @@ focusWrap.addEventListener('click', e => {
 })
 
 // All user code container
+let deleteTimer = null;
 const allUserCodesContainer = userCodeWrap.querySelector('.all-user-codes-container');
 allUserCodesContainer.addEventListener('click', e => {
   const targetBlock = e.target.closest('.user-code-block');
   if(e.target.closest('.delete-code-btn')) { // Delete code
     if(allUserCodesObj[targetBlock.firstElementChild.textContent].lock) return showResponseFn('You have locked this code');
-    if(!confirm('Delete code?')) return;
+    if(localStorage.getItem('conf-before-delete') == 'true' && !confirm('Delete?')) return;
+
     delete allUserCodesObj[targetBlock.firstElementChild.textContent];
-    renderUserCodesBlocks();
     codeSaveBtn.classList.add('unsaved');
     isCodesUnsaved = true;
 
-    return showResponseFn('Block been deleted');
+    if(localStorage.getItem('disabled-anim') === 'true') return renderUserCodesBlocks();
+
+    targetBlock.classList.add('del-anim');
+
+    clearTimeout(deleteTimer);
+    deleteTimer = setTimeout(() => renderUserCodesBlocks(), delAnimTime);
+    return;
   }
   else if(e.target.closest('.lock-code-btn')) { // Lock code
     const initialBtn = e.target.closest('.lock-code-btn');
