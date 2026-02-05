@@ -15,17 +15,19 @@ allDashboardItem.querySelector('.open-notes-wrap')
 })
 // Close note wrap
 notesWrap.querySelector('.close-notes-wrap')
-.addEventListener('click', () => notesWrap.classList.remove('show'))
+.addEventListener('click', () => {
+  notesWrap.classList.remove('show');
+  showBodyScroll();
+})
 // Close notes content wrap
 notesContentWrap.querySelector('.close-notes-content-wrap')
 .addEventListener('click', e => {
   if(userNotesText.textContent.trim() === noteTxt.trim()) return notesContentWrap.classList.remove('show');
-  noteSaveBtn.classList.add('unsaved')
   const name = notesContentTitle.textContent;
   allNotesObj[name].txt = userNotesText.innerText.trim();
   showResponseFn(`Save "${name}" note text`);
   notesContentWrap.classList.remove('show');
-  isNotesUnsaved = true;
+  noteSaveBtn.classList.add('unsaved');
 });
 
 let allNotesObj = {};
@@ -68,7 +70,6 @@ addNotesButton.addEventListener('click', () => {
   renderNotesBlocks();
 
   noteSaveBtn.classList.add('unsaved');
-  isNotesUnsaved = true;
 
   if(allUserNotesCont.childElementCount >= 25) openAddNoteForm.style.display = 'none';
 })
@@ -85,7 +86,6 @@ allUserNotesCont.addEventListener('click', e => {
 
     delete allNotesObj[noteName];
     noteSaveBtn.classList.add('unsaved');
-    isNotesUnsaved = true;
 
     if(localStorage.getItem('disabled-anim') === 'true') return renderNotesBlocks();
 
@@ -100,7 +100,6 @@ allUserNotesCont.addEventListener('click', e => {
     renderNotesBlocks();
 
     noteSaveBtn.classList.add('unsaved');
-    isNotesUnsaved = true;
   }
   else if(e.target.closest('.note-block')) { // Open note content
     const name = e.target.closest('.note-block').firstElementChild.textContent;
@@ -158,7 +157,8 @@ function createNoteBlock( name, desc, isFavorite, searchVal ) {
   favBtn.style.boxShadow = isFavorite ? '0 0 3px 1px gold' : '0 0 0 0 white';
 
   div.append(h2, hr, p, hr2, btnsCont);
-  allUserNotesCont.appendChild(div);
+
+  return div;
 }
 let noteTxt = null;
 function renderNotesText(name) {
@@ -170,8 +170,6 @@ function renderNotesText(name) {
   notesSymbolsLimitText.textContent = `${userNotesText.textContent.replaceAll('\n', '').length}/2000`;
 }
 function renderNotesBlocks() {
-  allUserNotesCont.textContent = '';
-
   const arr = Object.keys(allNotesObj);
 
   if(!arr.length) {
@@ -180,11 +178,15 @@ function renderNotesBlocks() {
     return notesBlocksLimitText.textContent = 'Notes: 0/25';
   }
 
-  // Render favorite notes
-  for(let name of arr) if(allNotesObj[name].isFav) createNoteBlock(name, allNotesObj[name].description, true);
+  allUserNotesCont.textContent = '';
+  const frag = document.createDocumentFragment();
 
+  // Render favorite notes
+  for(let name of arr) if(allNotesObj[name].isFav) frag.appendChild(createNoteBlock(name, allNotesObj[name].description, true));
   // Render no favorite notes
-  for(let name of arr) if(!allNotesObj[name].isFav) createNoteBlock(name, allNotesObj[name].description, false);
+  for(let name of arr) if(!allNotesObj[name].isFav) frag.appendChild(createNoteBlock(name, allNotesObj[name].description, false));
+  // Append fragment
+  allUserNotesCont.appendChild(frag);
 
   const notesBlocksLng = arr.length;
   noteProgress.value = notesBlocksLng;
@@ -198,6 +200,7 @@ searchNoteBlocksInput.addEventListener('input', () => {
   const safeVal = val.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
   allUserNotesCont.textContent = '';
+  const frag = document.createDocumentFragment();
 
   // Render favorite notes
   for(let n in allNotesObj) {
@@ -208,7 +211,7 @@ searchNoteBlocksInput.addEventListener('input', () => {
         n.toLowerCase().includes(val)
         || objInfo.description.toLowerCase().includes(val)
       )
-    ) createNoteBlock(n, allNotesObj[n].description, true, safeVal);
+    ) frag.appendChild(createNoteBlock(n, allNotesObj[n].description, true, safeVal));
   };
 
   // Render no favorite notes
@@ -220,8 +223,11 @@ searchNoteBlocksInput.addEventListener('input', () => {
         n.toLowerCase().includes(val)
         || objInfo.description.toLowerCase().includes(val)
       )
-    ) createNoteBlock(n, allNotesObj[n].description, false, safeVal);
+    ) frag.appendChild(createNoteBlock(n, allNotesObj[n].description, false, safeVal));
   }
+
+  // Append fragment
+  allUserNotesCont.appendChild(frag);
 })
 
 // Search note text

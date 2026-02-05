@@ -14,6 +14,8 @@ userCodeWrap.querySelector('.close-user-code-wrap')
 
   for(let block of allUserCodesContainer.children)
     allUserCodesObj[block.firstElementChild.textContent].code = block.querySelector('.user-code-textarea')._editor.getValue();
+
+  showBodyScroll();
 });
 
 let allUserCodesObj = {};
@@ -89,7 +91,6 @@ function createCodeBlock(name) {
     codeSymbolsLimit.style.color = lng > 1500 ? 'red' : 'white';
 
     codeSaveBtn.classList.add('unsaved');
-    isCodesUnsaved = true;
   });
   editor.on('beforeChange', (_, change) => {
     if(allUserCodesObj[name].lock && !isInitialization) {
@@ -131,17 +132,21 @@ function createCodeBlock(name) {
   codeLangTxt.textContent = lang === 'htmlmixed' ? 'html' : lang;
 
   div.style.height = '60px';
-  allUserCodesContainer.appendChild(div);
+
+  return div;
 }
 
 function renderUserCodesBlocks() {
   searchUserCodeInput.value = '';
   allUserCodesContainer.textContent = '';
+  const frag = document.createDocumentFragment();
 
-  const arr = Object.keys(allUserCodesObj);
-  for(let name of arr) createCodeBlock(name);
+  for(let name in allUserCodesObj) frag.appendChild(createCodeBlock(name));
 
-  const userCodeBlocksLng = arr.length;
+  // Append fragment
+  allUserCodesContainer.appendChild(frag);
+
+  const userCodeBlocksLng = allUserCodesContainer.childElementCount;
   codeBlocksLimitText.textContent = `Codes: ${userCodeBlocksLng}/25`;
   codeProgress.value = userCodeBlocksLng;
 }
@@ -168,7 +173,6 @@ addCodeBlockBtn.addEventListener('click', () => {
   addCodeBlockForm.classList.remove('show');
 
   codeSaveBtn.classList.add('unsaved');
-  isCodesUnsaved = true;
 
   if(allUserCodesContainer.childElementCount >= 25) return toggleAddCodeBlockForm.style.display = 'none';
 })
@@ -192,6 +196,7 @@ searchUserCodeInput.addEventListener('input', () => {
 
   const allChildren = allUserCodesContainer.children;
 
+  // Reset marks
   for(let block of allChildren) {
     block.firstElementChild.textContent = block.firstElementChild.textContent;
     const codeLengthTxt = block.querySelector('p.code-symbols-limit');
@@ -241,11 +246,6 @@ focusCodeEditor.on('inputRead', (cm, change) => {
     if(isUserWrite && word) cm.showHint({completeSingle: false});
     clearTimeout(hintTimer);
   }, 200);
-
-  if(!codeSaveBtn.classList.contains('unsaved')) {
-    codeSaveBtn.classList.add('unsaved');
-    isCodesUnsaved = true;
-  }
 })
 focusCodeEditor.on('change', () => {
   const valueLng = focusCodeEditor.getValue().replaceAll('\n','').replaceAll(' ','').length;
@@ -277,9 +277,14 @@ function focusInit(name, value) {
 focusWrap.addEventListener('click', e => {
   const initTarget = e.target;
   if(initTarget.closest('.unfocus-btn')) { // Close focus wrap
-    allUserCodesObj[focusWrap.firstElementChild.textContent].code = focusCodeEditor.getValue();
+    const codeName = focusWrap.firstElementChild.textContent;
+
+    if(focusCodeEditor.getValue() === userCode && allUserCodesObj[codeName].lock === isLockBeforeFocus) return focusWrap.classList.remove('show');
+
+    allUserCodesObj[codeName].code = focusCodeEditor.getValue();
     renderUserCodesBlocks();
     focusWrap.classList.remove('show');
+    codeSaveBtn.classList.add('unsaved');
   }
   else if(initTarget.closest('.copy')) { // Copy focus code
     navigator.clipboard.writeText(focusCodeEditor.getValue());
@@ -292,6 +297,7 @@ focusWrap.addEventListener('click', e => {
     renderUserCodesBlocks();
     showResponseFn(`Block been deleted`)
     focusWrap.classList.remove('show');
+    codeSaveBtn.classList.add('unsaved');
   }
   else if(initTarget.closest('.lock')) { // Lock focus code
     const codeName = focusWrap.firstElementChild.textContent;
@@ -306,6 +312,8 @@ focusWrap.addEventListener('click', e => {
 
 // All user code container
 let deleteTimer = null;
+let userCode = null;
+let isLockBeforeFocus = false;
 const allUserCodesContainer = userCodeWrap.querySelector('.all-user-codes-container');
 allUserCodesContainer.addEventListener('click', e => {
   const targetBlock = e.target.closest('.user-code-block');
@@ -315,7 +323,6 @@ allUserCodesContainer.addEventListener('click', e => {
 
     delete allUserCodesObj[targetBlock.firstElementChild.textContent];
     codeSaveBtn.classList.add('unsaved');
-    isCodesUnsaved = true;
 
     if(localStorage.getItem('disabled-anim') === 'true') return renderUserCodesBlocks();
 
@@ -338,7 +345,6 @@ allUserCodesContainer.addEventListener('click', e => {
       targetBlock.style.boxShadow = '0 0 0 0';
       initialBtn.style.color = 'white';
     }
-    isCodesUnsaved = true;
     return codeSaveBtn.classList.add('unsaved');
   }
   else if(e.target.closest('.copy-code-btn')) { // Copy code
@@ -350,6 +356,10 @@ allUserCodesContainer.addEventListener('click', e => {
     focusWrap.style.boxShadow = allUserCodesObj[codeName].lock ?
     '0 0 5px 1px gold inset' : '0 0 0 0 gold';
     focusLockCodeBtn.style.color = allUserCodesObj[codeName].lock ? 'gold' : 'white';
+
+    userCode = targetBlock.querySelector('textarea')._editor.getValue();
+    isLockBeforeFocus = allUserCodesObj[codeName].lock;
+
     return focusInit(
       targetBlock.firstElementChild.textContent,
       targetBlock.querySelector('textarea')._editor.getValue()
@@ -427,16 +437,19 @@ function createSnippetBlock(t, isFavorite) {
   favBtn.style.color = isFavorite ? 'yellow' : 'var(--text-color)';
 
   div.append(title, code, favBtn, copy);
-  codeSnippetsContainer.appendChild(div);
+  return div;
 }
 
 function renderCodeSnippets() {
   codeSnippetsContainer.textContent = '';
+  const frag = document.createDocumentFragment();
 
-  for(let t of favoriteSnippets) createSnippetBlock(t, true);
-  for(let t in codeSnippetsBlocksInfo) {
-    if(!favoriteSnippets.includes(t)) createSnippetBlock(t, false);
-  };
+  // Render favorite snippets
+  for(let t of favoriteSnippets) frag.appendChild(createSnippetBlock(t, true));
+  // Render no favorite snippets
+  for(let t in codeSnippetsBlocksInfo) if(!favoriteSnippets.includes(t)) frag.appendChild(createSnippetBlock(t, false));
+  // Append fragment
+  codeSnippetsContainer.appendChild(frag);
 }
 
 // Open code snippets
@@ -456,6 +469,7 @@ searchSnippetsInput.addEventListener('input', () => {
   const regex = new RegExp(val, 'gi');
 
   codeSnippetsContainer.textContent = '';
+  const frag = document.createDocumentFragment();
 
   for(let t in codeSnippetsBlocksInfo) {
     if(t.match(matchRegexp) || codeSnippetsBlocksInfo[t].match(matchRegexp)) {
@@ -471,9 +485,11 @@ searchSnippetsInput.addEventListener('input', () => {
       pre.innerHTML = codeSnippetsBlocksInfo[t].replaceAll(regex, '<mark>$&</mark>');
 
       div.append(h3, pre, copy);
-      codeSnippetsContainer.appendChild(div);
+      frag.appendChild(div);
     }
   }
+  // Append fragment
+  codeSnippetsContainer.appendChild(frag);
 
   if(!codeSnippetsContainer.childElementCount) showResponseFn('Snippets not found');
 })

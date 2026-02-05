@@ -97,7 +97,6 @@
   position: absolute;
   bottom: 1px;
   left: 40px;
-  padding: 1px;
   color: var(--text-color);
 }
 .del-todo-btn > svg { width: 25px; height: 25px; }
@@ -106,7 +105,6 @@
   position: absolute;
   bottom: 1px;
   left: 75px;
-  padding: 1px;
   color: var(--text-color);
 }
 .edit-todo-btn > svg { width: 23px; height: 23px; }
@@ -227,7 +225,6 @@
   position: absolute;
   top: 5px;
   left: 5px;
-  padding: 1px;
   font-size: 1rem;
   color: black;
   transition: color .2s;
@@ -258,7 +255,6 @@
 }
 .edit-todo-block > button {
   color: black;
-  padding: 1px;
   border-radius: 5px;
   padding: 2px;
   height: 25px;

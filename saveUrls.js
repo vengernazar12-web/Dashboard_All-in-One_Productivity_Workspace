@@ -18,7 +18,7 @@ const compressImgOptions = {
 // ==========================================
 const urlsWrap = document.querySelector('.save-urls-wrap');
 const allUrlsContainer = urlsWrap.querySelector('.all-urls-container');
-// Open urls wrap
+// Open
 allDashboardItem.querySelector('.open-save-urls-wrap')
 .addEventListener('click', () => {
   showPreloader();
@@ -26,9 +26,12 @@ allDashboardItem.querySelector('.open-save-urls-wrap')
   urlsWrap.classList.add('show');
   showPreloader(false);
 });
-// Close urls wrap
+// Close
 urlsWrap.querySelector('.close-add-urls-wrap')
-.addEventListener('click', () => urlsWrap.classList.remove('show'))
+.addEventListener('click', () => {
+  urlsWrap.classList.remove('show');
+  showBodyScroll();
+})
 
 let allUrlsArr = [];
 
@@ -79,24 +82,22 @@ function createUrlElement(name, url, imgUrl, searchVal, isFavorite) {
   favBtn.classList.add('fav-url-btn');
 
   div.append(img, delBtn, editBtn, favBtn, textsBlock);
-  allUrlsContainer.appendChild(div);
+
+  return div;
 }
 
 function renderAllUrls() {
   searchUrlInput.value = '';
 
-  if(!allUrlsArr.length) {
-    urlProgress.value = 0;
-    urlBlocksLimitText.textContent = 'Urls: 0/25';
-    return allUrlsContainer.innerHTML = '<h1>URLs...</h1>';
-  }
   allUrlsContainer.textContent = '';
+  const frag = document.createDocumentFragment();
 
   // Render favorite urls
-  for(let obj of allUrlsArr) if(obj.isFav) createUrlElement(obj.title, obj.url, localImgUrls[obj.title] || obj.imgUrl, null, true);
-
+  for(let obj of allUrlsArr) if(obj.isFav) frag.appendChild(createUrlElement(obj.title, obj.url, localImgUrls[obj.title] || obj.imgUrl, null, true));
   // Render no favorite urls
-  for(let obj of allUrlsArr) if(!obj.isFav) createUrlElement(obj.title, obj.url, localImgUrls[obj.title] || obj.imgUrl, null, false);
+  for(let obj of allUrlsArr) if(!obj.isFav) frag.appendChild(createUrlElement(obj.title, obj.url, localImgUrls[obj.title] || obj.imgUrl, null, false));
+  // Append fragment
+  allUrlsContainer.appendChild(frag);
 
   urlProgress.value = allUrlsArr.length;
   urlBlocksLimitText.textContent = `Urls: ${allUrlsArr.length}/25`;
@@ -154,7 +155,6 @@ addUrlBtn.addEventListener('click', async () => {
   renderAllUrls();
   addUrlForm.classList.remove('show');
   urlSaveBtn.classList.add('unsaved');
-  isUrlsUnsaved = true;
 
   nameUrlInput.value = '';
   openedUrlInput.value = '';
@@ -163,12 +163,12 @@ addUrlBtn.addEventListener('click', async () => {
 
 // Search urls
 let searchUrlTimer = null;
-
 const searchUrlInput = urlsWrap.querySelector('.search-url');
 searchUrlInput.addEventListener('input', () => {
   clearTimeout(searchUrlTimer);
   searchUrlTimer = setTimeout(() => {
     allUrlsContainer.textContent = '';
+    const frag = document.createDocumentFragment();
 
     const val = searchUrlInput.value.toLowerCase().trim();
     if(!val) return renderAllUrls();
@@ -180,9 +180,11 @@ searchUrlInput.addEventListener('input', () => {
     )
 
     // Render favorite urls
-    for(let urlObj of filterArr) if(urlObj.isFav) createUrlElement(urlObj.title, urlObj.url, urlObj.imgUrl, safeVal, true)
-
-    for(let urlObj of filterArr) if(!urlObj.isFav) createUrlElement(urlObj.title, urlObj.url, urlObj.imgUrl, safeVal, false);
+    for(let urlObj of filterArr) if(urlObj.isFav) frag.appendChild(createUrlElement(urlObj.title, urlObj.url, urlObj.imgUrl, safeVal, true));
+    // Render no favorite urls
+    for(let urlObj of filterArr) if(!urlObj.isFav) frag.appendChild(createUrlElement(urlObj.title, urlObj.url, urlObj.imgUrl, safeVal, false));
+    // Append fragment
+    allUrlsContainer.appendChild(frag);
 
     if(!allUrlsContainer.childElementCount) return allUrlsContainer.innerHTML = '<h1>...</h1>';
   }, 500);
@@ -270,7 +272,6 @@ confirmEditUrlBtn.addEventListener('click', async () => {
     editUrlForm.classList.remove('show');
     urlSaveBtn.classList.add('unsaved');
   }
-  isUrlsUnsaved = true;
 })
 
 // Delegation
@@ -291,7 +292,6 @@ allUrlsContainer.addEventListener('click', e => {
     allUrlsArr = allUrlsArr.filter(obj => obj.title !== delUrlName);
 
     urlSaveBtn.classList.add('unsaved');
-    isUrlsUnsaved = true;
 
     if(localStorage.getItem('disabled-anim') === 'true') return renderAllUrls();
 
@@ -323,7 +323,6 @@ allUrlsContainer.addEventListener('click', e => {
     favoriteUrlTimer = setTimeout(renderAllUrls, 1000);
 
     urlSaveBtn.classList.add('unsaved');
-    isUrlsUnsaved = true;
   }
 })
 

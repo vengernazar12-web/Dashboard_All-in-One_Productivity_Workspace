@@ -17,6 +17,7 @@ todoWrap.querySelector('.close-todo-wrap')
   todoWrap.classList.remove('is-edit');
   isEdit = false;
   initEditingBlock = null;
+  showBodyScroll();
 });
 // Close hidden todo wrap
 todoWrap.querySelector('.close-hidden-wind-btn')
@@ -100,25 +101,21 @@ function createTodoElement(name, searchVal = null, isFavorite) {
     div.appendChild(mark);
   };
 
-  todosContainer.appendChild(div);
+  return div;
 }
 
 function renderTodos() {
   searchTodoInput.value = '';
 
-  let allTodosArr = Object.keys(allTodosObj);
-  if(!allTodosArr.length) {
-    todosNumberText.textContent = 'Todos: 0/100';
-    todoProgress.value = 0;
-    return todosContainer.innerHTML = '<h1>No todo...</h1>';
-  };
-
   todosContainer.textContent = '';
+  const frag = document.createDocumentFragment();
 
   // Render favorites todos
-  for(let n of allTodosArr) if(allTodosObj[n].isFav) createTodoElement(n, null, true);
+  for(let n in allTodosObj) if(allTodosObj[n].isFav) frag.appendChild(createTodoElement(n, null, true));
   // Render no favorites todos
-  for(let n of allTodosArr) if(!allTodosObj[n].isFav) createTodoElement(n, null, false);
+  for(let n in allTodosObj) if(!allTodosObj[n].isFav) frag.appendChild(createTodoElement(n, null, false));
+  // Append fragment
+  todosContainer.appendChild(frag);
 
   const todosBlocksLng = Object.keys(allTodosObj).length + Object.keys(hiddenTodosObj).length;
   todoProgress.value = todosBlocksLng;
@@ -148,6 +145,8 @@ searchTodoInput.addEventListener('input', () => {
   if(!txt) return renderTodos();
 
   todosContainer.textContent = '';
+  const frag = document.createDocumentFragment();
+
   // Render favorite todos
   for(let todoName in allTodosObj) {
     const infoObj = allTodosObj[todoName];
@@ -157,7 +156,7 @@ searchTodoInput.addEventListener('input', () => {
       || infoObj.date.includes(txt)
       || infoObj.mark.toLowerCase().includes(txt)
     )
-    ) createTodoElement(todoName, safeTxt, true);
+    ) frag.appendChild(createTodoElement(todoName, safeTxt, true));
   }
   // Render no favorite todos
   for(let todoName in allTodosObj) {
@@ -168,8 +167,10 @@ searchTodoInput.addEventListener('input', () => {
       || infoObj.date.includes(txt)
       || infoObj.mark.toLowerCase().includes(txt)
     )
-    ) createTodoElement(todoName, safeTxt, false);
+    ) frag.appendChild(createTodoElement(todoName, safeTxt, false));
   }
+  // Append fragment
+  todosContainer.appendChild(frag);
 
   if(!todosContainer.childElementCount) todosContainer.innerHTML = `<h1>No todo found...</h1>`;
 })
@@ -235,7 +236,6 @@ todoWrap.querySelector('.unhide-todos')
   renderTodos();
   renderHiddenTodos();
   todoSaveBtn.classList.add('unsaved');
-  isTodosUnsaved = true;
 })
 
 // Set todos color
@@ -285,7 +285,6 @@ editTodoBlock.querySelector('.reset-todo-color')
   editTodoBlock.classList.remove('show');
 
   todoSaveBtn.classList.add('unsaved');
-  isTodosUnsaved = true;
 })
 
 // Confirm color btn
@@ -302,7 +301,6 @@ editTodoBlock.querySelector('.confirm-todo-edit-color')
   editTodoBlock.classList.remove('show');
 
   todoSaveBtn.classList.add('unsaved');
-  isTodosUnsaved = true;
 })
 
 // Confirm mark btn
@@ -321,7 +319,6 @@ editTodoBlock.querySelector('.confirm-todo-edit-mark')
   editTodoBlock.classList.remove('show');
 
   todoSaveBtn.classList.add('unsaved');
-  isTodosUnsaved = true;
 })
 
 /* Progress */ const todoProgress = todoWrap.querySelector('.todo-progress');
@@ -354,7 +351,6 @@ todoWrap.addEventListener('click', e => {
     allTodosObj[val] = { date: time, isCompleted: false, mark, }
 
     todoSaveBtn.classList.add('unsaved');
-    isTodosUnsaved = true;
 
     renderTodos();
     todoTxtLength.textContent = '0/25';
@@ -370,7 +366,6 @@ todoWrap.addEventListener('click', e => {
     todoBlock.lastElementChild.checked = false;
 
     todoSaveBtn.classList.add('unsaved');
-    isTodosUnsaved = true;
 
     if(localStorage.getItem('disabled-anim') === 'true') return renderTodos();
 
@@ -398,7 +393,6 @@ todoWrap.addEventListener('click', e => {
       .textContent
     ].isCompleted = e.target.checked;
     todoSaveBtn.classList.add('unsaved');
-    isTodosUnsaved = true;
   }
   else if(e.target.classList.contains('todo-name-input')) { // Set todo name input
     searchTodoInput.value = '';
@@ -417,14 +411,12 @@ todoWrap.addEventListener('click', e => {
     renderHiddenTodos();
 
     todoSaveBtn.classList.add('unsaved');
-    isTodosUnsaved = true;
   }
   else if(e.target.closest('.fav-todo-btn')) { // Set todo favorite
     const todoName = e.target.closest('.fav-todo-btn').parentElement.firstElementChild.textContent;
 
     allTodosObj[todoName].isFav = !allTodosObj[todoName].isFav;
     todoSaveBtn.classList.add('unsaved');
-    isTodosUnsaved = true;
 
     renderTodos();
   }

@@ -8,6 +8,19 @@ document.documentElement.style.setProperty('--del-animation-time', `${delAnimTim
 
 // All dashboard items(.--opened-btns)
 const allDashboardItem = document.querySelector('.all-dashboard-items');
+allDashboardItem.addEventListener('click', e => {
+  if(e.target.tagName === 'BUTTON') document.body.style.overflow = 'hidden';
+})
+
+// Show body scroll fn
+function showBodyScroll() {
+  if(
+    !todoWrap.classList.contains('show')
+    && !notesWrap.classList.contains('show')
+    && !urlsWrap.classList.contains('show')
+    && !userCodeWrap.classList.contains('show')
+  ) document.body.style.overflow = 'auto';
+}
 
 // Key... events
 document.addEventListener('keydown', e => {
@@ -52,6 +65,9 @@ function setDashboardTheme() {
     DashboardSwitchTheme.textContent = '🌑';
   }
 }
+
+const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+document.documentElement.classList.toggle('dark-theme', prefersDark);
 
 if(localStorage.getItem('todo-theme') === 'dark') {
   document.documentElement.classList.add('dark-theme');
@@ -133,7 +149,7 @@ x, y;
 document.addEventListener('pointerup', () => {isDrag = false; dragBlock = null;})
 
 document.addEventListener('pointerdown', e => {
-  if(!e.target.parentElement.classList.contains('minimized') || e.target.tagName !== 'HEADER') return;
+  if(!e.target.parentElement?.classList.contains('minimized') || e.target.tagName !== 'HEADER') return;
   isDrag = true;
   dragBlock = e.target.parentElement;
   const blockObj = dragBlock.getBoundingClientRect();

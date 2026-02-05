@@ -63,6 +63,7 @@
 <link rel="stylesheet" href="timer.css">
 <link rel="stylesheet" href="exchange rate.css">
 <link rel="stylesheet" href="weather.css">
+<link rel="stylesheet" href="timezone.css">
 
 <script src="code-snippets-obj.js" async></script>
 <script src="main.js" defer></script> <!--1-->
@@ -73,6 +74,7 @@
 <script src="timer.js" defer></script> <!--6-->
 <script src="exchange rate.js" defer></script> <!--7-->
 <script src="weather.js" defer></script> <!--8-->
+<script src="timezone.js" defer></script> <!--9-->
 <script src="sign.js" defer></script> <!--max-->
 <link rel="icon" href="/all-imgs/favicon-32x32.png" type="image/png">
 </head>
@@ -88,7 +90,16 @@
   <button class="open-user-code-wrap --opened-btn">Your code</button>
   <button class="open-exchange-rate-wrap --opened-btn">Exchange rate</button>
   <button class="open-weather-wrap --opened-btn">Weather</button>
+  <button class="open-timezone-wrap --opened-btn">Timezones</button>
 </main>
+
+<!-- Open setting window -->
+<button class="open-settings-window">
+  <svg xmlns="http://www.w3.org/2000/svg" style="width: 45px; height: 45px" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" />
+    <circle cx="12" cy="12" r="3" />
+  </svg>
+</button>
 
 <!-- Timer -->
 <button class="show-timer-window" title="Timer">
@@ -100,8 +111,8 @@
     <h3>⏱ Focus timer</h3>
     <button class="close-timer-window">❌</button>
   </header>
-  <p class="timer-start-time"></p>
-  <p class="timer-duration"></p>
+  <progress></progress>
+  <p class="timer-time"></p>
 
   <hr>
 
@@ -113,10 +124,13 @@
   <div class="set-timer-point">
     <label for="type">Select point type:</label>
     <select id="type" class="select-type" title="Select point type...">
-      <option value="todos">todos</option>
-      <option value="notes">notes</option>
-      <option value="urls">urls</option>
-      <option value="codes">codes</option>
+      <option value="todos">Todos</option>
+      <option value="notes">Notes</option>
+      <option value="urls">Urls</option>
+      <option value="codes">Codes</option>
+      <option value="exchange">Exchange rate</option>
+      <option value="weather">Weather</option>
+      <option value="timezones">Time zones</option>
     </select>
     <label for="item">Select point item:</label>
     <select id="item" class="select-type-item" title="Select point type...">
@@ -127,14 +141,6 @@
   <button class="start-timer-btn show">Start</button>
   <button class="stop-timer-btn">Stop</button>
 </div>
-
-<!-- Open setting window -->
-<button class="open-settings-window">
-  <svg xmlns="http://www.w3.org/2000/svg" style="width: 45px; height: 45px" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" />
-    <circle cx="12" cy="12" r="3" />
-  </svg>
-</button>
 
 <!-- Todos -->
 <div class="todo-wrap is-wrap">
@@ -375,6 +381,27 @@
   </div>
 </div>
 
+<!-- Timezone -->
+<div class="timezone-wrap is-wrap">
+  <button class="close-timezone-wrap-btn">❌</button>
+
+  <!-- Search timezone input -->
+  <input type="text" class="search-timezone-input" placeholder="Search timezone...">
+
+  <!-- Select time zone -->
+  <select class="select-timezone"></select>
+
+  <!-- All timezones container -->
+  <div class="all-timezones-container"></div>
+
+  <!-- Time zone info block -->
+  <div class="time-zone-info-block">
+    <pre></pre>
+    <hr>
+    <pre></pre>
+  </div>
+</div>
+
 <!-- Settings -->
 <div class="settings-window is-wrap">
   <h1>Your settings</h1>
@@ -480,7 +507,7 @@
   <p>Loading your content. Please wait...</p>
   <img src="/all-imgs/dashboard-favicon-img.svg" alt="Smile img" >
   <!-- Progress max = all scripts -->
-  <progress class="preloader-progress" max="9"></progress>
+  <progress class="preloader-progress" max="10"></progress>
   <p class="what-is-loading-text">Loading...</p>
 
   <span class="loader"></span>
@@ -570,5 +597,5 @@
 </svg>
 
 <!-- ExchangeRate  -->
-<a href="https://www.exchangerate-api.com" style="display: none">Rates By Exchange Rate API</a>
+<a href="https://www.exchangerate-api.com" style="display: none">Rates By Exchange
 </body></html>

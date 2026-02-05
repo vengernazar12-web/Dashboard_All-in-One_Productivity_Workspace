@@ -3,8 +3,8 @@ whatIsLoadingText.textContent = 'Loading exchange rate...';
 
 const exchangeRateWrap = document.querySelector('.exchange-rate-wrap');
 // Open
-allDashboardItem.querySelector('.open-exchange-rate-wrap')
-.addEventListener('click', async () => {
+const openExchangeRateWrapBtn = allDashboardItem.querySelector('.open-exchange-rate-wrap');
+openExchangeRateWrapBtn.addEventListener('click', async () => {
   preloaderProgress.max = 1;
   preloaderProgress.value = 0;
   whatIsLoadingText.textContent = 'Loading exchange rate...';
@@ -13,7 +13,7 @@ allDashboardItem.querySelector('.open-exchange-rate-wrap')
 
   cachedFlags = JSON.parse(localStorage.getItem('cached-flags') || "{}");
 
-  await renderSelects();
+  await renderExchangeRateSelects();
 
   exchangeRateWrap.classList.add('show');
 
@@ -23,7 +23,10 @@ allDashboardItem.querySelector('.open-exchange-rate-wrap')
 });
 // Close
 exchangeRateWrap.querySelector('.close-exchange-rate-wrap-btn')
-.addEventListener('click', () => exchangeRateWrap.classList.remove('show'));
+.addEventListener('click', () => {
+  exchangeRateWrap.classList.remove('show');
+  showBodyScroll();
+});
 
 // Api
 const EX_API = 'https://v6.exchangerate-api.com/v6/3823f0dc50f06c6954ddca0d/latest/';
@@ -66,7 +69,7 @@ secondSelect.addEventListener('change', () => {
 });
 
 // Render selectors
-async function renderSelects() {
+async function renderExchangeRateSelects() {
   firstSelect.textContent = '';
   secondSelect.textContent = '';
 

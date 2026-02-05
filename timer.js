@@ -2,32 +2,38 @@
 whatIsLoadingText.textContent = 'Loading timer utilities...';
 
 const timerWindow = document.querySelector('.timer-window');
-// Open timer window
+// Open
 document.querySelector('.show-timer-window')
-.addEventListener('click', () => timerWindow.classList.toggle('show'));
-// Close timer window
-document.querySelector('.close-timer-window')
+.addEventListener('click', () => {
+  timerWindow.classList.toggle('show');
+  if(!selectitem.value) {
+    selectType.value = 'todos';
+    renderSelectItems(todosContainer);
+  }
+});
+// Close
+timerWindow.querySelector('.close-timer-window')
 .addEventListener('click', () => timerWindow.classList.remove('show'));
 
 const userReadyWindow = document.querySelector('.user-is-ready-window');
 const userReadyTxtInfo = userReadyWindow.lastElementChild;
 function setUserReadyInfoTxt(type, name) {
-  userReadyTxtInfo.textContent = `Time is up! Ready to open:\n${type} => ${name}?`;
+  userReadyTxtInfo.textContent = `Time is up! Ready to open:\n${type}${name ? (' => ' + name) : ''}?`;
 }
 
 const userIsReadyBtn = userReadyWindow.querySelector('.user-is-ready');
-
+// User no ready
 userReadyWindow.querySelector('.user-no-ready').addEventListener('click', () => {
   userReadyWindow.classList.remove('show');
   userIsReadyBtn.removeEventListener('click', userIsReadyEvent);
 });
 
-// Start/stop timer
-let timer = null;
+// Find item fn
 function findItem(wrap, name) {
   let typeWrap = null;
   let block = null;
   let isCanOpen = false;
+  let openBtn = null;
   if(wrap === 'todos') {
     block = [...todosContainer.children].find(block => block.firstElementChild.textContent === name);
     typeWrap = todoWrap;
@@ -46,26 +52,38 @@ function findItem(wrap, name) {
     isCanOpen = true;
     typeWrap = userCodeWrap;
   }
+  else if(wrap === 'exchange') {
+    typeWrap = exchangeRateWrap;
+    openBtn = openTimezoneWrapBtn;
+  }
+  else if(wrap === 'weather') {
+    typeWrap = weatherWrap;
+    openBtn = openWeatherWrapBtn;
+  }
+  else if(wrap === 'timezones') {
+    typeWrap = timezoneWrap;
+    openBtn = openExchangeRateWrapBtn;
+  };
 
-  return {block, open: isCanOpen, wrap: typeWrap};
+  return {block, open: isCanOpen, wrap: typeWrap, openBtn};
 }
 
 const setTimeInput = timerWindow.querySelector('.set-time-input');
-const selectType = timerWindow.querySelector('.select-type');
 
-const selectitem = timerWindow.querySelector('.select-type-item');
-function renderSelectItems(container, isLastChild = false) {
-  selectitem.textContent = '';
-  for(let block of container.children) {
-    const option = document.createElement('option');
-    const val = isLastChild ? block.lastElementChild.textContent : block.firstElementChild.textContent;
-    option.value = val;
-    option.textContent = val;
-    selectitem.appendChild(option);
-  }
-}
-selectitem.addEventListener('focus', () => {
+const noContainerTypes = ['exchange', 'weather', 'timezones'];
+const itemLabel = timerWindow.querySelector('label[for="item"]');
+const selectType = timerWindow.querySelector('.select-type');
+selectType.addEventListener('change', () => {
   const val = selectType.value;
+  if(noContainerTypes.includes(val)) {
+    itemLabel.style.display = 'none';
+    selectitem.style.display = 'none';
+  }
+  else {
+    itemLabel.style.display = 'block';
+    selectitem.style.display = 'block';
+  }
+
   if(val === 'todos') {
     renderTodos();
     renderSelectItems(todosContainer);
@@ -76,7 +94,7 @@ selectitem.addEventListener('focus', () => {
   }
   else if(val === 'urls') {
     renderAllUrls();
-    renderSelectItems(allUrlsContainer, true);
+    renderSelectItems(allUrlsContainer, true, true);
   }
   else if(val === 'codes') {
     renderUserCodesBlocks();
@@ -84,9 +102,30 @@ selectitem.addEventListener('focus', () => {
   }
 })
 
-const timerStartTime = timerWindow.querySelector('.timer-start-time');
-const timerDuration = timerWindow.querySelector('.timer-duration');
+// Render selects
+const selectitem = timerWindow.querySelector('.select-type-item');
+function renderSelectItems(container, isLastChild = false, isSpecial) {
+  selectitem.textContent = '';
 
+  for(let block of container.children) {
+    const option = document.createElement('option');
+    const val = isSpecial ? block.lastElementChild.firstElementChild.textContent
+    : isLastChild ? block.lastElementChild.textContent : block.firstElementChild.textContent;
+    option.value = val;
+    option.textContent = val;
+    selectitem.appendChild(option);
+  }
+}
+
+// Init event
+let userIsReadyEvent = () => {};
+
+const timerProgress = timerWindow.querySelector('progress');
+const timerTimeTxt = timerWindow.querySelector('.timer-time');
+
+// Start timer
+let timer = null;
+let interval = null;
 const startTimerBtn = timerWindow.querySelector('.start-timer-btn');
 startTimerBtn.addEventListener('click', () => {
   const userTime = setTimeInput.value.match(/\d+\.?\d*[smh]/i);
@@ -95,7 +134,7 @@ startTimerBtn.addEventListener('click', () => {
 
   if(!userTime) return showResponseFn('Set your time!');
   if(!type) return showResponseFn('Select type!');
-  if(!name) return showResponseFn('Select item!');
+  if(!name && !noContainerTypes.includes(type)) return showResponseFn('Select item!');
   isLocalTimer = false;
 
   const timeNumber = +userTime[0].match(/\d+/);
@@ -105,7 +144,7 @@ startTimerBtn.addEventListener('click', () => {
 
   const pointInfo = findItem(type, name);
 
-  if(!pointInfo.block) return showResponseFn(`${name} in ${type} is not defined`);
+  if(!pointInfo.block && !noContainerTypes.includes(type)) return showResponseFn(`${name} in ${type} is not defined`);
   if(!confirm(`Your time is ${userTime}?`)) return;
 
   userIsReadyBtn.removeEventListener('click', userIsReadyEvent);
@@ -114,46 +153,92 @@ startTimerBtn.addEventListener('click', () => {
     userReadyWindow.classList.remove('show');
     timerWindow.classList.remove('show');
     settingsWindow.classList.remove('show');
-    allStatsWrap.classList.remove('show');
     todoWrap.classList.remove('show');
     notesWrap.classList.remove('show');
-    calculatorWrap.classList.remove('show');
-    saveUrlsWrap.classList.remove('show');
+    urlsWrap.classList.remove('show');
     userCodeWrap.classList.remove('show');
+    weatherWrap.classList.remove('show');
+    timezoneWrap.classList.remove('show');
 
-    pointInfo.wrap.classList.add('show');
-    try {
-      pointInfo.block.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center'
-      })
-    } catch { return showResponseFn(`${name} in ${type} is not defined`) }
-    if(pointInfo.open) pointInfo.block.click();
+    if(!noContainerTypes.includes(type)) {
+      pointInfo.wrap.classList.add('show');
+      try {
+        pointInfo.block.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center'
+        })
+      } catch { return showResponseFn(`${name} in ${type} is not defined`) }
+      if(pointInfo.open) pointInfo.block.click();
+    } else pointInfo.openBtn.click();
   }
   userIsReadyBtn.addEventListener('click', userIsReadyEvent);
+
+  // Show progress
+  timerProgress.style.display = 'block';
+
+  const allSeconds = time / 1000;
+  timerProgress.max = allSeconds;
+  let initSeconds = 0;
+
+  let isAlmostStartBeen = false;
+  let isHalfBeen = false;
+  let isAlmostTheEndBeen = false;
+
+  const almostStart = allSeconds * 0.25;
+  const half = allSeconds / 2;
+  const almost = allSeconds * 0.75;
+
+  interval = setInterval(() => {
+    initSeconds++;
+    if(!isAlmostStartBeen && initSeconds >= almostStart) {
+      showResponseFn('25% complete! (TIMER)');
+      isAlmostStartBeen = true;
+      if('vibrate' in navigator) navigator.vibrate(100)
+    }
+    if(!isHalfBeen && initSeconds >= half) {
+      showResponseFn('50% complete! (TIMER)');
+      isHalfBeen = true;
+      if('vibrate' in navigator) navigator.vibrate(250)
+    }
+    if(!isAlmostTheEndBeen && initSeconds >= almost) {
+      showResponseFn('75% complete! (TIMER)');
+      isAlmostTheEndBeen = true;
+      if('vibrate' in navigator) navigator.vibrate(500)
+    }
+
+    timerProgress.value = initSeconds;
+
+    const h = Math.floor(allSeconds / 3600);
+    const m = Math.floor(allSeconds / 60);
+    const s = allSeconds % 60;
+
+    const initH = Math.floor(initSeconds / 3600);
+    const initM = Math.floor(initSeconds / 60);
+    const initS = initSeconds % 60;
+
+    timerTimeTxt.textContent = `${h ? String(h).padStart(2, '0') + 'h : ' : ''}${m ? String(m).padStart(2, '0') + 'm : ' : ''}${String(s).padStart(2, '0') + 's'} / ${h ? String(initH).padStart(2, '0') + 'h : ' : ''}${m ? String(initM).padStart(2, '0') + 'm : ' : ''}${String(initS).padStart(2, '0') + 's'}`;
+  }, 1000);
 
   timer = setTimeout(() => {
     setUserReadyInfoTxt(type, name);
     userReadyWindow.classList.add('show');
     startTimerBtn.classList.add('show');
     stopTimerBtn.classList.remove('show');
-    timerStartTime.textContent = '';
-    timerDuration.textContent = '';
+    timerTimeTxt.textContent = '';
+    clearInterval(interval);
+    timerProgress.style.display = 'none';
   }, time);
 
   stopTimerBtn.classList.add('show');
   startTimerBtn.classList.remove('show');
-
-  const d = new Date();
-  timerStartTime.textContent = `Start timer: ${d.getHours()} : ${d.getMinutes()} : ${d.getSeconds()}`;
-  timerDuration.textContent = `Timer duration: ${userTime}`;
 })
-
+// Stop timer
 const stopTimerBtn = timerWindow.querySelector('.stop-timer-btn');
 stopTimerBtn.addEventListener('click', () => {
   clearTimeout(timer);
-  timerStartTime.textContent = '';
-  timerDuration.textContent = '';
+  clearInterval(interval);
+  timerProgress.style.display = 'none';
+  timerTimeTxt.textContent = '';
   stopTimerBtn.classList.remove('show');
   startTimerBtn.classList.add('show');
   userIsReadyBtn.removeEventListener('click', userIsReadyEvent);

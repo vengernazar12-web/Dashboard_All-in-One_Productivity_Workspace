@@ -178,4 +178,40 @@ function localStorageHelper(localStorageName, operator, value) {
   else if(operator === 'remove') localStorage.removeItem(localStorageName);
 }
 `,
+
+'Fetch + Error Handling': `
+async function fetchWithError(url) {
+  try {
+    const res = await fetch(url);
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    return await res.json();
+  } catch(e) {
+    console.error('Fetch error:', e);
+    return null;
+  }
+}
+`,
+
+'Random Hex Color Generator': `
+function randomHexColor() {
+  return '#' + Math.floor(Math.random()*16777215).toString(16);
+}
+`,
+
+'Debounce for Async Functions': `
+function debounceAsync(fn, delay) {
+  let timer;
+  return async function(...args) {
+    clearTimeout(timer);
+    return new Promise(resolve => {
+      timer = setTimeout(async () => resolve(await fn(...args)), delay);
+    });
+  }
+}
+`,
+
+'Detect Dark Mode Preference': `
+const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+document.documentElement.classList.toggle('dark-theme', prefersDark);
+`,
 };

@@ -6,7 +6,6 @@
   position: absolute;
   top: 5px;
   right: 5px;
-  padding: 1px;
   font-size: 1.5rem;
 }
 
@@ -46,7 +45,6 @@
   position: absolute;
   bottom: 5px;
   right: 5px;
-  padding: 1px;
   font-size: 1.3rem;
 }
 .add-code-block-btn:hover { color: rgb(92, 92, 92); }
@@ -98,7 +96,7 @@
   color: black;
   text-align: left;
   max-height: 90vh;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
 }
 .CodeMirror-gutters {
   background-color: #1b1b1b;
@@ -119,19 +117,16 @@
   position: absolute;
   top: 34px;
   right: 5px;
-  padding: 1px;
 }
 
 .delete-code-btn {
   position: absolute;
   top: 5px;
   right: 5px;
-  padding: 1px;
   color: white;
 }
 
 .lock-code-btn {
-  padding: 1px;
   position: absolute;
   top: 5px;
   right: 122px;
@@ -177,10 +172,7 @@
   right: 0.2vw;
 }
 .focus-code-wrap > .all-focus-btns > button { margin-bottom: 15px; }
-.focus-code-wrap > .all-focus-btns > button > svg {
-  width: 20px;
-  height: 20px;
-}
+.focus-code-wrap > .all-focus-btns > button > svg { color: white; }
 .focus-code-wrap > .focus-code-symbols {
   position: absolute;
   top: 5px;
@@ -232,7 +224,6 @@
   user-select: text;
 }
 .copy-code-snippet {
-  padding: 1px;
   position: absolute;
   top: 2px;
   right: 5px;
@@ -242,7 +233,6 @@
   position: absolute;
   top: 5px;
   right: 5px;
-  padding: 1px;
   font-size: 1.25rem;
 }
 
