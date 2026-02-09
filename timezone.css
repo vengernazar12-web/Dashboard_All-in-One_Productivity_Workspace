@@ -1,6 +1,5 @@
 .timezone-wrap {
   padding: 5px;
-  background: black;
 }
 
 .close-timezone-wrap-btn {
@@ -12,23 +11,26 @@
 
 .search-timezone-input {
   width: calc(100% - 35px);
-  height: 25px;
-  border-radius: 5px;
-  padding-left: 5px;
   margin-bottom: 5px;
 }
 .select-timezone {
   min-width: 50%;
   border-radius: 5px;
   height: 25px;
+  background: var(--block-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
 }
+.select-timezone > option { color: black; }
 .all-timezones-container {
   width: 100%;
   margin-top: 10px;
+  color: white;
+  font-size: 1.15rem;
 }
 .all-timezones-container > pre {
-  border: 1px solid silver;
-  background-color: rgba(54, 54, 126, 0.5);
+  border: 1px solid var(--border-color);
+  background-color: rgb(42, 27, 110);
   margin-bottom: 1px;
   border-radius: 3px;
   padding: 1px;
@@ -36,11 +38,10 @@
   text-wrap: wrap;
   cursor: pointer;
   transition: padding-left .2s, background-color .2s;
-  font-size: 1.2rem;
 }
 .all-timezones-container > pre:hover {
   padding-left: 7px;
-  background-color: rgb(54, 54, 126);
+  background-color: rgb(16, 16, 41);
 }
 
 .time-zone-info-block {

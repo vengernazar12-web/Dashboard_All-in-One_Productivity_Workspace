@@ -1,6 +1,14 @@
 // Set preloader text
 whatIsLoadingText.textContent = 'Loading core functionality...';
 
+// All blocks limits
+const allBlockLimitsObj = {
+  todos: 100,
+  notes: 25,
+  urls: 25,
+  codes: 25,
+}
+
 const mls = localStorage.getItem('del-anim-time');
 let delAnimTime = mls !== null ? +mls : 1500;
 document.documentElement.style.setProperty('--del-animation-time', `${delAnimTime / 1000}s`);
@@ -66,81 +74,11 @@ function setDashboardTheme() {
   }
 }
 
-const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-document.documentElement.classList.toggle('dark-theme', prefersDark);
-
 if(localStorage.getItem('todo-theme') === 'dark') {
   document.documentElement.classList.add('dark-theme');
   DashboardSwitchTheme.textContent = '🌑';
 }
 else DashboardSwitchTheme.textContent = '☀️';
-
-// Settings
-const settingsWindow = document.querySelector('.settings-window'),
-animationTimeSelect = document.querySelector('.animation-time-select');
-document.querySelector('.open-settings-window')
-.addEventListener('click', () => {
-  if(localStorage.getItem('del-anim-time') !== null) {
-    const val = +localStorage.getItem('del-anim-time') / 1000;
-    animationTimeSelect.value = `${val}s`;
-  };
-  if(localStorage.getItem('disabled-anim') === 'true') disAnimBtn.textContent = '✔️';
-  else disAnimBtn.textContent = '✖️';
-  if(localStorage.getItem('conf-before-delete') === 'true') confBefDelBtn.textContent = '✔️';
-  else confBefDelBtn.textContent = '✖️';
-  settingsWindow.classList.add('show');
-
-  noteFontSizeSettInput.value = localStorage.getItem('notes-font-size') || 1.2;
-});
-
-animationTimeSelect.addEventListener('change', e => {
-  const msNum = parseFloat(e.target.value) * 1000;
-  delAnimTime = msNum;
-  localStorage.setItem('del-anim-time', msNum);
-  document.documentElement.style.setProperty('--del-animation-time', `${delAnimTime / 1000}s`);
-})
-
-// Note font-size sett
-const noteFontSizeSettInput = document.querySelector('.notes-font-size-sett');
-noteFontSizeSettInput.addEventListener('input', e => {
-  const number = e.target.value;
-  if(!e.target.value || !number) return localStorage.setItem('notes-font-size', 1.2);
-  localStorage.setItem('notes-font-size', number);
-})
-noteFontSizeSettInput.addEventListener('blur', () => {
-  let value = noteFontSizeSettInput.value;
-  if(value.startsWith('.')) value = '0' + value;
-  if(value.endsWith('.')) value += '0';
-  localStorage.setItem('notes-font-size', value);
-})
-
-if(localStorage.getItem('disabled-anim') === 'true') document.documentElement.style.setProperty('--is-comp-anim-transition', 'none');
-const disAnimBtn = document.querySelector('.disabled-animation-sett');
-disAnimBtn.addEventListener('click', e => {
-  const isDis = localStorage.getItem('disabled-anim') === 'true';
-  if(isDis) {
-    e.target.textContent = '✖️';
-    document.documentElement.style.setProperty('--is-comp-anim-transition', 'box-shadow 1s')
-  }
-  else {
-    e.target.textContent = '✔️';
-    document.documentElement.style.setProperty('--is-comp-anim-transition', 'none');
-  };
-  localStorage.setItem('disabled-anim', !isDis);
-})
-
-// Conf before delete sett
-const confBefDelBtn = document.querySelector('.conf-before-del-sett');
-confBefDelBtn.addEventListener('click', e => {
-  const isConfirm = localStorage.getItem('conf-before-delete') === 'true';
-  if(isConfirm) e.target.textContent = '✖️';
-  else e.target.textContent = '✔️';
-  localStorage.setItem('conf-before-delete', !isConfirm);
-})
-
-// Close settings
-document.querySelector('.close-settings-window')
-.addEventListener('click', () => settingsWindow.classList.remove('show'));
 
 // Drag and drop window
 let isDrag = false,

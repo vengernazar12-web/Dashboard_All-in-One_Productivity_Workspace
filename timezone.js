@@ -169,7 +169,7 @@ searchTimezonesInput.addEventListener('input', () => {
   const frag = document.createDocumentFragment();
 
   for(let t of initUsedTimezonesArr) {
-    const text = `${t.countryCode} | ${t.countryName}\nTime zone: ${t.zoneName}`;
+    const text = `${t.countryCode} | ${t.countryName}\nZone: ${t.zoneName}`;
     if(text.toLowerCase().includes(val)) {
       const pre = document.createElement('pre');
       pre.innerHTML = text.replace(regExp, '<mark>$&</mark>');

@@ -41,9 +41,6 @@
 
 .search-city-input {
   width: 100%;
-  height: 25px;
-  padding-left: 7px;
-  border-radius: 10px;
   border: 1px solid black;
 }
 .all-found-cities-cont { width: 100%; }

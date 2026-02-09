@@ -30,7 +30,7 @@ exchangeRateWrap.querySelector('.close-exchange-rate-wrap-btn')
 
 // Api
 const EX_API = 'https://v6.exchangerate-api.com/v6/3823f0dc50f06c6954ddca0d/latest/';
-const CURRENCY_API = 'https://restcountries.com/v3.1/currency/';
+const FLAGS_API = 'https://restcountries.com/v3.1/currency/';
 // All rates
 let rates = {};
 
@@ -78,17 +78,22 @@ async function renderExchangeRateSelects() {
 
   await initRates(sesVal1);
 
+  const frag = document.createDocumentFragment();
+  const frag2 = document.createDocumentFragment();
   for(let n in rates) {
     const option = document.createElement('option');
     option.value = n;
     option.textContent = n;
-    firstSelect.appendChild(option);
+    frag.appendChild(option);
 
     const option2 = document.createElement('option');
     option2.value = n;
     option2.textContent = n;
-    secondSelect.appendChild(option2);
+    frag2.appendChild(option2);
   }
+  // Append fragments
+  firstSelect.appendChild(frag);
+  secondSelect.appendChild(frag2);
 
   firstSelect.value = sesVal1 ? sesVal1 : 'USD';
   secondSelect.value = sesVal2 ? sesVal2 : 'USD';
@@ -137,7 +142,7 @@ async function setRateInfo(values) {
         cachedFlags[value1] = 'https://flagcdn.com/us.svg';
       }
       else {
-        const resp1 = await fetch(`${CURRENCY_API}${value1}`);
+        const resp1 = await fetch(`${FLAGS_API}${value1}`);
         const data1 = await resp1.json();
         firstFlagImg.src = data1[0].flags.svg;
         cachedFlags[value1] = data1[0].flags.svg;
@@ -153,7 +158,7 @@ async function setRateInfo(values) {
         cachedFlags[value2] = 'https://flagcdn.com/us.svg';
       }
       else {
-        const resp2 = await fetch(`${CURRENCY_API}${value2}`);
+        const resp2 = await fetch(`${FLAGS_API}${value2}`);
         const data2 = await resp2.json();
         secondFlagImg.src = data2[0].flags.svg;
         cachedFlags[value2] = data2[0].flags.svg;

@@ -19,8 +19,8 @@ const compressImgOptions = {
 const urlsWrap = document.querySelector('.save-urls-wrap');
 const allUrlsContainer = urlsWrap.querySelector('.all-urls-container');
 // Open
-allDashboardItem.querySelector('.open-save-urls-wrap')
-.addEventListener('click', () => {
+const openUrlWrapBtn = allDashboardItem.querySelector('.open-save-urls-wrap');
+openUrlWrapBtn.addEventListener('click', () => {
   showPreloader();
   renderAllUrls();
   urlsWrap.classList.add('show');
@@ -41,6 +41,7 @@ const urlBlocksLimitText = urlsWrap.querySelector('.url-blocks-limit');
 
 // Render urls blocks
 function createUrlElement(name, url, imgUrl, searchVal, isFavorite) {
+  url = url.startsWith('http') ? url : `https://${url}`;
   let markRegexp = new RegExp(searchVal, 'gi');
 
   const div = document.createElement('div');
@@ -100,9 +101,7 @@ function renderAllUrls() {
   allUrlsContainer.appendChild(frag);
 
   urlProgress.value = allUrlsArr.length;
-  urlBlocksLimitText.textContent = `Urls: ${allUrlsArr.length}/25`;
-
-  showUnsavedImgs();
+  urlBlocksLimitText.textContent = `Urls: ${allUrlsArr.length}/${allBlockLimitsObj.urls}`;
 }
 
 // Add url
@@ -120,6 +119,8 @@ toggleUrlFormBtn.addEventListener('click', () => {
 
 const addUrlBtn = addUrlForm.querySelector('.add-url-btn');
 addUrlBtn.addEventListener('click', async () => {
+  if(allUrlsArr.length >= allBlockLimitsObj.urls) return showResponseFn(`You have max urls ${allBlockLimitsObj.urls}/${allBlockLimitsObj.urls}`);
+
   const title = nameUrlInput.value.trim();
   if(allUrlsArr.find(obj => obj.title === title)) return showResponseFn('You already have a URL with this name');
   if(!title) return showResponseFn('Please enter a URL name');
@@ -159,6 +160,7 @@ addUrlBtn.addEventListener('click', async () => {
   nameUrlInput.value = '';
   openedUrlInput.value = '';
   imageUrlInput.value = '';
+  setOpenBtnsTexts();
 })
 
 // Search urls
@@ -189,15 +191,6 @@ searchUrlInput.addEventListener('input', () => {
     if(!allUrlsContainer.childElementCount) return allUrlsContainer.innerHTML = '<h1>...</h1>';
   }, 500);
 })
-
-// Show unsaved imgs
-function showUnsavedImgs() {
-  for(let block of allUrlsContainer.children) {
-    const title = block.querySelector('a').textContent;
-    const imgPath = allUrlsArr.find(obj => obj.title === title)?.imgPath;
-    if(filesToUpload[imgPath] || localImgUrls[title]) block.classList.add('unsaved');
-  }
-}
 
 // Edit url card
 let initEditUrlName = null;
@@ -292,6 +285,8 @@ allUrlsContainer.addEventListener('click', e => {
     allUrlsArr = allUrlsArr.filter(obj => obj.title !== delUrlName);
 
     urlSaveBtn.classList.add('unsaved');
+
+    setOpenBtnsTexts();
 
     if(localStorage.getItem('disabled-anim') === 'true') return renderAllUrls();
 

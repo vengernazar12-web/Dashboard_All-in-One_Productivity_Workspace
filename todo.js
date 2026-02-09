@@ -3,8 +3,8 @@ whatIsLoadingText.textContent = 'Loading task management...';
 
 const todoWrap = document.querySelector('.todo-wrap');
 // Open todo wrap
-allDashboardItem.querySelector('.open-todo-wrap')
-.addEventListener('click', () => {
+const openTodoWrapBtn = allDashboardItem.querySelector('.open-todo-wrap');
+openTodoWrapBtn.addEventListener('click', () => {
   showPreloader();
   renderTodos();
   todoWrap.classList.add('show');
@@ -119,7 +119,7 @@ function renderTodos() {
 
   const todosBlocksLng = Object.keys(allTodosObj).length + Object.keys(hiddenTodosObj).length;
   todoProgress.value = todosBlocksLng;
-  todosNumberText.textContent = `Todos: ${todosBlocksLng}/100`;
+  todosNumberText.textContent = `Todos: ${todosBlocksLng}/${allBlockLimitsObj.todos}`;
 }
 
 const todoTxtLength = todoWrap.querySelector('.todo-symbols-length');
@@ -227,7 +227,7 @@ hiddenTodosContainer.addEventListener('click', e => {
 })
 
 // Unhide todos
-todoWrap.querySelector('.unhide-todos')
+hiddenTodosWindow.querySelector('.unhide-todos')
 .addEventListener('click', () => {
   for(let h of Object.keys(hiddenTodosObj)) {
     allTodosObj[h] = hiddenTodosObj[h];
@@ -326,9 +326,9 @@ editTodoBlock.querySelector('.confirm-todo-edit-mark')
 // Todo wrap click event
 let delTodoTimer = null;
 todoWrap.addEventListener('click', e => {
-  if(!e.target.classList.contains('edit-todo-block')) editTodoBlock.classList.remove('show');
+  if(!e.target.closest('.edit-todo-block')) editTodoBlock.classList.remove('show');
   if(e.target.classList.contains('add-todo')) { // Add todo btn
-    if(Object.keys(allTodosObj).length + Object.keys(hiddenTodosObj).length >= 100) return showResponseFn('Your have todos limit');
+    if(Object.keys(allTodosObj).length + Object.keys(hiddenTodosObj).length >= allBlockLimitsObj.todos) return showResponseFn('Your have todos limit');
     const val = todoNameInput.value.trim();
     if(!val) return;
     if(allTodosObj[val] || hiddenTodosObj[val]) return showResponseFn(`Todo name "${val}" is already used`);
@@ -354,6 +354,7 @@ todoWrap.addEventListener('click', e => {
 
     renderTodos();
     todoTxtLength.textContent = '0/25';
+    setOpenBtnsTexts();
   }
   else if(e.target.closest('.del-todo-btn')) { // Delete todo btn
     if(localStorage.getItem('conf-before-delete') === 'true') if(!confirm('Delete?')) return;
@@ -372,6 +373,7 @@ todoWrap.addEventListener('click', e => {
     todoBlock.classList.add('del-anim');
     clearTimeout(delTodoTimer);
     delTodoTimer = setTimeout(renderTodos, delAnimTime);
+    setOpenBtnsTexts();
   }
   else if(e.target.closest('.edit-todo-btn')) { // Open edit todo block
     const targetBlock = e.target.closest('.edit-todo-btn').parentElement;

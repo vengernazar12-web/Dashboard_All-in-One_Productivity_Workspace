@@ -5,6 +5,7 @@ const client = supabase.createClient(
   'https://ivzrhxvrwafrofotkmrv.supabase.co',
   'sb_publishable_gaf3l7-dqfddZGEZjBbatA_-AjzhiZ-'
 );
+
 const signWindow = document.querySelector('.sign-window');
 
 const signUpForm = signWindow.querySelector('.sign-up-form');
@@ -57,7 +58,10 @@ todoSaveBtn.addEventListener('click', async () => {
   todoSaveBtn.disabled = true;
   showPreloader();
   showResponseFn('Please wait...');
-  if((Object.keys(allTodosObj).length + Object.keys(hiddenTodosObj).length) > 100) { showPreloader(false); return showResponseFn('You have todos limit')};
+  if((Object.keys(allTodosObj).length + Object.keys(hiddenTodosObj).length) > allBlockLimitsObj.todos) {
+    showPreloader(false);
+    return showResponseFn('You have todos limit');
+  };
 
   const {data, error} = await client.auth.getSession();
   if(error) {
@@ -121,7 +125,7 @@ noteSaveBtn.addEventListener('click', async () => {
 
   const arr = Object.keys(allNotesObj);
 
-  if(arr.length > 25) {
+  if(arr.length > allBlockLimitsObj.notes) {
     showPreloader(false);
     return showResponseFn('You have notes blocks limit');
   };
@@ -190,7 +194,7 @@ urlSaveBtn.addEventListener('click', async () => {
   urlSaveBtn.disabled = true;
   showPreloader();
   showResponseFn('Please wait...');
-  if(allUrlsArr.length > 50) { showPreloader(false); return showResponseFn('Your have urls limit')};
+  if(allUrlsArr.length > allBlockLimitsObj.urls) { showPreloader(false); return showResponseFn('Your have urls limit')};
 
   const {data, error} = await client.auth.getSession();
   if(error) {
@@ -230,6 +234,7 @@ urlSaveBtn.addEventListener('click', async () => {
   whatIsLoadingText.textContent = 'Content saved';
 
   // Upload and remove imgs
+  // Upload
   for(let path in filesToUpload) {
     const {error} = await client.storage.from('images').upload(path, filesToUpload[path]);
     if(error) {
@@ -237,31 +242,26 @@ urlSaveBtn.addEventListener('click', async () => {
       showPreloader(false);
       return showResponseFn(`Error: ${error}`);
     };
-    delete filesToUpload[path];
-
-    const urlName = allUrlsArr.find(obj => obj.imgPath === path)?.title;
-    for(let block of allUrlsContainer.children) {
-      if(block.querySelector('a').textContent === urlName) {
-        block.classList.remove('unsaved');
-        delete localImgUrls[urlName];
-        break;
-      }
-    }
   };
 
   preloaderProgress.value = 4;
   whatIsLoadingText.textContent = 'All images uploaded';
 
+  // Remove
   for(let path of filesToRemove) client.storage.from('images').remove([path]);
+
+  // Url-name: imgUrl
+  localImgUrls = {};
+  // Path: imgUrl
+  filesToUpload = {};
+  // Path
+  filesToRemove = [];
 
   preloaderProgress.value = 5;
   whatIsLoadingText.textContent = 'File cleanup';
 
   // Path
   filesToRemove = [];
-
-  renderAllUrls();
-
   // Upload and remove imgs
 
   urlSaveBtn.classList.remove('unsaved');
@@ -285,7 +285,7 @@ codeSaveBtn.addEventListener('click', async () => {
   showPreloader();
   showResponseFn('Please wait...');
 
-  if(Object.keys(allUserCodesObj).length > 25) {
+  if(Object.keys(allUserCodesObj).length > allBlockLimitsObj.codes) {
     showPreloader(false);
     return showResponseFn('Your have codes blocks limit');
   };
@@ -366,6 +366,20 @@ window.addEventListener('beforeunload', e => {
   }
 })
 
+// Set all blocks limits
+todoProgress.max = allBlockLimitsObj.todos;
+noteProgress.max = allBlockLimitsObj.notes;
+urlProgress.max = allBlockLimitsObj.urls;
+codeProgress.max = allBlockLimitsObj.codes;
+
+// Set open btns texts
+function setOpenBtnsTexts() {
+  openTodoWrapBtn.lastElementChild.textContent = `${Object.keys(allTodosObj).length + Object.keys(hiddenTodosObj).length}/${allBlockLimitsObj.todos}`;
+  openNoteWrapBtn.lastElementChild.textContent = `${Object.keys(allNotesObj).length}/${allBlockLimitsObj.notes}`;
+  openUrlWrapBtn.lastElementChild.textContent = `${allUrlsArr.length}/${allBlockLimitsObj.urls}`;
+  openCodeWrapBtn.lastElementChild.textContent = `${Object.keys(allUserCodesObj).length}/${allBlockLimitsObj.codes}`;
+}
+
 // Initialization all content objects
 async function reloadAllContent() {
   let {data: sessionData, error: sessionError} = await client.auth.getSession();
@@ -392,6 +406,25 @@ async function reloadAllContent() {
     allUrlsArr = content.urls || [];
     allUserCodesObj = content.codes || {};
     setTimeout(() => showPreloader(false), 500);
+
+    const { data: imgs, error: imgsError } = await client.storage.from('avatars').list('', { limit: 1000 });
+    if(imgsError) showResponseFn('Error loading avatar');
+    else {
+      allAvatarsArr = await Promise.all(
+        imgs.map(avatarObj => {
+          const name = avatarObj.name;
+          const url = client.storage.from('avatars').getPublicUrl(name).data.publicUrl;
+          return { name, url };
+        })
+      );
+
+      openBtnProfileImg.src = initialContent.profile === -1
+      ? '/all-imgs/no-profile-icon.webp'
+      : allAvatarsArr.find(o => o.name === `${initialContent.profile}.png`)?.url;
+    }
+
+    setOpenBtnsTexts();
+
     return showResponseFn('Your content been loaded');
   } else {
     showPreloader(false);

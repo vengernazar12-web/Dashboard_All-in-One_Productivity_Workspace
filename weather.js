@@ -72,12 +72,14 @@ function renderFoundCities(txt) {
     const data = await resp.json();
 
     searchCityCont.textContent = '';
+    const frag = document.createDocumentFragment();
     for(let obj of data) {
       const p = document.createElement('p');
       p.textContent = `${obj.country}, ${obj.name}`;
       p.dataset.coordinates = `${obj.lat},${obj.lon}`;
-      searchCityCont.appendChild(p);
+      frag.appendChild(p);
     }
+    searchCityCont.appendChild(frag);
   }, 1250);
 }
 

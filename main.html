@@ -64,18 +64,20 @@
 <link rel="stylesheet" href="exchange rate.css">
 <link rel="stylesheet" href="weather.css">
 <link rel="stylesheet" href="timezone.css">
+<link rel="stylesheet" href="Profile.css">
 
 <script src="code-snippets-obj.js" async></script>
-<script src="main.js" defer></script> <!--1-->
-<script src="todo.js" defer></script> <!--2-->
-<script src="notes.js" defer></script> <!--3-->
-<script src="saveUrls.js" defer></script> <!--4-->
-<script src="user code.js" defer></script> <!--5-->
-<script src="timer.js" defer></script> <!--6-->
-<script src="exchange rate.js" defer></script> <!--7-->
-<script src="weather.js" defer></script> <!--8-->
-<script src="timezone.js" defer></script> <!--9-->
-<script src="sign.js" defer></script> <!--max-->
+<script src="main.js" defer></script><!--1-->
+<script src="todo.js" defer></script><!--2-->
+<script src="notes.js" defer></script><!--3-->
+<script src="saveUrls.js" defer></script><!--4-->
+<script src="user code.js" defer></script><!--5-->
+<script src="timer.js" defer></script><!--6-->
+<script src="exchange rate.js" defer></script><!--7-->
+<script src="weather.js" defer></script><!--8-->
+<script src="timezone.js" defer></script><!--9-->
+<script src="Profile.js" defer></script><!--10-->
+<script src="sign.js" defer></script><!--max-->
 <link rel="icon" href="/all-imgs/favicon-32x32.png" type="image/png">
 </head>
 
@@ -84,28 +86,17 @@
 
 <!-- First window -->
 <main class="all-dashboard-items">
-  <button class="open-todo-wrap --opened-btn">Your todos</button>
-  <button class="open-notes-wrap --opened-btn">Your notes</button>
-  <button class="open-save-urls-wrap --opened-btn">Your urls</button>
-  <button class="open-user-code-wrap --opened-btn">Your code</button>
+  <button class="open-todo-wrap --opened-btn"><p>Your todos</p><p></p></button>
+  <button class="open-notes-wrap --opened-btn"><p>Your notes</p><p></p></button>
+  <button class="open-save-urls-wrap --opened-btn"><p>Your urls</p><p></p></button>
+  <button class="open-user-code-wrap --opened-btn"><p>Your code</p><p></p></button>
   <button class="open-exchange-rate-wrap --opened-btn">Exchange rate</button>
   <button class="open-weather-wrap --opened-btn">Weather</button>
   <button class="open-timezone-wrap --opened-btn">Timezones</button>
 </main>
 
-<!-- Open setting window -->
-<button class="open-settings-window">
-  <svg xmlns="http://www.w3.org/2000/svg" style="width: 45px; height: 45px" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" />
-    <circle cx="12" cy="12" r="3" />
-  </svg>
-</button>
-
 <!-- Timer -->
-<button class="show-timer-window" title="Timer">
-  <svg><use href="#timer"></use></svg>
-</button>
-
+<button class="show-timer-window" title="Timer"><svg><use href="#timer"></use></svg></button>
 <div class="timer-window minimized">
   <header class="drag-and-drop-block">
     <h3>⏱ Focus timer</h3>
@@ -140,6 +131,77 @@
 
   <button class="start-timer-btn show">Start</button>
   <button class="stop-timer-btn">Stop</button>
+</div>
+
+<!-- User profile -->
+<button class="open-user-profile-wrap-btn"><img alt="Profile-img"></button>
+<div class="user-profile-wrap is-wrap">
+  <button class="close-user-profile-wrap-btn">❌</button>
+
+  <img alt="Profile img" class="profile-img-preview" loading="lazy">
+  <p class="user-email-info"></p>
+
+  <div class="all-profile-btns-block">
+    <!-- Open setting window -->
+    <button class="open-settings-window">
+      <svg xmlns="http://www.w3.org/2000/svg" style="width: 35px; height: 35px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" />
+        <circle cx="12" cy="12" r="3" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- User account info -->
+  <div class="user-account-info">
+    <div class="todos">
+      <p></p>
+      <progress></progress>
+    </div>
+
+    <div class="notes">
+      <p></p>
+      <progress></progress>
+    </div>
+
+    <div class="notes-length">
+      <p></p>
+      <progress></progress>
+    </div>
+
+    <div class="urls">
+      <p></p>
+      <progress></progress>
+    </div>
+
+    <div class="codes">
+      <p></p>
+      <progress></progress>
+    </div>
+
+    <div class="codes-length">
+      <p></p>
+      <progress></progress>
+    </div>
+  </div>
+
+  <!-- Total block limits -->
+  <progress class="total-block-limits"></progress>
+  <h3 class="total-block-limits-title">Total block limits</h3>
+
+  <!-- All wraps blocks -->
+  <hr>
+  <input type="text" class="search-profile-wrap-blocks-input" placeholder="Search blocks...">
+  <select class="select-wrap-type">
+    <option value="">---|---</option>
+    <option value="todos">Todos</option>
+    <option value="notes">Notes</option>
+    <option value="urls">Urls</option>
+    <option value="codes">Codes</option>
+  </select>
+  <div class="all-wrap-blocks-container"></div>
+
+  <!-- All avatars block -->
+  <div class="all-avatars-block"></div>
 </div>
 
 <!-- Todos -->
@@ -181,7 +243,7 @@
     <button class="confirm-todo-edit-mark" title="Confirm mark">Confirm</button>
   </div>
 
-  <progress class="todo-progress" max="100"></progress>
+  <progress class="todo-progress"></progress>
 </div>
 
 <!-- Notes -->
@@ -207,7 +269,7 @@
     <button class="add-note-button">Add</button>
   </div>
 
-  <progress class="note-progress" max="25"></progress>
+  <progress class="note-progress"></progress>
 </div>
 
 <div class="notes-content-wrap is-wrap">
@@ -276,7 +338,7 @@
     <button class="confirm-edit-url-btn">OK</button>
   </div>
 
-  <progress class="ulr-progress" max="25"></progress>
+  <progress class="ulr-progress"></progress>
 </div>
 
 <!-- User code wrap -->
@@ -328,7 +390,7 @@
     </div>
   </div>
 
-  <progress class="code-progress" max="25"></progress>
+  <progress class="code-progress"></progress>
 </div>
 
 <!-- Exchange rate wrap -->
@@ -507,7 +569,7 @@
   <p>Loading your content. Please wait...</p>
   <img src="/all-imgs/dashboard-favicon-img.svg" alt="Smile img" >
   <!-- Progress max = all scripts -->
-  <progress class="preloader-progress" max="10"></progress>
+  <progress class="preloader-progress" max="11"></progress>
   <p class="what-is-loading-text">Loading...</p>
 
   <span class="loader"></span>
@@ -593,6 +655,11 @@
     <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
     <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" />
     <path d="M12 18V6" />
+  </symbol>
+
+  <symbol id="eye" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
+    <circle cx="12" cy="12" r="3" />
   </symbol>
 </svg>
 

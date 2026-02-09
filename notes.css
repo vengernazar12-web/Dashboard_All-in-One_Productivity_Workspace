@@ -44,24 +44,13 @@
 }
 .note-block-btns-cont > button:hover { background-color: rgb(10, 25, 60); }
 
-/* Search note blocks */
-.search-note-blocks-input {
-  width: 95%;
-  height: 25px;
-  border-radius: 10px;
-  padding-left: 5px;
-  border: 1px solid blue;
-}
-/* Search note text */
+/* Search note blocks/text */
+.search-note-blocks-input { width: 95%; }
 .search-note-text-input {
   position: absolute;
   top: 48px;
-  width: 80%;
+  width: 90%;
   left: 5%;
-  height: 25px;
-  border-radius: 10px;
-  border: 1px solid black;
-  padding: 5px;
 }
 /* Note save btn */
 .note-save-btn {
@@ -70,7 +59,6 @@
   left: 50px;
   padding: 5px;
   border-radius: 10px;
-  border: 1px solid black;
 }/* Note save btn */
 
 /* Notes content wrap */

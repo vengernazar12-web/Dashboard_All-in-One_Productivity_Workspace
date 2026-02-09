@@ -4,12 +4,12 @@ whatIsLoadingText.textContent = 'Loading notes system...';
 const notesWrap = document.querySelector('.notes-wrap');
 const notesContentWrap = document.querySelector('.notes-content-wrap');
 // Open note wrap
-allDashboardItem.querySelector('.open-notes-wrap')
-.addEventListener('click', () => {
+const openNoteWrapBtn = allDashboardItem.querySelector('.open-notes-wrap');
+openNoteWrapBtn.addEventListener('click', () => {
   showPreloader();
   renderNotesBlocks();
   notesWrap.classList.add('show');
-  if(allUserNotesCont.childElementCount >= 25) openAddNoteForm.style.display = 'none';
+  if(allUserNotesCont.childElementCount >= allBlockLimitsObj.notes) openAddNoteForm.style.display = 'none';
   showPreloader(false);
   searchNoteBlocksInput.value = '';
 })
@@ -39,9 +39,9 @@ const notesBlocksLimitText = notesWrap.querySelector('.notes-blocks-limit');
 // Add note form
 const openAddNoteForm = notesWrap.querySelector('.toggle-add-note-form');
 openAddNoteForm.addEventListener('click', () => {
-  if(allUserNotesCont.childElementCount >= 25) {
+  if(allUserNotesCont.childElementCount >= allBlockLimitsObj.notes) {
     openAddNoteForm.style.display = 'none';
-    return showResponseFn('You have max notes 25/25');
+    return showResponseFn(`You have max notes ${allBlockLimitsObj.notes}/${allBlockLimitsObj.notes}`);
   };
   addNotesForm.classList.toggle('show');
   addNoteInputName.focus();
@@ -53,7 +53,7 @@ const addNoteInputDescription = addNotesForm.querySelector('.note-description-in
 
 const addNotesButton = addNotesForm.querySelector('.add-note-button');
 addNotesButton.addEventListener('click', () => {
-  if(allUserNotesCont.childElementCount >= 25) return showResponseFn('Your have note blocks limit');
+  if(allUserNotesCont.childElementCount >= allBlockLimitsObj.notes) return showResponseFn('Your have note blocks limit');
   const name = addNoteInputName.value.trim();
   let desc = addNoteInputDescription.value.trim();
   if(!desc) desc = 'Description';
@@ -71,7 +71,9 @@ addNotesButton.addEventListener('click', () => {
 
   noteSaveBtn.classList.add('unsaved');
 
-  if(allUserNotesCont.childElementCount >= 25) openAddNoteForm.style.display = 'none';
+  setOpenBtnsTexts();
+
+  if(allUserNotesCont.childElementCount >= allBlockLimitsObj.notes) openAddNoteForm.style.display = 'none';
 })
 
 // Delegation
@@ -92,6 +94,7 @@ allUserNotesCont.addEventListener('click', e => {
     noteBlock.classList.add('del-anim');
     clearTimeout(delNoteTimer);
     delNoteTimer = setTimeout(renderNotesBlocks, delAnimTime);
+    setOpenBtnsTexts();
   }
   else if(e.target.closest('.fav-note-btn')) { // Favorite note block
     const noteName = e.target.closest('.note-block').firstElementChild.textContent;
@@ -175,7 +178,7 @@ function renderNotesBlocks() {
   if(!arr.length) {
     allUserNotesCont.textContent = '';
     noteProgress.value = 0;
-    return notesBlocksLimitText.textContent = 'Notes: 0/25';
+    return notesBlocksLimitText.textContent = `Notes: 0/${allBlockLimitsObj.notes}`;
   }
 
   allUserNotesCont.textContent = '';
@@ -190,7 +193,7 @@ function renderNotesBlocks() {
 
   const notesBlocksLng = arr.length;
   noteProgress.value = notesBlocksLng;
-  notesBlocksLimitText.textContent = `Notes: ${notesBlocksLng}/25`;
+  notesBlocksLimitText.textContent = `Notes: ${notesBlocksLng}/${allBlockLimitsObj.notes}`;
 }
 
 // Search note blocks

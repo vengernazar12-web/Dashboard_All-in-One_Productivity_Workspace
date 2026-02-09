@@ -2,12 +2,13 @@
 whatIsLoadingText.textContent = 'Loading user code editor...';
 
 const userCodeWrap = document.querySelector('.user-code-wrap');
-allDashboardItem.querySelector('.open-user-code-wrap')
-.addEventListener('click', () => {
+// Open
+const openCodeWrapBtn = allDashboardItem.querySelector('.open-user-code-wrap');
+openCodeWrapBtn.addEventListener('click', () => {
   renderUserCodesBlocks();
   userCodeWrap.classList.add('show');
 })
-// Close code wrap
+// Close
 userCodeWrap.querySelector('.close-user-code-wrap')
 .addEventListener('click', () => {
   userCodeWrap.classList.remove('show');
@@ -147,7 +148,7 @@ function renderUserCodesBlocks() {
   allUserCodesContainer.appendChild(frag);
 
   const userCodeBlocksLng = allUserCodesContainer.childElementCount;
-  codeBlocksLimitText.textContent = `Codes: ${userCodeBlocksLng}/25`;
+  codeBlocksLimitText.textContent = `Codes: ${userCodeBlocksLng}/${allBlockLimitsObj.codes}`;
   codeProgress.value = userCodeBlocksLng;
 }
 
@@ -157,7 +158,7 @@ const codeBlockLang = addCodeBlockForm.querySelector('.user-code-lang');
 
 const addCodeBlockBtn = addCodeBlockForm.querySelector('.add-code-block-btn');
 addCodeBlockBtn.addEventListener('click', () => {
-  if(Object.keys(allUserCodesObj).length >= 25) return showResponseFn('You have code blocks limit');
+  if(Object.keys(allUserCodesObj).length >= allBlockLimitsObj.codes) return showResponseFn('You have code blocks limit');
   const name = codeBlockName.value.trim();
   if(!name.length) { addCodeBlockForm.classList.remove('show'); return showResponseFn("You don't have a block name")};
   if(allUserCodesObj[name]) return showResponseFn('You used this name');
@@ -174,14 +175,16 @@ addCodeBlockBtn.addEventListener('click', () => {
 
   codeSaveBtn.classList.add('unsaved');
 
-  if(allUserCodesContainer.childElementCount >= 25) return toggleAddCodeBlockForm.style.display = 'none';
+  setOpenBtnsTexts();
+
+  if(allUserCodesContainer.childElementCount >= allBlockLimitsObj.codes) return toggleAddCodeBlockForm.style.display = 'none';
 })
 
 const toggleAddCodeBlockForm = userCodeWrap.querySelector('.toggle-add-new-block-code-form');
 toggleAddCodeBlockForm.addEventListener('click', () => {
-  if(allUserCodesContainer.childElementCount >= 25) {
+  if(allUserCodesContainer.childElementCount >= allBlockLimitsObj.codes) {
     toggleAddCodeBlockForm.style.display = 'none';
-    return showResponseFn('You have blocks limit 25/25');
+    return showResponseFn(`You have blocks limit ${allBlockLimitsObj.codes}/${allBlockLimitsObj.codes}`);
   }
   addCodeBlockForm.classList.toggle('show');
   codeBlockName.focus();
@@ -298,6 +301,7 @@ focusWrap.addEventListener('click', e => {
     showResponseFn(`Block been deleted`)
     focusWrap.classList.remove('show');
     codeSaveBtn.classList.add('unsaved');
+    setOpenBtnsTexts();
   }
   else if(initTarget.closest('.lock')) { // Lock focus code
     const codeName = focusWrap.firstElementChild.textContent;
@@ -330,6 +334,7 @@ allUserCodesContainer.addEventListener('click', e => {
 
     clearTimeout(deleteTimer);
     deleteTimer = setTimeout(() => renderUserCodesBlocks(), delAnimTime);
+    setOpenBtnsTexts();
     return;
   }
   else if(e.target.closest('.lock-code-btn')) { // Lock code
