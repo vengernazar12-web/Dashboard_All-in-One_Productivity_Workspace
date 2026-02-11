@@ -211,8 +211,9 @@
   <header class="drag-and-drop-block"></header>
   <button class="todo-save-btn --saved-btn" title="Save content"><svg><use href="#save"></use></svg></button>
 
-  <input type="text" class='todo-name-input' placeholder="Your todo...">
+  <input type="text" class='todo-name-input' placeholder="Todo name...">
   <input type="text" class="todo-mark-input" placeholder="Todo mark...">
+  <input type="text" class="todo-tag-input" placeholder="Todo tag...">
   <button class='add-todo' title="Add todo">Add</button>
   <input type="text" class='todo-search' placeholder="Search todo...">
 
@@ -223,6 +224,15 @@
 
   <button class="hide-completed-todos" title="Hide all completed todos">Hide completed</button>
   <button class="toggle-hidden-todos-window" title="Show hidden todos">🗂️</button>
+  <button class="toggle-todo-progresses-block">i</button>
+
+  <!-- Todo progresses -->
+  <div class="todo-progresses-block">
+    <progress></progress>
+    <p class="completed">Completed</p>
+    <p class="not-completed">Pending</p>
+    <progress></progress>
+  </div>
 
   <div class="hidden-todos-window is-wrap">
     <h2>Hidden todos</h2>

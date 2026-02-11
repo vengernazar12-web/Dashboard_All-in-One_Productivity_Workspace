@@ -6,6 +6,11 @@ const todoWrap = document.querySelector('.todo-wrap');
 const openTodoWrapBtn = allDashboardItem.querySelector('.open-todo-wrap');
 openTodoWrapBtn.addEventListener('click', () => {
   showPreloader();
+
+  if(!groupedTodos) {
+    initGroupsTodosObj();
+  }
+
   renderTodos();
   todoWrap.classList.add('show');
   showPreloader(false);
@@ -31,10 +36,34 @@ todoWrap.querySelector('.toggle-hidden-todos-window')
   showPreloader(false);
 })
 
+function initGroupsTodosObj() {
+  groupedTodos = {};
+  const allTags = new Set(Object.keys(allTodosObj).map(n => allTodosObj[n].tag));
+
+  for(let t of allTags) {
+    const allTodoInTag = [];
+    for(let n in allTodosObj) if(allTodosObj[n].tag === t) allTodoInTag.push(n);
+    groupedTodos[t] = allTodoInTag;
+  }
+}
+
 let allTodosObj = {};
 let hiddenTodosObj = {};
+let groupedTodos = null;
 
-function createTodoElement(name, searchVal = null, isFavorite) {
+function createTodoTagBlock(name) {
+  const div = document.createElement('div'),
+    h3 = document.createElement('h3'),
+    cont = document.createElement('div');
+
+  div.classList.add('todo-tag-block');
+  h3.textContent = name;
+
+  div.append(h3, document.createElement('hr'), cont);
+  return div;
+}
+
+function createTodoElement(name, searchVal, isFavorite) {
   let markRegexp = null;
   if(searchVal) markRegexp = new RegExp(searchVal, 'ig');
 
@@ -110,11 +139,19 @@ function renderTodos() {
   todosContainer.textContent = '';
   const frag = document.createDocumentFragment();
 
-  // Render favorites todos
-  for(let n in allTodosObj) if(allTodosObj[n].isFav) frag.appendChild(createTodoElement(n, null, true));
-  // Render no favorites todos
-  for(let n in allTodosObj) if(!allTodosObj[n].isFav) frag.appendChild(createTodoElement(n, null, false));
-  // Append fragment
+  for(let tag in groupedTodos) {
+    const tagBlock = createTodoTagBlock(tag);
+
+    // Render favorites
+    for(let n of groupedTodos[tag]) {
+      if(allTodosObj[n].isFav) tagBlock.lastElementChild.appendChild(createTodoElement(n, null, true));
+    }
+    // Render not favorites
+    for(let n of groupedTodos[tag]) {
+      if(!allTodosObj[n].isFav) tagBlock.lastElementChild.appendChild(createTodoElement(n, null, false));
+    }
+    frag.appendChild(tagBlock);
+  }
   todosContainer.appendChild(frag);
 
   const todosBlocksLng = Object.keys(allTodosObj).length + Object.keys(hiddenTodosObj).length;
@@ -129,11 +166,17 @@ const todosContainer = todoWrap.querySelector('.todos-container');
 const todoNameInput = todoWrap.querySelector('.todo-name-input');
 todoNameInput.addEventListener('input', () => todoTxtLength.textContent = `${todoNameInput.value.trim().length}/25`);
 todoNameInput.addEventListener('focus', () => {
-  todoTxtLength.textContent = '0/25';
-  todoNameInput.value = '';
+  todoTxtLength.textContent = `${todoNameInput.value.trim().length}/25`;
   editTodoBlock.classList.remove('show');
 });
 const todoAddBtn = todoWrap.querySelector('.add-todo');
+
+const todoTagInput = todoWrap.querySelector('.todo-tag-input');
+todoTagInput.addEventListener('focus', () => {
+  todoTxtLength.textContent = `${todoTagInput.value.trim().length}/25`;
+  editTodoBlock.classList.remove('show');
+});
+todoTagInput.addEventListener('input', () => todoTxtLength.textContent = `${todoTagInput.value.trim().length}/25`);
 
 const todosNumberText = todoWrap.querySelector('.todos-number');
 
@@ -233,6 +276,7 @@ hiddenTodosWindow.querySelector('.unhide-todos')
     allTodosObj[h] = hiddenTodosObj[h];
     delete hiddenTodosObj[h];
   }
+  initGroupsTodosObj();
   renderTodos();
   renderHiddenTodos();
   todoSaveBtn.classList.add('unsaved');
@@ -251,8 +295,7 @@ function isWhiteColor(hex) {
 const todoMarkInput = todoWrap.querySelector('.todo-mark-input');
 todoMarkInput.addEventListener('input', () => todoTxtLength.textContent = `${todoMarkInput.value.length}/12`)
 todoMarkInput.addEventListener('focus', () => {
-  todoTxtLength.textContent = '0/12';
-  todoMarkInput.value = '';
+  todoTxtLength.textContent = `${todoMarkInput.value.trim().length}/12`;
   editTodoBlock.classList.remove('show');
 });
 
@@ -321,12 +364,40 @@ editTodoBlock.querySelector('.confirm-todo-edit-mark')
   todoSaveBtn.classList.add('unsaved');
 })
 
+// Todo progresses
+const progressesBlock = todoWrap.querySelector('.todo-progresses-block');
+const completedTodoProg = progressesBlock.firstElementChild;
+const notCompletedTodoProg = progressesBlock.lastElementChild;
+
+// Toggle progresses block
+todoWrap.querySelector('.toggle-todo-progresses-block')
+.addEventListener('click', () => {
+  progressesBlock.classList.toggle('open');
+
+  if(progressesBlock.classList.contains('open')) {
+    const todosLng = Object.keys(allTodosObj).length;
+    completedTodoProg.max = todosLng;
+    notCompletedTodoProg.max = todosLng;
+
+    let comp = 0, notComp = 0;
+    for(let n in allTodosObj) {
+      if(allTodosObj[n].isCompleted) comp++;
+      else notComp++;
+    }
+
+    completedTodoProg.value = comp;
+    notCompletedTodoProg.value = notComp;
+  }
+})
+
 /* Progress */ const todoProgress = todoWrap.querySelector('.todo-progress');
 
 // Todo wrap click event
 let delTodoTimer = null;
 todoWrap.addEventListener('click', e => {
   if(!e.target.closest('.edit-todo-block')) editTodoBlock.classList.remove('show');
+  if(!e.target.classList.contains('toggle-todo-progresses-block') && !e.target.closest('.todo-progresses-block')) progressesBlock.classList.remove('open');
+
   if(e.target.classList.contains('add-todo')) { // Add todo btn
     if(Object.keys(allTodosObj).length + Object.keys(hiddenTodosObj).length >= allBlockLimitsObj.todos) return showResponseFn('Your have todos limit');
     const val = todoNameInput.value.trim();
@@ -337,8 +408,16 @@ todoWrap.addEventListener('click', e => {
     const mark = todoMarkInput.value.trim();
     if(mark.length > 12) return showResponseFn('Todo mark is too long');
 
+    const tag = todoTagInput.value.trim().toLowerCase();
+    if(!tag) {
+      todoTagInput.focus();
+      return showResponseFn("Please set todo tag");
+    }
+    if(tag.length > 25) return showResponseFn('Todo tag is too long');
+
     todoMarkInput.value = '';
     todoNameInput.value = '';
+    todoTagInput.value = '';
 
     const d = new Date();
     const date = d.getDate(),
@@ -348,10 +427,11 @@ todoWrap.addEventListener('click', e => {
 
     todoNameInput.focus();
 
-    allTodosObj[val] = { date: time, isCompleted: false, mark, }
+    allTodosObj[val] = { date: time, isCompleted: false, mark, tag, }
 
     todoSaveBtn.classList.add('unsaved');
 
+    initGroupsTodosObj();
     renderTodos();
     todoTxtLength.textContent = '0/25';
     setOpenBtnsTexts();
@@ -371,6 +451,7 @@ todoWrap.addEventListener('click', e => {
     if(localStorage.getItem('disabled-anim') === 'true') return renderTodos();
 
     todoBlock.classList.add('del-anim');
+    initGroupsTodosObj();
     clearTimeout(delTodoTimer);
     delTodoTimer = setTimeout(renderTodos, delAnimTime);
     setOpenBtnsTexts();
@@ -396,10 +477,6 @@ todoWrap.addEventListener('click', e => {
     ].isCompleted = e.target.checked;
     todoSaveBtn.classList.add('unsaved');
   }
-  else if(e.target.classList.contains('todo-name-input')) { // Set todo name input
-    searchTodoInput.value = '';
-    renderTodos();
-  }
   else if(e.target.classList.contains('hide-completed-todos')) { // Hide complete todos btn
     const arr = Object.keys(allTodosObj);
     if(!arr.length) return showResponseFn("Todos not found");
@@ -409,9 +486,9 @@ todoWrap.addEventListener('click', e => {
         delete allTodosObj[todo]
       }
     }
+    initGroupsTodosObj();
     renderTodos();
     renderHiddenTodos();
-
     todoSaveBtn.classList.add('unsaved');
   }
   else if(e.target.closest('.fav-todo-btn')) { // Set todo favorite

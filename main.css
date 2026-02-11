@@ -219,7 +219,6 @@ body {
   border: none;
   border-radius: 15px;
   background: transparent;
-  transition: width .3s ease;
 }
 .is-wrap > progress::-webkit-progress-bar {
   background: linear-gradient(to bottom, rgba(255,255,255,0.9), rgba(220,230,245,0.9));
@@ -230,7 +229,7 @@ body {
   border-radius: 15px;
   background: linear-gradient(90deg, #3b82f6, #06b6d4);
   box-shadow: 0 0 12px rgba(59,130,246,0.45), inset 0 1px 2px rgba(255,255,255,0.35);
-  transition: width .6s cubic-bezier(.4,0,.2,1);
+  transition: width .6s;
 }
 .is-wrap > progress::-moz-progress-bar {
   border-radius: 14px;
