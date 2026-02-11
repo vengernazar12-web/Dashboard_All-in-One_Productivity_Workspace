@@ -329,6 +329,7 @@
   top: 185px;
   right: 27.5%;
   font-size: 1.2rem;
+  color: var(--text-color);
 }
 
 .todo-progresses-block {
@@ -344,6 +345,7 @@
   border-radius: 5px;
   width: 200px;
   scale: 0;
+  color: black;
   transition: scale .3s;
 }
 .todo-progresses-block.open { scale: 1; }
