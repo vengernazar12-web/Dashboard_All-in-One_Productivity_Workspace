@@ -10,13 +10,6 @@
   color: var(--text-color);
 }
 
-.close-exchange-rate-wrap-btn {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  font-size: 1.5rem;
-}
-
 .exchange-rate-nav-block {
   width: 85%;
   position: absolute;

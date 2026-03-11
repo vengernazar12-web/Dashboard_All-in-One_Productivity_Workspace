@@ -8,6 +8,16 @@ const allBlockLimitsObj = {
   urls: 25,
   codes: 25,
 }
+// All values limits
+const allValuesLimit = {
+  todoName: 25,
+  todoMark: 12,
+  todoTag: 25,
+  urlTitle: 50,
+  codeName: 25,
+  noteName: 50,
+  noteDesc: 250,
+}
 
 const mls = localStorage.getItem('del-anim-time');
 let delAnimTime = mls !== null ? +mls : 1500;
@@ -19,6 +29,29 @@ const allDashboardItem = document.querySelector('.all-dashboard-items');
 allDashboardItem.addEventListener('click', e => {
   if(e.target.tagName === 'BUTTON') document.body.style.overflow = 'hidden';
 })
+// Toggle
+const toggleAllDashboardItemBtn = allDashboardItem.querySelector('.toggle-dashboard-items-btn');
+toggleAllDashboardItemBtn.addEventListener('click', () => {
+  allDashboardItem.classList.toggle('open');
+  tagUseInToggleSidebarBtn.setAttribute('href', `#${allDashboardItem.classList.contains('open') ? 'close-panel' : 'open-panel'}`);
+})
+
+const tagUseInToggleSidebarBtn = toggleAllDashboardItemBtn.querySelector('use');
+
+// Close all wraps
+function closeAllWraps() {
+  todoWrap.classList.remove('show');
+  notesWrap.classList.remove('show');
+  urlsWrap.classList.remove('show');
+  userCodeWrap.classList.remove('show');
+  exchangeRateWrap.classList.remove('show');
+  weatherWrap.classList.remove('show');
+  timezoneWrap.classList.remove('show');
+  assistantWrap.classList.remove('show');
+  profileWrap.classList.remove('show');
+  settingsWindow.classList.remove('show');
+  if(allDashboardItem.classList.contains('open')) toggleAllDashboardItemBtn.click();
+}
 
 // Show body scroll fn
 function showBodyScroll() {
@@ -38,24 +71,32 @@ document.addEventListener('keydown', e => {
     if(notesWrap.classList.contains('show')) openAddNoteForm.click();
     else if(userCodeWrap.classList.contains('show')) toggleAddCodeBlockForm.click();
     else if(urlsWrap.classList.contains('show')) toggleUrlFormBtn.click();
+    else if(todoWrap.classList.contains('show')) toggleAddTodoForm.click();
+  }
+  else if(e.ctrlKey && e.code === 'KeyP') {
+    e.preventDefault();
+    toggleAllDashboardItemBtn.click();
   }
 
   else if(focusWrap.classList.contains('show') && e.key === 'Escape') closeFocusBtn.click();
 
   else if(e.key === 'Enter') {
-    if(todoWrap.classList.contains('show')) todoAddBtn.click();
+    if(addTodoForm.classList.contains('show')) todoAddBtn.click();
     else if(addUrlForm.classList.contains('show')) addUrlBtn.click();
     else if(addNotesForm.classList.contains('show')) addNotesButton.click();
     else if(addCodeBlockForm.classList.contains('show')) addCodeBlockBtn.click();
+    else if(assistantWrap.classList.contains('show') && !e.shiftKey) {
+      e.preventDefault();
+      sendPromptBtn.click();
+    }
+    else if(editNoteBlock.classList.contains('show')) confNoteEditChangeBtn.click();
   }
 })
 
-/* Open/close mini-window events */
-for(let b of document.querySelectorAll('.min-wrap')) {
-  b.addEventListener('click', () => {
-    b.parentElement.removeAttribute('style');
-    b.parentElement.classList.toggle('minimized');
-})}
+// Document click event
+document.addEventListener('click', e => {
+  if(allDashboardItem.classList.contains('open') && !e.target.closest('.all-dashboard-items')) toggleAllDashboardItemBtn.click();
+})
 
 /* Theme switcher */
 const DashboardSwitchTheme = document.querySelector('[data-theme-switcher]');
@@ -79,35 +120,6 @@ if(localStorage.getItem('todo-theme') === 'dark') {
   DashboardSwitchTheme.textContent = '🌑';
 }
 else DashboardSwitchTheme.textContent = '☀️';
-
-// Drag and drop window
-let isDrag = false,
-dragBlock = null,
-x, y;
-document.addEventListener('pointerup', () => {isDrag = false; dragBlock = null;})
-
-document.addEventListener('pointerdown', e => {
-  if(!e.target.parentElement?.classList.contains('minimized') || e.target.tagName !== 'HEADER') return;
-  isDrag = true;
-  dragBlock = e.target.parentElement;
-  const blockObj = dragBlock.getBoundingClientRect();
-  x = e.clientX - blockObj.left;
-  y = e.clientY - blockObj.top;
-})
-
-document.addEventListener('pointermove', e => {
-  if(!isDrag || !dragBlock) return;
-  let left = e.clientX - x,
-  top = e.clientY - y;
-
-  left = Math.max(0, left);
-  top = Math.max(0, top);
-
-  const bObj = dragBlock.getBoundingClientRect();
-
-  dragBlock.style.left = Math.min(left, window.innerWidth - bObj.width) + 'px';
-  dragBlock.style.top = Math.min(top, window.innerHeight - bObj.height) + 'px';
-})
 
 // Show response function
 const showResponseText = document.querySelector('.show-response');

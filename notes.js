@@ -6,6 +6,7 @@ const notesContentWrap = document.querySelector('.notes-content-wrap');
 // Open note wrap
 const openNoteWrapBtn = allDashboardItem.querySelector('.open-notes-wrap');
 openNoteWrapBtn.addEventListener('click', () => {
+  closeAllWraps();
   showPreloader();
   renderNotesBlocks();
   notesWrap.classList.add('show');
@@ -13,12 +14,7 @@ openNoteWrapBtn.addEventListener('click', () => {
   showPreloader(false);
   searchNoteBlocksInput.value = '';
 })
-// Close note wrap
-notesWrap.querySelector('.close-notes-wrap')
-.addEventListener('click', () => {
-  notesWrap.classList.remove('show');
-  showBodyScroll();
-})
+
 // Close notes content wrap
 notesContentWrap.querySelector('.close-notes-content-wrap')
 .addEventListener('click', e => {
@@ -48,18 +44,23 @@ openAddNoteForm.addEventListener('click', () => {
 })
 
 const addNotesForm = notesWrap.querySelector('.add-notes-inputs');
+
 const addNoteInputName = addNotesForm.querySelector('.note-name-input');
+addNoteInputName.addEventListener('input', () => addNoteInputName.style.color = addNoteInputName.value.trim().length > allValuesLimit.noteName ? 'red' : 'white');
+
 const addNoteInputDescription = addNotesForm.querySelector('.note-description-input');
+addNoteInputDescription.addEventListener('input', () => addNoteInputDescription.style.color = addNoteInputDescription.value.trim().length > allValuesLimit.noteDesc ? 'red' : 'white');
 
 const addNotesButton = addNotesForm.querySelector('.add-note-button');
 addNotesButton.addEventListener('click', () => {
   if(allUserNotesCont.childElementCount >= allBlockLimitsObj.notes) return showResponseFn('Your have note blocks limit');
   const name = addNoteInputName.value.trim();
-  let desc = addNoteInputDescription.value.trim();
-  if(!desc) desc = 'Description';
+  let desc = addNoteInputDescription.value.trim() || 'Description';
+  if(desc.length > allValuesLimit.noteDesc) return showResponseFn('The description is too long (more than 250 characters)');
 
   if(!name) {addNotesForm.classList.remove('show'); return showResponseFn("You don't have a note name !")};
   if(allNotesObj[name]) return showResponseFn('You are using this name');
+  if(name.length > allValuesLimit.noteName) return showResponseFn('Note name is too long (more than 50 characters)');
 
   addNoteInputName.value = '';
   addNoteInputDescription.value = '';
@@ -74,6 +75,48 @@ addNotesButton.addEventListener('click', () => {
   setOpenBtnsTexts();
 
   if(allUserNotesCont.childElementCount >= allBlockLimitsObj.notes) openAddNoteForm.style.display = 'none';
+
+  // Save change for userActions
+  writeToUserActions(`Користувач додав нову нотатку з назвою ${name}${desc !== 'Description' ? ` та з описом ${desc}` : ''}`);
+})
+
+// Edit note
+let initEditingNoteName = null;
+let descBeforeEdit = null;
+
+const editNoteBlock = notesWrap.querySelector('.edit-note-block');
+const editNoteNameInput = editNoteBlock.querySelector('.edit-note-name-input');
+const editNoteDescInput = editNoteBlock.querySelector('.edit-note-desc-input');
+
+const confNoteEditChangeBtn = editNoteBlock.querySelector('.conf-note-edit-change-btn');
+confNoteEditChangeBtn.addEventListener('click', () => {
+  editNoteBlock.classList.remove('show');
+
+  const newName = editNoteNameInput.value.trim();
+  const newDesc = editNoteDescInput.value.trim();
+
+  if(newName === initEditingNoteName && descBeforeEdit === newDesc) return;
+  if(!newName || !newDesc) return showResponseFn(`You don't have a note ${!newName ? 'name' : 'description'}`);
+
+  allNotesObj[initEditingNoteName].description = newDesc;
+
+  const objForEditName = allNotesObj[initEditingNoteName];
+
+  delete allNotesObj[initEditingNoteName];
+  allNotesObj[newName] = objForEditName;
+
+  renderNotesBlocks();
+  showResponseFn('The note has been edited.');
+
+  noteSaveBtn.classList.add('unsaved');
+
+  // Save change for userActions
+  writeToUserActions(
+    newName !== initEditingNoteName && descBeforeEdit !== newDesc
+    ? `Користувач замінив назву нотатки з ${initEditingNoteName} на ${newName} та опис з ${descBeforeEdit} на ${newDesc}`
+    : newName !== initEditingNoteName ? `Користувач замінив назву нотатки з ${initEditingNoteName} на ${newName}`
+    : `Користувач замінив опис нотатки з назвою ${initEditingNoteName} з ${descBeforeEdit} на ${newDesc}`
+  );
 })
 
 // Delegation
@@ -95,6 +138,9 @@ allUserNotesCont.addEventListener('click', e => {
     clearTimeout(delNoteTimer);
     delNoteTimer = setTimeout(renderNotesBlocks, delAnimTime);
     setOpenBtnsTexts();
+
+    // Save change for userActions
+    writeToUserActions(`Користувач видалив нотатку з назвою ${noteName}`);
   }
   else if(e.target.closest('.fav-note-btn')) { // Favorite note block
     const noteName = e.target.closest('.note-block').firstElementChild.textContent;
@@ -103,6 +149,18 @@ allUserNotesCont.addEventListener('click', e => {
     renderNotesBlocks();
 
     noteSaveBtn.classList.add('unsaved');
+
+    // Save change for userActions
+    writeToUserActions(allNotesObj[noteName].isFav ? `Користувач позначив нотатку з назвою ${noteName} як фаворіт` : `Користувач забрав нотатку з назвою ${noteName} з фаворітів`);
+  }
+  else if(e.target.closest('.edit-note-btn')) { // Edit
+    const targetNoteBlockName = e.target.closest('.note-block').firstElementChild.textContent;
+    editNoteBlock.classList.add('show');
+    editNoteNameInput.value = targetNoteBlockName;
+    editNoteDescInput.value = allNotesObj[targetNoteBlockName].description;
+
+    initEditingNoteName = targetNoteBlockName;
+    descBeforeEdit = allNotesObj[targetNoteBlockName].description;
   }
   else if(e.target.closest('.note-block')) { // Open note content
     const name = e.target.closest('.note-block').firstElementChild.textContent;
@@ -136,6 +194,7 @@ function createNoteBlock( name, desc, isFavorite, searchVal ) {
     btnsCont = document.createElement('div'),
     delBtn = document.createElement('button'),
     favBtn = document.createElement('button'),
+    editBtn = document.createElement('button'),
     hr2 = document.createElement('hr');
 
   div.classList.add('note-block');
@@ -149,7 +208,7 @@ function createNoteBlock( name, desc, isFavorite, searchVal ) {
   };
 
   btnsCont.classList.add('note-block-btns-cont');
-  btnsCont.append(delBtn, favBtn);
+  btnsCont.append(delBtn, favBtn, editBtn);
 
   delBtn.innerHTML = '<svg><use href="#delete-code"></use></svg>';
   delBtn.classList.add('delete-note-btn');
@@ -158,6 +217,9 @@ function createNoteBlock( name, desc, isFavorite, searchVal ) {
   favBtn.classList.add('fav-note-btn');
   favBtn.style.color = isFavorite ? 'rgb(255, 255, 122)' : 'white';
   favBtn.style.boxShadow = isFavorite ? '0 0 3px 1px gold' : '0 0 0 0 white';
+
+  editBtn.classList.add('edit-note-btn');
+  editBtn.innerHTML = '<svg><use href="#edit"></use></svg>';
 
   div.append(h2, hr, p, hr2, btnsCont);
 

@@ -1,65 +1,90 @@
-# Dashboard App
+# DASHBOARD Assistant
 
-A simple personal dashboard that lets you save and sync your todos, notes, code snippets and links across devices.
-
-Built with Vanilla JavaScript and Supabase for backend storage and authentication.
-
----
-
-## 🚀 Features
-
-This project includes:
-
-✨ **User authentication** (email + password)
-☁️ Cloud-synced data with Supabase
-📋 **Todos** (with hidden / archived items)
-📝 **Notes**
-🧠 **Code snippets** editor
-🔗 **Saved URLs** manager
-📱 Works on desktop and mobile screens
+Асистент для управління DASHBOARD системою з інтеграцією парсера та AI.
+Забезпечує користувачу можливість взаємодіяти з типами даних та сервісами, отримувати пояснення та інструкції, а також автоматизовану обробку команд.
 
 ---
 
-## 🔧 Getting Started
+## 🔹 Мета проєкту
 
-To run this project locally:
+- Забезпечити **розумну взаємодію користувача** з дашбордом
+- Підтримка команд типів (`todos`, `notes`, `codes`, `urls`) та сервісів (`weather`, `timezones`, `exchange rates`, `settings`, `profile`, `timer`)
+- Використання AI для пояснень, виправлення неповних команд та асистування
+- Підтримка багатофазних команд через `?multi|` та контрольоване використання даних через `?get|`
 
-1. Clone the repository
-   ```bash
-   git clone https://github.com/vengernazar12-web/dashboard-js.git
+---
 
-🗃 Data Structure
+## 📦 Структура системи
 
-Each authenticated user has one row in the Supabase user_content table:
+1. **Parser Layer**
+   - Обробляє базові команди та визначає типи/операції
+   - Перевіряє наявність обов’язкових полів
+   - Підтримує fuzzy matching та нормалізацію мови (укр → англ)
+   - Відповідає користувачу за стандартні помилки формату
 
-{
-  "id": "auth.uid()",
-  "content": {
-    "todos": {},
-    "notes": {},
-    "codes": {},
-    "urls": {}
-  }
-}
+2. **AI Layer (Fallback)**
+   - Використовується, якщо парсер не впорався
+   - Генерує правильні команди, пояснює дії, асистує користувачу
+   - Використовує промпт з чіткими правилами: `?get|` тільки для отримання даних, без автоматичного вставлення
+   - Підтримка multi-команд через `?multi|`
 
-🧰 Technologies Used
+3. **Tools Layer**
+   - Отримання даних (`?get|`) та виконання команд
+   - Всі дії строго через типи та сервіси, нічого поза ними
 
-HTML5
+---
 
-CSS3
+## ⚙️ Підтримувані типи та сервіси
 
-Vanilla JavaScript
+### Типи даних
+- `todos` → `names`, `tags` (обов’язково), `marks` (опційно)
+- `notes` → `names` (обов’язково), `descs` (опційно)
+- `codes` → `names`, `languages(html/css/javascript)`
+- `urls` → `names`, `urls`
 
-Supabase (auth + database)
+### Сервіси
+- `weather`, `timezones`, `exchange rates`, `settings`, `profile`, `timer`
+- Доступні команди: `OPEN`, `SHOW`
 
-🧩 How to Use
+---
 
-After signing in:
+## 💬 Команди користувача
 
-Manage your daily todos
+| Команда | Пояснення | Потрібні поля |
+|---------|-----------|---------------|
+| ADD | Додавання об’єкту | всі поля типу |
+| DELETE | Видалення об’єкту | `name` |
+| SEARCH | Пошук | одне або всі ключі |
+| CLEAR, SAVE, OPEN | Робота з типом | `type` |
+| LIST/SHOW | Перегляд | без полів: всі блоки, з полями: лише вказані |
+| READ/INFO | Інформація | без назв: глобальна, з назвами: конкретні блоки |
+| CALC | Обчислення | приклади через кому |
 
-Write and save notes
+**Примітка:** Команди доступні **тільки для типів та сервісів**. Все інше заборонено.
 
-Store favorite links
+---
 
-Add and edit your code snippets
+## 📌 Використання AI
+
+- AI працює **як асистент**, не змінює контент
+- Використовує `?get|` для отримання даних, **не показує команди користувачу**
+- Multi-команди через `?multi|` дозволяють робити кілька дій одночасно
+- Плейсхолдери `[очікування даних про ...]` використовуються для внутрішньої орієнтації AI, показуються користувачу
+
+---
+
+## 🛠️ Інтерфейс
+
+- DASHBOARD має **одну панель навігації зліва** з переходами до типів і сервісів
+- Вікна типів містять кнопки для додавання, видалення, редагування, фокусування, копіювання
+- У кодах є кнопки **Run / Save / Delete**; AI може допомагати у перевірці коду
+- Для Todos доступні кнопки сховати/показати виконані елементи, маркування фаворитів
+
+---
+
+## 📂 Приклади використання
+
+```text
+add todos, names: "купити хліб", tags: "покупки", marks: "важливо"
+delete notes, name: "database"
+?multi| ['add notes, name: n1', '?set| [{type: "note", name: "n1", content: "Текст"}]']

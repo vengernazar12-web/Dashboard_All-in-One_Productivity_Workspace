@@ -5,6 +5,8 @@ const exchangeRateWrap = document.querySelector('.exchange-rate-wrap');
 // Open
 const openExchangeRateWrapBtn = allDashboardItem.querySelector('.open-exchange-rate-wrap');
 openExchangeRateWrapBtn.addEventListener('click', async () => {
+  if(exchangeRateWrap.classList.contains('show')) return;
+  closeAllWraps();
   preloaderProgress.max = 1;
   preloaderProgress.value = 0;
   whatIsLoadingText.textContent = 'Loading exchange rate...';
@@ -20,12 +22,6 @@ openExchangeRateWrapBtn.addEventListener('click', async () => {
   preloaderProgress.value = 1;
   setTimeout(() => showPreloader(false), 500);
   showResponseFn('Exchange rate are been loaded');
-});
-// Close
-exchangeRateWrap.querySelector('.close-exchange-rate-wrap-btn')
-.addEventListener('click', () => {
-  exchangeRateWrap.classList.remove('show');
-  showBodyScroll();
 });
 
 // Api

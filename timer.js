@@ -3,8 +3,8 @@ whatIsLoadingText.textContent = 'Loading timer utilities...';
 
 const timerWindow = document.querySelector('.timer-window');
 // Open
-document.querySelector('.show-timer-window')
-.addEventListener('click', () => {
+const openTimerBtn = allDashboardItem.querySelector('.show-timer-window');
+openTimerBtn.addEventListener('click', () => {
   timerWindow.classList.toggle('show');
   if(!selectitem.value) {
     selectType.value = 'todos';
@@ -151,14 +151,7 @@ startTimerBtn.addEventListener('click', () => {
 
   userIsReadyEvent = () => {
     userReadyWindow.classList.remove('show');
-    timerWindow.classList.remove('show');
-    settingsWindow.classList.remove('show');
-    todoWrap.classList.remove('show');
-    notesWrap.classList.remove('show');
-    urlsWrap.classList.remove('show');
-    userCodeWrap.classList.remove('show');
-    weatherWrap.classList.remove('show');
-    timezoneWrap.classList.remove('show');
+    closeAllWraps();
 
     if(!noContainerTypes.includes(type)) {
       pointInfo.wrap.classList.add('show');

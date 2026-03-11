@@ -1,13 +1,15 @@
 .open-user-profile-wrap-btn {
-  position: fixed;
-  top: 5px;
-  right: 5px;
-  width: 60px;
-  height: 60px;
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  width: 65px;
+  height: 65px;
+  color: var(--text-color);
+  font-size: 12px;
 }
 .open-user-profile-wrap-btn > img {
-  height: 100%;
-  width: 100%;
+  height: 50px;
+  width: auto;
   border-radius: 25%;
   object-fit: contain;
   object-position: center;
@@ -18,12 +20,6 @@
 .open-user-profile-wrap-btn > img:hover {
   transform: translateY(2px);
   box-shadow: 0 0 black;
-}
-.close-user-profile-wrap-btn {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  font-size: 1.3rem;
 }
 
 /* Avatar preview */
@@ -151,14 +147,14 @@
 
 /* All profile btns block */
 .all-profile-btns-block {
-  width: calc(100% - 170px);
+  width: calc(100% - 140px);
   display: flex;
   justify-content: space-around;
   align-items: center;
   flex-wrap: wrap;
   position: absolute;
   top: 5px;
-  right: 35px;
+  right: 5px;
   border: 1px solid var(--border-color);
   border-radius: 10px;
 }

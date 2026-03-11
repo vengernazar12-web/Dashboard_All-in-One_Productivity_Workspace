@@ -2,15 +2,8 @@
   padding: 5px;
 }
 
-.close-timezone-wrap-btn {
-  position: absolute;
-  top: 3px;
-  right: 3px;
-  font-size: 1.25rem;
-}
-
 .search-timezone-input {
-  width: calc(100% - 35px);
+  width: 100%;
   margin-bottom: 5px;
 }
 .select-timezone {

@@ -54,6 +54,7 @@ todoSaveBtn.addEventListener('click', async () => {
   preloaderProgress.max = 3;
   preloaderProgress.value = 0;
   whatIsLoadingText.textContent = 'Start...';
+  renderTodos();
 
   todoSaveBtn.disabled = true;
   showPreloader();
@@ -118,6 +119,7 @@ noteSaveBtn.addEventListener('click', async () => {
   preloaderProgress.max = 4;
   preloaderProgress.value = 0;
   whatIsLoadingText.textContent = 'Start...';
+  renderNotesBlocks();
 
   noteSaveBtn.disabled = true;
   showPreloader();
@@ -129,9 +131,9 @@ noteSaveBtn.addEventListener('click', async () => {
     showPreloader(false);
     return showResponseFn('You have notes blocks limit');
   };
-  if(arr.find(name => allNotesObj[name].txt.replaceAll('\n','').length > 2000)) {
+  if(arr.find(name => allNotesObj[name].txt.replaceAll('\n','').length > 2000 || allNotesObj[name].description.length > 250)) {
     showPreloader(false);
-    return showResponseFn('Some notes are too long!');
+    return showResponseFn('Some note has very long content or description.');
   };
 
   preloaderProgress.value = 1;
@@ -190,6 +192,7 @@ urlSaveBtn.addEventListener('click', async () => {
   preloaderProgress.max = 5;
   preloaderProgress.value = 0;
   whatIsLoadingText.textContent = 'Start...';
+  renderAllUrls();
 
   urlSaveBtn.disabled = true;
   showPreloader();
@@ -280,6 +283,7 @@ codeSaveBtn.addEventListener('click', async () => {
   preloaderProgress.max = 4;
   preloaderProgress.value = 0;
   whatIsLoadingText.textContent = 'Start...';
+  renderUserCodesBlocks();
 
   codeSaveBtn.disabled = true;
   showPreloader();

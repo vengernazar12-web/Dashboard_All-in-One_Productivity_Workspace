@@ -36,7 +36,13 @@ html button {
   background-color: transparent;
   padding: 1px;
 }
-html button:disabled { background: rgb(79, 70, 70); color: white; border: none; cursor: not-allowed; }
+html button:disabled {
+  background: rgb(79, 70, 70);
+  background-color: rgb(79, 70, 70);
+  color: white;
+  border: none;
+  cursor: not-allowed;
+}
 
 hr {
   display: block;
@@ -47,67 +53,20 @@ hr {
   margin: 30px 0;
 }
 
-.--opened-btn {
-  background: var(--block-bg);
-  color: var(--text-color);
-  box-shadow: 3px 3px black;
-  width: max(170px, 25vw);
-  height: 60px;
-  border-radius: 15px;
-  border: 1px solid var(--border-color);
-  font-size: 1.1rem;
-  text-shadow: 1px 1px black;
-  position: relative;
-  transition: box-shadow .2s, transform .2s;
-}
-.--opened-btn:hover {
-  transform: translateY(3px);
-  box-shadow: 0 0 black;
-}
-.--opened-btn > p:last-of-type {
-  position: absolute;
-  bottom: 5px;
-  right: 7px;
-  font-size: 0.75rem;
-}
-
-.min-wrap {
-  position: absolute;
-  top: 1px;
-  left: 1px;
-  width: 20px;
-  height: 20px;
-  border-radius: 10px;
-  background-color: white;
-}
 .is-wrap {
   position: fixed;
   top: 0;
-  left: 0;
-  width: 100vw;
+  right: 0;
+  width: calc(100vw - 32px);
   height: 100vh;
   display: none;
   background: var(--body-bg);
   color: var(--text-color);
   overflow-y: auto;
 }
-.minimized {
-  width: 40vw;
-  height: 40vh;
-  border: 1px solid black;
-  border-radius: 3px;
-}
-
-.drag-and-drop-block {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 40px;
-}
 
 mark {
-  background-color: rgb(255, 101, 46);
+  background-color: orange;
   color: black;
   border-radius: 3px;
 }
@@ -140,9 +99,7 @@ html .unsaved:after {
   border: 1px solid black;
 }
 
-progress {
-  border: 1px solid var(--border-color);
-}
+progress { border: 1px solid var(--border-color); }
 
 /* Input file styles */
 ::-webkit-file-upload-button,
@@ -193,28 +150,70 @@ body {
 }
 
 /* All dashboard items */
+.toggle-dashboard-items-btn {
+  position: absolute;
+  top: 5px;
+  right: 0;
+  color: var(--text-color);
+  width: 30px;
+  height: 30px;
+}
+.toggle-dashboard-items-btn > svg { width: 100%; height: 100%; }
+
 .all-dashboard-items {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 75vw;
+  background: var(--block-bg);
   display: flex;
-  gap: 30px;
-  align-items: center;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  margin-top: 25px;
+  flex-direction: column;
+  gap: 10px;
+  text-align: center;
+  padding: 5px;
+  border-right: 2px solid var(--border-color);
+  overflow-y: auto;
+  transform: translateX(calc(-100% + 32px));
+  transition: transform .3s;
+}
+.all-dashboard-items.open { transform: translateX(0); }
+.all-dashboard-items > h3 { text-align: left; }
+
+/* Opened btns */
+.--opened-btn {
+  font-size: 1.1rem;
+  color: var(--text-color);
+  position: relative;
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: 2px 2px 1px black;
+  border-radius: 7px;
+  transition: transform .2s, box-shadow .2s;
+  width: calc(100% - 42px);
+}
+.--opened-btn:hover {
+  transform: translateY(3px);
+  box-shadow: 0 0 0 0 black;
+}
+.--opened-btn > p:last-of-type {
+  position: absolute;
+  bottom: 5px;
+  right: 7px;
+  font-size: 0.7rem;
 }
 
 @media (hover: none), (max-width: 550px) {
   button, input { transition: none; cursor: auto; }
   button:hover, input[type='checkbox']:hover  { transform: scale(1); }
-  .min-wrap { display: none; }
 }
 
 /* Progress */
 .is-wrap > progress {
   height: 30px;
-  width: 95%;
+  width: calc(95% - 32px);
   position: fixed;
   bottom: 5px;
-  left: 2.5%;
+  right: 2.5%;
   appearance: none;
   border: none;
   border-radius: 15px;
@@ -256,7 +255,7 @@ html .del-anim { animation: del-anim var(--del-animation-time) forwards; }
   pointer-events: none;
   opacity: 0;
   width: 85%;
-  background-color: color-mix(in srgb, black 80%, transparent);
+  background-color: rgba(0,0,0,.8);
   color: white;
   height: max-content;
   border-radius: 15px;
@@ -321,6 +320,7 @@ html .del-anim { animation: del-anim var(--del-animation-time) forwards; }
 .preloader-wrap {
   text-align: center;
   padding-top: 20px;
+  width: 100vw;
 }
 
 .preloader-wrap > .dashboard-preloader-p {

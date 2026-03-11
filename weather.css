@@ -6,13 +6,6 @@
   color: white;
 }
 
-.close-weather-wrap-btn {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  font-size: 1.5rem;
-}
-
 .open-search-city-window {
   position: absolute;
   top: 10px;
@@ -27,7 +20,7 @@
 
 .search-city-window {
   height: 100vh;
-  width: 80vw;
+  width: 75%;
   background-color: rgb(118, 118, 210);
   color: black;
   transform: translateX(-100%);
@@ -37,7 +30,7 @@
   top: 0;
   left: 0;
 }
-.search-city-window.open { transform: translateX(0); }
+.search-city-window.open { transform: translateX(32px); }
 
 .search-city-input {
   width: 100%;
@@ -61,11 +54,11 @@
 
 /* Weather info */
 .weather-info-block {
-  width: 60vw;
+  width: 60%;
   height: max-content;
   position: absolute;
   top: 12vh;
-  left: 20vw;
+  left: 20%;
   border: 1px solid white;
   border-radius: 10px;
   background-color: rgba(0, 0, 0, 0.9);

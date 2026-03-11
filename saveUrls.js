@@ -21,17 +21,12 @@ const allUrlsContainer = urlsWrap.querySelector('.all-urls-container');
 // Open
 const openUrlWrapBtn = allDashboardItem.querySelector('.open-save-urls-wrap');
 openUrlWrapBtn.addEventListener('click', () => {
+  closeAllWraps();
   showPreloader();
   renderAllUrls();
   urlsWrap.classList.add('show');
   showPreloader(false);
 });
-// Close
-urlsWrap.querySelector('.close-add-urls-wrap')
-.addEventListener('click', () => {
-  urlsWrap.classList.remove('show');
-  showBodyScroll();
-})
 
 let allUrlsArr = [];
 
@@ -124,7 +119,7 @@ addUrlBtn.addEventListener('click', async () => {
   const title = nameUrlInput.value.trim();
   if(allUrlsArr.find(obj => obj.title === title)) return showResponseFn('You already have a URL with this name');
   if(!title) return showResponseFn('Please enter a URL name');
-  if(title.length > 50) return showResponseFn('URL name must be 50 characters or less');
+  if(title.length > allValuesLimit.urlTitle) return showResponseFn(`URL name must be ${allValuesLimit.urlTitle} characters or less`);
 
   const url = openedUrlInput.value.trim();
   if(!url) return showResponseFn('Please enter the URL');
@@ -161,6 +156,9 @@ addUrlBtn.addEventListener('click', async () => {
   openedUrlInput.value = '';
   imageUrlInput.value = '';
   setOpenBtnsTexts();
+
+  // Save change for userActions
+  writeToUserActions(`Користувач додав урл блок з назвою ${title} та з посиланням ${url}`);
 })
 
 // Search urls
@@ -212,7 +210,7 @@ confirmEditUrlBtn.addEventListener('click', async () => {
   if(!editChange) return showResponseFn('Please enter your change');
 
   if(editItem === 'name') {
-    if(allUrlsArr[editChange]) return showResponseFn('You already used this name');
+    if(allUrlsArr.find(o => o.title === editChange)) return showResponseFn('You already used this name');
     if(editChange.trim().length > 50) return showResponseFn('URL name must be 50 characters or less');
 
     for(let i = 0; i < allUrlsArr.length; i++) {
@@ -265,6 +263,14 @@ confirmEditUrlBtn.addEventListener('click', async () => {
     editUrlForm.classList.remove('show');
     urlSaveBtn.classList.add('unsaved');
   }
+
+  // Save change for userActions
+  writeToUserActions(
+    editItem === 'name'
+    ? `Користувач замінив назву урл-блоку з ${initEditUrlName} на ${editChange}`
+    : editItem === 'url' ? `Користувач змінив посилання в урл-блоку з назвою ${initEditUrlName}`
+    : `Користувач змінив картинку в урлі з назвою ${initEditUrlName}`
+  );
 })
 
 // Delegation
@@ -293,6 +299,9 @@ allUrlsContainer.addEventListener('click', e => {
     targetUrlBlock.classList.add('del-anim');
     clearTimeout(delUrlTimer);
     delUrlTimer = setTimeout(renderAllUrls, delAnimTime);
+
+    // Save change for userActions
+  writeToUserActions(`Користувач видалив урл-блок з назвою ${delUrlName}`);
   }
   else if(e.target.closest('.open-edit-url-form-btn')) { // Open url edit
     editUrlForm.classList.add('show');
@@ -306,7 +315,7 @@ allUrlsContainer.addEventListener('click', e => {
     const editUrlFormObj = editUrlForm.getBoundingClientRect();
 
     editUrlForm.style.left = `${Math.max(0, targetBtnObj.left - editUrlFormObj.width)}px`;
-    editUrlForm.style.top = `${targetBtnObj.top + urlsWrap.scrollTop}px`;
+    editUrlForm.style.top = `${targetBtnObj.top + urlsWrap.scrollTop - 130}px`;
   }
   else if(e.target.closest('.fav-url-btn')) { // Favorite url btn
     const urlName = e.target.closest('.fav-url-btn').parentElement.querySelector('a').textContent;
@@ -318,6 +327,9 @@ allUrlsContainer.addEventListener('click', e => {
     favoriteUrlTimer = setTimeout(renderAllUrls, 1000);
 
     urlSaveBtn.classList.add('unsaved');
+
+    // Save change for userActions
+  writeToUserActions(findUrlObj.isFav ? `Користувач позначив урл-блок з назвою ${urlName} як фаворіт` : `Користувач забрав урл-блок з назвою ${urlName} з фаворитів`);
   }
 })
 

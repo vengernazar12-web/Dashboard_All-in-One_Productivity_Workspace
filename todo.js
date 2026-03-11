@@ -5,6 +5,7 @@ const todoWrap = document.querySelector('.todo-wrap');
 // Open todo wrap
 const openTodoWrapBtn = allDashboardItem.querySelector('.open-todo-wrap');
 openTodoWrapBtn.addEventListener('click', () => {
+  closeAllWraps();
   showPreloader();
 
   if(!groupedTodos) {
@@ -14,15 +15,6 @@ openTodoWrapBtn.addEventListener('click', () => {
   renderTodos();
   todoWrap.classList.add('show');
   showPreloader(false);
-});
-// Close todo wrap
-todoWrap.querySelector('.close-todo-wrap')
-.addEventListener('click', () => {
-  todoWrap.classList.remove('show');
-  todoWrap.classList.remove('is-edit');
-  isEdit = false;
-  initEditingBlock = null;
-  showBodyScroll();
 });
 // Close hidden todo wrap
 todoWrap.querySelector('.close-hidden-wind-btn')
@@ -50,6 +42,14 @@ function initGroupsTodosObj() {
 let allTodosObj = {};
 let hiddenTodosObj = {};
 let groupedTodos = null;
+
+// Add todo form
+const addTodoForm = todoWrap.querySelector('.add-todo-form');
+const toggleAddTodoForm = todoWrap.querySelector('.toggle-add-todo-form');
+toggleAddTodoForm.addEventListener('click', () => addTodoForm.classList.toggle('show'));
+// Close add todo form
+addTodoForm.querySelector('.close-add-todo-form-btn')
+.addEventListener('click', () => addTodoForm.classList.remove('show'));
 
 function createTodoTagBlock(name) {
   const div = document.createElement('div'),
@@ -159,19 +159,19 @@ function renderTodos() {
   todosNumberText.textContent = `Todos: ${todosBlocksLng}/${allBlockLimitsObj.todos}`;
 }
 
-const todoTxtLength = todoWrap.querySelector('.todo-symbols-length');
+const todoTxtLength = addTodoForm.querySelector('.todo-symbols-length');
 
 const todosContainer = todoWrap.querySelector('.todos-container');
 
-const todoNameInput = todoWrap.querySelector('.todo-name-input');
+const todoNameInput = addTodoForm.querySelector('.todo-name-input');
 todoNameInput.addEventListener('input', () => todoTxtLength.textContent = `${todoNameInput.value.trim().length}/25`);
 todoNameInput.addEventListener('focus', () => {
   todoTxtLength.textContent = `${todoNameInput.value.trim().length}/25`;
   editTodoBlock.classList.remove('show');
 });
-const todoAddBtn = todoWrap.querySelector('.add-todo');
+const todoAddBtn = addTodoForm.querySelector('.add-todo');
 
-const todoTagInput = todoWrap.querySelector('.todo-tag-input');
+const todoTagInput = addTodoForm.querySelector('.todo-tag-input');
 todoTagInput.addEventListener('focus', () => {
   todoTxtLength.textContent = `${todoTagInput.value.trim().length}/25`;
   editTodoBlock.classList.remove('show');
@@ -253,7 +253,9 @@ function renderHiddenTodos() {
 hiddenTodosContainer.addEventListener('click', e => {
   if(e.target.classList.contains('delete-hidden-todo')) {
     if(localStorage.getItem('conf-before-delete') === 'true' && !confirm('Delete?')) return;
-    delete hiddenTodosObj[e.target.parentElement.firstElementChild.textContent];
+    const todoName = e.target.parentElement.firstElementChild.textContent;
+    delete hiddenTodosObj[todoName];
+
     todoSaveBtn.classList.add('unsaved');
     if(localStorage.getItem('disabled-anim') === 'true') {
       renderTodos();
@@ -267,6 +269,9 @@ hiddenTodosContainer.addEventListener('click', e => {
       renderTodos();
     }, delAnimTime);
   }
+
+  // Save change for userActions
+  writeToUserActions(`Користувач видалив туду з назвою ${todoName}`);
 })
 
 // Unhide todos
@@ -280,6 +285,9 @@ hiddenTodosWindow.querySelector('.unhide-todos')
   renderTodos();
   renderHiddenTodos();
   todoSaveBtn.classList.add('unsaved');
+
+  // Save change for userActions
+  writeToUserActions('Користувач забрав всі сховані(архівовані) туду назад в список туду');
 })
 
 // Set todos color
@@ -292,7 +300,7 @@ function isWhiteColor(hex) {
 }
 
 // Todo mark input
-const todoMarkInput = todoWrap.querySelector('.todo-mark-input');
+const todoMarkInput = addTodoForm.querySelector('.todo-mark-input');
 todoMarkInput.addEventListener('input', () => todoTxtLength.textContent = `${todoMarkInput.value.length}/12`)
 todoMarkInput.addEventListener('focus', () => {
   todoTxtLength.textContent = `${todoMarkInput.value.trim().length}/12`;
@@ -328,6 +336,9 @@ editTodoBlock.querySelector('.reset-todo-color')
   editTodoBlock.classList.remove('show');
 
   todoSaveBtn.classList.add('unsaved');
+
+  // Save change for userActions
+    writeToUserActions(`Користувач ресетнув колір для туду з назвою ${todoName}`);
 })
 
 // Confirm color btn
@@ -344,6 +355,9 @@ editTodoBlock.querySelector('.confirm-todo-edit-color')
   editTodoBlock.classList.remove('show');
 
   todoSaveBtn.classList.add('unsaved');
+
+  // Save change for userActions
+    writeToUserActions(`Користувач замінив колір для туду з назвою ${todoName}`);
 })
 
 // Confirm mark btn
@@ -351,8 +365,9 @@ editTodoBlock.querySelector('.confirm-todo-edit-mark')
 .addEventListener('click', () => {
   const markVal = editTodoMarkInput.value.trim();
   const todoName = initEditingBlock.firstElementChild.textContent;
+  const oldMark = allTodosObj[todoName].mark;
 
-  if(allTodosObj[todoName].mark === markVal) return editTodoBlock.classList.remove('show');
+  if(oldMark === markVal) return editTodoBlock.classList.remove('show');
 
   if(markVal.length > 12) return showResponseFn('Todo mark is too long');
 
@@ -362,6 +377,9 @@ editTodoBlock.querySelector('.confirm-todo-edit-mark')
   editTodoBlock.classList.remove('show');
 
   todoSaveBtn.classList.add('unsaved');
+
+  // Save change for userActions
+    writeToUserActions(`Користувач змінив марк для туду з назвою ${todoName} з ${oldMark} на ${markVal}`);
 })
 
 // Todo progresses
@@ -435,13 +453,18 @@ todoWrap.addEventListener('click', e => {
     renderTodos();
     todoTxtLength.textContent = '0/25';
     setOpenBtnsTexts();
+    addTodoForm.classList.remove('show');
+
+    // Save change for userActions
+    writeToUserActions(`Користувач додав нову туду з назвою: ${val}, з тегом: ${tag}${mark ? ' та марком: ' + mark : ''}`);
   }
   else if(e.target.closest('.del-todo-btn')) { // Delete todo btn
     if(localStorage.getItem('conf-before-delete') === 'true') if(!confirm('Delete?')) return;
 
     const todoBlock = e.target.closest('.del-todo-btn').parentElement;
+    const todoName = todoBlock.firstElementChild.textContent;
 
-    delete allTodosObj[todoBlock.firstElementChild.textContent]
+    delete allTodosObj[todoName]
 
     todoBlock.style.transition = 'none';
     todoBlock.lastElementChild.checked = false;
@@ -455,6 +478,9 @@ todoWrap.addEventListener('click', e => {
     clearTimeout(delTodoTimer);
     delTodoTimer = setTimeout(renderTodos, delAnimTime);
     setOpenBtnsTexts();
+
+    // Save change for userActions
+    writeToUserActions(`Користувач видалив туду з назвою ${todoName}`);
   }
   else if(e.target.closest('.edit-todo-btn')) { // Open edit todo block
     const targetBlock = e.target.closest('.edit-todo-btn').parentElement;
@@ -469,13 +495,12 @@ todoWrap.addEventListener('click', e => {
     editTodoBlock.classList.add('show');
   }
   else if(e.target.classList.contains('todo-input-completed')) { // Complete todo
-    allTodosObj[
-      e.target
-      .parentElement
-      .firstElementChild
-      .textContent
-    ].isCompleted = e.target.checked;
+    const name = e.target.parentElement.firstElementChild.textContent;
+    allTodosObj[name].isCompleted = e.target.checked;
     todoSaveBtn.classList.add('unsaved');
+
+    // Save change for userActions
+    writeToUserActions(`Користувач позначив туду з назвою ${name} як ${allTodosObj[name].isCompleted ? 'виконана' : 'не виконана'}`);
   }
   else if(e.target.classList.contains('hide-completed-todos')) { // Hide complete todos btn
     const arr = Object.keys(allTodosObj);
@@ -490,6 +515,9 @@ todoWrap.addEventListener('click', e => {
     renderTodos();
     renderHiddenTodos();
     todoSaveBtn.classList.add('unsaved');
+
+    // Save change for userActions
+    writeToUserActions('Користувач записав всі виконані туду в сховані(архів)');
   }
   else if(e.target.closest('.fav-todo-btn')) { // Set todo favorite
     const todoName = e.target.closest('.fav-todo-btn').parentElement.firstElementChild.textContent;
@@ -498,6 +526,9 @@ todoWrap.addEventListener('click', e => {
     todoSaveBtn.classList.add('unsaved');
 
     renderTodos();
+
+    // Save change for userActions
+    writeToUserActions(allTodosObj[todoName].isFav ? `Користувач позначив туду з назвою ${todoName} як фаворит` : `Коритувач забрав з фаворитів туду з назвою ${todoName}`);
   }
 })
 

@@ -1,6 +1,21 @@
 // Set progress text
 whatIsLoadingText.textContent = 'Loading time zones logic...';
 
+async function initAllTimezones() {
+  try {
+    const resp = await fetch(TIMEZONE_LIST_API);
+    const data = await resp.json();
+    timezonesArr = data.zones;
+  } catch {
+    showPreloader(false);
+    showBodyScroll();
+    return showResponseFn('Something went wrong...');
+  }
+
+  renderTimezoneSelects();
+  renderTimezones();
+}
+
 const timezoneWrap = document.querySelector('.timezone-wrap');
 timezoneWrap.addEventListener('click', e => {
   const target = e.target;
@@ -11,6 +26,8 @@ timezoneWrap.addEventListener('click', e => {
 // Open
 const openTimezoneWrapBtn = allDashboardItem.querySelector('.open-timezone-wrap');
 openTimezoneWrapBtn.addEventListener('click', async () => {
+  if(timezoneWrap.classList.contains('show')) return;
+  closeAllWraps();
   preloaderProgress.max = 1;
   preloaderProgress.value = 0;
   whatIsLoadingText.textContent = 'Start...';
@@ -18,20 +35,7 @@ openTimezoneWrapBtn.addEventListener('click', async () => {
 
   searchTimezonesInput.value = '';
 
-  if(!timezonesArr.length) {
-    try {
-      const resp = await fetch(TIMEZONE_LIST_API);
-      const data = await resp.json();
-      timezonesArr = data.zones;
-    } catch {
-      showPreloader(false);
-      showBodyScroll();
-      return showResponseFn('Something went wrong...');
-    }
-  }
-
-  renderTimezoneSelects();
-  renderTimezones();
+  if(!timezonesArr.length) await initAllTimezones();
 
   preloaderProgress.value = 1;
   whatIsLoadingText.textContent = 'Yes!';
@@ -40,12 +44,6 @@ openTimezoneWrapBtn.addEventListener('click', async () => {
   showResponseFn('Time zones rendered')
   timezoneWrap.classList.add('show');
 })
-// Close
-timezoneWrap.querySelector('.close-timezone-wrap-btn')
-.addEventListener('click', () => {
-  timezoneWrap.classList.remove('show');
-  showBodyScroll();
-});
 
 // Timezones arr
 let timezonesArr = [];
@@ -162,6 +160,10 @@ searchTimezonesInput.addEventListener('keydown', e => {
 searchTimezonesInput.addEventListener('input', () => {
   const val = searchTimezonesInput.value.toLowerCase().trim();
   if(!val) return renderTimezones();
+  else renderFoundTimezones(val);
+})
+
+function renderFoundTimezones(val) {
   const safeVal = val.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   const regExp = new RegExp(safeVal, 'gi');
 
@@ -178,7 +180,7 @@ searchTimezonesInput.addEventListener('input', () => {
     }
   }
   allTimezonesCont.appendChild(frag);
-})
+}
 
 // Set progress value
 preloaderProgress.value = 9;

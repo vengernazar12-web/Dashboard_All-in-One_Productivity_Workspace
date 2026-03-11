@@ -56,7 +56,7 @@
 .note-save-btn {
   position: absolute;
   top: 10px;
-  left: 50px;
+  right: 10px;
   padding: 5px;
   border-radius: 10px;
 }/* Note save btn */
@@ -65,7 +65,7 @@
 .notes-content-wrap { text-align: center; padding-top: 15px; }
 .notes-user-content {
   position: absolute;
-  top: 90px;
+  top: 110px;
   width: 95%;
   margin-left: 2.5%;
   min-height: 150px;
@@ -80,14 +80,14 @@
 /* Add note */
 .add-notes-inputs {
   position: absolute;
-  top: 30%;
+  top: 20%;
   left: 5%;
   width: 90%;
   height: 25%;
-  background-color: rgb(175, 175, 175);
+  background: var(--block-bg);
   text-align: center;
   border-radius: 8px;
-  border: 1px solid rgb(0, 255, 0);
+  border: 3px solid var(--border-color);
   padding: 5px;
   display: none;
 }
@@ -117,14 +117,43 @@
 }
 .notes-symbols-limit-text {
   position: absolute;
-  top: 72px;
+  top: 85px;
   right: 25px;
 }
 
-/* Close wraps */
-.close-notes-wrap, .close-notes-content-wrap {
+/* Close note content wraps */
+.close-notes-content-wrap {
   position: absolute;
   top: 5px;
   right: 5px;
   font-size: 1.5rem;
+}
+
+/* Edit note */
+.edit-note-block {
+  width: 75%;
+  min-height: 50%;
+  position: fixed;
+  top: 5%;
+  left: 12.5%;
+  background: var(--block-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  padding: 5px;
+  display: none;
+}
+.edit-note-block > input {
+  width: 100%;
+  margin-bottom: 5px;
+}
+.conf-note-edit-change-btn {
+  position: absolute;
+  bottom: 5%;
+  right: 5%;
+  background-color: black;
+  color: white;
+  padding: 5px;
+  font-size: 1.2rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
 }

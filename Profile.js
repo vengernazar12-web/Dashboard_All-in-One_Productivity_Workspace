@@ -6,13 +6,24 @@ let allAvatarsArr = null;
 
 let isLoadingAvatar = false;
 // Delegation
+function initSettingsForOpen() {
+  if(localStorage.getItem('del-anim-time') !== null) {
+    const val = +localStorage.getItem('del-anim-time') / 1000;
+    animationTimeSelect.value = `${val}s`;
+  };
+  if(localStorage.getItem('disabled-anim') === 'true') disAnimBtn.textContent = '✔️';
+  else disAnimBtn.textContent = '✖️';
+  if(localStorage.getItem('conf-before-delete') === 'true') confBefDelBtn.textContent = '✔️';
+  else confBefDelBtn.textContent = '✖️';
+  noteFontSizeSettInput.value = localStorage.getItem('notes-font-size') || 1.2;
+
+  settingsWindow.classList.add('show');
+}
 const profileWrap = document.querySelector('.user-profile-wrap');
 profileWrap.addEventListener('click', async e => {
   const target = e.target;
-  // Close profile
-  if(target.classList.contains('close-user-profile-wrap-btn')) profileWrap.classList.remove('show');
   // Open avatar selection
-  else if(target.classList.contains('profile-img-preview')) {
+  if(target.classList.contains('profile-img-preview')) {
     if(allAvatarsBlock.childElementCount) return allAvatarsBlock.classList.add('show');
 
     allAvatarsBlock.textContent = '';
@@ -72,23 +83,12 @@ profileWrap.addEventListener('click', async e => {
     ) && !target.classList.contains('all-avatars-block')
   ) allAvatarsBlock.classList.remove('show');
   // Open setting
-  else if(target.closest('.open-settings-window')) {
-    if(localStorage.getItem('del-anim-time') !== null) {
-      const val = +localStorage.getItem('del-anim-time') / 1000;
-      animationTimeSelect.value = `${val}s`;
-    };
-    if(localStorage.getItem('disabled-anim') === 'true') disAnimBtn.textContent = '✔️';
-    else disAnimBtn.textContent = '✖️';
-    if(localStorage.getItem('conf-before-delete') === 'true') confBefDelBtn.textContent = '✔️';
-    else confBefDelBtn.textContent = '✖️';
-    settingsWindow.classList.add('show');
-
-    noteFontSizeSettInput.value = localStorage.getItem('notes-font-size') || 1.2;
-  }
+  else if(target.closest('.open-settings-window')) initSettingsForOpen();
 })
 // Open
 const openProfileWrapBtn = document.querySelector('.open-user-profile-wrap-btn');
 openProfileWrapBtn.addEventListener('click', () => {
+  closeAllWraps();
   totalBlockLimitsProgress.value = 0;
   profileWrap.classList.add('show');
   if(profileAvatarPreview.src !== openBtnProfileImg.src) profileAvatarPreview.src = openBtnProfileImg.src;
@@ -318,6 +318,14 @@ function renderProfileFoundWrapBlocksInfo(txt) {
 // SETTINGS
 const settingsWindow = document.querySelector('.settings-window'),
 animationTimeSelect = document.querySelector('.animation-time-select');
+const openSettingsWindow = profileWrap.querySelector('.open-settings-window');
+
+// Open settings into sidebar
+allDashboardItem.querySelector('.open-settings-window-into-sidebar')
+.addEventListener('click', () => {
+  closeAllWraps();
+  initSettingsForOpen();
+});
 
 animationTimeSelect.addEventListener('change', e => {
   const msNum = parseFloat(e.target.value) * 1000;

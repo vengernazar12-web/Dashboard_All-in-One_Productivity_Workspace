@@ -1,44 +1,14 @@
-.todo-name-input {
-  position: absolute;
-  top: 25px;
-  left: 2.5%;
-  width: 80%;
-}
-.todo-mark-input {
-  position: absolute;
-  top: 65px;
-  left: 2.5%;
-  width: 95%;
-}
-.todo-tag-input {
-  position: absolute;
-  top: 105px;
-  left: 2.5%;
-  width: 95%;
-}
 .todo-search {
   position: absolute;
-  top: 145px;
-  left: 2.5%;
-  width: 95%;
-}
-
-.add-todo {
-  position: absolute;
   top: 25px;
-  right: 2.5%;
-  border: 1px solid var(--border-color);
-  height: 30px;
-  border-radius: 10px;
-  width: 12.5%;
-  font-size: 0.8rem;
-  background-color: #fff;
+  left: 2.5%;
+  width: calc(95% - 35px);
 }
 
 .todos-container {
   width: 100%;
   position: absolute;
-  top: 225px;
+  top: 100px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -128,29 +98,81 @@
   z-index: 10;
 }
 
-.close-todo-wrap {
-  width: 10%;
-  height: 25px;
-  position: absolute;
-  top: 185px;
-  right: 2.5%;
-  border-radius: 10px;
-  border: 1px solid var(--border-color);
-  background-color: #fff;
-  font-size: 15px;
-}
-
 .todo-symbols-length {
   position: absolute;
   top: 5px;
   right: 20%;
 }
 
+/* Add todo form */
+.toggle-add-todo-form {
+  position: absolute;
+  top: 25px;
+  right: 2.5%;
+  translate: 0;
+  font-size: 1.15rem;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--border-color);
+}
+.close-add-todo-form-btn {
+  position: absolute;
+  top: 145px;
+  right: 2.5%;
+  font-size: 1.25rem;
+  border: 1px solid black;
+  background-color: white;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+.add-todo-form {
+  width: 80%;
+  height: 75%;
+  padding: 10px;
+  background: var(--block-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  display: none;
+  position: absolute;
+  top: 10%;
+  left: 10%;
+}
+.todo-name-input {
+  position: absolute;
+  top: 25px;
+  left: 2.5%;
+  width: 80%;
+}
+.todo-mark-input {
+  position: absolute;
+  top: 65px;
+  left: 2.5%;
+  width: 95%;
+}
+.todo-tag-input {
+  position: absolute;
+  top: 105px;
+  left: 2.5%;
+  width: 95%;
+}
+.add-todo {
+  position: absolute;
+  top: 25px;
+  right: 2.5%;
+  border: 1px solid var(--border-color);
+  height: 30px;
+  border-radius: 10px;
+  width: 12.5%;
+  font-size: 0.8rem;
+  background-color: #fff;
+}
+
 /* Todo save btn */
 .todo-save-btn {
   position: absolute;
-  top: 185px;
-  right: 15%;
+  top: 65px;
+  right: 2.5%;
   height: 25px;
   font-size: 0.75rem;
   border-radius: 10px;
@@ -169,7 +191,7 @@
 }
 .toggle-hidden-todos-window {
   position: absolute;
-  top: 185px;
+  top: 65px;
   left: calc(2.5% + 115px);
   height: 25px;
   border-radius: 7px;
@@ -179,7 +201,7 @@
 }
 .hide-completed-todos {
   position: absolute;
-  top: 185px;
+  top: 65px;
   left: 2.5%;
   height: 25px;
   border-radius: 7px;
@@ -258,6 +280,7 @@
 }
 .edit-todo-block > button {
   color: black;
+  background-color: #fff;
   border-radius: 5px;
   padding: 2px;
   height: 25px;
@@ -326,15 +349,15 @@
   border-radius: 50%;
   border: 2px solid var(--border-color);
   position: absolute;
-  top: 185px;
-  right: 27.5%;
+  top: 65px;
+  right: 15%;
   font-size: 1.2rem;
   color: var(--text-color);
 }
 
 .todo-progresses-block {
   position: absolute;
-  top: 185px;
+  top: 65px;
   right: calc(27.5% + 25px);
   display: flex;
   flex-direction: column;

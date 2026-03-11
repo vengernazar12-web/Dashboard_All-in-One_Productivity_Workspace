@@ -12,7 +12,7 @@
 
 .search-url {
   position: absolute;
-  top: 40px;
+  top: 10px;
   width: 95%;
   left: 2.5%;
 }
@@ -83,20 +83,11 @@
   color: black;
   z-index: 10;
 }
-.close-add-urls-wrap {
-  position: absolute;
-  top: 5px;
-  right: 2.5%;
-  width: 30px;
-  height: 30px;
-  border-radius: 5px;
-  font-size: 1.2rem;
-}
 
 .url-save-btn {
   border-radius: 5px;
   position: absolute;
-  top: 5px;
+  top: 50px;
   right: calc(2.5% + 40px);
   height: 30px;
   width: 50px;
@@ -107,10 +98,10 @@
   translate: 0;
   width: 30px;
   height: 30px;
-  font-size: 1rem;
+  font-size: 1.2rem;
   position: absolute;
-  top: 5px;
-  right: calc(2.5% + 100px);
+  top: 50px;
+  right: 2.5%;
 }
 .add-url-form {
   height: 65%;

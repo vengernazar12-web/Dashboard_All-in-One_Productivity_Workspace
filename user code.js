@@ -5,19 +5,10 @@ const userCodeWrap = document.querySelector('.user-code-wrap');
 // Open
 const openCodeWrapBtn = allDashboardItem.querySelector('.open-user-code-wrap');
 openCodeWrapBtn.addEventListener('click', () => {
+  closeAllWraps();
   renderUserCodesBlocks();
   userCodeWrap.classList.add('show');
 })
-// Close
-userCodeWrap.querySelector('.close-user-code-wrap')
-.addEventListener('click', () => {
-  userCodeWrap.classList.remove('show');
-
-  for(let block of allUserCodesContainer.children)
-    allUserCodesObj[block.firstElementChild.textContent].code = block.querySelector('.user-code-textarea')._editor.getValue();
-
-  showBodyScroll();
-});
 
 let allUserCodesObj = {};
 // --------------------------------
@@ -162,11 +153,11 @@ addCodeBlockBtn.addEventListener('click', () => {
   const name = codeBlockName.value.trim();
   if(!name.length) { addCodeBlockForm.classList.remove('show'); return showResponseFn("You don't have a block name")};
   if(allUserCodesObj[name]) return showResponseFn('You used this name');
-  if(name.length > 20) return showResponseFn('The name is too long!');
+  if(name.length > allValuesLimit.codeName) return showResponseFn('The name is too long!');
   const lang = codeBlockLang.value;
   if(!lang) return showResponseFn('Please set your code language');
 
-  allUserCodesObj[name] = { code: '', lock: false, lang: lang };
+  allUserCodesObj[name] = { code: '', lock: false, lang };
 
   renderUserCodesBlocks();
 
@@ -177,7 +168,10 @@ addCodeBlockBtn.addEventListener('click', () => {
 
   setOpenBtnsTexts();
 
-  if(allUserCodesContainer.childElementCount >= allBlockLimitsObj.codes) return toggleAddCodeBlockForm.style.display = 'none';
+  if(allUserCodesContainer.childElementCount >= allBlockLimitsObj.codes) toggleAddCodeBlockForm.style.display = 'none';
+
+  // Save change for userActions
+  writeToUserActions(`Користувач додав блок коду з назвою ${name} та з мовою ${lang}`);
 })
 
 const toggleAddCodeBlockForm = userCodeWrap.querySelector('.toggle-add-new-block-code-form');
@@ -322,10 +316,12 @@ const allUserCodesContainer = userCodeWrap.querySelector('.all-user-codes-contai
 allUserCodesContainer.addEventListener('click', e => {
   const targetBlock = e.target.closest('.user-code-block');
   if(e.target.closest('.delete-code-btn')) { // Delete code
+    const name = targetBlock.firstElementChild.textContent;
     if(allUserCodesObj[targetBlock.firstElementChild.textContent].lock) return showResponseFn('You have locked this code');
+
     if(localStorage.getItem('conf-before-delete') == 'true' && !confirm('Delete?')) return;
 
-    delete allUserCodesObj[targetBlock.firstElementChild.textContent];
+    delete allUserCodesObj[name];
     codeSaveBtn.classList.add('unsaved');
 
     if(localStorage.getItem('disabled-anim') === 'true') return renderUserCodesBlocks();
@@ -335,14 +331,20 @@ allUserCodesContainer.addEventListener('click', e => {
     clearTimeout(deleteTimer);
     deleteTimer = setTimeout(() => renderUserCodesBlocks(), delAnimTime);
     setOpenBtnsTexts();
+
+    // Save change for userActions
+    writeToUserActions(`Користувач видалив блок коду з назвою ${name}`);
+
     return;
   }
   else if(e.target.closest('.lock-code-btn')) { // Lock code
     const initialBtn = e.target.closest('.lock-code-btn');
-    allUserCodesObj[targetBlock.firstElementChild.textContent].lock =
-    !allUserCodesObj[targetBlock.firstElementChild.textContent].lock;
+    const name = targetBlock.firstElementChild.textContent;
 
-    if(allUserCodesObj[targetBlock.firstElementChild.textContent].lock) {
+    allUserCodesObj[name].lock =
+    !allUserCodesObj[name].lock;
+
+    if(allUserCodesObj[name].lock) {
       targetBlock.style.boxShadow = '0 0 7px 1px gold';
       initialBtn.style.color = 'gold';
     }
@@ -350,6 +352,10 @@ allUserCodesContainer.addEventListener('click', e => {
       targetBlock.style.boxShadow = '0 0 0 0';
       initialBtn.style.color = 'white';
     }
+
+    // Save change for userActions
+    writeToUserActions(`Користувач ${allUserCodesObj[name].lock ? 'заблокував' : 'розблокував'} блок коду з назвою ${name}`);
+
     return codeSaveBtn.classList.add('unsaved');
   }
   else if(e.target.closest('.copy-code-btn')) { // Copy code

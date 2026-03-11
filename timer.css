@@ -12,12 +12,6 @@
   padding: 5px;
   overflow-y: auto;
 }
-.timer-window > header {
-  display: flex;
-  justify-content: space-between;
-  padding: 1px;
-  position: relative;
-}
 
 .timer-window select {
   background: var(--block-bg);
@@ -30,8 +24,8 @@
   height: 30px;
   border-radius: 8px;
   position: fixed;
-  top: 10px;
-  left: 10px;
+  top: 5px;
+  left: 5px;
   color: var(--text-color);
 }
 
@@ -40,7 +34,12 @@
   height: 30px;
 }
 
-.close-timer-window { font-size: 1.25rem; }
+.close-timer-window {
+  font-size: 1.25rem;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
 
 .user-is-ready-window {
   background: var(--block-bg);

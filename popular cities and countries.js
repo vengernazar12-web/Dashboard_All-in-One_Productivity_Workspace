@@ -1,0 +1,18 @@
+const cityCountryMap={
+київ:"Kyiv",львів:"Lviv",одеса:"Odesa",харків:"Kharkiv",дніпро:"Dnipro",запоріжжя:"Zaporizhzhia",чернівці:"Chernivtsi",'івано-франківськ':"Ivano-Frankivsk",ужгород:"Uzhhorod",тернопіль:"Ternopil",луцьк:"Lutsk",рівне:"Rivne",житомир:"Zhytomyr",полтава:"Poltava",черкаси:"Cherkasy",чернігів:"Chernihiv",суми:"Sumy",херсон:"Kherson",миколаїв:"Mykolaiv",
+прага:"Prague",брно:"Brno",острава:"Ostrava",пльзень:"Plzen",ліберец:"Liberec",
+варшава:"Warsaw",краків:"Krakow",вроцлав:"Wroclaw",гданськ:"Gdansk",познань:"Poznan",
+берлін:"Berlin",мюнхен:"Munich",гамбург:"Hamburg",франкфурт:"Frankfurt",кельн:"Cologne",
+париж:"Paris",марсель:"Marseille",ліон:"Lyon",
+мадрид:"Madrid",барселона:"Barcelona",валенсія:"Valencia",
+рим:"Rome",мілан:"Milan",неаполь:"Naples",
+лондон:"London",манчестер:"Manchester",бірмінгем:"Birmingham",
+'нью-йорк':"New York",'лос-анджелес':"Los Angeles",чикаго:"Chicago",вашингтон:"Washington",
+оттава:"Ottawa",торонто:"Toronto",монреаль:"Montreal",
+токіо:"Tokyo",оска:"Osaka",кіото:"Kyoto",
+пекін:"Beijing",шанхай:"Shanghai",гонконг:"Hong Kong",
+сеул:"Seoul",
+стамбул:"Istanbul",анкара:"Ankara",
+'київська область':"Kyiv region",
+україна:"Ukraine",польща:"Poland",чехія:"Czech Republic",словаччина:"Slovakia",німеччина:"Germany",франція:"France",іспанія:"Spain",італія:"Italy",'велика британія':"United Kingdom",сша:"United States",канада:"Canada",японія:"Japan",китай:"China",'південна корея':"South Korea",туреччина:"Turkey",австрія:"Austria",угорщина:"Hungary",румунія:"Romania",болгарія:"Bulgaria",греція:"Greece",нідерланди:"Netherlands",бельгія:"Belgium",швейцарія:"Switzerland",швеція:"Sweden",норвегія:"Norway",фінляндія:"Finland",данія:"Denmark",ірландія:"Ireland",португалія:"Portugal",литва:"Lithuania",латвія:"Latvia",естонія:"Estonia",індія:"India",бразилія:"Brazil",мексика:"Mexico",аргентина:"Argentina",австралія:"Australia",
+}

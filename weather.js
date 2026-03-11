@@ -16,6 +16,8 @@ weatherWrap.addEventListener('click', e => {
 // Open
 const openWeatherWrapBtn = allDashboardItem.querySelector('.open-weather-wrap');
 openWeatherWrapBtn.addEventListener('click', () => {
+  if(weatherWrap.classList.contains('show')) return;
+  closeAllWraps();
   const savedCityInfo = JSON.parse(localStorage.getItem('city-info'));
   if(savedCityInfo) {
     showPreloader();
@@ -23,12 +25,6 @@ openWeatherWrapBtn.addEventListener('click', () => {
     showPreloader(false);
   }
   weatherWrap.classList.add('show');
-});
-// Close
-weatherWrap.querySelector('.close-weather-wrap-btn')
-.addEventListener('click', () => {
-  weatherWrap.classList.remove('show');
-  showBodyScroll();
 });
 
 // All weather blocks

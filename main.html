@@ -65,8 +65,13 @@
 <link rel="stylesheet" href="weather.css">
 <link rel="stylesheet" href="timezone.css">
 <link rel="stylesheet" href="Profile.css">
+<link rel="stylesheet" href="AI assistant.css">
 
 <script src="code-snippets-obj.js" async></script>
+<script src="AI assistant read... functions.js" defer></script>
+<script src="ai response.js" defer></script>
+<script src="popular cities and countries.js" defer></script>
+
 <script src="main.js" defer></script><!--1-->
 <script src="todo.js" defer></script><!--2-->
 <script src="notes.js" defer></script><!--3-->
@@ -77,68 +82,21 @@
 <script src="weather.js" defer></script><!--8-->
 <script src="timezone.js" defer></script><!--9-->
 <script src="Profile.js" defer></script><!--10-->
+<script src="AI assistant.js" defer></script><!--11-->
 <script src="sign.js" defer></script><!--max-->
 <link rel="icon" href="/all-imgs/favicon-32x32.png" type="image/png">
 </head>
 
 <body>
-<header class="dashboard-header"><h1>Dashboard</h1></header>
-
-<!-- First window -->
-<main class="all-dashboard-items">
-  <button class="open-todo-wrap --opened-btn"><p>Your todos</p><p></p></button>
-  <button class="open-notes-wrap --opened-btn"><p>Your notes</p><p></p></button>
-  <button class="open-save-urls-wrap --opened-btn"><p>Your urls</p><p></p></button>
-  <button class="open-user-code-wrap --opened-btn"><p>Your code</p><p></p></button>
-  <button class="open-exchange-rate-wrap --opened-btn">Exchange rate</button>
-  <button class="open-weather-wrap --opened-btn">Weather</button>
-  <button class="open-timezone-wrap --opened-btn">Timezones</button>
-</main>
-
-<!-- Timer -->
-<button class="show-timer-window" title="Timer"><svg><use href="#timer"></use></svg></button>
-<div class="timer-window minimized">
-  <header class="drag-and-drop-block">
-    <h3>⏱ Focus timer</h3>
-    <button class="close-timer-window">❌</button>
-  </header>
-  <progress></progress>
-  <p class="timer-time"></p>
-
-  <hr>
-
-  <label for="set-time">Set your time (Your can write: number and s/m/h)</label>
-  <input class="set-time-input" type="text" id="set-time" placeholder="Set your time..." autocomplete="false">
-
-  <hr>
-
-  <div class="set-timer-point">
-    <label for="type">Select point type:</label>
-    <select id="type" class="select-type" title="Select point type...">
-      <option value="todos">Todos</option>
-      <option value="notes">Notes</option>
-      <option value="urls">Urls</option>
-      <option value="codes">Codes</option>
-      <option value="exchange">Exchange rate</option>
-      <option value="weather">Weather</option>
-      <option value="timezones">Time zones</option>
-    </select>
-    <label for="item">Select point item:</label>
-    <select id="item" class="select-type-item" title="Select point type...">
-      <option value="">----|----</option>
-    </select>
-  </div>
-
-  <button class="start-timer-btn show">Start</button>
-  <button class="stop-timer-btn">Stop</button>
-</div>
+<header class="dashboard-header">
+  <h1>Dashboard</h1>
+  <p>To start, open the side panel</p>
+  <img src="/all-imgs/dashboard-favicon-img.svg" alt="">
+</header>
 
 <!-- User profile -->
-<button class="open-user-profile-wrap-btn"><img alt="Profile-img"></button>
 <div class="user-profile-wrap is-wrap">
-  <button class="close-user-profile-wrap-btn">❌</button>
-
-  <img alt="Profile img" class="profile-img-preview" loading="lazy">
+  <img src="/all-imgs/no-profile-icon.webp" alt="Profile img" class="profile-img-preview" loading="lazy">
   <p class="user-email-info"></p>
 
   <div class="all-profile-btns-block">
@@ -207,23 +165,15 @@
 <!-- Todos -->
 <div class="todo-wrap is-wrap">
   <p class='todos-number'>Todos: _/100</p>
-  <p class='todo-symbols-length'>0/25</p>
-  <header class="drag-and-drop-block"></header>
   <button class="todo-save-btn --saved-btn" title="Save content"><svg><use href="#save"></use></svg></button>
 
-  <input type="text" class='todo-name-input' placeholder="Todo name...">
-  <input type="text" class="todo-mark-input" placeholder="Todo mark...">
-  <input type="text" class="todo-tag-input" placeholder="Todo tag...">
-  <button class='add-todo' title="Add todo">Add</button>
   <input type="text" class='todo-search' placeholder="Search todo...">
 
   <div class='todos-container'></div>
 
-  <button class='close-todo-wrap'>❌</button>
-  <button class="min-wrap">▢</button>
-
   <button class="hide-completed-todos" title="Hide all completed todos">Hide completed</button>
   <button class="toggle-hidden-todos-window" title="Show hidden todos">🗂️</button>
+  <button class="toggle-add-todo-form --toggle-form-btn" title="ctrl + h">✚</button>
   <button class="toggle-todo-progresses-block">i</button>
 
   <!-- Todo progresses -->
@@ -232,6 +182,16 @@
     <p class="completed">Completed</p>
     <p class="not-completed">Pending</p>
     <progress></progress>
+  </div>
+
+  <!-- Add todo block -->
+  <div class="add-todo-form">
+    <button class="close-add-todo-form-btn">❌</button>
+    <input type="text" class='todo-name-input' placeholder="Todo name...">
+    <input type="text" class="todo-mark-input" placeholder="Todo mark...">
+    <input type="text" class="todo-tag-input" placeholder="Todo tag...">
+    <button class='add-todo' title="Add todo">Add</button>
+    <p class='todo-symbols-length'>0/25</p>
   </div>
 
   <div class="hidden-todos-window is-wrap">
@@ -260,9 +220,6 @@
 <div class="notes-wrap is-wrap">
   <h1>Notes</h1>
   <p class="notes-blocks-limit">_/25</p>
-  <header class="drag-and-drop-block"></header>
-  <button class="min-wrap">▢</button>
-  <button class="close-notes-wrap">❌</button>
   <hr>
 
   <button class="note-save-btn --saved-btn" title="Save content"><svg><use href="#save"></use></svg></button>
@@ -279,6 +236,13 @@
     <button class="add-note-button">Add</button>
   </div>
 
+  <!-- Edit note block -->
+  <div class="edit-note-block">
+    <input type="text" class="edit-note-name-input" placeholder="New name...">
+    <input type="text" class="edit-note-desc-input" placeholder="New description...">
+    <button class="conf-note-edit-change-btn">OK</button>
+  </div>
+
   <progress class="note-progress"></progress>
 </div>
 
@@ -293,18 +257,15 @@
 <!-- Urls -->
 <div class="save-urls-wrap is-wrap">
   <p class="url-blocks-limit">_/25</p>
-  <header class="drag-and-drop-block"></header>
   <button class="url-save-btn --saved-btn" title="Save content">
     <svg><use href="#save"></use></svg>
   </button>
-  <button class="close-add-urls-wrap">❌</button>
   <button class="toggle-add-url-form --toggle-form-btn" title="Add new url(ctrl + h)">✚</button>
 
   <input type="text" class="search-url" placeholder="Search your urls...">
 
   <div class="all-urls-container"></div>
 
-  <button class="min-wrap">▢</button>
 
   <div class="add-url-form">
     <h3>Add new url</h3>
@@ -355,10 +316,7 @@
 <div class="user-code-wrap is-wrap">
   <h2>Your codes</h2>
   <p class="code-blocks-limit">_/25</p>
-  <header class="drag-and-drop-block"></header>
-  <button class="min-wrap">▢</button>
   <button class="code-save-btn --saved-btn" title="Save content"><svg><use href="#save"></use></svg></button>
-  <button class="close-user-code-wrap">❌</button>
   <hr>
   <input type="text" class="search-code-input" placeholder="Search name/length...">
 
@@ -405,8 +363,6 @@
 
 <!-- Exchange rate wrap -->
 <div class="exchange-rate-wrap is-wrap">
-  <button class="close-exchange-rate-wrap-btn">❌</button>
-
   <svg><use href="#dollar"></use></svg>
 
   <div class="exchange-rate-nav-block">
@@ -424,8 +380,6 @@
 
 <!-- Weather wrap -->
 <div class="weather-wrap is-wrap">
-  <button class="close-weather-wrap-btn">❌</button>
-
   <!-- Weather info block -->
   <div class="weather-info-block">
     <h3 class="city-name">Country, City</h3>
@@ -453,10 +407,8 @@
   </div>
 </div>
 
-<!-- Timezone -->
+<!-- Timezone wrap -->
 <div class="timezone-wrap is-wrap">
-  <button class="close-timezone-wrap-btn">❌</button>
-
   <!-- Search timezone input -->
   <input type="text" class="search-timezone-input" placeholder="Search timezone...">
 
@@ -471,6 +423,110 @@
     <pre></pre>
     <hr>
     <pre></pre>
+  </div>
+</div>
+
+<!-- Assistant wrap -->
+<div class="assistant-wrap is-wrap">
+  <p class="assistant-memory-txt-info"></p>
+  <!-- assistant answer container -->
+  <div class="assistant-answer-container"></div>
+
+  <!-- User prompt -->
+  <textarea type="text" class="user-prompt-textarea" placeholder="How can I help?..."></textarea>
+  <button class="send-prompt-btn">=></button>
+
+  <!-- Show found elements block -->
+  <div class="assistant-found-elements-block"></div>
+
+  <!-- Loader for AI -->
+  <span class="loader assistant-loader"></span>
+
+  <!-- Assistant docs -->
+  <button class="open-dashboard-docs">Documentation</button>
+  <div class="dashboard-docs">
+    <button class="close-dashboard-docs">⟪</button>
+    <div>
+      <h2>What is Dashboard</h2>
+      <p>
+        <span>Dashboard</span> is a system for managing data and services.
+        It allows you to work with <span>todos</span>, <span>notes</span>,
+        <span>codes</span>, <span>urls</span>, and built-in services.
+      </p>
+    </div>
+
+    <div>
+      <h2>Command Format</h2>
+      <p>
+        Commands use the structure:
+        <span>action type, field: value</span>
+      </p>
+      <p>
+        Values are separated by commas.
+        Multiplier is supported: <span>value*n</span>
+      </p>
+    </div>
+
+    <div>
+      <h2>Actions</h2>
+      <table>
+        <tr><td><span>ADD / CREATE</span></td><td>Add items</td></tr>
+        <tr><td><span>DELETE / REMOVE</span></td><td>Delete items</td></tr>
+        <tr><td><span>SEARCH / FIND</span></td><td>Search items</td></tr>
+        <tr><td><span>LIST / SHOW</span></td><td>Show list</td></tr>
+        <tr><td><span>INFO / READ / CHECK</span></td><td>Detailed information</td></tr>
+        <tr><td><span>SAVE</span></td><td>Save type</td></tr>
+        <tr><td><span>CLEAR</span></td><td>Clear type</td></tr>
+        <tr><td><span>OPEN</span></td><td>Open section</td></tr>
+        <tr><td><span>CALC</span></td><td>Evaluate expressions</td></tr>
+      </table>
+    </div>
+
+    <div>
+      <h2>Data Types</h2>
+      <table>
+        <tr><td><span>todos</span></td><td>Tasks</td></tr>
+        <tr><td><span>notes</span></td><td>Notes</td></tr>
+        <tr><td><span>codes</span></td><td>Code snippets</td></tr>
+        <tr><td><span>urls</span></td><td>Links</td></tr>
+      </table>
+    </div>
+
+    <div>
+      <h2>Command Examples</h2>
+      <table>
+        <tr><td>Add</td><td><span>add todos, names: Task tags: work</span></td></tr>
+        <tr><td>Search</td><td><span>search codes, keys: auth</span></td></tr>
+        <tr><td>List</td><td><span>list notes</span></td></tr>
+        <tr><td>Info</td><td><span>info todos, names: Task</span></td></tr>
+        <tr><td>Open</td><td><span>open settings</span></td></tr>
+        <tr><td>Calculate</td><td><span>calc 12+4*2</span></td></tr>
+      </table>
+    </div>
+
+    <div>
+      <h2>How AI Works in Dashboard</h2>
+      <p>
+        The system first tries to process the request using the
+        <span>standard command parser</span>.
+      </p>
+      <p>
+        AI is triggered when:
+        <br>— the text does not match command format
+        <br>— the request is written in natural language
+        <br>— the intent is ambiguous
+        <br>— the parser cannot determine the action
+      </p>
+      <p>
+        When triggered, <span>AI assistant</span> analyzes the request and:
+        <br>— or responds with text
+        <br>— or performs an action via the system
+      </p>
+      <p>
+        This acts as a fallback mechanism that enables
+        flexible free-form interaction.
+      </p>
+    </div>
   </div>
 </div>
 
@@ -509,6 +565,63 @@
     <p>Confirm before delete</p>
     <button class="conf-before-del-sett">✖️</button>
   </div>
+</div>
+
+<!-- SIDE BAR -->
+<article class="all-dashboard-items open">
+  <button class="show-timer-window" title="Timer"><svg><use href="#timer"></use></svg></button>
+  <h2>DASHBOARD</h2>
+  <button class="toggle-dashboard-items-btn" title="ctrl + p"><svg><use href="#close-panel"></use></svg></button>
+  <button class="open-assistant-wrap --opened-btn">Assistant</button>
+  <button class="open-todo-wrap --opened-btn"><p>Your todos</p><p></p></button>
+  <button class="open-notes-wrap --opened-btn"><p>Your notes</p><p></p></button>
+  <button class="open-save-urls-wrap --opened-btn"><p>Your urls</p><p></p></button>
+  <button class="open-user-code-wrap --opened-btn"><p>Your code</p><p></p></button>
+  <h3>Services</h3>
+  <button class="open-exchange-rate-wrap --opened-btn">Exchange rate</button>
+  <button class="open-weather-wrap --opened-btn">Weather</button>
+  <button class="open-timezone-wrap --opened-btn">Timezones</button>
+  <button class="open-settings-window-into-sidebar --opened-btn">Settings</button>
+
+  <button class="open-user-profile-wrap-btn">
+    <img src="/all-imgs/no-profile-icon.webp" alt="Profile-img">
+    <p>Profile</p>
+  </button>
+</article>
+
+<!-- Timer -->
+<div class="timer-window">
+  <h3>⏱ Focus timer</h3>
+  <button class="close-timer-window">❌</button>
+  <progress></progress>
+  <p class="timer-time"></p>
+
+  <hr>
+
+  <label for="set-time">Set your time (Your can write: number and s/m/h)</label>
+  <input class="set-time-input" type="text" id="set-time" placeholder="Set your time..." autocomplete="false">
+
+  <hr>
+
+  <div class="set-timer-point">
+    <label for="type">Select point type:</label>
+    <select id="type" class="select-type" title="Select point type...">
+      <option value="todos">Todos</option>
+      <option value="notes">Notes</option>
+      <option value="urls">Urls</option>
+      <option value="codes">Codes</option>
+      <option value="exchange">Exchange rate</option>
+      <option value="weather">Weather</option>
+      <option value="timezones">Time zones</option>
+    </select>
+    <label for="item">Select point item:</label>
+    <select id="item" class="select-type-item" title="Select point type...">
+      <option value="">----|----</option>
+    </select>
+  </div>
+
+  <button class="start-timer-btn show">Start</button>
+  <button class="stop-timer-btn">Stop</button>
 </div>
 
 <!-- User is ready window -->
@@ -579,7 +692,7 @@
   <p>Loading your content. Please wait...</p>
   <img src="/all-imgs/dashboard-favicon-img.svg" alt="Smile img" >
   <!-- Progress max = all scripts -->
-  <progress class="preloader-progress" max="11"></progress>
+  <progress class="preloader-progress" max="12"></progress>
   <p class="what-is-loading-text">Loading...</p>
 
   <span class="loader"></span>
@@ -670,6 +783,18 @@
   <symbol id="eye" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
     <circle cx="12" cy="12" r="3" />
+  </symbol>
+
+  <symbol id="open-panel" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect width="18" height="18" x="3" y="3" rx="2" />
+    <path d="M9 3v18" />
+    <path d="m14 9 3 3-3 3" />
+  </symbol>
+
+  <symbol id="close-panel" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect width="18" height="18" x="3" y="3" rx="2" />
+    <path d="M9 3v18" />
+    <path d="m16 15-3-3 3-3" />
   </symbol>
 </svg>
 
