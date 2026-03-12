@@ -403,6 +403,8 @@ async function reloadAllContent() {
     return signWindow.classList.add('show');
   }
   if(initialContent) {
+    memoryForAi = initialContent.memory || '';
+
     const content = initialContent.content;
     allTodosObj = content.todos || {};
     hiddenTodosObj = content.hiddenTodos || {};

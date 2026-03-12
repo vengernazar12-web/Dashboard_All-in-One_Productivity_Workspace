@@ -257,3 +257,56 @@
   border-bottom: 1px solid #e5e7eb;
 }
 .dashboard-docs tr:last-child td { border-bottom: none; }
+
+/* Memory for ai */
+.open-memory-for-ai {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  color: white;
+  background-color: rgb(51, 51, 51);
+  padding: 5px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  font-size: 1.2rem;
+}
+.open-memory-for-ai:hover { background-color: black; }
+
+.memory-for-ai {
+  position: absolute;
+  top: 15vh;
+  left: 15%;
+  width: 70%;
+  height: 70vh;
+  background-color: black;
+  border: 1px solid silver;
+  border-radius: 15px;
+  display: none;
+}
+.memory-for-ai > h3 {
+  position: absolute;
+  top: 5px;
+  left: 15px;
+  font-size: 16px;
+}
+.memory-for-ai > textarea {
+  position: absolute;
+  top: 30px;
+  left: 5px;
+  width: calc(100% - 10px);
+  height: calc(100% - 35px);
+  border-radius: 15px;
+  resize: none;
+  padding: 5px;
+  border: 1px solid blue;
+}
+.save-memory-for-ai {
+  position: absolute;
+  top: 5px;
+  right: 15px;
+  color: white;
+  background-color: rgb(51, 51, 51);
+  border: 1px solid silver;
+  font-size: 16px;
+  border-radius: 5px;
+}
