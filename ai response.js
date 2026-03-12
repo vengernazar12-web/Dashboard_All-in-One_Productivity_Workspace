@@ -1,5 +1,5 @@
 let historyForAiPrompt = [];
-async function getAiResponse(prompt, isTranslate = false, isGetter = false) {
+async function getAiResponse(txtForPrompt, isTranslate = false) {
   try {
     assistantLoader.style.display = 'block';
     sendPromptBtn.disabled = true;
@@ -7,10 +7,9 @@ async function getAiResponse(prompt, isTranslate = false, isGetter = false) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', },
       body: JSON.stringify({
-        prompt: [...historyForAiPrompt].reverse().find(t => t.startsWith('User: '))?.replace('User: ', '') || '(system response), continue',
-        giveInfo: isGetter ? `━━ SYSTEM RESPONSE ━━\n${prompt}` : '',
+        txt: txtForPrompt || '',
         isTranslate: isTranslate,
-        history: historyForAiPrompt.join('\n'),
+        history: historyForAiPrompt,
       })
     })
     assistantLoader.style.display = 'none';
@@ -19,9 +18,10 @@ async function getAiResponse(prompt, isTranslate = false, isGetter = false) {
     const data = await resp.json();
     console.log(data);
     return data.txt;
-  } catch {
+  } catch(e) {
+    console.error(e);
     assistantLoader.style.display = 'none';
     sendPromptBtn.disabled = false;
-    return "?| Sorry, something went wrong...";
+    return "Sorry, something went wrong...";
   }
 }

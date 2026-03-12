@@ -193,25 +193,21 @@ sendPromptBtn.addEventListener('click', async () => {
   assistantResponseContainer.scrollTop = assistantResponseContainer.scrollHeight;
   // ------------
 
-  const val = originVal.toLowerCase().replaceAll('\n', ' ');
+  const val = originVal.toLowerCase().replaceAll('\n', ' ').replace(/ {2,}/g, ' ');
 
-  historyForAiPrompt.push(`User: ${val}`);
+  historyForAiPrompt.push({role: 'user', content: [{type: 'text', text: val}]});
   if(historyForAiPrompt.length > 9) historyForAiPrompt.shift();
 
   userPromptTextarea.value = '';
   userPromptTextarea.style.height = '30px';
 
   // Use ai if user value includes '?'
-  if(originVal.includes('?')) return useAiResp(originVal);
+  if(originVal.includes('?')) return useAiResp();
 
   let operation = null;
   let type = null;
 
   const matchedTxt = (val.match(/^.+[:=]?/) || [''])[0].replace(/[^a-z0-9а-яіїєґ\s]/ig, '');
-  if(!matchedTxt) {
-    createAssistantResponse(`You wrote: ${val}, but I cannot understand your task🥲`);
-    return setPreInnerHTMLRegexp('I cannot understand your task🥲');
-  };
 
   for(let word of matchedTxt.split(/ +/)) {
     if(operation && type) break;
@@ -301,7 +297,7 @@ sendPromptBtn.addEventListener('click', async () => {
     if(isOpenOrShowOp) {
       assistantWrap.classList.remove('show');
       openSettingsWindow.click();
-    } else useAiResp(val);
+    } else useAiResp();
     return;
   }
 
@@ -310,7 +306,7 @@ sendPromptBtn.addEventListener('click', async () => {
     if(isOpenOrShowOp) {
       assistantWrap.classList.remove('show');
       openTimerBtn.click();
-    } else useAiResp(val);
+    } else useAiResp();
     return;
   }
 
@@ -319,7 +315,7 @@ sendPromptBtn.addEventListener('click', async () => {
     if(isOpenOrShowOp) {
       assistantWrap.classList.remove('show');
       openProfileWrapBtn.click();
-    } else useAiResp(val);
+    } else useAiResp();
     return;
   }
 
@@ -329,7 +325,7 @@ sendPromptBtn.addEventListener('click', async () => {
     || !operation
     || (allPromptOpsWhoNeedAnyField.includes(operation) && !val.match(/name|key|mark|tag|desc|lang/i) && val.match(/url/ig)?.length < 1)
     || allOperationForUseAi.includes(operation) || matchedTxt.split(' ').find(w => allOperationForUseAi.includes(w))
-  ) return useAiResp(originVal);
+  ) return useAiResp();
   // Use AI
 
   // Start
@@ -337,12 +333,12 @@ sendPromptBtn.addEventListener('click', async () => {
   else if(allNoteTypes.includes(type)) readNoteResp(originVal, operation);
   else if(allUrlTypes.includes(type)) readUrlResp(originVal, operation);
   else if(allCodeTypes.includes(type)) readCodeResp(originVal, operation);
-  else useAiResp(originVal);
+  else useAiResp();
 })
 
 // Use ai fn
-async function useAiResp(valueForPrompt, isGetter = false) {
-  let respTxt = await getAiResponse(valueForPrompt, false, isGetter);
+async function useAiResp(givenInfo) {
+  let respTxt = await getAiResponse(givenInfo);
   const insertCommands = respTxt.match(/(?:\n)\?get\|[^\n]+/gi);
   let txt = '';
   if(insertCommands) {
@@ -352,7 +348,7 @@ async function useAiResp(valueForPrompt, isGetter = false) {
     }
   }
   createAssistantResponse(respTxt, false, true);
-  if(txt) useAiResp(txt, true);
+  if(txt) useAiResp(txt);
 }
 
 // Give info for ai
@@ -550,7 +546,7 @@ function createAssistantResponse(resp, needBtn = false, isGenText = false) {
 
   initTypingIntervals(initTypingElement, initTypingText, txtLng);
 
-  historyForAiPrompt.push(`Assistant: ${initTypingText.replaceAll('\n', ' ')}`);
+  historyForAiPrompt.push({role: "assistant", content: [{type: 'text', text: initTypingText.replaceAll('\n', ' ').replace(/ {2,}/g, ' ')}]});
   if(historyForAiPrompt.length > 9) historyForAiPrompt.shift();
 
   if(needBtn) {
