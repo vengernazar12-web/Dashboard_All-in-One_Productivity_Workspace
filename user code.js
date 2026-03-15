@@ -306,6 +306,8 @@ focusWrap.addEventListener('click', e => {
     initTarget.closest('.lock').style.color = allUserCodesObj[codeName].lock ?
     'gold' : 'white';
   }
+  // Toggle codes content assistant(focus)
+  else if(initTarget.classList.contains('toggle-codes-content-assistant-window')) codesContentAssistantWindow.classList.toggle('open');
 })
 
 // All user code container

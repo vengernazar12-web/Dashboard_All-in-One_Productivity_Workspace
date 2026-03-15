@@ -101,6 +101,10 @@ html .unsaved:after {
 
 progress { border: 1px solid var(--border-color); }
 
+/* Assistants loader */
+.assistant-loader { display: none; }
+.type-assistant .assistant-loader { z-index: 1000; }
+
 /* Input file styles */
 ::-webkit-file-upload-button,
 ::file-selector-button {

@@ -82,7 +82,14 @@
 <script src="weather.js" defer></script><!--8-->
 <script src="timezone.js" defer></script><!--9-->
 <script src="Profile.js" defer></script><!--10-->
+
+<!-- Assistants -->
 <script src="AI assistant.js" defer></script><!--11-->
+<script src="todos assistant.js" defer></script>
+<script src="notes assistants.js" defer></script>
+<script src="urls assistant.js" defer></script>
+<script src="user codes assistant.js" defer></script>
+
 <script src="sign.js" defer></script><!--max-->
 <link rel="icon" href="/all-imgs/favicon-32x32.png" type="image/png">
 </head>
@@ -91,7 +98,7 @@
 <header class="dashboard-header">
   <h1>Dashboard</h1>
   <p>To start, open the side panel</p>
-  <img src="/all-imgs/dashboard-favicon-img.svg" alt="">
+  <img src="/all-imgs/dashboard-favicon-img.svg" alt="DASHBOARD SMILE">
 </header>
 
 <!-- User profile -->
@@ -184,6 +191,16 @@
     <progress></progress>
   </div>
 
+  <!-- Assistant(todo) -->
+  <button class="toggle-todos-assistant-window toggle-type-assistant">Assistant</button>
+  <div class="todos-assistant-window type-assistant">
+    <div class="assistant-answer-container"></div>
+    <textarea class="user-prompt-textarea" placeholder="How can I help?..."></textarea>
+    <button class="send-prompt-btn">=></button>
+    <!-- Loader for AI -->
+    <span class="loader assistant-loader"></span>
+  </div>
+
   <!-- Add todo block -->
   <div class="add-todo-form">
     <button class="close-add-todo-form-btn">❌</button>
@@ -243,6 +260,16 @@
     <button class="conf-note-edit-change-btn">OK</button>
   </div>
 
+  <!-- Assistant(notes) -->
+  <button class="toggle-notes-assistant-window toggle-type-assistant">Assistant</button>
+  <div class="notes-assistant-window type-assistant">
+    <div class="assistant-answer-container"></div>
+    <textarea class="user-prompt-textarea" placeholder="How can I help?..."></textarea>
+    <button class="send-prompt-btn">=></button>
+    <!-- Loader -->
+    <span class="loader assistant-loader"></span>
+  </div>
+
   <progress class="note-progress"></progress>
 </div>
 
@@ -250,8 +277,19 @@
   <button class="close-notes-content-wrap">❌</button>
   <h3></h3>
   <input type="text" class="search-note-text-input" placeholder="Search text...">
+
+  <!-- Content assistant -->
+  <button class="toggle-notes-content-assistant-window toggle-type-assistant">Assistant</button>
+  <div class="notes-content-assistant-window type-assistant">
+    <div class="assistant-answer-container"></div>
+    <textarea class="user-prompt-textarea" placeholder="How can I help?..."></textarea>
+    <button class="send-prompt-btn">=></button>
+    <!-- Loader -->
+    <span class="loader assistant-loader"></span>
+  </div>
+
   <p class="notes-symbols-limit-text">_/2000</p>
-  <div class="notes-user-content" contenteditable="true"></div>
+  <textarea class="notes-user-content"></textarea>
 </div>
 
 <!-- Urls -->
@@ -266,6 +304,15 @@
 
   <div class="all-urls-container"></div>
 
+  <!-- Urls assistant -->
+  <button class="toggle-urls-assistant-window toggle-type-assistant">Assistant</button>
+  <div class="urls-assistant-window type-assistant">
+    <div class="assistant-answer-container"></div>
+    <textarea class="user-prompt-textarea" placeholder="How can I help?..."></textarea>
+    <button class="send-prompt-btn">=></button>
+    <!-- Loader -->
+    <span class="loader assistant-loader"></span>
+  </div>
 
   <div class="add-url-form">
     <h3>Add new url</h3>
@@ -343,18 +390,39 @@
     <div class="code-snippets-container"></div>
   </div>
 
+  <!-- Code assistant -->
+  <button class="toggle-codes-assistant-window toggle-type-assistant">Assistant</button>
+  <div class="codes-assistant-window type-assistant">
+    <div class="assistant-answer-container"></div>
+    <textarea class="user-prompt-textarea" placeholder="How can I help?..."></textarea>
+    <button class="send-prompt-btn">=></button>
+    <!-- Loader -->
+    <span class="loader assistant-loader"></span>
+  </div>
+
   <!-- Focus code -->
   <div class="focus-code-wrap is-wrap">
     <h3 class="focus-code-title"></h3>
     <p class="focus-code-symbols">_/1500</p>
     <textarea class="focus-textarea"></textarea>
+
     <div class="all-focus-btns">
-      <button class="unfocus-btn">
-        <svg><use href="#unfocus"></use></svg>
-      </button>
+      <!-- Toggle codes content assistant -->
+      <button class="toggle-codes-content-assistant-window toggle-type-assistant">AI</button>
+
+      <button class="unfocus-btn"><svg><use href="#unfocus"></use></svg></button>
       <button class="copy"><svg><use href="#copy-code"></use></svg></button>
       <button class="delete"><svg><use href="#delete-code"></use></svg></button>
       <button class="lock"><svg><use href="#code-block-lock"></use></svg></button>
+    </div>
+
+    <!-- Focus mode code assistant window -->
+    <div class="codes-content-assistant-window type-assistant">
+      <div class="assistant-answer-container"></div>
+      <textarea class="user-prompt-textarea" placeholder="How can I help?..."></textarea>
+      <button class="send-prompt-btn">=></button>
+      <!-- Loader -->
+      <span class="loader assistant-loader"></span>
     </div>
   </div>
 
@@ -435,12 +503,6 @@
   <!-- User prompt -->
   <textarea type="text" class="user-prompt-textarea" placeholder="How can I help?..."></textarea>
   <button class="send-prompt-btn">=></button>
-
-  <!-- Show found elements block -->
-  <div class="assistant-found-elements-block"></div>
-
-  <!-- Loader for AI -->
-  <span class="loader assistant-loader"></span>
 
   <!-- Memory for ai -->
   <button class="open-memory-for-ai">Memory</button>
@@ -536,6 +598,12 @@
       </p>
     </div>
   </div>
+
+  <!-- Show found elements block -->
+  <div class="assistant-found-elements-block"></div>
+
+  <!-- Loader for AI -->
+  <span class="loader assistant-loader"></span>
 </div>
 
 <!-- Settings -->

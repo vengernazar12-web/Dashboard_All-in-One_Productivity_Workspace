@@ -8,7 +8,7 @@
 .todos-container {
   width: 100%;
   position: absolute;
-  top: 100px;
+  top: 150px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -252,8 +252,9 @@
   left: 5px;
   font-size: 1rem;
   color: black;
-  transition: color .2s;
+  color: var(--text-color);
 }
+.unhide-todos:hover { color: greenyellow; }
 
 /* Edit todos */
 .edit-todo-block {
@@ -351,14 +352,14 @@
   position: absolute;
   top: 65px;
   right: 15%;
-  font-size: 1.2rem;
+  font-size: 20px;
   color: var(--text-color);
 }
 
 .todo-progresses-block {
   position: absolute;
   top: 65px;
-  right: calc(27.5% + 25px);
+  right: calc(17.5% + 25px);
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -406,4 +407,11 @@
   border-radius: 15px;
   background: linear-gradient(90deg, #4ade80, #22c55e, #16a34a);
   box-shadow: 0 0 8px rgba(34, 197, 94, 0.6);
+}
+
+/* Toggle todos assistant */
+.toggle-todos-assistant-window {
+  position: absolute;
+  top: 100px;
+  right: 2.5%;
 }

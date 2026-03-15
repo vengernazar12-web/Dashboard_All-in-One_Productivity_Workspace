@@ -66,15 +66,15 @@
 .notes-user-content {
   position: absolute;
   top: 110px;
-  width: 95%;
-  margin-left: 2.5%;
-  min-height: 150px;
-  max-height: calc(100% - 95px);
+  left: 5px;
+  width: calc(100% - 10px);
+  height: calc(100% - 115px);
   background: var(--block-bg);
-  border-radius: 8px;
-  padding: 5px;
+  color: var(--text-color);
+  border-radius: 7px;
+  padding: 3px;
   overflow-y: auto;
-  text-align: start;
+  resize: none;
 }
 
 /* Add note */
@@ -156,4 +156,17 @@
   font-size: 1.2rem;
   border: 1px solid var(--border-color);
   border-radius: 8px;
+}
+
+/* Notes assistantS */
+.toggle-notes-assistant-window {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+}
+
+.toggle-notes-content-assistant-window {
+  position: absolute;
+  top: 80px;
+  left: 5%;
 }

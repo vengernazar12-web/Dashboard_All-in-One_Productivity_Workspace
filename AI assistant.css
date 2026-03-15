@@ -2,8 +2,6 @@
   background: #000;
   color: white;
 }
-.assistant-wrap > .assistant-loader { display: none; }
-
 .assistant-memory-txt-info {
   position: absolute;
   top: 5px;
@@ -22,17 +20,18 @@
   position: absolute;
   bottom: 45px;
   left: 5px;
-  width: calc(100vw - 42px);
-  height: calc(100vh - 90px);
+  width: calc(100% - 10px);
+  height: calc(100% - 90px);
   background-color: rgb(50, 47, 47);
   border-radius: 15px;
   overflow-y: auto;
   border: 1px solid white;
-  padding: 10px;
+  padding: 7px;
   display: flex;
   flex-direction: column;
   gap: 7px;
 }
+.assistant-answer-container * { user-select: text; }
 .assistant-answer-container button {
   border: 1px solid silver;
   padding: 5px;
@@ -41,7 +40,6 @@
   border-radius: 5px;
   background: linear-gradient(50deg, transparent 25%, black);
 }
-.assistant-text > * { user-select: text; }
 .assistant-answer-container pre {
   white-space: pre-wrap;
   text-wrap: wrap;
@@ -59,7 +57,7 @@
   padding: 0 3px;
 }
 
-/* User task text in chat */
+/* User task text in chat (all assistants) */
 .user-text {
   width: 100%;
   display: flex;
@@ -73,7 +71,7 @@
   padding: 3px 7px;
   border-radius: 5px;
   position: relative;
-  background-color: rgb(0, 0, 96);user-select: text;
+  background-color: rgb(0, 0, 96);
 }
 .user-text > pre::before {
   content: 'You:';
@@ -83,7 +81,7 @@
   left: 3px;
 }
 
-/* User prompt */
+/* User prompt (all assistants) */
 .user-prompt-textarea {
   position: absolute;
   bottom: 5px;
@@ -112,14 +110,12 @@
   color: white;
   background-color: black;
 }
-.send-prompt-btn:hover {
-  background-color: rgb(35, 35, 35);
-}
+.send-prompt-btn:hover { background-color: rgb(35, 35, 35); }
 
 /* Assistant found elements */
 .assistant-found-elements-block {
   max-height: calc(100vh - 50px);
-  width: 95vw;
+  width: 95%;
   position: absolute;
   left: 2.5vw;
   top: 5px;
@@ -310,3 +306,30 @@
   font-size: 16px;
   border-radius: 5px;
 }
+
+/* All assistants */
+.toggle-type-assistant {
+  color: white;
+  background-color: blue;
+  font-size: 20px;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  padding: 2px;
+}
+
+.type-assistant > .assistant-answer-container { height: calc(100% - 50px); }
+.type-assistant {
+  position: fixed;
+  bottom: 0;
+  left: 32px;
+  width: calc(100vw - 32px);
+  height: 80vh;
+  border-top: 2px solid var(--border-color);
+  border-radius: 10px 10px 0 0;
+  background-color: black;
+  transform: translateY(100%);
+  transition: transform .5s;
+  z-index: 100;
+  text-align: left;
+}
+.type-assistant.open { transform: translateY(0); }

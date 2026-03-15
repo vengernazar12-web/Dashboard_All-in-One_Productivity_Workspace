@@ -17,10 +17,10 @@ openNoteWrapBtn.addEventListener('click', () => {
 
 // Close notes content wrap
 notesContentWrap.querySelector('.close-notes-content-wrap')
-.addEventListener('click', e => {
-  if(userNotesText.textContent.trim() === noteTxt.trim()) return notesContentWrap.classList.remove('show');
+.addEventListener('click', () => {
+  if(userNotesText.value.trim() === noteTxt) return notesContentWrap.classList.remove('show');
   const name = notesContentTitle.textContent;
-  allNotesObj[name].txt = userNotesText.innerText.trim();
+  allNotesObj[name].txt = userNotesText.value.trim();
   showResponseFn(`Save "${name}" note text`);
   notesContentWrap.classList.remove('show');
   noteSaveBtn.classList.add('unsaved');
@@ -173,12 +173,9 @@ const notesSymbolsLimitText = notesContentWrap.querySelector('.notes-symbols-lim
 const notesContentTitle = notesContentWrap.querySelector('h3');
 
 const userNotesText = notesContentWrap.querySelector('.notes-user-content');
-userNotesText.addEventListener('input', e => {
-  const lng = userNotesText.textContent.replaceAll('\n', '').length;
-
-  if(lng > 2000) notesSymbolsLimitText.style.color = 'red';
-  else notesSymbolsLimitText.style.color = 'var(--text-color)';
-
+userNotesText.addEventListener('input', () => {
+  const lng = userNotesText.value.replaceAll('\n', '').length;
+  notesSymbolsLimitText.style.color = lng > 2000 ? 'red' : 'var(--text-color)';
   notesSymbolsLimitText.textContent = `${lng}/2000`;
 })
 
@@ -227,12 +224,12 @@ function createNoteBlock( name, desc, isFavorite, searchVal ) {
 }
 let noteTxt = null;
 function renderNotesText(name) {
-  userNotesText.innerHTML = allNotesObj[name].txt.replaceAll('\n', '<br>');
-  noteTxt = userNotesText.textContent;
+  userNotesText.value = allNotesObj[name].txt
+  noteTxt = userNotesText.value.trim();
   notesContentTitle.textContent = name;
   userNotesText.style.fontSize = `${localStorage.getItem('notes-font-size') || 1.2}rem`;
   notesContentWrap.classList.add('show');
-  notesSymbolsLimitText.textContent = `${userNotesText.textContent.replaceAll('\n', '').length}/2000`;
+  notesSymbolsLimitText.textContent = `${userNotesText.value.replaceAll('\n', '').length}/2000`;
 }
 function renderNotesBlocks() {
   const arr = Object.keys(allNotesObj);

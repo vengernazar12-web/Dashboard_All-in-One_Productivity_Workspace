@@ -50,17 +50,37 @@ function closeAllWraps() {
   assistantWrap.classList.remove('show');
   profileWrap.classList.remove('show');
   settingsWindow.classList.remove('show');
+  notesContentWrap.classList.remove('show');
+  hiddenTodosWindow.classList.remove('show');
   if(allDashboardItem.classList.contains('open')) toggleAllDashboardItemBtn.click();
 }
 
-// Show body scroll fn
-function showBodyScroll() {
-  if(
-    !todoWrap.classList.contains('show')
-    && !notesWrap.classList.contains('show')
-    && !urlsWrap.classList.contains('show')
-    && !userCodeWrap.classList.contains('show')
-  ) document.body.style.overflow = 'auto';
+// Close all type-assistant windows
+function closeAllTypeAssistantWindows() {
+  todosAssistantWindow.classList.remove('open');
+  notesContentAssistantWindow.classList.remove('open');
+  notesAssistantWindow.classList.remove('open');
+  urlsAssistantWindow.classList.remove('open');
+  codesAssistantWindow.classList.remove('open');
+  codesContentAssistantWindow.classList.remove('open');
+}
+
+// Mark and render init wrap
+function addUnsavedMarkAndRenderInitWrap() {
+  if(todoWrap.classList.contains('show')) {
+    todoSaveBtn.classList.add('unsaved');
+    initGroupsTodosObj();
+    renderTodos();
+  } else if(notesWrap.classList.contains('show')) {
+    renderNotesBlocks();
+    noteSaveBtn.classList.add('unsaved');
+  } else if(urlsWrap.classList.contains('show')) {
+    renderAllUrls();
+    urlSaveBtn.classList.add('unsaved');
+  } else if(userCodeWrap.classList.contains('show')) {
+    renderUserCodesBlocks();
+    codeSaveBtn.classList.add('unsaved');
+  }
 }
 
 // Key... events
@@ -81,14 +101,33 @@ document.addEventListener('keydown', e => {
   else if(focusWrap.classList.contains('show') && e.key === 'Escape') closeFocusBtn.click();
 
   else if(e.key === 'Enter') {
-    if(addTodoForm.classList.contains('show')) todoAddBtn.click();
+    if(assistantWrap.classList.contains('show') && !e.shiftKey) {
+      e.preventDefault();
+      sendPromptBtn.click();
+    } else if(todosAssistantWindow.classList.contains('open') && !e.shiftKey) {
+      e.preventDefault();
+      sendTodosAssistantPromptBtn.click();
+    } else if(notesContentAssistantWindow.classList.contains('open') && !e.shiftKey) {
+      e.preventDefault();
+      sendNotesContentPromptBtn.click();
+    } else if(notesAssistantWindow.classList.contains('open') && !e.shiftKey) {
+      e.preventDefault();
+      sendNotesPromptBtn.click();
+    } else if(urlsAssistantWindow.classList.contains('open') && !e.shiftKey) {
+      e.preventDefault();
+      sendUrlsAssistantPrompt.click();
+    } else if(codesAssistantWindow.classList.contains('open') && !e.shiftKey) {
+      e.preventDefault();
+      sendCodesAssistantPromptBtn.click();
+    } else if(codesContentAssistantWindow.classList.contains('open') && !e.shiftKey) {
+      e.preventDefault();
+      sendCodesContentAssistantPromptBtn.click();
+    }
+
+    else if(addTodoForm.classList.contains('show')) todoAddBtn.click();
     else if(addUrlForm.classList.contains('show')) addUrlBtn.click();
     else if(addNotesForm.classList.contains('show')) addNotesButton.click();
     else if(addCodeBlockForm.classList.contains('show')) addCodeBlockBtn.click();
-    else if(assistantWrap.classList.contains('show') && !e.shiftKey) {
-      e.preventDefault();
-      sendPromptBtn.click();
-    }
     else if(editNoteBlock.classList.contains('show')) confNoteEditChangeBtn.click();
   }
 })
@@ -96,6 +135,7 @@ document.addEventListener('keydown', e => {
 // Document click event
 document.addEventListener('click', e => {
   if(allDashboardItem.classList.contains('open') && !e.target.closest('.all-dashboard-items')) toggleAllDashboardItemBtn.click();
+  if(!e.target.closest('.type-assistant') && !e.target.classList.contains('toggle-type-assistant')) closeAllTypeAssistantWindows();
 })
 
 /* Theme switcher */

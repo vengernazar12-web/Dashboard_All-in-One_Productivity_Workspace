@@ -520,7 +520,7 @@ function readNoteResp(value, operation) {
       const allDescs = allNotesArr.map(n => allNotesObj[n].description).filter(d => d && d !== 'Description');
       if(!allDescs.length) return createAssistantResponse("You don't have a descriptions");
 
-      totalResponseText.textContent = `Total marks found: ${allDescs}\n-------\n`;
+      totalResponseText = `Total descriptions found: ${allDescs.length}\n`;
       for(let d of allDescs) {
         totalResponseText += `- ${d}\n`;
         allWordsForHeightLight.push(`- ${d}`);
@@ -783,6 +783,7 @@ function readUrlResp(value, operation) {
 
     let totalResponseText = '';
     const allWordsForHeightLight = [];
+    console.log(value);
 
     if(value.toLowerCase().includes('name')) {
       totalResponseText = `Total names found: ${allUrlsArr.length}\n`;
@@ -793,7 +794,7 @@ function readUrlResp(value, operation) {
       createAssistantResponse(totalResponseText);
       setPreInnerHTMLRegexp(...allWordsForHeightLight);
     }
-    else if(value.match(/url|link/gi).length > 1) {
+    else if(value.replace(/[^a-z0-9а-яіїєґ\s]/ig, '').split(' ').filter(w => allUrlTypes.includes(w)).length > 1) {
       totalResponseText = `Total urls/links found: ${allUrlsArr.length}\n`;
       for(let o of allUrlsArr) {
         totalResponseText += `- ${o.url}\n`;

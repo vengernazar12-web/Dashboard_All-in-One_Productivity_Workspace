@@ -320,6 +320,16 @@ const settingsWindow = document.querySelector('.settings-window'),
 animationTimeSelect = document.querySelector('.animation-time-select');
 const openSettingsWindow = profileWrap.querySelector('.open-settings-window');
 
+// Close settings
+settingsWindow.querySelector('.close-settings-window')
+.addEventListener('click', () => {
+  settingsWindow.classList.remove('show');
+  totalBlockLimitsProgress.value = 0;
+  profileWrap.classList.add('show');
+  if(profileAvatarPreview.src !== openBtnProfileImg.src) profileAvatarPreview.src = openBtnProfileImg.src;
+  initUserAccountInfo();
+});
+
 // Open settings into sidebar
 allDashboardItem.querySelector('.open-settings-window-into-sidebar')
 .addEventListener('click', () => {
@@ -371,10 +381,6 @@ confBefDelBtn.addEventListener('click', e => {
   else e.target.textContent = '✔️';
   localStorage.setItem('conf-before-delete', !isConfirm);
 })
-
-// Close settings
-settingsWindow.querySelector('.close-settings-window')
-.addEventListener('click', () => settingsWindow.classList.remove('show'));
 
 // Set preloader value
 preloaderProgress.value = 10;

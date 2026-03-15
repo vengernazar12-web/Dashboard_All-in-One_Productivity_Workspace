@@ -194,3 +194,10 @@
   border-radius: 5px;
   padding: 2px;
 }
+
+/* Urls assistant */
+.toggle-urls-assistant-window {
+  position: absolute;
+  top: 50px;
+  left: 2.5%;
+}

@@ -71,9 +71,9 @@ const allOperationForUseAi = ['розкажи', 'tell', "об'ясни", 'explai
 
 // Types
 const allPromptTypes = [
-'todo', 'todos', 'туду', 'тудушка', 'тудушку', 'тудушки', 'завдання',
-'note', 'notes', 'нотатка', 'нотатку', 'нотатки',
-'url', 'urls', 'link', 'links', 'силка', 'силки', 'силку', 'урли', 'посилання',
+'todo', 'todos', 'туду', 'тудушка', 'тудушку', 'тудушки', 'завдання', 'тудушок', 'завдань',
+'note', 'notes', 'нотатка', 'нотатку', 'нотатки', 'нотаток',
+'url', 'urls', 'link', 'links', 'силка', 'силки', 'силку', 'урли', 'урлів', 'посилання', 'силок', 'посилань',
 'code', 'codes', 'код', 'коди', 'кодів',
 'weather', 'погода', 'погоду',
 'timezone', 'zone', 'час', 'година', 'часовий', 'пояс', 'часові', 'пояси', 'таймзони',
@@ -82,9 +82,9 @@ const allPromptTypes = [
 'timer', 'таймер',
 'profile', 'stats', 'account', 'профіль', 'статистика', 'аккаунт',
 ];
-const allTodoTypes = ['todo', 'todos', 'туду', 'тудушка', 'тудушку', 'тудушки', 'завдання',];
-const allNoteTypes = ['note', 'notes', 'нотатка', 'нотатку', 'нотатки',];
-const allUrlTypes = ['url', 'urls', 'link', 'links', 'силка', 'силки', 'силку', 'урли', 'посилання',];
+const allTodoTypes = ['todo', 'todos', 'туду', 'тудушка', 'тудушку', 'тудушки', 'завдання', 'тудушок', 'завдань',];
+const allNoteTypes = ['note', 'notes', 'нотатка', 'нотатку', 'нотатки', 'нотаток',];
+const allUrlTypes = ['url', 'urls', 'link', 'links', 'силка', 'силки', 'силку', 'урли', 'урлів', 'посилання', 'силок', 'посилань',];
 const allCodeTypes = ['code', 'codes', 'код', 'коди', 'кодів',];
 const allWeatherTypes = ['weather', 'погода', 'погоду',];
 const allTimezoneTypes = ['timezone', 'zone', 'час', 'година', 'часовий', 'пояс', 'часові', 'пояси', 'таймзони',];
@@ -173,15 +173,15 @@ userPromptTextarea.addEventListener('input', () => {
   userPromptTextarea.style.height = '30px';
   userPromptTextarea.style.height = `${userPromptTextarea.scrollHeight + 3}px`;
 
-  sendPromptBtn.style.border = `1px solid ${userPromptTextarea.value.length > 1000 ? 'red' : 'silver'}`
+  sendPromptBtn.style.border = `1px solid ${userPromptTextarea.value.trim().length > 1000 ? 'red' : 'silver'}`;
 })
 
 // Send prompt
 const sendPromptBtn = assistantWrap.querySelector('.send-prompt-btn');
 sendPromptBtn.addEventListener('click', async () => {
-  const originVal = initUserPromptValue(userPromptTextarea.value);
+  const originVal = initUserPromptValue(userPromptTextarea.value).trim();
   if(!originVal) return showResponseFn('Nothing to send');
-  if(userPromptTextarea.value.length > 1000) return showResponseFn('Your question is too long (more than 1000 characters)');
+  if(userPromptTextarea.value.trim().length > 1000) return showResponseFn('Your question is too long (more than 1000 characters)');
 
   // Generate user text
   const userTaskDiv = document.createElement('div');
@@ -252,7 +252,7 @@ sendPromptBtn.addEventListener('click', async () => {
     if(point) {
       const pointInMap = cityCountryMap[point];
       if(!/^[a-z\s]+$/i.test(point)) {
-        if(!pointInMap) point = await getAiResponse(point, true);
+        if(!pointInMap) point = await getAiTranslateResponse(point);
         else point = pointInMap;
       };
       searchCityInput.value = point;
@@ -400,7 +400,6 @@ function createAssistantResponse(resp, needBtn = false, isGenText = false) {
   const div = document.createElement('div');
   const pre = document.createElement('pre');
 
-  div.classList.add('assistant-text');
   pre.textContent = '';
 
   div.appendChild(pre);
@@ -630,7 +629,7 @@ function initUserPromptValue(val) {
 
   .replace(/(?:and\s+|with\s+)+(keys?|names?|marks?|tags?|descs?|langs?|urls?|points?|cities?|countries?)\s*(:+|=+)?/gi, ' $1:');
 
-  return replaceLast(result, new RegExp('\s+(та\s*|з\s*|ще\s*|і\s*)*(посиланн?ями?|посиланн?я|посилань|силками?|силк(а|и)|силкою|урлом|урл(ами?)?)\s*(:+|=+)?', 'gi'), ' urls $3 ');
+  return replaceLast(result, new RegExp('\s+(та\s*|з\s*|ще\s*|і\s*)*(посиланн?ями?|посиланн?я|посилань|силками?|силк(а|и)|силкою|урлом|урлів|урли|урл(ами?)?)\s*(:+|=+)?', 'gi'), ' urls $3 ');
 }
 
 // Reverse last word

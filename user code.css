@@ -139,15 +139,16 @@
   right: 34px;
 }
 .focus-code-wrap {
-  padding: 5px;
+  padding: 3px;
   background: rgb(0, 0, 0);
   color: white;
+  z-index: 50;
 }
 .focus-code-wrap .CodeMirror {
   position: absolute;
   top: 5vh;
-  left: 1vw;
-  width: 90vw;
+  left: 3px;
+  width: calc(100% - 35px);
   height: 94vh;
   border: 1px solid white;
   text-align: left;
@@ -155,17 +156,18 @@
   font-size: 0.7rem;
 }
 .focus-code-wrap > .all-focus-btns {
-  width: 9vw;
+  width: 30px;
   position: absolute;
   top: 5%;
-  right: 0.2vw;
+  right: 3px;
 }
 .focus-code-wrap > .all-focus-btns > button { margin-bottom: 15px; }
 .focus-code-wrap > .all-focus-btns > button > svg { color: white; }
+
 .focus-code-wrap > .focus-code-symbols {
   position: absolute;
-  top: 5px;
-  right: 10vw;
+  top: 10px;
+  right: 9vw;
 }
 .focus-code-wrap > .focus-code-title {
   position: absolute;
@@ -220,14 +222,14 @@
 
 .close-code-snippets-btn {
   position: absolute;
-  top: 5px;
+  top: 10px;
   right: 5px;
   font-size: 1.25rem;
 }
 
 /* Search snippets */
 .search-snippets-input {
-  position: fixed;
+  position: absolute;
   top: 10px;
   left: 5px;
   width: calc(100% - 50px);
@@ -238,4 +240,21 @@
   position: absolute;
   top: 2px;
   right: 30px;
+}
+
+/* Codes assistants */
+.toggle-codes-content-assistant-window {
+  color: white;
+  font-size: 16px;
+  background-color: blue;
+  border: 1px solid silver;
+  border-radius: 5px;
+  padding: 3px;
+}
+
+.user-code-wrap > .toggle-codes-assistant-window {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  font-size: 17px;
 }
