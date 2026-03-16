@@ -1,6 +1,6 @@
 let historyForAiPrompt = [];
 let memoryForAi = '';
-async function getAiResponse(txtForPrompt) {
+async function getAiResponse(givenInfo) {
   try {
     assistantLoader.style.display = 'block';
     sendPromptBtn.disabled = true;
@@ -8,7 +8,7 @@ async function getAiResponse(txtForPrompt) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', },
       body: JSON.stringify({
-        txt: txtForPrompt || '',
+        givenInfo: givenInfo,
         history: historyForAiPrompt,
         memoryForAi,
       })
@@ -27,18 +27,18 @@ async function getAiResponse(txtForPrompt) {
 }
 
 // Use ai fn
-async function useAiResp(givenInfo) {
+async function useAiResp(givenInfo = '') {
   let respTxt = await getAiResponse(givenInfo);
-  const insertCommands = respTxt.match(/(?:\n)\?get\|[^\n]+/gi);
-  let txt = '';
+  const insertCommands = respTxt.match(/(?:\n?)\?get\|[^\n]+/gi);
+  let info = '';
   if(insertCommands) {
-    for(let comm of new Set(insertCommands)) {
+    for(let comm of [...new Set(insertCommands)]) {
       respTxt = respTxt.replaceAll(comm, '• Reading data...');
-      txt += giveInfoForAi(comm.replace('?get|', '').trim());
+      info += giveInfoForAi(comm.replace('?get|', '').trim());
     }
   }
-  createAssistantResponse(respTxt, false, true);
-  if(txt) useAiResp(txt);
+  createAssistantResponse(respTxt);
+  if(info) useAiResp(info);
 }
 
 // Get ai translate
@@ -265,45 +265,52 @@ ${userActionsForAi.length ? userActionsForAi.join('. ') : 'В данній се�
     : type === 'urls' ? allUrlsArr : allUserCodesObj;
 
     let allTypeInfos = [];
-    if(type === 'urls') for(let o of targetTypeEl) allTypeInfos.push({name: o.title, url: o.url.toLowerCase()});
-    else if(type === 'todos') for(let n in targetTypeEl) allTypeInfos.push({name: n, mark: allTodosObj[n].mark.toLowerCase(), tag: allTodosObj[n].tag.toLowerCase(), date: allTodosObj[n].date.toLowerCase()});
+    if(type === 'todos') for(let n in targetTypeEl) allTypeInfos.push({name: n, mark: allTodosObj[n].mark.toLowerCase(), tag: allTodosObj[n].tag.toLowerCase(), date: allTodosObj[n].date.toLowerCase()});
     else if(type === 'notes') for(let n in allNotesObj) allTypeInfos.push({name: n, description: allNotesObj[n].description.toLowerCase(), contentLength: allNotesObj[n].txt.replaceAll('\n','').length});
+    else if(type === 'urls') for(let o of targetTypeEl) allTypeInfos.push({name: o.title, url: o.url.toLowerCase()});
     else if(type === 'codes') for(let n in allUserCodesObj) allTypeInfos.push({name: n, language: allUserCodesObj[n].lang.toLowerCase(), contentLength: allUserCodesObj[n].code.replace(/\s/g,'').length});
+
     // Get all filtered names
-    const allNamesArr = aiGetter.includes('name:') ? aiGetter.match(/(?:name:)([^|]+)/i)[1]?.trim().split(', ').map(n => n.toLowerCase()) : allTypeInfos.map(o => o.name.toLowerCase());
+    const allNamesArr = aiGetter.includes('name:') ? aiGetter.match(/(?:name:)([^|]+)/i)[1]?.trim().split(', ').map(n => n.toLowerCase()) : null;
 
     // Get ai number filter
     let num = allAiGettingsWords[1];
     if(isNaN(num)) num = Math.max(...Object.values(allBlockLimitsObj));
 
     // Array who been gived for ai
-    let arrayForGiveInfo = allTypeInfos.filter(o => allNamesArr.find(n => o.name.toLowerCase().includes(n)));
+    let arrayForGiveInfo = allTypeInfos.filter(o => !allNamesArr || allNamesArr.find(n => o.name.toLowerCase().includes(n)));
 
     // Init arrayForGiveInfo for todos
     if(type === 'todos') {
-      const allMarks = aiGetter.includes('mark:') ? aiGetter.match(/(?:mark:)([^|]+)/i)[1]?.trim().split(', ').map(m => m.toLowerCase()) : arrayForGiveInfo.map(o => o.mark);
-      const allTags = aiGetter.includes('tag:') ? aiGetter.match(/(?:tag:)([^|]+)/i)[1]?.trim().split(', ').map(t => t.toLowerCase()) : arrayForGiveInfo.map(o => o.tag);
+      const allMarks = aiGetter.includes('mark:') ? aiGetter.match(/(?:mark:)([^|]+)/i)[1]?.trim().split(', ').map(m => m.toLowerCase()) : null
+      const allTags = aiGetter.includes('tag:') ? aiGetter.match(/(?:tag:)([^|]+)/i)[1]?.trim().split(', ').map(t => t.toLowerCase()) : null
 
-      arrayForGiveInfo = arrayForGiveInfo.filter(o => allMarks.find(m => o.mark.includes(m)) && allTags.find(t => o.tag.includes(t)));
+      arrayForGiveInfo = arrayForGiveInfo.filter(o => (!allMarks || allMarks.find(m => o.mark.includes(m))) && (!allTags || allTags.find(t => o.tag.includes(t))));
     }
     else if(type === 'notes') {
-      const allDesc = aiGetter.includes('desc:') ? aiGetter.match(/(?:desc:)([^|]+)/i)[1]?.trim().split(', ').map(d => d.toLowerCase()) : arrayForGiveInfo.map(o => o.description);
-      const allContentLngs = aiGetter.includes('length:') ? aiGetter.match(/(?:length:)([^|]+)/i)[1]?.trim().split(', ') : arrayForGiveInfo.map(o => o.contentLength);
+      const allDesc = aiGetter.includes('desc:') ? aiGetter.match(/(?:desc:)([^|]+)/i)[1]?.trim().split(', ').map(d => d.toLowerCase()) : null
+      const allContentLngs = aiGetter.includes('length:') ? aiGetter.match(/(?:length:)([^|]+)/i)[1]?.trim().split(', ') : null
 
-      arrayForGiveInfo = arrayForGiveInfo.filter(o => allDesc.find(d => o.description.includes(d)) && allContentLngs.find(l => +l === o.contentLength));
+      arrayForGiveInfo = arrayForGiveInfo.filter(o => (!allDesc || allDesc.find(d => o.description.includes(d))) && (!allContentLngs || allContentLngs.find(l => +l === o.contentLength)));
     }
     else if(type === 'urls') {
-      const allUrls = aiGetter.includes('url:') ? aiGetter.match(/(?:url:)([^|]+)/i)[1]?.trim().split(', ').map(u => u.toLowerCase()) : arrayForGiveInfo.map(o => o.url);
+      const allUrls = aiGetter.includes('url:') ? aiGetter.match(/(?:url:)([^|]+)/i)[1]?.trim().split(', ').map(u => u.toLowerCase()) : null;
 
-      arrayForGiveInfo = arrayForGiveInfo.filter(o => allUrls.find(u => o.url.includes(u)));
+      arrayForGiveInfo = arrayForGiveInfo.filter(o => !allUrls || allUrls.find(u => o.url.includes(u)));
     }
     else if(type === 'codes') {
-      const allLangs = aiGetter.includes('lang:') ? aiGetter.match(/(?:lang:)([^|]+)/i)[1]?.trim().split(', ').map(l => l.toLowerCase()) : arrayForGiveInfo.map(o => o.language);
-      const allContentLngs = aiGetter.includes('length:') ? aiGetter.match(/(?:length:)([^|]+)/i)[1]?.trim().split(', ') : arrayForGiveInfo.map(o => o.contentLength);
+      const allLangs = aiGetter.includes('lang:') ? aiGetter.match(/(?:lang:)([^|]+)/i)[1]?.trim().split(', ').map(l => l.toLowerCase()) : null;
+      const allContentLngs = aiGetter.includes('length:') ? aiGetter.match(/(?:length:)([^|]+)/i)[1]?.trim().split(', ') : null;
 
-      arrayForGiveInfo = arrayForGiveInfo.filter(o => allLangs.find(l => o.language.includes(l)) && allContentLngs.find(l => +l === o.contentLength));
+      arrayForGiveInfo = arrayForGiveInfo.filter(o => (!allLangs || allLangs.find(l => o.language.includes(l))) && (!allContentLngs || allContentLngs.find(l => +l === o.contentLength)));
     }
     else return '';
+
+    arrayForGiveInfo =
+      type === 'todos' ? arrayForGiveInfo.map(o => `name: ${o.name}, mark: ${o.mark}, tag: ${o.tag}, date: ${e.date}`)
+      : type === 'notes' ? arrayForGiveInfo.map(o => `name: ${o.name}, description: ${o.description}, content length: ${o.contentLength}`)
+      : type === 'urls' ? arrayForGiveInfo.map(o => `name: ${o.name}, url: ${o.url}`)
+      : arrayForGiveInfo.map(o => `name: ${o.name}, language: ${o.language}, content length: ${o.contentLength}`);
 
     return `[Відповідь системи на вашу команду get: ?get| ${aiGetter}]:
 ━━━━━━━━ ${aiGetter} ━━━━━━━━
