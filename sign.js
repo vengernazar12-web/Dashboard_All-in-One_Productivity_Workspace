@@ -431,6 +431,9 @@ async function reloadAllContent() {
 
     setOpenBtnsTexts();
 
+    const resp = await fetch(`https://695054688531714d9bd055c4.mockapi.io/dashboard/updates`);
+    const data = await resp.json();
+    updatesList = data[0]['updates-list'].join('\n');
     return showResponseFn('Your content been loaded');
   } else {
     showPreloader(false);

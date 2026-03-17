@@ -1,5 +1,6 @@
 let historyForAiPrompt = [];
 let memoryForAi = '';
+let updatesList = null;
 async function getAiResponse(givenInfo) {
   try {
     assistantLoader.style.display = 'block';
@@ -28,15 +29,10 @@ async function getAiResponse(givenInfo) {
 
 // Use ai fn
 async function useAiResp(givenInfo = '') {
-  let respTxt = await getAiResponse(givenInfo);
-  const insertCommands = respTxt.match(/(?:\n?)\?get\|[^\n]+/gi);
+  const respTxt = await getAiResponse(givenInfo);
+  const insertCommands = respTxt.trim().match(/(?:\n|^)\?get\|[^\n]+/gi);
   let info = '';
-  if(insertCommands) {
-    for(let comm of [...new Set(insertCommands)]) {
-      respTxt = respTxt.replaceAll(comm, '• Reading data...');
-      info += giveInfoForAi(comm.replace('?get|', '').trim());
-    }
-  }
+  if(insertCommands) for(let comm of [...new Set(insertCommands)]) info += giveInfoForAi(comm.replace('?get|', '').trim());
   createAssistantResponse(respTxt);
   if(info) useAiResp(info);
 }
@@ -256,6 +252,7 @@ function giveInfoForAi(aiGetter) {
 ━━━━━━━━ ACTIONS ━━━━━━━━
 ${userActionsForAi.length ? userActionsForAi.join('. ') : 'В данній сесії користувач нічого не робив'}
 `;
+  else if(aiGetter.replace(/[^a-z]/ig, '') === 'updates') return `[Відповідь системи на вашу команду get: ?get| updates]:\n${updatesList}`;
   else {
     const allAiGettingsWords = aiGetter.split(' ');
     const type = allAiGettingsWords[0];

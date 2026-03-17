@@ -85,10 +85,10 @@ function createAssistantResponse(txt) {
   assistantResponseContainer.appendChild(div);
 
   initTypingElement = pre;
-  initTypingText = txt
+  initTypingText = txt.replace(/(?:\n|^)\?get\|[^\n]+/gi, '');
   const txtLng = initTypingText.length;
 
-  historyForAiPrompt.push({role: "assistant", content: initTypingText});
+  historyForAiPrompt.push({role: "assistant", content: txt});
   if(historyForAiPrompt.length > 9) historyForAiPrompt.shift();
 
   let c = 0;
