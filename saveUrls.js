@@ -40,6 +40,7 @@ function createUrlElement(name, url, imgUrl, searchVal, isFavorite) {
   let markRegexp = new RegExp(searchVal, 'gi');
 
   const div = document.createElement('div');
+  div.dataset.name = name;
   div.classList.add('url-block');
 
   const p = document.createElement('p');

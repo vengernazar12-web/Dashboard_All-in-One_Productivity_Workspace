@@ -78,6 +78,12 @@
 }
 
 /* Add note */
+.toggle-add-note-form {
+  position: absolute;
+  top: 10px;
+  right: 50px;
+}
+
 .add-notes-inputs {
   position: absolute;
   top: 20%;

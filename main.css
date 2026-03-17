@@ -88,14 +88,12 @@ html .unsaved:after {
 }
 
 .--toggle-form-btn {
-  width: 50px;
-  height: 50px;
   background-color: rgb(115, 115, 255);
   color: white;
   border-radius: 6px;
-  padding: 1px;
-  font-size: 2.3rem;
-  translate: 0 -105px;
+  font-size: 22px;
+  height: 35px;
+  width: 35px;
   border: 1px solid black;
 }
 

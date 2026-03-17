@@ -226,6 +226,25 @@ wrapBlocksContainer.addEventListener('click', e => {
 
     searchProfileWrapBlocksInfoInput.value = '';
   }
+  else if(e.target.closest('.info-block')) {
+    const type = selectWrapBlocksType.value;
+    const name = e.target.closest('.info-block').dataset.value;
+    if(type === 'todos') openTodoWrapBtn.click();
+    else if(type === 'notes') openNoteWrapBtn.click();
+    else if(type === 'urls') openUrlWrapBtn.click();
+    else if(type === 'codes') openCodeWrapBtn.click();
+
+    const targetContainer = type === 'todos'
+    ? todosContainer : type === 'notes'
+    ? allUserNotesCont : type === 'urls'
+    ? allUrlsContainer : allUserCodesContainer;
+
+    const targetBlock = targetContainer.querySelector(`[data-name="${name}"]`);
+    targetBlock.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center'
+    })
+  }
 })
 
 function renderProfileWrapBlocksInfo() {

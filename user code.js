@@ -43,6 +43,7 @@ function createCodeBlock(name) {
   textareaWrap.appendChild(textarea);
   div.append(h3, hr, textareaWrap, button_copyCode, button_deleteCode, focusCodeBtn, codeSymbolsLimit, lockCodeBtn, codeLangTxt);
 
+  div.dataset.name = name;
   div.classList.add('user-code-block');
   if(allUserCodesObj[name].lock) div.style.boxShadow = '0 0 7px 1px gold';
 

@@ -194,6 +194,7 @@ function createNoteBlock( name, desc, isFavorite, searchVal ) {
     editBtn = document.createElement('button'),
     hr2 = document.createElement('hr');
 
+  div.dataset.name = name;
   div.classList.add('note-block');
 
   if(!searchVal) {

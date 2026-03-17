@@ -76,6 +76,7 @@ function createTodoElement(name, searchVal, isFavorite) {
     mark = document.createElement('span'),
     favBtn = document.createElement('button');
 
+  div.dataset.name = name;
 
   // Is custom color
   const savedTodoBg = allTodosObj[name].color;
