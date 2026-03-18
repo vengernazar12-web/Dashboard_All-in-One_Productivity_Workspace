@@ -165,19 +165,39 @@ const todoTxtLength = addTodoForm.querySelector('.todo-symbols-length');
 const todosContainer = todoWrap.querySelector('.todos-container');
 
 const todoNameInput = addTodoForm.querySelector('.todo-name-input');
-todoNameInput.addEventListener('input', () => todoTxtLength.textContent = `${todoNameInput.value.trim().length}/25`);
+todoNameInput.addEventListener('input', () => {
+  todoTxtLength.textContent = `${todoNameInput.value.trim().length}/25`;
+  renderShowFieldsBlock(Object.keys(allTodosObj), todoNameInput.value.trim(), todoNameInput, true);
+});
 todoNameInput.addEventListener('focus', () => {
+  lastFocusedInput = todoNameInput;
   todoTxtLength.textContent = `${todoNameInput.value.trim().length}/25`;
   editTodoBlock.classList.remove('show');
 });
-const todoAddBtn = addTodoForm.querySelector('.add-todo');
 
 const todoTagInput = addTodoForm.querySelector('.todo-tag-input');
 todoTagInput.addEventListener('focus', () => {
+  lastFocusedInput = todoTagInput
   todoTxtLength.textContent = `${todoTagInput.value.trim().length}/25`;
   editTodoBlock.classList.remove('show');
 });
-todoTagInput.addEventListener('input', () => todoTxtLength.textContent = `${todoTagInput.value.trim().length}/25`);
+todoTagInput.addEventListener('input', () => {
+  todoTxtLength.textContent = `${todoTagInput.value.trim().length}/25`
+  renderShowFieldsBlock(Object.keys(allTodosObj).map(n => allTodosObj[n].tag), todoTagInput.value.trim(), todoTagInput);
+});
+
+const todoMarkInput = addTodoForm.querySelector('.todo-mark-input');
+todoMarkInput.addEventListener('input', () => {
+  todoTxtLength.textContent = `${todoMarkInput.value.length}/12`;
+  renderShowFieldsBlock(Object.keys(allTodosObj).map(n => allTodosObj[n].mark), todoMarkInput.value.trim(), todoMarkInput);
+})
+todoMarkInput.addEventListener('focus', () => {
+  lastFocusedInput = todoMarkInput;
+  todoTxtLength.textContent = `${todoMarkInput.value.trim().length}/12`;
+  editTodoBlock.classList.remove('show');
+});
+
+const todoAddBtn = addTodoForm.querySelector('.add-todo');
 
 const todosNumberText = todoWrap.querySelector('.todos-number');
 
@@ -300,14 +320,6 @@ function isWhiteColor(hex) {
   return 0.299 * r + 0.587 * g + 0.114 * b >= 140 ? true : false;
 }
 
-// Todo mark input
-const todoMarkInput = addTodoForm.querySelector('.todo-mark-input');
-todoMarkInput.addEventListener('input', () => todoTxtLength.textContent = `${todoMarkInput.value.length}/12`)
-todoMarkInput.addEventListener('focus', () => {
-  todoTxtLength.textContent = `${todoMarkInput.value.trim().length}/12`;
-  editTodoBlock.classList.remove('show');
-});
-
 // Edit todo
 let initEditingBlock = null;
 
@@ -321,6 +333,8 @@ const editPreviewTodoMark = editTodoBlock.querySelector('.preview-todo-mark');
 editTodoMarkInput.addEventListener('input', () => {
   editTodoMarkInputLabel.textContent = `${editTodoMarkInput.value.trim().length}/12`;
   editPreviewTodoMark.textContent = editTodoMarkInput.value;
+
+  renderShowFieldsBlock(Object.keys(allTodosObj).map(n => allTodosObj[n].mark), editTodoMarkInput.value.trim(), editTodoMarkInput);
 });
 
 // Reset todo color

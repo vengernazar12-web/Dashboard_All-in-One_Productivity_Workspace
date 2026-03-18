@@ -102,8 +102,13 @@ function renderAllUrls() {
 
 // Add url
 const addUrlForm = urlsWrap.querySelector('.add-url-form');
+
 const nameUrlInput = addUrlForm.querySelector('.add-url-name-input');
+nameUrlInput.addEventListener('input', () => renderShowFieldsBlock(allUrlsArr.map(o => o.title), nameUrlInput.value.trim(), nameUrlInput, true));
+
 const openedUrlInput = addUrlForm.querySelector('.add-opened-url-input');
+openedUrlInput.addEventListener('input', () => renderShowFieldsBlock(allUrlsArr.map(o => o.url), openedUrlInput.value.trim(), openedUrlInput));
+
 const imageUrlInput = addUrlForm.querySelector('.add-url-img-input');
 
 // Toggle add url form btn
@@ -119,7 +124,10 @@ addUrlBtn.addEventListener('click', async () => {
 
   const title = nameUrlInput.value.trim();
   if(allUrlsArr.find(obj => obj.title === title)) return showResponseFn('You already have a URL with this name');
-  if(!title) return showResponseFn('Please enter a URL name');
+  if(!title) {
+    addUrlForm.classList.remove('show');
+    return showResponseFn('Please enter a URL name');
+  }
   if(title.length > allValuesLimit.urlTitle) return showResponseFn(`URL name must be ${allValuesLimit.urlTitle} characters or less`);
 
   const url = openedUrlInput.value.trim();
@@ -178,7 +186,7 @@ searchUrlInput.addEventListener('input', () => {
     const filterArr = allUrlsArr.filter(
       obj => obj.title.toLowerCase().includes(val)
       || obj.url.toLowerCase().includes(val)
-    )
+    );
 
     // Render favorite urls
     for(let urlObj of filterArr) if(urlObj.isFav) frag.appendChild(createUrlElement(urlObj.title, urlObj.url, urlObj.imgUrl, safeVal, true));
@@ -187,7 +195,7 @@ searchUrlInput.addEventListener('input', () => {
     // Append fragment
     allUrlsContainer.appendChild(frag);
 
-    if(!allUrlsContainer.childElementCount) return allUrlsContainer.innerHTML = '<h1>...</h1>';
+    if(!allUrlsContainer.childElementCount) return allUrlsContainer.innerHTML = '<h1>No urls found...</h1>';
   }, 500);
 })
 
@@ -196,7 +204,19 @@ let initEditUrlName = null;
 
 const editUrlForm = urlsWrap.querySelector('.edit-url-form');
 const selectEditItem = editUrlForm.querySelector('select');
+
 const editChangesInput = editUrlForm.querySelector('input');
+editChangesInput.addEventListener('input', () => {
+  if(selectEditItem.value !== 'image') renderShowFieldsBlock(
+    selectEditItem.value === 'name'
+    ? allUrlsArr.map(o => o.title)
+    : allUrlsArr.map(o => o.url),
+    editChangesInput.value.trim(),
+    editChangesInput,
+    selectEditItem.value === 'name'
+  ); else return showFieldsBlock.classList.remove('show');
+})
+
 const confirmEditUrlBtn = editUrlForm.querySelector('.confirm-edit-url-btn');
 
 selectEditItem.addEventListener('change', () => editChangesInput.type = selectEditItem.value === 'image' ? 'file' : 'text');

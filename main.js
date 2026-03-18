@@ -83,6 +83,37 @@ function addUnsavedMarkAndRenderInitWrap() {
   }
 }
 
+// Show fields block
+const showFieldsBlock = document.querySelector('.show-fields-block');
+showFieldsBlock.addEventListener('click', e => {
+  const targetP = e.target.closest('p');
+  if(targetP) lastFocusedInput.value = targetP.dataset.value;
+})
+let lastFocusedInput = null;
+
+function renderShowFieldsBlock(orgValuesArr, val, input, isName = false) {
+  showFieldsBlock.textContent = '';
+  const frag = document.createDocumentFragment();
+  const safeVal = val.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  for(let orgVal of orgValuesArr) {
+    if(isName && !orgVal.includes(val)) continue;
+    if(!isName && !orgVal.toLowerCase().includes(val.toLowerCase())) continue;
+    if(!orgVal) continue;
+
+    const p = document.createElement('p');
+    p.dataset.value = orgVal;
+    p.innerHTML = isName ? orgVal.replaceAll(val, '<mark>$&</mark>') : orgVal.replace(new RegExp(safeVal, 'gi'), '<mark>$&</mark>');
+    p.tabIndex = 0;
+    frag.appendChild(p);
+  }
+  showFieldsBlock.appendChild(frag);
+  if(!showFieldsBlock.childElementCount) return showFieldsBlock.classList.remove('show');
+  else {
+    showFieldsBlock.classList.add('show');
+    showFieldsBlock.style.top = `${input.getBoundingClientRect().top + 35}px`;
+  }
+}
+
 // Key... events
 document.addEventListener('keydown', e => {
   if(notesWrap.classList.contains('show') && (e.key === '<' || e.key === '>' || e.key === '&' || e.key === '/')) e.preventDefault();
@@ -100,6 +131,46 @@ document.addEventListener('keydown', e => {
 
   else if(focusWrap.classList.contains('show') && e.key === 'Escape') closeFocusBtn.click();
 
+  // Show fields block
+  else if(showFieldsBlock.classList.contains('show')) {
+    if(e.key === 'ArrowUp') {
+      const allElements = [...showFieldsBlock.children];
+      if(!allElements.length) return showFieldsBlock.classList.remove('show');
+
+      const activeEl = document.activeElement;
+      if(!activeEl.closest('.show-fields-block')) return allElements[0].focus();
+
+      const activeElIdx = allElements.indexOf(activeEl);
+      if(activeElIdx <= 0) return;
+      else allElements[activeElIdx - 1].focus();
+    }
+    else if(e.key === 'ArrowDown') {
+      const allElements = [...showFieldsBlock.children];
+      if(!allElements.length) return showFieldsBlock.classList.remove('show');
+
+      const activeEl = document.activeElement;
+      if(!activeEl.closest('.show-fields-block')) return allElements[0].focus();
+
+      const activeElIdx = allElements.indexOf(activeEl);
+      if(activeElIdx >= allElements.length - 1) return;
+      else allElements[activeElIdx + 1].focus();
+    }
+    else if(e.key === 'Enter') {
+      const allElements = [...showFieldsBlock.children];
+      const activeEl = document.activeElement;
+      if(!activeEl.closest('.show-fields-block') && activeEl.tagName === 'INPUT' && allElements.length) activeEl.value = allElements[0].dataset.value;
+      else if(lastFocusedInput) {
+        lastFocusedInput.value = activeEl.dataset.value;
+        lastFocusedInput.focus();
+      }
+      showFieldsBlock.classList.remove('show');
+    }
+    else if(e.key === 'Tab') {
+      if(!document.activeElement.closest('.show-fields-block')) showFieldsBlock.classList.remove('show');
+    }
+  }
+
+  // Global enter
   else if(e.key === 'Enter') {
     if(assistantWrap.classList.contains('show') && !e.shiftKey) {
       e.preventDefault();
@@ -136,6 +207,8 @@ document.addEventListener('keydown', e => {
 document.addEventListener('click', e => {
   if(allDashboardItem.classList.contains('open') && !e.target.closest('.all-dashboard-items')) toggleAllDashboardItemBtn.click();
   if(!e.target.closest('.type-assistant') && !e.target.classList.contains('toggle-type-assistant')) closeAllTypeAssistantWindows();
+
+  if(showFieldsBlock.classList.contains('show') && !e.target.closest('.show-fields-block')) showFieldsBlock.classList.remove('show');
 })
 
 /* Theme switcher */

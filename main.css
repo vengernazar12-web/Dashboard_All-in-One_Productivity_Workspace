@@ -204,6 +204,30 @@ body {
   font-size: 0.7rem;
 }
 
+/* Show fields block */
+.show-fields-block {
+  background: var(--block-bg);
+  padding: 3px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  width: max-content;
+  height: max-content;
+  display: none;
+  position: fixed;
+}
+.show-fields-block > p {
+  border: 1px solid var(--border-color);
+  border-radius: 7px;
+  margin-bottom: 3px;
+  padding: 2px;
+}
+.show-fields-block > p:focus {
+  background-color: rgb(0, 0, 0);
+  color: white;
+  border-width: 2px;
+}
+
 @media (hover: none), (max-width: 550px) {
   button, input { transition: none; cursor: auto; }
   button:hover, input[type='checkbox']:hover  { transform: scale(1); }

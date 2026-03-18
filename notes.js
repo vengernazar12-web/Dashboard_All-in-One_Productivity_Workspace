@@ -2,6 +2,10 @@
 whatIsLoadingText.textContent = 'Loading notes system...';
 
 const notesWrap = document.querySelector('.notes-wrap');
+notesWrap.addEventListener('click', e => {
+  if(!e.target.closest('.edit-note-block') && !e.target.closest('.edit-note-btn')) editNoteBlock.classList.remove('show');
+})
+
 const notesContentWrap = document.querySelector('.notes-content-wrap');
 // Open note wrap
 const openNoteWrapBtn = allDashboardItem.querySelector('.open-notes-wrap');
@@ -18,9 +22,10 @@ openNoteWrapBtn.addEventListener('click', () => {
 // Close notes content wrap
 notesContentWrap.querySelector('.close-notes-content-wrap')
 .addEventListener('click', () => {
-  if(userNotesText.value.trim() === noteTxt) return notesContentWrap.classList.remove('show');
+  if(userNotesText.textContent.trim() === noteTxt) return notesContentWrap.classList.remove('show');
+
   const name = notesContentTitle.textContent;
-  allNotesObj[name].txt = userNotesText.value.trim();
+  allNotesObj[name].txt = userNotesText.innerText.trim();
   showResponseFn(`Save "${name}" note text`);
   notesContentWrap.classList.remove('show');
   noteSaveBtn.classList.add('unsaved');
@@ -46,7 +51,10 @@ openAddNoteForm.addEventListener('click', () => {
 const addNotesForm = notesWrap.querySelector('.add-notes-inputs');
 
 const addNoteInputName = addNotesForm.querySelector('.note-name-input');
-addNoteInputName.addEventListener('input', () => addNoteInputName.style.color = addNoteInputName.value.trim().length > allValuesLimit.noteName ? 'red' : 'white');
+addNoteInputName.addEventListener('input', () => {
+  addNoteInputName.style.color = addNoteInputName.value.trim().length > allValuesLimit.noteName ? 'red' : 'white';
+  renderShowFieldsBlock(Object.keys(allNotesObj), addNoteInputName.value.trim(), addNoteInputName);
+});
 
 const addNoteInputDescription = addNotesForm.querySelector('.note-description-input');
 addNoteInputDescription.addEventListener('input', () => addNoteInputDescription.style.color = addNoteInputDescription.value.trim().length > allValuesLimit.noteDesc ? 'red' : 'white');
@@ -85,15 +93,27 @@ let initEditingNoteName = null;
 let descBeforeEdit = null;
 
 const editNoteBlock = notesWrap.querySelector('.edit-note-block');
+
 const editNoteNameInput = editNoteBlock.querySelector('.edit-note-name-input');
+editNoteNameInput.addEventListener('input', () => {
+  editNoteNameInput.style.color = editNoteNameInput.value.trim().length > allValuesLimit.noteName ? 'red' : 'var(--text-color)';
+  renderShowFieldsBlock(Object.keys(allNotesObj), editNoteNameInput.value.trim(), editNoteNameInput);
+});
+
 const editNoteDescInput = editNoteBlock.querySelector('.edit-note-desc-input');
+editNoteDescInput.addEventListener('input', () => editNoteDescInput.style.color = editNoteDescInput.value.trim().length > allValuesLimit.noteDesc ? 'red' : 'var(--text-color)');
 
 const confNoteEditChangeBtn = editNoteBlock.querySelector('.conf-note-edit-change-btn');
 confNoteEditChangeBtn.addEventListener('click', () => {
   editNoteBlock.classList.remove('show');
 
+  editNoteNameInput.style.color = 'var(--text-color)';
+  editNoteDescInput.style.color = 'var(--text-color)';
+
   const newName = editNoteNameInput.value.trim();
+  if(newName.length > allValuesLimit.noteName) return showResponseFn('Your new name is too long');
   const newDesc = editNoteDescInput.value.trim();
+  if(newDesc.length > allValuesLimit.noteDesc) return showResponseFn('Your new description is too long');
 
   if(newName === initEditingNoteName && descBeforeEdit === newDesc) return;
   if(!newName || !newDesc) return showResponseFn(`You don't have a note ${!newName ? 'name' : 'description'}`);
@@ -225,12 +245,12 @@ function createNoteBlock( name, desc, isFavorite, searchVal ) {
 }
 let noteTxt = null;
 function renderNotesText(name) {
-  userNotesText.value = allNotesObj[name].txt
-  noteTxt = userNotesText.value.trim();
+  userNotesText.innerHTML = allNotesObj[name].txt.replaceAll('\n', '<br>');
+  noteTxt = userNotesText.textContent.trim();
   notesContentTitle.textContent = name;
   userNotesText.style.fontSize = `${localStorage.getItem('notes-font-size') || 1.2}rem`;
   notesContentWrap.classList.add('show');
-  notesSymbolsLimitText.textContent = `${userNotesText.value.replaceAll('\n', '').length}/2000`;
+  notesSymbolsLimitText.textContent = `${allNotesObj[name].txt.replaceAll('\n', '').length}/2000`;
 }
 function renderNotesBlocks() {
   const arr = Object.keys(allNotesObj);
@@ -291,11 +311,12 @@ searchNoteBlocksInput.addEventListener('input', () => {
 
   // Append fragment
   allUserNotesCont.appendChild(frag);
+  if(!allUserNotesCont.childElementCount) allUserNotesCont.innerHTML = '<h2>No notes found...</h2>';
 })
 
 // Search note text
 const searchNoteTextInput = notesContentWrap.querySelector('.search-note-text-input');
-searchNoteTextInput.addEventListener('input', e => {
+searchNoteTextInput.addEventListener('input', () => {
   const searchText = searchNoteTextInput.value.trim()
   .replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   if(!searchText) return userNotesText.innerHTML = allNotesObj[notesContentTitle.textContent].txt.replaceAll('\n', '<br>');
@@ -304,6 +325,9 @@ searchNoteTextInput.addEventListener('input', e => {
   userNotesText.innerHTML = allNotesObj[notesContentTitle.textContent].txt
   .replaceAll('\n', '<br>')
   .replaceAll(regex, match => `<mark>${match}</mark>`);
+
+  const firstMark = userNotesText.querySelector('mark');
+  if(firstMark) firstMark.scrollIntoView({block: 'center', behavior: 'smooth'});
 })
 searchNoteTextInput.addEventListener('focus', () => { allNotesObj[notesContentTitle.textContent].txt = userNotesText.innerText; })
 searchNoteTextInput.addEventListener('blur', () => {

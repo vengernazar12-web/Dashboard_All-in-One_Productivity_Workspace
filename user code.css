@@ -11,6 +11,7 @@
   border-radius: 10px;
 }
 
+/* Add code block */
 .toggle-add-new-block-code-form {
   position: absolute;
   top: 10px;
@@ -48,9 +49,11 @@
 }
 .add-code-block-btn:hover { color: rgb(92, 92, 92); }
 
+/* User code blocks */
 .user-code-block {
   width: 99%;
   background-color: rgb(40, 40, 40);
+  border: 1px solid var(--border-color);
   margin: 15px auto;
   color: white;
   overflow: hidden;
@@ -123,12 +126,6 @@
   top: 5px;
   right: 5px;
   color: white;
-}
-
-.lock-code-btn {
-  position: absolute;
-  top: 5px;
-  right: 122px;
 }
 
 /* Search code */

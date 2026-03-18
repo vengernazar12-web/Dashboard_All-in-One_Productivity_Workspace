@@ -257,8 +257,8 @@
 
 /* Edit todos */
 .edit-todo-block {
-  width: 75%;
-  height: 50%;
+  width: calc(75% - 32px);
+  min-height: 50%;
   background: var(--body-bg);
   color: var(--text-color);
   padding: 5px;
@@ -266,7 +266,7 @@
   display: none;
   border-radius: 5px;
   top: 20%;
-  left: 12.5%;
+  left: calc(12.5% + 32px);
   text-align: center;
   border: 2px solid var(--border-color);
 }

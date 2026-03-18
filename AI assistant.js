@@ -105,15 +105,6 @@ function createAssistantResponse(txt) {
   }, 20);
 }
 
-// Dashboard docs
-const assistantDocsWindow = assistantWrap.querySelector('.dashboard-docs');
-// Open
-assistantWrap.querySelector('.open-dashboard-docs')
-.addEventListener('click', () => assistantDocsWindow.classList.add('show'));
-// Close
-assistantDocsWindow.querySelector('.close-dashboard-docs')
-.addEventListener('click', () => assistantDocsWindow.classList.remove('show'));
-
 // Memory for ai
 const memoryForAiWindow = assistantWrap.querySelector('.memory-for-ai');
 assistantWrap.querySelector('.open-memory-for-ai')

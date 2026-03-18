@@ -13,8 +13,6 @@ openCodeWrapBtn.addEventListener('click', () => {
 let allUserCodesObj = {};
 // --------------------------------
 let hintTimer = null;
-let isInitialization = false;
-
 const editorOptions = {
   lineNumbers: true,
   autoCloseBrackets: true,
@@ -36,16 +34,14 @@ function createCodeBlock(name) {
     button_copyCode = document.createElement('button'),
     button_deleteCode = document.createElement('button'),
     codeSymbolsLimit = document.createElement('p'),
-    lockCodeBtn = document.createElement('button'),
     focusCodeBtn = document.createElement('button'),
     codeLangTxt = document.createElement('h6');
 
   textareaWrap.appendChild(textarea);
-  div.append(h3, hr, textareaWrap, button_copyCode, button_deleteCode, focusCodeBtn, codeSymbolsLimit, lockCodeBtn, codeLangTxt);
+  div.append(h3, hr, textareaWrap, button_copyCode, button_deleteCode, focusCodeBtn, codeSymbolsLimit, codeLangTxt);
 
   div.dataset.name = name;
   div.classList.add('user-code-block');
-  if(allUserCodesObj[name].lock) div.style.boxShadow = '0 0 7px 1px gold';
 
   h3.textContent = name;
 
@@ -61,7 +57,6 @@ function createCodeBlock(name) {
     mode: lang, hint: hintLang
   });
 
-  isInitialization = true;
   editor.on("inputRead", (cm, change) => {
     clearTimeout(hintTimer);
     hintTimer = setTimeout(() => {
@@ -85,15 +80,8 @@ function createCodeBlock(name) {
 
     codeSaveBtn.classList.add('unsaved');
   });
-  editor.on('beforeChange', (_, change) => {
-    if(allUserCodesObj[name].lock && !isInitialization) {
-      change.cancel();
-      showResponseFn('Your have locked this code');
-    };
-  })
 
   editor.setValue(allUserCodesObj[name].code);
-  isInitialization = false;
 
   textarea._editor = editor;
   textarea.classList.add('user-code-textarea');
@@ -111,11 +99,6 @@ function createCodeBlock(name) {
 
   codeSymbolsLimit.classList.add('code-symbols-limit');
   codeSymbolsLimit.textContent = `${editor.getValue().replaceAll(' ','').replaceAll('\n','').length}/1500`;
-
-  lockCodeBtn.classList.add('lock-code-btn');
-  lockCodeBtn.innerHTML = '<svg><use href="#code-block-lock"></use></svg>';
-  lockCodeBtn.style.color = allUserCodesObj[name].lock ? 'gold' : 'white';
-  lockCodeBtn.setAttribute('title', 'lock');
 
   focusCodeBtn.classList.add('focus-code-btn');
   focusCodeBtn.innerHTML = '<svg><use href="#focus"></use></svg>';
@@ -145,7 +128,10 @@ function renderUserCodesBlocks() {
 }
 
 const addCodeBlockForm = userCodeWrap.querySelector('.add-new-block-code-form');
+
 const codeBlockName = addCodeBlockForm.querySelector('.code-block-name-input');
+codeBlockName.addEventListener('input', () => renderShowFieldsBlock(Object.keys(allUserCodesObj), codeBlockName.value.trim(), codeBlockName, true));
+
 const codeBlockLang = addCodeBlockForm.querySelector('.user-code-lang');
 
 const addCodeBlockBtn = addCodeBlockForm.querySelector('.add-code-block-btn');
@@ -158,7 +144,7 @@ addCodeBlockBtn.addEventListener('click', () => {
   const lang = codeBlockLang.value;
   if(!lang) return showResponseFn('Please set your code language');
 
-  allUserCodesObj[name] = { code: '', lock: false, lang };
+  allUserCodesObj[name] = { code: '', lang };
 
   renderUserCodesBlocks();
 
@@ -226,15 +212,8 @@ const focusWrap = userCodeWrap.querySelector('.focus-code-wrap');
 const focusCodeTitle = focusWrap.querySelector('.focus-code-title');
 const focusCodeSymbols = focusWrap.querySelector('.focus-code-symbols');
 const closeFocusBtn = focusWrap.querySelector('.unfocus-btn');
-const focusLockCodeBtn = focusWrap.querySelector('.lock');
 const focusCodeEditor = CodeMirror.fromTextArea(focusWrap.querySelector('.focus-textarea'), editorOptions);
 
-focusCodeEditor.on('beforeChange', (_, change) => {
-  if(allUserCodesObj[focusWrap.firstElementChild.textContent].lock && !isInitialization) {
-    change.cancel();
-    return showResponseFn('Your have locked this code');
-  }
-})
 focusCodeEditor.on('inputRead', (cm, change) => {
   clearTimeout(hintTimer);
   hintTimer = setTimeout(() => {
@@ -277,7 +256,7 @@ focusWrap.addEventListener('click', e => {
   if(initTarget.closest('.unfocus-btn')) { // Close focus wrap
     const codeName = focusWrap.firstElementChild.textContent;
 
-    if(focusCodeEditor.getValue() === userCode && allUserCodesObj[codeName].lock === isLockBeforeFocus) return focusWrap.classList.remove('show');
+    if(focusCodeEditor.getValue() === userCode) return focusWrap.classList.remove('show');
 
     allUserCodesObj[codeName].code = focusCodeEditor.getValue();
     renderUserCodesBlocks();
@@ -298,15 +277,6 @@ focusWrap.addEventListener('click', e => {
     codeSaveBtn.classList.add('unsaved');
     setOpenBtnsTexts();
   }
-  else if(initTarget.closest('.lock')) { // Lock focus code
-    const codeName = focusWrap.firstElementChild.textContent;
-    allUserCodesObj[codeName].lock =
-      !allUserCodesObj[codeName].lock;
-    focusWrap.style.boxShadow = allUserCodesObj[codeName].lock ?
-    '0 0 5px 1px gold inset' : '0 0 0 0 gold';
-    initTarget.closest('.lock').style.color = allUserCodesObj[codeName].lock ?
-    'gold' : 'white';
-  }
   // Toggle codes content assistant(focus)
   else if(initTarget.classList.contains('toggle-codes-content-assistant-window')) codesContentAssistantWindow.classList.toggle('open');
 })
@@ -314,14 +284,11 @@ focusWrap.addEventListener('click', e => {
 // All user code container
 let deleteTimer = null;
 let userCode = null;
-let isLockBeforeFocus = false;
 const allUserCodesContainer = userCodeWrap.querySelector('.all-user-codes-container');
 allUserCodesContainer.addEventListener('click', e => {
   const targetBlock = e.target.closest('.user-code-block');
   if(e.target.closest('.delete-code-btn')) { // Delete code
     const name = targetBlock.firstElementChild.textContent;
-    if(allUserCodesObj[targetBlock.firstElementChild.textContent].lock) return showResponseFn('You have locked this code');
-
     if(localStorage.getItem('conf-before-delete') == 'true' && !confirm('Delete?')) return;
 
     delete allUserCodesObj[name];
@@ -340,39 +307,12 @@ allUserCodesContainer.addEventListener('click', e => {
 
     return;
   }
-  else if(e.target.closest('.lock-code-btn')) { // Lock code
-    const initialBtn = e.target.closest('.lock-code-btn');
-    const name = targetBlock.firstElementChild.textContent;
-
-    allUserCodesObj[name].lock =
-    !allUserCodesObj[name].lock;
-
-    if(allUserCodesObj[name].lock) {
-      targetBlock.style.boxShadow = '0 0 7px 1px gold';
-      initialBtn.style.color = 'gold';
-    }
-    else {
-      targetBlock.style.boxShadow = '0 0 0 0';
-      initialBtn.style.color = 'white';
-    }
-
-    // Save change for userActions
-    writeToUserActions(`Користувач ${allUserCodesObj[name].lock ? 'заблокував' : 'розблокував'} блок коду з назвою ${name}`);
-
-    return codeSaveBtn.classList.add('unsaved');
-  }
   else if(e.target.closest('.copy-code-btn')) { // Copy code
     navigator.clipboard.writeText(targetBlock.querySelector('textarea')._editor.getValue());
     return showResponseFn('Code copied!');
   }
   else if(e.target.closest('.focus-code-btn')) { // Open focus code wrap
-    const codeName = targetBlock.firstElementChild.textContent;
-    focusWrap.style.boxShadow = allUserCodesObj[codeName].lock ?
-    '0 0 5px 1px gold inset' : '0 0 0 0 gold';
-    focusLockCodeBtn.style.color = allUserCodesObj[codeName].lock ? 'gold' : 'white';
-
     userCode = targetBlock.querySelector('textarea')._editor.getValue();
-    isLockBeforeFocus = allUserCodesObj[codeName].lock;
 
     return focusInit(
       targetBlock.firstElementChild.textContent,

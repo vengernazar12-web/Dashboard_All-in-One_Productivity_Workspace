@@ -288,7 +288,7 @@
   </div>
 
   <p class="notes-symbols-limit-text">_/2000</p>
-  <textarea class="notes-user-content"></textarea>
+  <div class="notes-user-content" contenteditable="true" spellcheck="false"></div>
 </div>
 
 <!-- Urls -->
@@ -412,7 +412,6 @@
       <button class="unfocus-btn"><svg><use href="#unfocus"></use></svg></button>
       <button class="copy"><svg><use href="#copy-code"></use></svg></button>
       <button class="delete"><svg><use href="#delete-code"></use></svg></button>
-      <button class="lock"><svg><use href="#code-block-lock"></use></svg></button>
     </div>
 
     <!-- Focus mode code assistant window -->
@@ -508,93 +507,6 @@
     <h3>Memory</h3>
     <button class="save-memory-for-ai">Save</button>
     <textarea placeholder="Memory..."></textarea>
-  </div>
-
-  <!-- Assistant docs -->
-  <button class="open-dashboard-docs">Documentation</button>
-  <div class="dashboard-docs">
-    <button class="close-dashboard-docs">⟪</button>
-    <div>
-      <h2>What is Dashboard</h2>
-      <p>
-        <span>Dashboard</span> is a system for managing data and services.
-        It allows you to work with <span>todos</span>, <span>notes</span>,
-        <span>codes</span>, <span>urls</span>, and built-in services.
-      </p>
-    </div>
-
-    <div>
-      <h2>Command Format</h2>
-      <p>
-        Commands use the structure:
-        <span>action type, field: value</span>
-      </p>
-      <p>
-        Values are separated by commas.
-        Multiplier is supported: <span>value*n</span>
-      </p>
-    </div>
-
-    <div>
-      <h2>Actions</h2>
-      <table>
-        <tr><td><span>ADD / CREATE</span></td><td>Add items</td></tr>
-        <tr><td><span>DELETE / REMOVE</span></td><td>Delete items</td></tr>
-        <tr><td><span>SEARCH / FIND</span></td><td>Search items</td></tr>
-        <tr><td><span>LIST / SHOW</span></td><td>Show list</td></tr>
-        <tr><td><span>INFO / READ / CHECK</span></td><td>Detailed information</td></tr>
-        <tr><td><span>SAVE</span></td><td>Save type</td></tr>
-        <tr><td><span>CLEAR</span></td><td>Clear type</td></tr>
-        <tr><td><span>OPEN</span></td><td>Open section</td></tr>
-        <tr><td><span>CALC</span></td><td>Evaluate expressions</td></tr>
-      </table>
-    </div>
-
-    <div>
-      <h2>Data Types</h2>
-      <table>
-        <tr><td><span>todos</span></td><td>Tasks</td></tr>
-        <tr><td><span>notes</span></td><td>Notes</td></tr>
-        <tr><td><span>codes</span></td><td>Code snippets</td></tr>
-        <tr><td><span>urls</span></td><td>Links</td></tr>
-      </table>
-    </div>
-
-    <div>
-      <h2>Command Examples</h2>
-      <table>
-        <tr><td>Add</td><td><span>add todos, names: Task tags: work</span></td></tr>
-        <tr><td>Search</td><td><span>search codes, keys: auth</span></td></tr>
-        <tr><td>List</td><td><span>list notes</span></td></tr>
-        <tr><td>Info</td><td><span>info todos, names: Task</span></td></tr>
-        <tr><td>Open</td><td><span>open settings</span></td></tr>
-        <tr><td>Calculate</td><td><span>calc 12+4*2</span></td></tr>
-      </table>
-    </div>
-
-    <div>
-      <h2>How AI Works in Dashboard</h2>
-      <p>
-        The system first tries to process the request using the
-        <span>standard command parser</span>.
-      </p>
-      <p>
-        AI is triggered when:
-        <br>— the text does not match command format
-        <br>— the request is written in natural language
-        <br>— the intent is ambiguous
-        <br>— the parser cannot determine the action
-      </p>
-      <p>
-        When triggered, <span>AI assistant</span> analyzes the request and:
-        <br>— or responds with text
-        <br>— or performs an action via the system
-      </p>
-      <p>
-        This acts as a fallback mechanism that enables
-        flexible free-form interaction.
-      </p>
-    </div>
   </div>
 
   <!-- Loader for AI -->
@@ -703,6 +615,9 @@
   <p>...</p>
 </div>
 
+<!-- Show fields block -->
+<div class="show-fields-block"></div>
+
 <!-- Sign-in window -->
 <div class="sign-window">
   <div class="sign-forms-container">
@@ -796,11 +711,6 @@
     <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
   </symbol>
 
-  <symbol id='code-block-lock' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
-    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-  </symbol>
-
   <symbol id='save' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" />
     <path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7" />
@@ -870,5 +780,5 @@
 </svg>
 
 <!-- ExchangeRate  -->
-<a href="https://www.exchangerate-api.com" style="display: none">Rates By Exchange
+<a href="https://www.exchangerate-api.com" style="display: none">Rates By Exchange</a>
 </body></html>

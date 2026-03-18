@@ -75,6 +75,8 @@
   padding: 3px;
   overflow-y: auto;
   resize: none;
+  text-align: left;
+  border: 1px solid var(--border-color);
 }
 
 /* Add note */
@@ -137,11 +139,11 @@
 
 /* Edit note */
 .edit-note-block {
-  width: 75%;
+  width: calc(75% - 32px);
   min-height: 50%;
   position: fixed;
-  top: 5%;
-  left: 12.5%;
+  top: 10%;
+  left: calc(12.5% + 32px);
   background: var(--block-bg);
   border: 2px solid var(--border-color);
   border-radius: 10px;

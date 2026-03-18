@@ -330,7 +330,7 @@ function setContent(type, name, content) {
         allTodosObj[content.name] = { date: time, isCompleted: !!content.completed, mark: content.mark || '', tag: content.tag, isFav: !!content.isFavorite }
       }
       else if(type === 'notes') { allNotesObj[content.name] = { description: content.desc, txt: content.txt || '', isFav: !!content.isFavorite }; }
-      else if(type === 'codes') { allUserCodesObj[content.name] = { code: content.code || '', lock: !!content.lock, lang: content.language }; }
+      else if(type === 'codes') { allUserCodesObj[content.name] = { code: content.code || '', lang: content.language }; }
     }
 
     else if(!Object.keys(content).length) { // Delete
@@ -363,7 +363,6 @@ function setContent(type, name, content) {
         }
       }
       else if(type === 'codes') {
-        if('lock' in content) allUserCodesObj[name].lock = content.lock;
         if('code' in content) allUserCodesObj[name].code = content.code;
         if('language' in content) allUserCodesObj[name].lang = content.language;
         if('name'  in content) {
