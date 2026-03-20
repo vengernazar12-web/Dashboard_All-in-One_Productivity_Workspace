@@ -30,7 +30,7 @@
   position: absolute;
   top: 0;
   right: 0;
-  width: 50%;
+  width: 60%;
   height: 75%;
   text-align: left;
   overflow: hidden;
@@ -55,7 +55,7 @@
   top: 0;
   left: 0;
   height: 100%;
-  max-width: 50%;
+  max-width: 40%;
   display: block;
   border-radius: 7px 2px 2px 7px;
   object-fit: contain;

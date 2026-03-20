@@ -106,6 +106,7 @@
 /* Timer progress */
 .timer-window > progress {
   width: 100%;
+  margin-top: 10px;
   height: 25px;
   appearance: none;
   border: none;

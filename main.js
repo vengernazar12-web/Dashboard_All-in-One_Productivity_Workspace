@@ -52,6 +52,7 @@ function closeAllWraps() {
   settingsWindow.classList.remove('show');
   notesContentWrap.classList.remove('show');
   hiddenTodosWindow.classList.remove('show');
+  timerWindow.classList.remove('show');
   if(allDashboardItem.classList.contains('open')) toggleAllDashboardItemBtn.click();
 }
 
@@ -172,7 +173,7 @@ document.addEventListener('keydown', e => {
 
   // Global enter
   else if(e.key === 'Enter') {
-    if(assistantWrap.classList.contains('show') && !e.shiftKey) {
+    if(assistantWrap.classList.contains('show') && !e.shiftKey && !memoryForAiWindow.classList.contains('show')) {
       e.preventDefault();
       sendPromptBtn.click();
     } else if(todosAssistantWindow.classList.contains('open') && !e.shiftKey) {

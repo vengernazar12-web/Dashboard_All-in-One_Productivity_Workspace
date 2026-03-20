@@ -137,7 +137,7 @@ startTimerBtn.addEventListener('click', () => {
   if(!name && !noContainerTypes.includes(type)) return showResponseFn('Select item!');
   isLocalTimer = false;
 
-  const timeNumber = +userTime[0].match(/\d+/);
+  const timeNumber = +userTime[0].match(/\d+\.?\d*/);
   const time = userTime[0].includes('s') ? (timeNumber * 1000)
   : userTime[0].includes('m') ? (timeNumber * 1000 * 60)
   : (timeNumber * 1000 * 60 * 60);
@@ -170,6 +170,10 @@ startTimerBtn.addEventListener('click', () => {
   timerProgress.style.display = 'block';
 
   const allSeconds = time / 1000;
+  const h = Math.floor(allSeconds / 3600);
+  const m = Math.floor((allSeconds - h * 3600) / 60);
+  const s = Math.floor(allSeconds % 60);
+
   timerProgress.max = allSeconds;
   let initSeconds = 0;
 
@@ -188,12 +192,12 @@ startTimerBtn.addEventListener('click', () => {
       isAlmostStartBeen = true;
       if('vibrate' in navigator) navigator.vibrate(100)
     }
-    if(!isHalfBeen && initSeconds >= half) {
+    else if(!isHalfBeen && initSeconds >= half) {
       showResponseFn('50% complete! (TIMER)');
       isHalfBeen = true;
       if('vibrate' in navigator) navigator.vibrate(250)
     }
-    if(!isAlmostTheEndBeen && initSeconds >= almost) {
+    else if(!isAlmostTheEndBeen && initSeconds >= almost) {
       showResponseFn('75% complete! (TIMER)');
       isAlmostTheEndBeen = true;
       if('vibrate' in navigator) navigator.vibrate(500)
@@ -201,15 +205,12 @@ startTimerBtn.addEventListener('click', () => {
 
     timerProgress.value = initSeconds;
 
-    const h = Math.floor(allSeconds / 3600);
-    const m = Math.floor(allSeconds / 60);
-    const s = allSeconds % 60;
-
     const initH = Math.floor(initSeconds / 3600);
-    const initM = Math.floor(initSeconds / 60);
-    const initS = initSeconds % 60;
+    const initM = Math.floor((initSeconds - initH * 3600) / 60);
+    const initS = Math.floor(initSeconds % 60);
 
-    timerTimeTxt.textContent = `${h ? String(h).padStart(2, '0') + 'h : ' : ''}${m ? String(m).padStart(2, '0') + 'm : ' : ''}${String(s).padStart(2, '0') + 's'} / ${h ? String(initH).padStart(2, '0') + 'h : ' : ''}${m ? String(initM).padStart(2, '0') + 'm : ' : ''}${String(initS).padStart(2, '0') + 's'}`;
+    timerTimeTxt.textContent =
+    `${h ? `${String(h).padStart(2, '0') + 'h : '}` : ''}${m ? `${String(m).padStart(2, '0') + 'm : '}` : ''}${String(s).padStart(2, '0') + 's'} / ${initH ? String(initH).padStart(2, '0') + 'h : ' : ''}${initM ? String(initM).padStart(2, '0') + 'm : ' : ''}${String(initS).padStart(2, '0') + 's'}`;
   }, 1000);
 
   timer = setTimeout(() => {
@@ -228,6 +229,7 @@ startTimerBtn.addEventListener('click', () => {
 // Stop timer
 const stopTimerBtn = timerWindow.querySelector('.stop-timer-btn');
 stopTimerBtn.addEventListener('click', () => {
+  if(!confirm('Stop?')) return;
   clearTimeout(timer);
   clearInterval(interval);
   timerProgress.style.display = 'none';
