@@ -226,9 +226,10 @@ wrapBlocksContainer.addEventListener('click', e => {
 
     searchProfileWrapBlocksInfoInput.value = '';
   }
-  else if(e.target.closest('.info-block')) {
-    const type = selectWrapBlocksType.value;
-    const name = e.target.closest('.info-block').dataset.value;
+  else if(e.target.closest('.info-block')) { // Open
+    const block = e.target.closest('.info-block');
+    const type = block.dataset.type;
+    const name = block.dataset.value;
     if(type === 'todos') openTodoWrapBtn.click();
     else if(type === 'notes') openNoteWrapBtn.click();
     else if(type === 'urls') openUrlWrapBtn.click();
@@ -251,15 +252,22 @@ function renderProfileWrapBlocksInfo() {
   const val = selectWrapBlocksType.value;
   if(!val) return;
 
-  const targetArr = val === 'todos' ? Object.keys(allTodosObj)
-  : val === 'notes' ? Object.keys(allNotesObj)
-  : val === 'urls' ? allUrlsArr
-  : Object.keys(allUserCodesObj);
+  const targetArr = val === 'todos' ? Object.keys(allTodosObj).map(n => {return {name: n, type: 'todo'}})
+  : val === 'notes' ? Object.keys(allNotesObj).map(n => {return {name: n, type: 'notes'}})
+  : val === 'urls' ? allUrlsArr.map(o => {return {name: o.title, type: 'urls'}})
+  : val === 'codes' ? Object.keys(allUserCodesObj).map(n => {return {name: n, type: 'codes'}})
+  : [
+    ...Object.keys(allTodosObj).map(n => {return {name: n, type: 'todo'}}),
+    ...Object.keys(allNotesObj).map(n => {return {name: n, type: 'notes'}}),
+    ...allUrlsArr.map(o => {return {name: o.title, type: 'urls'}}),
+    ...Object.keys(allUserCodesObj).map(n => {return {name: n, type: 'codes'}})
+  ];
 
   const maxLimit = val === 'todos' ? allBlockLimitsObj.todos
   : val === 'notes' ? allBlockLimitsObj.notes
   : val === 'urls' ? allBlockLimitsObj.urls
-  : allBlockLimitsObj.codes;
+  : val === 'codes' ? allBlockLimitsObj.codes
+  : allBlockLimitsObj.todos + allBlockLimitsObj.notes + allBlockLimitsObj.urls + allBlockLimitsObj.codes;
 
   wrapBlocksContainer.textContent = '';
   const frag = document.createDocumentFragment();
@@ -271,9 +279,10 @@ function renderProfileWrapBlocksInfo() {
     const delBtn = document.createElement('button');
 
     div.classList.add('info-block');
-    div.dataset.value = n.title || n;
+    div.dataset.value = n.name;
+    div.dataset.type = n.type;
 
-    p.textContent = `${n.title || n} - ${num}/${maxLimit}`;
+    p.textContent = `${n.name} - ${num}/${maxLimit}`;
     num++;
 
     delBtn.classList.add('delete');
@@ -293,15 +302,24 @@ function renderProfileFoundWrapBlocksInfo(txt) {
   const selectedValue = selectWrapBlocksType.value;
   if(!txt || !selectedValue) return renderProfileWrapBlocksInfo();
 
-  const targetArr = selectedValue === 'todos' ? Object.keys(allTodosObj)
-  : selectedValue === 'notes' ? Object.keys(allNotesObj)
-  : selectedValue === 'urls' ? allUrlsArr
-  : Object.keys(allUserCodesObj);
+  const val = selectWrapBlocksType.value;
 
-  const maxLimit = selectedValue === 'todos' ? allBlockLimitsObj.todos
-  : selectedValue === 'notes' ? allBlockLimitsObj.notes
-  : selectedValue === 'urls' ? allBlockLimitsObj.urls
-  : allBlockLimitsObj.codes;
+  const targetArr = val === 'todos' ? Object.keys(allTodosObj).map(n => {return {name: n, type: 'todo'}})
+  : val === 'notes' ? Object.keys(allNotesObj).map(n => {return {name: n, type: 'notes'}})
+  : val === 'urls' ? allUrlsArr.map(o => {return {name: o.title, type: 'urls'}})
+  : val === 'codes' ? Object.keys(allUserCodesObj).map(n => {return {name: n, type: 'codes'}})
+  : [
+    ...Object.keys(allTodosObj).map(n => {return {name: n, type: 'todo'}}),
+    ...Object.keys(allNotesObj).map(n => {return {name: n, type: 'notes'}}),
+    ...allUrlsArr.map(o => {return {name: o.title, type: 'urls'}}),
+    ...Object.keys(allUserCodesObj).map(n => {return {name: n, type: 'codes'}})
+  ];
+
+  const maxLimit = val === 'todos' ? allBlockLimitsObj.todos
+  : val === 'notes' ? allBlockLimitsObj.notes
+  : val === 'urls' ? allBlockLimitsObj.urls
+  : val === 'codes' ? allBlockLimitsObj.codes
+  : allBlockLimitsObj.todos + allBlockLimitsObj.notes + allBlockLimitsObj.urls + allBlockLimitsObj.codes;
 
   wrapBlocksContainer.textContent = '';
   const frag = document.createDocumentFragment();
@@ -312,7 +330,7 @@ function renderProfileFoundWrapBlocksInfo(txt) {
 
   let num = 1;
   for(let n of targetArr) {
-    const arrName = n.title || n;
+    const arrName = n.name;
     if(!arrName.match(matchRegexp)) continue;
 
     const div = document.createElement('div');
@@ -320,7 +338,8 @@ function renderProfileFoundWrapBlocksInfo(txt) {
     const delBtn = document.createElement('button');
 
     div.classList.add('info-block');
-    div.dataset.value = n.title || n;
+    div.dataset.value = n.name;
+    div.dataset.type = n.type;
 
     p.innerHTML = `${arrName.replaceAll(regexp, '<mark>$&</mark>')} - ${num}/${maxLimit}`;
     num++;

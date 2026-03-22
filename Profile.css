@@ -136,12 +136,12 @@
 .total-block-limits-title {
   position: absolute;
   top: 305px;
-  left: 5%;
+  left: 7.5%;
   color: black;
 }
-.total-block-limits {
+.user-profile-wrap > .total-block-limits {
   position: absolute;
-  bottom: none;
+  left: 5%;
   top: 300px;
 }
 
@@ -231,12 +231,35 @@
   width: calc(100% - 10px);
   padding: 3px;
 }
+
 .all-wrap-blocks-container > .info-block {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 5px;
   border-bottom: 1px solid var(--border-color);
+  position: relative;
+  cursor: pointer;
+  border-radius: 0;
+  transition: padding-left .2s, border-radius .2s;
+}
+.all-wrap-blocks-container > .info-block:hover {
+  border-radius: 15px;
+  padding-left: 10px;
+}
+.all-wrap-blocks-container > .info-block::after {
+  content: attr(data-type);
+  position: absolute;
+  top: -2px;
+  left: 5px;
+  color: var(--border-color);
+  font-size: 9px;
+}
+
+.all-wrap-blocks-container > .info-block > p {
+  text-wrap: wrap;
+  word-wrap: break-word;
+  max-width: calc(100% - 30px);
 }
 .all-wrap-blocks-container .delete { color: var(--text-color); }
 

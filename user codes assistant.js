@@ -51,9 +51,11 @@ sendCodesAssistantPromptBtn.addEventListener('click', async () => {
       aiResp = aiResp.replace(setCommand, '• Done');
       let setCommandArr = JSON.parse(setCommand.replace(/\?set\||\|set\?/g, ''));
       if(!Array.isArray(setCommandArr)) setCommandArr = [setCommandArr];
+      initUndoActionBlock('codes', allUserCodesObj);
       for(let obj of setCommandArr) setContent('codes', obj.name, obj.content);
 
       addUnsavedMarkAndRenderInitWrap();
+      writeToUserActions('Дію зроблено code асистентом');
     } catch(e) {
       console.error(e);
       createUrlsAssistantResponse('Something went wrong, please try again later...');

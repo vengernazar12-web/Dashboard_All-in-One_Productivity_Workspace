@@ -67,11 +67,6 @@ function createCodeBlock(name) {
       clearTimeout(hintTimer);
     }, 200);
 
-    const info = cm.getScrollInfo();
-    const wrapper = cm.getWrapperElement();
-    wrapper.style.height = `${Math.max(60, info.height)}px`;
-    div.style.height = div.scrollHeight + 'px';
-
     const code = cm.getValue();
     const lng = code.replaceAll(" ", "").replaceAll("\n", "").length;
 
@@ -80,6 +75,13 @@ function createCodeBlock(name) {
 
     codeSaveBtn.classList.add('unsaved');
   });
+  editor.on('change', (cm) => {
+    const info = cm.getScrollInfo();
+    const wrapper = cm.getWrapperElement();
+    wrapper.style.height = `${info.height}px`;
+    wrapper.scrollTop = info.height;
+    div.style.height = `${div.scrollHeight}px`;
+  })
 
   editor.setValue(allUserCodesObj[name].code);
 
@@ -122,7 +124,7 @@ function renderUserCodesBlocks() {
   // Append fragment
   allUserCodesContainer.appendChild(frag);
 
-  const userCodeBlocksLng = allUserCodesContainer.childElementCount;
+  const userCodeBlocksLng = Object.keys(allUserCodesObj).length;
   codeBlocksLimitText.textContent = `Codes: ${userCodeBlocksLng}/${allBlockLimitsObj.codes}`;
   codeProgress.value = userCodeBlocksLng;
 }
@@ -134,6 +136,13 @@ codeBlockName.addEventListener('input', () => renderShowFieldsBlock(Object.keys(
 
 const codeBlockLang = addCodeBlockForm.querySelector('.user-code-lang');
 
+// Add code block
+const toggleAddCodeBlockForm = userCodeWrap.querySelector('.toggle-add-new-block-code-form');
+toggleAddCodeBlockForm.addEventListener('click', () => {
+  addCodeBlockForm.classList.toggle('show');
+  codeBlockName.focus();
+})
+
 const addCodeBlockBtn = addCodeBlockForm.querySelector('.add-code-block-btn');
 addCodeBlockBtn.addEventListener('click', () => {
   if(Object.keys(allUserCodesObj).length >= allBlockLimitsObj.codes) return showResponseFn('You have code blocks limit');
@@ -143,6 +152,8 @@ addCodeBlockBtn.addEventListener('click', () => {
   if(name.length > allValuesLimit.codeName) return showResponseFn('The name is too long!');
   const lang = codeBlockLang.value;
   if(!lang) return showResponseFn('Please set your code language');
+
+  initUndoActionBlock('codes', allUserCodesObj);
 
   allUserCodesObj[name] = { code: '', lang };
 
@@ -155,20 +166,8 @@ addCodeBlockBtn.addEventListener('click', () => {
 
   setOpenBtnsTexts();
 
-  if(allUserCodesContainer.childElementCount >= allBlockLimitsObj.codes) toggleAddCodeBlockForm.style.display = 'none';
-
   // Save change for userActions
-  writeToUserActions(`Користувач додав блок коду з назвою ${name} та з мовою ${lang}`);
-})
-
-const toggleAddCodeBlockForm = userCodeWrap.querySelector('.toggle-add-new-block-code-form');
-toggleAddCodeBlockForm.addEventListener('click', () => {
-  if(allUserCodesContainer.childElementCount >= allBlockLimitsObj.codes) {
-    toggleAddCodeBlockForm.style.display = 'none';
-    return showResponseFn(`You have blocks limit ${allBlockLimitsObj.codes}/${allBlockLimitsObj.codes}`);
-  }
-  addCodeBlockForm.classList.toggle('show');
-  codeBlockName.focus();
+  writeToUserActions(`Додано блок коду з назвою ${name} та з мовою ${lang}`);
 })
 
 // Search user code
@@ -291,6 +290,8 @@ allUserCodesContainer.addEventListener('click', e => {
     const name = targetBlock.firstElementChild.textContent;
     if(localStorage.getItem('conf-before-delete') == 'true' && !confirm('Delete?')) return;
 
+    initUndoActionBlock('codes', allUserCodesObj);
+
     delete allUserCodesObj[name];
     codeSaveBtn.classList.add('unsaved');
 
@@ -303,7 +304,7 @@ allUserCodesContainer.addEventListener('click', e => {
     setOpenBtnsTexts();
 
     // Save change for userActions
-    writeToUserActions(`Користувач видалив блок коду з назвою ${name}`);
+    writeToUserActions(`Видалено блок коду з назвою ${name}`);
 
     return;
   }
@@ -323,19 +324,17 @@ allUserCodesContainer.addEventListener('click', e => {
 
   for(let child of allUserCodesContainer.children) child.style.height = '60px';
   if(targetBlock) { // Open code block
-    const wrapper = targetBlock.querySelector('.CodeMirror');
     const editor = targetBlock.querySelector('textarea')._editor;
+    const wrapper = editor.getWrapperElement();
     editor.refresh();
     const info = editor.getScrollInfo();
 
     if(!editor.getValue()) {
       wrapper.style.height = '60px';
-      editor.setValue('\n')
+      editor.setValue('\n');
     } else wrapper.style.height = `${info.height}px`;
 
     targetBlock.style.height = `${targetBlock.scrollHeight}px`;
-
-    wrapper.scrollTop = 0;
   }
 })
 

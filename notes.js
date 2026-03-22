@@ -14,7 +14,6 @@ openNoteWrapBtn.addEventListener('click', () => {
   showPreloader();
   renderNotesBlocks();
   notesWrap.classList.add('show');
-  if(allUserNotesCont.childElementCount >= allBlockLimitsObj.notes) openAddNoteForm.style.display = 'none';
   showPreloader(false);
   searchNoteBlocksInput.value = '';
 })
@@ -37,13 +36,9 @@ let allNotesObj = {};
 const noteProgress = notesWrap.querySelector('.note-progress');
 const notesBlocksLimitText = notesWrap.querySelector('.notes-blocks-limit');
 
-// Add note form
+// Add note
 const openAddNoteForm = notesWrap.querySelector('.toggle-add-note-form');
 openAddNoteForm.addEventListener('click', () => {
-  if(allUserNotesCont.childElementCount >= allBlockLimitsObj.notes) {
-    openAddNoteForm.style.display = 'none';
-    return showResponseFn(`You have max notes ${allBlockLimitsObj.notes}/${allBlockLimitsObj.notes}`);
-  };
   addNotesForm.classList.toggle('show');
   addNoteInputName.focus();
 })
@@ -61,7 +56,7 @@ addNoteInputDescription.addEventListener('input', () => addNoteInputDescription.
 
 const addNotesButton = addNotesForm.querySelector('.add-note-button');
 addNotesButton.addEventListener('click', () => {
-  if(allUserNotesCont.childElementCount >= allBlockLimitsObj.notes) return showResponseFn('Your have note blocks limit');
+  if(Object.keys(allNotesObj).length >= allBlockLimitsObj.notes) return showResponseFn('Your have note blocks limit');
   const name = addNoteInputName.value.trim();
   let desc = addNoteInputDescription.value.trim() || 'Description';
   if(desc.length > allValuesLimit.noteDesc) return showResponseFn('The description is too long (more than 250 characters)');
@@ -74,6 +69,8 @@ addNotesButton.addEventListener('click', () => {
   addNoteInputDescription.value = '';
   addNotesForm.classList.remove('show');
 
+  initUndoActionBlock('notes', allNotesObj);
+
   allNotesObj[name] = { description: desc, txt: '' };
 
   renderNotesBlocks();
@@ -82,10 +79,8 @@ addNotesButton.addEventListener('click', () => {
 
   setOpenBtnsTexts();
 
-  if(allUserNotesCont.childElementCount >= allBlockLimitsObj.notes) openAddNoteForm.style.display = 'none';
-
   // Save change for userActions
-  writeToUserActions(`Користувач додав нову нотатку з назвою ${name}${desc !== 'Description' ? ` та з описом ${desc}` : ''}`);
+  writeToUserActions(`Додано нотатку з назвою ${name}${desc !== 'Description' ? ` та з описом ${desc}` : ''}`);
 })
 
 // Edit note
@@ -103,6 +98,7 @@ editNoteNameInput.addEventListener('input', () => {
 const editNoteDescInput = editNoteBlock.querySelector('.edit-note-desc-input');
 editNoteDescInput.addEventListener('input', () => editNoteDescInput.style.color = editNoteDescInput.value.trim().length > allValuesLimit.noteDesc ? 'red' : 'var(--text-color)');
 
+// Confirm edit change
 const confNoteEditChangeBtn = editNoteBlock.querySelector('.conf-note-edit-change-btn');
 confNoteEditChangeBtn.addEventListener('click', () => {
   editNoteBlock.classList.remove('show');
@@ -117,6 +113,8 @@ confNoteEditChangeBtn.addEventListener('click', () => {
 
   if(newName === initEditingNoteName && descBeforeEdit === newDesc) return;
   if(!newName || !newDesc) return showResponseFn(`You don't have a note ${!newName ? 'name' : 'description'}`);
+
+  initUndoActionBlock('notes', allNotesObj);
 
   allNotesObj[initEditingNoteName].description = newDesc;
 
@@ -133,9 +131,9 @@ confNoteEditChangeBtn.addEventListener('click', () => {
   // Save change for userActions
   writeToUserActions(
     newName !== initEditingNoteName && descBeforeEdit !== newDesc
-    ? `Користувач замінив назву нотатки з ${initEditingNoteName} на ${newName} та опис з ${descBeforeEdit} на ${newDesc}`
+    ? `Змінено назву нотатки з ${initEditingNoteName} на ${newName} та опис з ${descBeforeEdit} на ${newDesc}`
     : newName !== initEditingNoteName ? `Користувач замінив назву нотатки з ${initEditingNoteName} на ${newName}`
-    : `Користувач замінив опис нотатки з назвою ${initEditingNoteName} з ${descBeforeEdit} на ${newDesc}`
+    : `Змінено опис нотатки з назвою ${initEditingNoteName} з ${descBeforeEdit} на ${newDesc}`
   );
 })
 
@@ -149,6 +147,8 @@ allUserNotesCont.addEventListener('click', e => {
     const noteBlock = e.target.closest('.note-block');
     const noteName = noteBlock.firstElementChild.textContent;
 
+    initUndoActionBlock('notes', allNotesObj);
+
     delete allNotesObj[noteName];
     noteSaveBtn.classList.add('unsaved');
 
@@ -160,7 +160,7 @@ allUserNotesCont.addEventListener('click', e => {
     setOpenBtnsTexts();
 
     // Save change for userActions
-    writeToUserActions(`Користувач видалив нотатку з назвою ${noteName}`);
+    writeToUserActions(`Видалено нотатку з назвою ${noteName}`);
   }
   else if(e.target.closest('.fav-note-btn')) { // Favorite note block
     const noteName = e.target.closest('.note-block').firstElementChild.textContent;
@@ -171,9 +171,9 @@ allUserNotesCont.addEventListener('click', e => {
     noteSaveBtn.classList.add('unsaved');
 
     // Save change for userActions
-    writeToUserActions(allNotesObj[noteName].isFav ? `Користувач позначив нотатку з назвою ${noteName} як фаворіт` : `Користувач забрав нотатку з назвою ${noteName} з фаворітів`);
+    writeToUserActions(allNotesObj[noteName].isFav ? `Позначено нотатку з назвою ${noteName} як фаворіт` : `Забрано нотатку з назвою ${noteName} з фаворітів`);
   }
-  else if(e.target.closest('.edit-note-btn')) { // Edit
+  else if(e.target.closest('.edit-note-btn')) { // Open edit block
     const targetNoteBlockName = e.target.closest('.note-block').firstElementChild.textContent;
     editNoteBlock.classList.add('show');
     editNoteNameInput.value = targetNoteBlockName;

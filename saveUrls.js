@@ -156,6 +156,8 @@ addUrlBtn.addEventListener('click', async () => {
     localImgUrls[title] = URL.createObjectURL(userUploadImg);
   }
 
+  initUndoActionBlock('urls', allUrlsArr);
+
   allUrlsArr.push({title, url, imgUrl, imgPath});
   renderAllUrls();
   addUrlForm.classList.remove('show');
@@ -167,7 +169,7 @@ addUrlBtn.addEventListener('click', async () => {
   setOpenBtnsTexts();
 
   // Save change for userActions
-  writeToUserActions(`Користувач додав урл блок з назвою ${title} та з посиланням ${url}`);
+  writeToUserActions(`Додано урл блок з назвою ${title} та з посиланням ${url}`);
 })
 
 // Search urls
@@ -230,6 +232,8 @@ confirmEditUrlBtn.addEventListener('click', async () => {
 
   if(!editChange) return showResponseFn('Please enter your change');
 
+  initUndoActionBlock('urls', allUrlsArr);
+
   if(editItem === 'name') {
     if(allUrlsArr.find(o => o.title === editChange)) return showResponseFn('You already used this name');
     if(editChange.trim().length > 50) return showResponseFn('URL name must be 50 characters or less');
@@ -288,9 +292,9 @@ confirmEditUrlBtn.addEventListener('click', async () => {
   // Save change for userActions
   writeToUserActions(
     editItem === 'name'
-    ? `Користувач замінив назву урл-блоку з ${initEditUrlName} на ${editChange}`
-    : editItem === 'url' ? `Користувач змінив посилання в урл-блоку з назвою ${initEditUrlName}`
-    : `Користувач змінив картинку в урлі з назвою ${initEditUrlName}`
+    ? `Змінено назву урл-блоку з ${initEditUrlName} на ${editChange}`
+    : editItem === 'url' ? `Змінено посилання в урл-блоку з назвою ${initEditUrlName}`
+    : `Змінено картинку в урлі з назвою ${initEditUrlName}`
   );
 })
 
@@ -309,6 +313,8 @@ allUrlsContainer.addEventListener('click', e => {
     const initImgPath = allUrlsArr.find(obj => obj.title === delUrlName).imgPath;
     if(initImgPath) filesToRemove.push(initImgPath);
 
+    initUndoActionBlock('urls', allUrlsArr);
+
     allUrlsArr = allUrlsArr.filter(obj => obj.title !== delUrlName);
 
     urlSaveBtn.classList.add('unsaved');
@@ -322,7 +328,7 @@ allUrlsContainer.addEventListener('click', e => {
     delUrlTimer = setTimeout(renderAllUrls, delAnimTime);
 
     // Save change for userActions
-  writeToUserActions(`Користувач видалив урл-блок з назвою ${delUrlName}`);
+  writeToUserActions(`Видалено урл-блок з назвою ${delUrlName}`);
   }
   else if(e.target.closest('.open-edit-url-form-btn')) { // Open url edit
     editUrlForm.classList.add('show');
@@ -350,7 +356,7 @@ allUrlsContainer.addEventListener('click', e => {
     urlSaveBtn.classList.add('unsaved');
 
     // Save change for userActions
-  writeToUserActions(findUrlObj.isFav ? `Користувач позначив урл-блок з назвою ${urlName} як фаворіт` : `Користувач забрав урл-блок з назвою ${urlName} з фаворитів`);
+  writeToUserActions(findUrlObj.isFav ? `Позначено урл-блок з назвою ${urlName} як фаворіт` : `Забрано урл-блок з назвою ${urlName} з фаворитів`);
   }
 })
 

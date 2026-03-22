@@ -52,9 +52,11 @@ sendNotesPromptBtn.addEventListener('click', async () => {
       aiResp = aiResp.replace(setCommand, '• Done');
       let setCommandArr = JSON.parse(setCommand.replace(/\?set\||\|set\?/g, ''));
       if(!Array.isArray(setCommandArr)) setCommandArr = [setCommandArr];
+      initUndoActionBlock('notes', allNotesObj);
       for(let obj of setCommandArr) setContent('notes', obj.name, obj.content);
 
       addUnsavedMarkAndRenderInitWrap();
+      writeToUserActions('Дію зроблено note асистентом');
     } catch(e) {
       console.error(e);
       createNotesAssistantText('Something went wrong, please try again later...');

@@ -49,6 +49,7 @@ signInForm.addEventListener('submit', e => { e.preventDefault(); signFn('in'); }
 // Save todos content
 const todoSaveBtn = todoWrap.querySelector('.todo-save-btn');
 todoSaveBtn.addEventListener('click', async () => {
+  undoLastActionBlock.classList.remove('show');
   /* Is unsaved check */ if(!todoSaveBtn.classList.contains('unsaved')) return showResponseFn('No changes detected — nothing to save.');
   // Set max function action
   preloaderProgress.max = 3;
@@ -114,6 +115,7 @@ todoSaveBtn.addEventListener('click', async () => {
 // Save notes content
 const noteSaveBtn = notesWrap.querySelector('.note-save-btn');
 noteSaveBtn.addEventListener('click', async () => {
+  undoLastActionBlock.classList.remove('show');
   /* Is unsaved check */ if(!noteSaveBtn.classList.contains('unsaved')) return showResponseFn('No changes detected — nothing to save.');
   // Set max function action
   preloaderProgress.max = 4;
@@ -187,6 +189,7 @@ noteSaveBtn.addEventListener('click', async () => {
 // Save urls content
 const urlSaveBtn = urlsWrap.querySelector('.url-save-btn');
 urlSaveBtn.addEventListener('click', async () => {
+  undoLastActionBlock.classList.remove('show');
   /* Is unsaved check */ if(!urlSaveBtn.classList.contains('unsaved')) return showResponseFn('No changes detected — nothing to save.');
   // Set max function action
   preloaderProgress.max = 5;
@@ -278,6 +281,7 @@ urlSaveBtn.addEventListener('click', async () => {
 // Save codes content
 const codeSaveBtn = userCodeWrap.querySelector('.code-save-btn');
 codeSaveBtn.addEventListener('click', async () => {
+  undoLastActionBlock.classList.remove('show');
   /* Is unsaved check */ if(!codeSaveBtn.classList.contains('unsaved')) return showResponseFn('No changes detected — nothing to save.');
   // Set max function action
   preloaderProgress.max = 4;

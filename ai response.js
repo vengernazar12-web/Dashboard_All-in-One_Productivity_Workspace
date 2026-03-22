@@ -37,29 +37,6 @@ async function useAiResp(givenInfo = '') {
   if(info) useAiResp(info);
 }
 
-// Get ai translate
-async function getAiTranslateResponse(txt) {
-  try {
-    assistantLoader.style.display = 'block';
-    sendPromptBtn.disabled = true;
-    const resp = await fetch('https://shrill-breeze-466e.vengernazar0.workers.dev', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json',},
-      body: JSON.stringify({txt}),
-    });
-    assistantLoader.style.display = 'none';
-    sendPromptBtn.disabled = false;
-
-    const data = await resp.json();
-    return data.txt;
-  } catch(e) {
-    console.error(e);
-    assistantLoader.style.display = 'none';
-    sendPromptBtn.disabled = false;
-    return "Sorry, something went wrong...";
-  }
-}
-
 // Get todos assistant resp
 async function getTodosAssistantResp() {
   try {
@@ -351,6 +328,11 @@ function setContent(type, name, content) {
         if('isFavorite' in content) allTodosObj[name].isFav = content.isFavorite;
         if('mark' in content || 'tag' in content) allTodosObj[name].date = time;
         if('completed' in content) allTodosObj[name].isCompleted = content.completed;
+        if('name' in content) {
+          const initTodoObj = allTodosObj[name];
+          delete allTodosObj[name];
+          allTodosObj[content.name] = initTodoObj;
+        }
       }
       else if(type === 'notes') {
         if('desc' in content) allNotesObj[name].description = content.desc;

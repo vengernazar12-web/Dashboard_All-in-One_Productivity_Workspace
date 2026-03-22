@@ -51,9 +51,11 @@ sendUrlsAssistantPrompt.addEventListener('click', async () => {
       aiResp = aiResp.replace(setCommand, '• Done');
       let setCommandArr = JSON.parse(setCommand.replace(/\?set\||\|set\?/g, ''));
       if(!Array.isArray(setCommandArr)) setCommandArr = [setCommandArr];
+      initUndoActionBlock('urls', allUrlsArr);
       for(let obj of setCommandArr) setContent('urls', obj.name, obj.content);
 
       addUnsavedMarkAndRenderInitWrap();
+      writeToUserActions('Дію зроблено url асистентом');
     } catch(e) {
       console.error(e);
       createUrlsAssistantResponse('Something went wrong, please try again later...');

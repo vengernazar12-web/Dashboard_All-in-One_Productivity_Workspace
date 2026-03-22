@@ -52,9 +52,11 @@ sendTodosAssistantPromptBtn.addEventListener('click', async () => {
       aiResp = aiResp.replace(setCommand, '• Done');
       let setCommandArr = JSON.parse(setCommand.replace(/\?set\||\|set\?/g, ''));
       if(!Array.isArray(setCommandArr)) setCommandArr = [setCommandArr];
+      initUndoActionBlock('todos', allTodosObj);
       for(let obj of setCommandArr) setContent('todos', obj.name, obj.content);
 
       addUnsavedMarkAndRenderInitWrap();
+      writeToUserActions('Дію зроблено todo асистентом');
     } catch(e) {
       console.error(e);
       createTodosAssistantResponse('Something went wrong, please try again later...');
