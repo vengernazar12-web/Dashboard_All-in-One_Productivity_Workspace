@@ -105,7 +105,6 @@ todoSaveBtn.addEventListener('click', async () => {
   whatIsLoadingText.textContent = 'Content saved';
 
   todoSaveBtn.classList.remove('unsaved');
-  isTodosUnsaved = false;
 
   setTimeout(() => todoSaveBtn.disabled = false, 15000);
   showResponseFn('Your todos have been saved');
@@ -179,7 +178,6 @@ noteSaveBtn.addEventListener('click', async () => {
   whatIsLoadingText.textContent = 'Content saved';
 
   noteSaveBtn.classList.remove('unsaved');
-  isNotesUnsaved = false;
 
   setTimeout(() => noteSaveBtn.disabled = false, 150000);
   showResponseFn('Your notes have been saved');
@@ -271,7 +269,6 @@ urlSaveBtn.addEventListener('click', async () => {
   // Upload and remove imgs
 
   urlSaveBtn.classList.remove('unsaved');
-  isUrlsUnsaved = false;
 
   setTimeout(() => urlSaveBtn.disabled = false, 150000);
   showResponseFn('Your urls have been saved');
@@ -355,7 +352,80 @@ codeSaveBtn.addEventListener('click', async () => {
   whatIsLoadingText.textContent = 'Content saved';
 
   codeSaveBtn.classList.remove('unsaved');
-  isCodesUnsaved = false;
+
+  setTimeout(() => codeSaveBtn.disabled = false, 150000);
+  showResponseFn('Your codes have been saved');
+  setTimeout(() => showPreloader(false), 500);
+})
+
+// Save texts content
+const textSaveBtn = textsSnippetsWrap.querySelector('.save-texts-snippets');
+textSaveBtn.addEventListener('click', async () => {
+  undoLastActionBlock.classList.remove('show');
+  /* Is unsaved check */ if(!textSaveBtn.classList.contains('unsaved')) return showResponseFn('No changes detected — nothing to save.');
+  // Set max function action
+  preloaderProgress.max = 4;
+  preloaderProgress.value = 0;
+  whatIsLoadingText.textContent = 'Start...';
+  renderTextsSnippets();
+
+  textSaveBtn.disabled = true;
+  showPreloader();
+  showResponseFn('Please wait...');
+
+  const allNames = Object.keys(allTextsSnippetsObj);
+
+  if(allNames.length > allBlockLimitsObj.text) {
+    showPreloader(false);
+    return showResponseFn('Your have text blocks limit');
+  };
+
+  if(allNames.find(n => n.length > allValuesLimit.textName || allTextsSnippetsObj[n].txt.length > allValuesLimit.textContent)) {
+    showPreloader(false);
+    return showResponseFn('You have length limit');
+  };
+
+  preloaderProgress.value = 1;
+  whatIsLoadingText.textContent = 'Length checked';
+
+  const {data, error} = await client.auth.getSession();
+  if(error) {
+    showPreloader(false);
+    return showResponseFn(error.message);
+  };
+  if(!data.session) {
+    showPreloader(false);
+    showResponseFn('Please sign in');
+    signWindow.classList.add('show');
+  };
+
+  preloaderProgress.value = 2;
+  whatIsLoadingText.textContent = 'The session has been taken';
+
+  const id = data.session.user.id;
+
+  const {data: initialContent, error: initialError} = await client.from('user_content').select('content').eq('id', id).single();
+  if(initialError) {
+    showPreloader(false);
+    setTimeout(() => {codeSaveBtn.disabled = false}, 150000);
+    return showResponseFn("Something went wrong");
+  };
+
+  preloaderProgress.value = 3;
+  whatIsLoadingText.textContent = 'Old content taken';
+
+  initialContent.content.texts = allTextsSnippetsObj;
+  const {error: tableError} = await client.from('user_content').update({content: initialContent.content}).eq('id', id);
+  if(tableError) {
+    showPreloader(false);
+    setTimeout(() => codeSaveBtn.disabled = false, 150000);
+    return showResponseFn("Your texts haven't been saved, pease try again later...");
+  }
+
+  preloaderProgress.value = 4;
+  whatIsLoadingText.textContent = 'Content saved';
+
+  textSaveBtn.classList.remove('unsaved');
 
   setTimeout(() => codeSaveBtn.disabled = false, 150000);
   showResponseFn('Your codes have been saved');
@@ -386,6 +456,7 @@ function setOpenBtnsTexts() {
   openNoteWrapBtn.lastElementChild.textContent = `${Object.keys(allNotesObj).length}/${allBlockLimitsObj.notes}`;
   openUrlWrapBtn.lastElementChild.textContent = `${allUrlsArr.length}/${allBlockLimitsObj.urls}`;
   openCodeWrapBtn.lastElementChild.textContent = `${Object.keys(allUserCodesObj).length}/${allBlockLimitsObj.codes}`;
+  openTextsSnippetsWrap.lastElementChild.textContent = `${Object.keys(allTextsSnippetsObj).length}/${allBlockLimitsObj.text}`;
 }
 
 // Initialization all content objects
@@ -415,6 +486,7 @@ async function reloadAllContent() {
     allNotesObj = content.notes || {};
     allUrlsArr = content.urls || [];
     allUserCodesObj = content.codes || {};
+    allTextsSnippetsObj = content.texts || {};
     setTimeout(() => showPreloader(false), 500);
 
     const { data: imgs, error: imgsError } = await client.storage.from('avatars').list('', { limit: 1000 });

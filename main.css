@@ -250,7 +250,7 @@ body {
 }
 .undo-last-action-block > button:hover {
   background-color: black;
-  color: while;
+  color: white;
 }
 
 @media (hover: none), (max-width: 550px) {

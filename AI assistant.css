@@ -143,6 +143,7 @@
   transition: transform .5s;
   z-index: 100;
   text-align: left;
+  color: white;
 }
 .type-assistant.open { transform: translateY(0); }
 

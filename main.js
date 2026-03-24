@@ -7,6 +7,7 @@ const allBlockLimitsObj = {
   notes: 25,
   urls: 25,
   codes: 25,
+  text: 50,
 }
 // All values limits
 const allValuesLimit = {
@@ -17,6 +18,8 @@ const allValuesLimit = {
   codeName: 25,
   noteName: 50,
   noteDesc: 250,
+  textName: 25,
+  textContent: 1250,
 }
 
 const mls = localStorage.getItem('del-anim-time');
@@ -39,6 +42,8 @@ toggleAllDashboardItemBtn.addEventListener('click', () => {
   openNoteWrapBtn.classList.toggle('unsaved', noteSaveBtn.classList.contains('unsaved'));
   openUrlWrapBtn.classList.toggle('unsaved', urlSaveBtn.classList.contains('unsaved'));
   openCodeWrapBtn.classList.toggle('unsaved', codeSaveBtn.classList.contains('unsaved'));
+
+  if(allDashboardItem.classList.contains('open')) setOpenBtnsTexts();
 })
 
 const tagUseInToggleSidebarBtn = toggleAllDashboardItemBtn.querySelector('use');
@@ -49,6 +54,7 @@ function closeAllWraps() {
   notesWrap.classList.remove('show');
   urlsWrap.classList.remove('show');
   userCodeWrap.classList.remove('show');
+  textsSnippetsWrap.classList.remove('show');
   exchangeRateWrap.classList.remove('show');
   weatherWrap.classList.remove('show');
   timezoneWrap.classList.remove('show');
@@ -71,6 +77,7 @@ function closeAllTypeAssistantWindows() {
   urlsAssistantWindow.classList.remove('open');
   codesAssistantWindow.classList.remove('open');
   codesContentAssistantWindow.classList.remove('open');
+  textSnippetsAssistantWindow.classList.remove('open');
 }
 
 // Mark and render init wrap
@@ -87,7 +94,20 @@ function addUnsavedMarkAndRenderInitWrap() {
   } else if(userCodeWrap.classList.contains('show')) {
     renderUserCodesBlocks();
     codeSaveBtn.classList.add('unsaved');
+  } else if(textsSnippetsWrap.classList.contains('show')) {
+    renderTextsSnippets();
+    textSaveBtn.classList.add('unsaved');
   }
+}
+
+// Replace: htmlSymbols - symbol code; hash html symbols
+function hashHtmlSymbols(content) {
+  return content
+  .replaceAll('&', '&amp;')
+  .replaceAll('<', '&lt;')
+  .replaceAll('>', '&gt;')
+  .replaceAll('"', '&quot;')
+  .replaceAll("'", '&#39;');
 }
 
 // Show fields block
@@ -200,6 +220,9 @@ document.addEventListener('keydown', e => {
     } else if(codesContentAssistantWindow.classList.contains('open') && !e.shiftKey) {
       e.preventDefault();
       sendCodesContentAssistantPromptBtn.click();
+    } else if(textSnippetsAssistantWindow.classList.contains('open') && !e.shiftKey) {
+      e.preventDefault();
+      sendTextSnippetsPromptBtn.click();
     }
 
     else if(addTodoForm.classList.contains('show')) todoAddBtn.click();
@@ -271,6 +294,11 @@ undoLastActionBtn.addEventListener('click', () => {
     codeSaveBtn.classList.toggle('unsaved', lastDataForUndoAction.isSaved);
     renderUserCodesBlocks();
   }
+  else if(type === 'texts') {
+    allTextsSnippetsObj = lastDataForUndoAction.content;
+    textSaveBtn.classList.toggle('unsaved', lastDataForUndoAction.isSaved);
+    renderTextsSnippets();
+  }
   else return;
 
   lastDataForUndoAction = null;
@@ -278,7 +306,7 @@ undoLastActionBtn.addEventListener('click', () => {
 
 function initUndoActionBlock(type, content) {
   lastDataForUndoAction = {type, content: JSON.parse(JSON.stringify(content))};
-  let saveBtn = type === 'todos' ? todoSaveBtn : type === 'notes' ? noteSaveBtn : type === 'urls' ? urlSaveBtn : codeSaveBtn;
+  let saveBtn = type === 'todos' ? todoSaveBtn : type === 'notes' ? noteSaveBtn : type === 'urls' ? urlSaveBtn : type === 'codes' ? codeSaveBtn : textSaveBtn;
   lastDataForUndoAction.isSaved = saveBtn.classList.contains('unsaved');
 
   undoLastActionBlock.classList.add('show');

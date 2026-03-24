@@ -77,8 +77,6 @@ addNotesButton.addEventListener('click', () => {
 
   noteSaveBtn.classList.add('unsaved');
 
-  setOpenBtnsTexts();
-
   // Save change for userActions
   writeToUserActions(`Додано нотатку з назвою ${name}${desc !== 'Description' ? ` та з описом ${desc}` : ''}`);
 })
@@ -108,6 +106,7 @@ confNoteEditChangeBtn.addEventListener('click', () => {
 
   const newName = editNoteNameInput.value.trim();
   if(newName.length > allValuesLimit.noteName) return showResponseFn('Your new name is too long');
+  if(Object.keys(allNotesObj).find(n => n === newName && n !== initEditingNoteName)) return showResponseFn('You already used this name');
   const newDesc = editNoteDescInput.value.trim();
   if(newDesc.length > allValuesLimit.noteDesc) return showResponseFn('Your new description is too long');
 
@@ -131,9 +130,9 @@ confNoteEditChangeBtn.addEventListener('click', () => {
   // Save change for userActions
   writeToUserActions(
     newName !== initEditingNoteName && descBeforeEdit !== newDesc
-    ? `Змінено назву нотатки з ${initEditingNoteName} на ${newName} та опис з ${descBeforeEdit} на ${newDesc}`
-    : newName !== initEditingNoteName ? `Користувач замінив назву нотатки з ${initEditingNoteName} на ${newName}`
-    : `Змінено опис нотатки з назвою ${initEditingNoteName} з ${descBeforeEdit} на ${newDesc}`
+    ? `Змінено назву нотатки з '${initEditingNoteName}' на '${newName}' та опис з '${descBeforeEdit}' на '${newDesc}'`
+    : newName !== initEditingNoteName ? `Користувач замінив назву нотатки з '${initEditingNoteName}' на '${newName}'`
+    : `Змінено опис нотатки з назвою '${initEditingNoteName}' з '${descBeforeEdit}' на '${newDesc}'`
   );
 })
 
@@ -157,7 +156,6 @@ allUserNotesCont.addEventListener('click', e => {
     noteBlock.classList.add('del-anim');
     clearTimeout(delNoteTimer);
     delNoteTimer = setTimeout(renderNotesBlocks, delAnimTime);
-    setOpenBtnsTexts();
 
     // Save change for userActions
     writeToUserActions(`Видалено нотатку з назвою ${noteName}`);
@@ -194,15 +192,14 @@ const notesContentTitle = notesContentWrap.querySelector('h3');
 
 const userNotesText = notesContentWrap.querySelector('.notes-user-content');
 userNotesText.addEventListener('input', () => {
-  const lng = userNotesText.value.replaceAll('\n', '').length;
+  const lng = userNotesText.innerText.replaceAll('\n', '').length;
   notesSymbolsLimitText.style.color = lng > 2000 ? 'red' : 'var(--text-color)';
   notesSymbolsLimitText.textContent = `${lng}/2000`;
 })
 
 /* Render functions */
 function createNoteBlock( name, desc, isFavorite, searchVal ) {
-  let regexp = null;
-  if(searchVal) regexp = new RegExp(searchVal, 'gi');
+  let regexp = !searchVal ? null : new RegExp(hashHtmlSymbols(searchVal), 'gi');
 
   const div = document.createElement('div'),
     h2 = document.createElement('h2'),
@@ -221,8 +218,8 @@ function createNoteBlock( name, desc, isFavorite, searchVal ) {
     h2.textContent = name;
     p.textContent = desc;
   } else {
-    h2.innerHTML = name.replace(regexp, '<mark>$&</mark>');
-    p.innerHTML = desc.replace(regexp, '<mark>$&</mark>');
+    h2.innerHTML = hashHtmlSymbols(name).replace(regexp, '<mark>$&</mark>');
+    p.innerHTML = hashHtmlSymbols(desc).replace(regexp, '<mark>$&</mark>');
   };
 
   btnsCont.classList.add('note-block-btns-cont');
@@ -317,12 +314,12 @@ searchNoteBlocksInput.addEventListener('input', () => {
 // Search note text
 const searchNoteTextInput = notesContentWrap.querySelector('.search-note-text-input');
 searchNoteTextInput.addEventListener('input', () => {
-  const searchText = searchNoteTextInput.value.trim()
+  const searchText = hashHtmlSymbols(searchNoteTextInput.value.trim())
   .replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  if(!searchText) return userNotesText.innerHTML = allNotesObj[notesContentTitle.textContent].txt.replaceAll('\n', '<br>');
+  if(!searchText) return userNotesText.innerHTML = hashHtmlSymbols(allNotesObj[notesContentTitle.textContent].txt).replaceAll('\n', '<br>');
 
   const regex = new RegExp(`(?<!<)${searchText}(?!>)`, "gi");
-  userNotesText.innerHTML = allNotesObj[notesContentTitle.textContent].txt
+  userNotesText.innerHTML = hashHtmlSymbols(allNotesObj[notesContentTitle.textContent].txt)
   .replaceAll('\n', '<br>')
   .replaceAll(regex, match => `<mark>${match}</mark>`);
 
@@ -332,7 +329,7 @@ searchNoteTextInput.addEventListener('input', () => {
 searchNoteTextInput.addEventListener('focus', () => { allNotesObj[notesContentTitle.textContent].txt = userNotesText.innerText; })
 searchNoteTextInput.addEventListener('blur', () => {
   searchNoteTextInput.value = '';
-  userNotesText.innerHTML = allNotesObj[notesContentTitle.textContent].txt
+  userNotesText.innerHTML = hashHtmlSymbols(allNotesObj[notesContentTitle.textContent].txt)
   .replaceAll(/<\/?mark/g, '')
   .replaceAll('\n', '<br>');
 })

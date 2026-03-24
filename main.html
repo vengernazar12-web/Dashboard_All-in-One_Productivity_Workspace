@@ -66,6 +66,7 @@
 <link rel="stylesheet" href="timezone.css">
 <link rel="stylesheet" href="Profile.css">
 <link rel="stylesheet" href="AI assistant.css">
+<link rel="stylesheet" href="texts snippets.css">
 
 <script src="code-snippets-obj.js" async></script>
 <script src="ai response.js" defer></script>
@@ -81,13 +82,15 @@
 <script src="weather.js" defer></script><!--8-->
 <script src="timezone.js" defer></script><!--9-->
 <script src="Profile.js" defer></script><!--10-->
+<script src="texts snippets.js" defer></script><!--11-->
 
 <!-- Assistants -->
-<script src="AI assistant.js" defer></script><!--11-->
+<script src="AI assistant.js" defer></script><!--12-->
 <script src="todos assistant.js" defer></script>
 <script src="notes assistants.js" defer></script>
 <script src="urls assistant.js" defer></script>
 <script src="user codes assistant.js" defer></script>
+<script src="text snippets assistant.js" defer></script>
 
 <script src="sign.js" defer></script><!--max-->
 <link rel="icon" href="/all-imgs/favicon-32x32.png" type="image/png">
@@ -428,6 +431,43 @@
   <progress class="code-progress"></progress>
 </div>
 
+<!-- Text snippets wrap -->
+<div class="texts-snippets-wrap is-wrap">
+  <input type="text" class="search-texts-snippets-input" placeholder="Search blocks...">
+  <button class="save-texts-snippets --saved-btn"><svg><use href="#save"></use></svg></button>
+
+  <div class="all-texts-snippets-container"></div>
+
+  <!-- Add text snippet -->
+   <button class="toggle-add-text-snippet-btn --toggle-form-btn" title="Ctrl + h">✚</button>
+  <div class="add-text-snippet-form">
+    <input type="text" class="add-text-snippet-name-input" placeholder="Name...">
+    <textarea class="add-text-snippet-content-textarea" placeholder="Text..."></textarea>
+    <p class="content-limit-txt"></p>
+    <button class="add-text-snippet-btn">ADD</button>
+  </div>
+
+  <!-- Edit text snippet block -->
+  <div class="edit-text-snippet-block">
+    <label for="name">Name</label>
+    <input class="edit-name-input" id="name" type="text" placeholder="New name..."><br>
+    <label for="content">Content</label>
+    <textarea class="edit-content-textarea" id="content" type="text" placeholder="New content..."></textarea>
+    <p class="content-limit-txt"></p>
+    <button class="confirm-edit-change">OK</button>
+  </div>
+
+  <!-- Text snippets assistant -->
+  <button class="toggle-text-snippets-assistant-window toggle-type-assistant">Assistant</button>
+  <div class="text-snippets-assistant-window type-assistant">
+    <div class="assistant-answer-container"></div>
+    <textarea class="user-prompt-textarea" placeholder="How can I help?..."></textarea>
+    <button class="send-prompt-btn">=></button>
+    <!-- Loader -->
+    <span class="loader assistant-loader"></span>
+  </div>
+</div>
+
 <!-- Exchange rate wrap -->
 <div class="exchange-rate-wrap is-wrap">
   <svg><use href="#dollar"></use></svg>
@@ -561,6 +601,7 @@
   <button class="open-notes-wrap --opened-btn"><p>Your notes</p><p></p></button>
   <button class="open-save-urls-wrap --opened-btn"><p>Your urls</p><p></p></button>
   <button class="open-user-code-wrap --opened-btn"><p>Your code</p><p></p></button>
+  <button class="open-texts-snippets-wrap --opened-btn">Your texts<p></p></button>
   <h3>Services</h3>
   <button class="open-exchange-rate-wrap --opened-btn">Exchange rate</button>
   <button class="open-weather-wrap --opened-btn">Weather</button>
@@ -685,7 +726,7 @@
   <p>Loading your content. Please wait...</p>
   <img src="/all-imgs/dashboard-favicon-img.svg" alt="Smile img" >
   <!-- Progress max = all scripts -->
-  <progress class="preloader-progress" max="12"></progress>
+  <progress class="preloader-progress" max="13"></progress>
   <p class="what-is-loading-text">Loading...</p>
 
   <span class="loader"></span>
@@ -707,7 +748,7 @@
 
 <!-- Svg icons -->
 <svg xmlns="http://www.w3.org/2000/svg" display='none'>
-  <symbol id='copy-code' viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <symbol id='copy-code' viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
     <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
   </symbol>

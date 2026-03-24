@@ -68,7 +68,7 @@ function createCodeBlock(name) {
     }, 200);
 
     const code = cm.getValue();
-    const lng = code.replaceAll(" ", "").replaceAll("\n", "").length;
+    const lng = code.replace(/\s/g, "").length;
 
     codeSymbolsLimit.textContent = `${lng}/1500`;
     codeSymbolsLimit.style.color = lng > 1500 ? 'red' : 'white';
@@ -96,11 +96,11 @@ function createCodeBlock(name) {
   button_copyCode.innerHTML = '<svg><use href="#copy-code"></use></svg>';
 
   button_deleteCode.classList.add('delete-code-btn');
-  button_deleteCode.innerHTML = '<svg> <use href="#delete-code"></use> </svg>';
+  button_deleteCode.innerHTML = '<svg><use href="#delete-code"></use></svg>';
   button_deleteCode.setAttribute('title', 'delete');
 
   codeSymbolsLimit.classList.add('code-symbols-limit');
-  codeSymbolsLimit.textContent = `${editor.getValue().replaceAll(' ','').replaceAll('\n','').length}/1500`;
+  codeSymbolsLimit.textContent = `${editor.getValue().replace(/\s/g,'').length}/1500`;
 
   focusCodeBtn.classList.add('focus-code-btn');
   focusCodeBtn.innerHTML = '<svg><use href="#focus"></use></svg>';
@@ -164,8 +164,6 @@ addCodeBlockBtn.addEventListener('click', () => {
 
   codeSaveBtn.classList.add('unsaved');
 
-  setOpenBtnsTexts();
-
   // Save change for userActions
   writeToUserActions(`Додано блок коду з назвою ${name} та з мовою ${lang}`);
 })
@@ -173,8 +171,7 @@ addCodeBlockBtn.addEventListener('click', () => {
 // Search user code
 const searchUserCodeInput = userCodeWrap.querySelector('.search-code-input');
 searchUserCodeInput.addEventListener('input', () => {
-  const txt = searchUserCodeInput.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').trim();
-  const matchRegexp = new RegExp(txt, 'i');
+  const txt = hashHtmlSymbols(searchUserCodeInput.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').trim());
   const markRegexp = new RegExp(txt, 'gi');
 
   const allChildren = allUserCodesContainer.children;
@@ -193,10 +190,10 @@ searchUserCodeInput.addEventListener('input', () => {
 
   for(let block of allChildren) {
     block.style.display = 'none';
-    const name = block.firstElementChild.textContent;
+    const name = hashHtmlSymbols(block.firstElementChild.textContent);
     if(
-      name.match(matchRegexp)
-      || String(allUserCodesObj[name].code.replaceAll(' ','').replaceAll('\n','').length).includes(txt)
+      name.match(markRegexp)
+      || String(allUserCodesObj[name].code.replace(/\s/g,'').length).includes(txt)
     ) {
       block.style.display = 'block';
       block.firstElementChild.innerHTML = name.replace(markRegexp, '<mark>$&</mark>');
@@ -274,7 +271,6 @@ focusWrap.addEventListener('click', e => {
     showResponseFn(`Block been deleted`)
     focusWrap.classList.remove('show');
     codeSaveBtn.classList.add('unsaved');
-    setOpenBtnsTexts();
   }
   // Toggle codes content assistant(focus)
   else if(initTarget.classList.contains('toggle-codes-content-assistant-window')) codesContentAssistantWindow.classList.toggle('open');
@@ -301,7 +297,6 @@ allUserCodesContainer.addEventListener('click', e => {
 
     clearTimeout(deleteTimer);
     deleteTimer = setTimeout(() => renderUserCodesBlocks(), delAnimTime);
-    setOpenBtnsTexts();
 
     // Save change for userActions
     writeToUserActions(`Видалено блок коду з назвою ${name}`);

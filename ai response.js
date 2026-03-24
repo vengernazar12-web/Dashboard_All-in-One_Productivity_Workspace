@@ -203,6 +203,33 @@ async function getCodesContentAssistantResp() {
   }
 }
 
+// Get text snippets assistant resp
+async function getTextsSnippetsAssistantResp() {
+  try {
+    textSnippetsAssistantLoader.style.display = 'block';
+    sendTextSnippetsPromptBtn.disabled = true;
+    const resp = await fetch('https://text-snippets-assistant.vengernazar0.workers.dev', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json',},
+      body: JSON.stringify({
+        history: historyForTextSnippetsAssistant,
+        textsMeta: Object.keys(allTextsSnippetsObj).map(n => `name: ${n}, length: ${allTextsSnippetsObj[n].txt.length}`).join('\n') || 'У користувача ще немає текстових шаблонів...',
+        maxBlocks: allBlockLimitsObj.text,
+        maxNameLng: allValuesLimit.textName,
+        maxContentLng: allValuesLimit.textContent,
+      })
+    })
+    const data = await resp.text();
+    textSnippetsAssistantLoader.style.display = 'none';
+    sendTextSnippetsPromptBtn.disabled = false;
+    return data;
+  } catch(e) {
+    console.error(e);
+    textSnippetsAssistantLoader.style.display = 'none';
+    sendTextSnippetsPromptBtn.disabled = false;
+  }
+}
+
 // Give info for ai
 function giveInfoForAi(aiGetter) {
   if(aiGetter.replace(/[^a-z]/ig, '') === 'limits') return `[Відповідь системи на вашу команду get: ?get| limits]:
@@ -211,11 +238,13 @@ function giveInfoForAi(aiGetter) {
 - Notes ${allBlockLimitsObj.notes} (used ${Object.keys(allNotesObj).length})
 - Urls ${allBlockLimitsObj.urls} (used ${allUrlsArr.length})
 - Code snippets ${allBlockLimitsObj.codes} (used ${Object.keys(allUserCodesObj).length})
+- Text blocks ${allBlockLimitsObj.text} (user ${Object.keys(allTextsSnippetsObj).length})
 Ліміти на поля:
 - Туду - назва: ${allValuesLimit.todoName}, марк: ${allValuesLimit.todoMark}, тег: ${allValuesLimit.todoTag}
 - Нотатки - назва: ${allValuesLimit.noteName}, опис: ${allValuesLimit.noteDesc}, контент: 2000 символів
 - Посилання - назва(титул): ${allValuesLimit.urlTitle}
 - Коди - назва: ${allValuesLimit.codeName}, контент: 1500(без урахування пробілів)
+- Текст-блоки - назва: ${allValuesLimit.textName}, контент: ${allValuesLimit.textContent}
 `;
   else if(aiGetter.replace(/[^a-z]/ig, '') === 'settings') return `[Відповідь системи на вашу команду get: ?get| settings]:
 ━━━━━━━━ SETTINGS ━━━━━━━━
@@ -308,10 +337,11 @@ function setContent(type, name, content) {
       }
       else if(type === 'notes') { allNotesObj[content.name] = { description: content.desc, txt: content.txt || '', isFav: !!content.isFavorite }; }
       else if(type === 'codes') { allUserCodesObj[content.name] = { code: content.code || '', lang: content.language }; }
+      else if(type === 'texts') { allTextsSnippetsObj[content.name] = { txt: content.content, isFav: content.isFavorite }; }
     }
 
     else if(!Object.keys(content).length) { // Delete
-      const targetObj = type === 'todos' ? allTodosObj : type === 'notes' ? allNotesObj : allUserCodesObj;
+      const targetObj = type === 'todos' ? allTodosObj : type === 'notes' ? allNotesObj : type === 'codes' ? allUserCodesObj : allTextsSnippetsObj;
       delete targetObj[name];
     }
 
@@ -351,6 +381,15 @@ function setContent(type, name, content) {
           const initCode = allUserCodesObj[name];
           delete allUserCodesObj[name];
           allUserCodesObj[content.name] = initCode;
+        }
+      }
+      else if(type === 'texts') {
+        if('content' in content) allTextsSnippetsObj[name].txt = content.content;
+        if('isFavorite' in content) allTextsSnippetsObj[name].isFav = content.isFavorite;
+        if('name' in content) {
+          const obj = allTextsSnippetsObj[name];
+          delete allTextsSnippetsObj[name];
+          allTextsSnippetsObj[content.name] = obj;
         }
       }
     }

@@ -1,0 +1,197 @@
+.search-texts-snippets-input {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: calc(100% - 45px);
+}
+
+.toggle-add-text-snippet-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+}
+
+.save-texts-snippets {
+  position: absolute;
+  top: 40px;
+  right: 5px;
+  border-radius: 5px;
+  padding: 4px;
+}
+
+/* Add text snippet */
+.add-text-snippet-form {
+  position: fixed;
+  top: 12vh;
+  left: 10%;
+  width: calc(80% + 32px);
+  height: max-content;
+  background: var(--block-bg);
+  padding: 5px;
+  border-radius: 15px;
+  border: 2px solid var(--border-color);
+  text-align: right;
+  display: none;
+}
+.add-text-snippet-name-input {
+  width: 100%;
+  margin-bottom: 5px;
+}
+.add-text-snippet-content-textarea {
+  resize: none;
+  width: 100%;
+  padding: 5px;
+  border-radius: 7px;
+  border: 1px solid var(--border-color);
+  background: var(--block-bg);
+  color: var(--text-color);
+  min-height: 45px;
+  max-height: 75vh;
+  overflow-y: auto;
+}
+.add-text-snippet-content-textarea::placeholder { color: var(--text-color); }
+
+.add-text-snippet-btn {
+  margin: 5px;
+  color: var(--border-color);
+  border: 1px solid var(--border-color);
+  padding: 3px;
+  border-radius: 5px;
+}
+.add-text-snippet-btn:hover {
+  background-color: black;
+  color: white;
+}
+
+.add-text-snippet-form > .content-limit-txt {
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+}
+
+/* Texts container */
+.all-texts-snippets-container {
+  position: absolute;
+  top: 85px;
+  left: 0;
+  width: 100%;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.text-block {
+  background: var(--block-bg);
+  color: var(--text-color);
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  padding: 5px;
+  height: max-content;
+  position: relative;
+}
+.text-block * { user-select: text; }
+.text-block > h4 {
+  position: absolute;
+  top: -17px;
+  left: 5px;
+  font-size: 15px;
+}
+.text-block > div {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  box-shadow: 2px 2px black;
+  margin: 7px 0;
+}
+.text-block svg { color: var(--text-color); }
+.text-block > pre {
+  max-height: 40vh;
+  overflow-y: auto;
+  border-top: 1px solid var(--border-color);
+  width: 100%;
+  word-wrap: break-word;
+  text-wrap: wrap;
+  padding-top: 5px;
+  font-size: 14px;
+}
+
+/* Edit text snippet */
+.edit-text-snippet-block {
+  display: none;
+  position: fixed;
+  top: 12vh;
+  left: calc(10% + 32px);
+  width: calc(80% - 32px);
+  background: var(--block-bg);
+  color: var(--text-color);
+  border-radius: 10px;
+  border: 2px solid var(--border-color);
+  padding: 5px;
+}
+.edit-text-snippet-block > input {
+  width: 100%;
+  margin-bottom: 10px;
+}
+.edit-text-snippet-block > textarea {
+  resize: none;
+  background: var(--block-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  width: 100%;
+  min-height: 45px;
+  max-height: 50vh;
+  color: var(--text-color);
+  padding: 3px;
+  overflow-y: auto;
+}
+.edit-text-snippet-block > textarea::placeholder { color: var(--text-color); }
+
+.edit-text-snippet-block > button {
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  padding: 2px;
+}
+.edit-text-snippet-block > button:hover {
+  background-color: black;
+  color: white;
+}
+
+.edit-text-snippet-block > .content-limit-txt {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+}
+
+/* Text tags */
+.text-red, .text-blue, .text-yellow, .text-green, .text-mark { font-weight: 700 }
+.text-red { color: red; }
+.text-blue { color: blue; }
+.text-yellow { color: yellow; }
+.text-green { color: greenyellow; }
+.text-mark {
+  background-color: orange;
+  color: blue;
+  border-radius: 5px;
+  border: 1px solid var(--border-color);
+  margin: 2px;
+}
+.text-code {
+  background-color: rgb(42, 42, 42);
+  color: white;
+  font-size: 11px;
+  border-radius: 5px;
+  padding: 3px;
+  white-space: pre-wrap;
+}
+
+/* Toggle assistant */
+.toggle-text-snippets-assistant-window {
+  position: absolute;
+  top: 40px;
+  left: 5px;
+}

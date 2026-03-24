@@ -149,4 +149,4 @@ memoryForAiWindow.querySelector('.save-memory-for-ai')
 })
 
 // Set preloader value
-preloaderProgress.value = 11;
+preloaderProgress.value = 12;

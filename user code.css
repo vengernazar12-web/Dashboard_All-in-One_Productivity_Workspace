@@ -24,11 +24,11 @@
   left: 5%;
   width: 90%;
   height: 25%;
-  background-color: rgb(175, 175, 175);
-  color: black;
+  background: var(--block-bg);
+  color: var(--text-color);
   text-align: center;
   border-radius: 8px;
-  border: 1px solid rgb(0, 255, 0);
+  border: 1px solid var(--border-color);
   padding: 5px;
   display: none;
 }
@@ -46,6 +46,7 @@
   bottom: 5px;
   right: 5px;
   font-size: 1.3rem;
+  color: var(--text-color);
 }
 .add-code-block-btn:hover { color: rgb(92, 92, 92); }
 
@@ -70,6 +71,7 @@
   text-wrap: wrap;
   font-size: 1.1rem;
 }
+.user-code-block svg { color: white; }
 .code-lang-text {
   position: absolute;
   top: 45px;

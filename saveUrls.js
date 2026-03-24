@@ -37,7 +37,7 @@ const urlBlocksLimitText = urlsWrap.querySelector('.url-blocks-limit');
 // Render urls blocks
 function createUrlElement(name, url, imgUrl, searchVal, isFavorite) {
   url = url.startsWith('http') ? url : `https://${url}`;
-  let markRegexp = new RegExp(searchVal, 'gi');
+  let markRegexp = !searchVal ? null : new RegExp(hashHtmlSymbols(searchVal), 'gi');
 
   const div = document.createElement('div');
   div.dataset.name = name;
@@ -45,7 +45,7 @@ function createUrlElement(name, url, imgUrl, searchVal, isFavorite) {
 
   const p = document.createElement('p');
   if(!searchVal) p.textContent = url;
-  else p.innerHTML = url.replace(markRegexp, '<mark>$&</mark>');
+  else p.innerHTML = hashHtmlSymbols(url).replace(markRegexp, '<mark>$&</mark>');
 
   const delBtn = document.createElement('button');
   delBtn.classList.add('del-url-btn');
@@ -59,7 +59,7 @@ function createUrlElement(name, url, imgUrl, searchVal, isFavorite) {
 
   const a = document.createElement('a');
   if(!searchVal) a.textContent = name;
-  else a.innerHTML = name.replace(markRegexp, '<mark>$&</mark>');
+  else a.innerHTML = hashHtmlSymbols(name).replace(markRegexp, '<mark>$&</mark>');
   a.href = url;
   a.setAttribute('target', '_blank');
 
@@ -166,7 +166,6 @@ addUrlBtn.addEventListener('click', async () => {
   nameUrlInput.value = '';
   openedUrlInput.value = '';
   imageUrlInput.value = '';
-  setOpenBtnsTexts();
 
   // Save change for userActions
   writeToUserActions(`Додано урл блок з назвою ${title} та з посиланням ${url}`);
@@ -318,8 +317,6 @@ allUrlsContainer.addEventListener('click', e => {
     allUrlsArr = allUrlsArr.filter(obj => obj.title !== delUrlName);
 
     urlSaveBtn.classList.add('unsaved');
-
-    setOpenBtnsTexts();
 
     if(localStorage.getItem('disabled-anim') === 'true') return renderAllUrls();
 

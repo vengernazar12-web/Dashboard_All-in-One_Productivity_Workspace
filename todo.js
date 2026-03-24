@@ -59,8 +59,7 @@ function createTodoTagBlock(name) {
 }
 
 function createTodoElement(name, searchVal, isFavorite) {
-  let markRegexp = null;
-  if(searchVal) markRegexp = new RegExp(searchVal, 'ig');
+  let markRegexp = !searchVal ? null : new RegExp(hashHtmlSymbols(searchVal), 'ig');
 
   const div = document.createElement('div'),
     h2 = document.createElement('h2'),
@@ -105,7 +104,7 @@ function createTodoElement(name, searchVal, isFavorite) {
   btnEditTodo.innerHTML = '<svg><use href="#edit"></use></svg>';
 
   if(!searchVal) h2.textContent = name;
-  else h2.innerHTML = name.replace(markRegexp, '<mark>$&</mark>');
+  else h2.innerHTML = hashHtmlSymbols(name).replace(markRegexp, '<mark>$&</mark>');
 
   if(!searchVal) p.textContent = allTodosObj[name].date;
   else p.innerHTML = allTodosObj[name].date.replace(markRegexp, '<mark>$&</mark>');
@@ -120,7 +119,7 @@ function createTodoElement(name, searchVal, isFavorite) {
   // Set mark text and append mark
   if(allTodosObj[name].mark) {
     if(!searchVal) mark.textContent = allTodosObj[name].mark;
-    else mark.innerHTML = allTodosObj[name].mark.replace(markRegexp, '<mark>$&</mark>');
+    else mark.innerHTML = hashHtmlSymbols(allTodosObj[name].mark).replace(markRegexp, '<mark>$&</mark>');
 
     mark.classList.add('todo-mark');
     div.appendChild(mark);
@@ -469,7 +468,6 @@ todoWrap.addEventListener('click', e => {
 
     renderTodos();
     todoTxtLength.textContent = '0/25';
-    setOpenBtnsTexts();
     addTodoForm.classList.remove('show');
 
     // Save change for userActions
@@ -495,7 +493,6 @@ todoWrap.addEventListener('click', e => {
     todoBlock.classList.add('del-anim');
     clearTimeout(delTodoTimer);
     delTodoTimer = setTimeout(renderTodos, delAnimTime);
-    setOpenBtnsTexts();
 
     // Save change for userActions
     writeToUserActions(`Видалено туду з назвою ${todoName}`);
