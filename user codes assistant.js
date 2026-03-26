@@ -18,16 +18,18 @@ codesAssistantPromptTextarea.addEventListener('input', () => {
   codesAssistantPromptTextarea.style.height = `${codesAssistantPromptTextarea.scrollHeight + 3}px`;
 
   sendCodesAssistantPromptBtn.style.border = `1px solid ${codesAssistantPromptTextarea.value.trim().length > 1000 ? 'red' : 'silver'}`;
+  sendCodesAssistantPromptBtn.textContent = codesAssistantPromptTextarea.value.trim() ? '=>' : '🗣';
 })
 
 const sendCodesAssistantPromptBtn = codesAssistantWindow.querySelector('.send-prompt-btn');
 sendCodesAssistantPromptBtn.addEventListener('click', async () => {
   const userTxt = codesAssistantPromptTextarea.value.trim();
-  if(!userTxt.length) return showResponseFn('Nothing to send');
+  if(!userTxt.length) return initSpeakWindow(codesAssistantPromptTextarea);
   if(userTxt.length > 1000) return showResponseFn('Your question is too long (more than 1000 characters)');
 
   codesAssistantPromptTextarea.value = '';
   codesAssistantPromptTextarea.style.height = '30px';
+  sendCodesAssistantPromptBtn.textContent = '🗣';
 
   // Create user text
   const div = document.createElement('div'),
@@ -121,16 +123,18 @@ codesContentAssistantPromptTextarea.addEventListener('input', () => {
   codesContentAssistantPromptTextarea.style.height = `${codesContentAssistantPromptTextarea.scrollHeight + 3}px`;
 
   sendCodesContentAssistantPromptBtn.style.border = `1px solid ${codesContentAssistantPromptTextarea.value.trim().length > 1000 ? 'red' : 'silver'}`;
+  sendCodesContentAssistantPromptBtn.textContent = codesContentAssistantPromptTextarea.value.trim() ? '=>' : '🗣';
 })
 
 const sendCodesContentAssistantPromptBtn = codesContentAssistantWindow.querySelector('.send-prompt-btn');
 sendCodesContentAssistantPromptBtn.addEventListener('click', async () => {
   const userTxt = codesContentAssistantPromptTextarea.value.trim();
-  if(!userTxt.length) return showResponseFn('Nothing to send');
+  if(!userTxt.length) return initSpeakWindow(codesContentAssistantPromptTextarea);
   if(userTxt.length > 1000) return showResponseFn('Your question is too long (more than 1000 characters)');
 
   codesContentAssistantPromptTextarea.value = '';
   codesContentAssistantPromptTextarea.style.height = '30px';
+  sendCodesContentAssistantPromptBtn.textContent = '🗣';
 
   // Create user text
   const div = document.createElement('div'),

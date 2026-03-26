@@ -45,11 +45,7 @@ userPromptTextarea.addEventListener('input', () => {
 const sendPromptBtn = assistantWrap.querySelector('.send-prompt-btn');
 sendPromptBtn.addEventListener('click', async () => {
   const userTxt = userPromptTextarea.value.trim();
-  if(!userTxt) {
-    initVoiceTextarea = userPromptTextarea;
-    speakWindow.classList.add('show');
-    return recognition.start();
-  }
+  if(!userTxt) return initSpeakWindow(userPromptTextarea);
   if(userTxt.length > 1000) return showResponseFn('Your question is too long (more than 1000 characters)');
 
   // Generate user text

@@ -17,6 +17,8 @@ function initSettingsForOpen() {
   else confBefDelBtn.textContent = '✖️';
   noteFontSizeSettInput.value = localStorage.getItem('notes-font-size') || 1.2;
 
+  selectMicLang.value = localStorage.getItem('mic-lang') || 'en-US';
+
   settingsWindow.classList.add('show');
 }
 const profileWrap = document.querySelector('.user-profile-wrap');
@@ -418,6 +420,14 @@ confBefDelBtn.addEventListener('click', e => {
   if(isConfirm) e.target.textContent = '✖️';
   else e.target.textContent = '✔️';
   localStorage.setItem('conf-before-delete', !isConfirm);
+})
+
+// Microphone language
+const selectMicLang = settingsWindow.querySelector('.select-mic-lang');
+selectMicLang.addEventListener('change', () => {
+  const val = selectMicLang.value;
+  localStorage.setItem('mic-lang', val);
+  currentMicLang = val;
 })
 
 // Set preloader value

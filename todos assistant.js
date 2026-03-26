@@ -18,17 +18,19 @@ userTodosAssistantPromptTextarea.addEventListener('input', () => {
   userTodosAssistantPromptTextarea.style.height = `${userTodosAssistantPromptTextarea.scrollHeight + 3}px`;
 
   sendTodosAssistantPromptBtn.style.border = `1px solid ${userTodosAssistantPromptTextarea.value.trim().length > 1000 ? 'red' : 'silver'}`
+  sendTodosAssistantPromptBtn.textContent = userTodosAssistantPromptTextarea.value.trim() ? '=>' : '🗣';
 })
 
 // Send prompt
 const sendTodosAssistantPromptBtn = todosAssistantWindow.querySelector('.send-prompt-btn');
 sendTodosAssistantPromptBtn.addEventListener('click', async () => {
   const userTxt = userTodosAssistantPromptTextarea.value.trim();
-  if(!userTxt.length) return showResponseFn('Nothing to send');
+  if(!userTxt.length) return initSpeakWindow(userTodosAssistantPromptTextarea);
   if(userTxt.length > 1000) return showResponseFn('Your question is too long (more than 1000 characters)');
 
   userTodosAssistantPromptTextarea.value = '';
   userTodosAssistantPromptTextarea.style.height = '30px';
+  sendTodosAssistantPromptBtn.textContent = '🗣';
 
   // Create user text
   const div = document.createElement('div'),

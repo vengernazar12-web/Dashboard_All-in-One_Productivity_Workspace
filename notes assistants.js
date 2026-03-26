@@ -19,16 +19,18 @@ notesAssistantTextarea.addEventListener('input', () => {
   notesAssistantTextarea.style.height = `${notesAssistantTextarea.scrollHeight + 3}px`;
 
   sendNotesPromptBtn.style.border = `1px solid ${notesAssistantTextarea.value.trim().length > 1000 ? 'red' : 'silver'}`;
+  sendNotesPromptBtn.textContent = notesAssistantTextarea.value.trim() ? '=>' : '🗣';
 })
 
 const sendNotesPromptBtn = notesAssistantWindow.querySelector('.send-prompt-btn');
 sendNotesPromptBtn.addEventListener('click', async () => {
   const userTxt = notesAssistantTextarea.value.trim();
-  if(!userTxt.length) return showResponseFn('Nothing to send');
+  if(!userTxt) return initSpeakWindow(notesAssistantTextarea);
   if(userTxt.length > 1000) return showResponseFn('Your question is too long(more than 1000 characters)');
 
   notesAssistantTextarea.value = '';
   notesAssistantTextarea.style.height = '30px';
+  sendNotesPromptBtn.textContent = '🗣';
 
   // Create user text
   const div = document.createElement('div'),
@@ -126,16 +128,18 @@ notesContentAssistantTextarea.addEventListener('input', () => {
   notesContentAssistantTextarea.style.height = `${notesContentAssistantTextarea.scrollHeight + 3}px`;
 
   sendNotesContentPromptBtn.style.border = `1px solid ${notesContentAssistantTextarea.value.trim().length > 1000 ? 'red' : 'silver'}`;
+  sendNotesContentPromptBtn.textContent = notesContentAssistantTextarea.value.trim() ? '=>' : '🗣';
 })
 
 const sendNotesContentPromptBtn = notesContentAssistantWindow.querySelector('.send-prompt-btn');
 sendNotesContentPromptBtn.addEventListener('click', async () => {
   const userTxt = notesContentAssistantTextarea.value.trim();
-  if(!userTxt) return showResponseFn('Nothing to send');
+  if(!userTxt) return initSpeakWindow(notesContentAssistantTextarea);
   if(userTxt.length > 1000) return showResponseFn('Your question is too long(more than 1000 characters)');
 
   notesContentAssistantTextarea.value = '';
   notesContentAssistantTextarea.style.height = '30px';
+  sendNotesContentPromptBtn.textContent = '🗣';
 
   // Create user text
   const div = document.createElement('div'),

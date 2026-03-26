@@ -324,15 +324,15 @@ function showResponseFn(text) {
 
 // Speaker, voice eventListeners
 let initVoiceTextarea = null;
+let currentMicLang = localStorage.getItem('mic-lang') || 'en-US';
 
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 const recognition = new SpeechRecognition();
-recognition.lang = 'uk-UA';
 recognition.interimResults = false;
 
 recognition.onresult = (event) => {
   const text = event.results[0][0].transcript;
-  initVoiceInput.value = text;
+  initVoiceTextarea.value = text;
 };
 recognition.onend = () => speakWindow.classList.remove('show');
 recognition.onerror = (event) => {
@@ -341,6 +341,12 @@ recognition.onerror = (event) => {
 };
 
 const speakWindow = document.querySelector('.speak-window');
+function initSpeakWindow(textarea) {
+  recognition.lang = currentMicLang;
+  initVoiceTextarea = textarea;
+  speakWindow.classList.add('show');
+  recognition.start();
+}
 
 // Set preloader value
 preloaderProgress.value = 1;
