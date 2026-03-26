@@ -51,7 +51,6 @@ sendNotesPromptBtn.addEventListener('click', async () => {
   const setCommand = (aiResp.match(/\?set\|.+\|set\?/s) || '')[0];
   if(setCommand) {
     try {
-      aiResp = aiResp.replace(setCommand, '• Done');
       let setCommandArr = JSON.parse(setCommand.replace(/\?set\||\|set\?/g, ''));
       if(!Array.isArray(setCommandArr)) setCommandArr = [setCommandArr];
       initUndoActionBlock('notes', allNotesObj);
@@ -87,7 +86,7 @@ function createNotesAssistantText(txt) {
   notesAssistantAnswerContainer.appendChild(div);
 
   initNotesTypingEl = pre;
-  initNotesTypingTxt = txt;
+  initNotesTypingTxt = txt.replace(/\?set\|.+\|set\?/s, '• Done');
   const txtLng = initNotesTypingTxt.length;
 
   historyForNotesAssistant.push({role: 'assistant', content: txt});

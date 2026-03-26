@@ -50,7 +50,6 @@ sendCodesAssistantPromptBtn.addEventListener('click', async () => {
   const setCommand = (aiResp.match(/\?set\|.+\|set\?/s) || '')[0];
   if(setCommand) {
     try {
-      aiResp = aiResp.replace(setCommand, '• Done');
       let setCommandArr = JSON.parse(setCommand.replace(/\?set\||\|set\?/g, ''));
       if(!Array.isArray(setCommandArr)) setCommandArr = [setCommandArr];
       initUndoActionBlock('codes', allUserCodesObj);
@@ -85,7 +84,7 @@ function createCodesAssistantResp(txt) {
   codesAssistantAnswerContainer.appendChild(div);
 
   initCodesAssistantTypingEl = pre;
-  initCodesAssistantTypingTxt = txt;
+  initCodesAssistantTypingTxt = txt.replace(/\?set\|.+\|set\?/s, '• Done');
   const txtLng = initCodesAssistantTypingTxt.length;
 
   historyForCodesAssistant.push({role: 'assistant', content: txt});

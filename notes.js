@@ -47,12 +47,12 @@ const addNotesForm = notesWrap.querySelector('.add-notes-inputs');
 
 const addNoteInputName = addNotesForm.querySelector('.note-name-input');
 addNoteInputName.addEventListener('input', () => {
-  addNoteInputName.style.color = addNoteInputName.value.trim().length > allValuesLimit.noteName ? 'red' : 'white';
+  addNoteInputName.style.color = addNoteInputName.value.trim().length > allValuesLimit.noteName ? 'red' : 'var(--text-color)';
   renderShowFieldsBlock(Object.keys(allNotesObj), addNoteInputName.value.trim(), addNoteInputName);
 });
 
 const addNoteInputDescription = addNotesForm.querySelector('.note-description-input');
-addNoteInputDescription.addEventListener('input', () => addNoteInputDescription.style.color = addNoteInputDescription.value.trim().length > allValuesLimit.noteDesc ? 'red' : 'white');
+addNoteInputDescription.addEventListener('input', () => addNoteInputDescription.style.color = addNoteInputDescription.value.trim().length > allValuesLimit.noteDesc ? 'red' : 'var(--text-color)');
 
 const addNotesButton = addNotesForm.querySelector('.add-note-button');
 addNotesButton.addEventListener('click', () => {

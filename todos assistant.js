@@ -51,7 +51,6 @@ sendTodosAssistantPromptBtn.addEventListener('click', async () => {
   const setCommand = (aiResp.match(/\?set\|.+\|set\?/s) || '')[0];
   if(setCommand) {
     try {
-      aiResp = aiResp.replace(setCommand, '• Done');
       let setCommandArr = JSON.parse(setCommand.replace(/\?set\||\|set\?/g, ''));
       if(!Array.isArray(setCommandArr)) setCommandArr = [setCommandArr];
       initUndoActionBlock('todos', allTodosObj);
@@ -87,7 +86,7 @@ function createTodosAssistantResponse(txt) {
   todosAssistantAnswerCont.appendChild(div);
 
   todosTypingElement = pre;
-  todosTypingText = txt;
+  todosTypingText = txt.replace(/\?set\|.+\|set\?/s, '• Done');
   const initTypingTextLng = todosTypingText.length;
 
   historyForTodosAssistant.push({role: 'assistant', content: txt});

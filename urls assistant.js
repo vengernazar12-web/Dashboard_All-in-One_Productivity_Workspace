@@ -50,7 +50,6 @@ sendUrlsAssistantPrompt.addEventListener('click', async () => {
   const setCommand = (aiResp.match(/\?set\|.+\|set\?/s) || '')[0];
   if(setCommand) {
     try {
-      aiResp = aiResp.replace(setCommand, '• Done');
       let setCommandArr = JSON.parse(setCommand.replace(/\?set\||\|set\?/g, ''));
       if(!Array.isArray(setCommandArr)) setCommandArr = [setCommandArr];
       initUndoActionBlock('urls', allUrlsArr);
@@ -85,7 +84,7 @@ function createUrlsAssistantResponse(txt) {
   urlsAssistantAnswerContainer.appendChild(div);
 
   initUrlsAssistantTypingEl = pre;
-  initUrlsAssistantTypingTxt = txt;
+  initUrlsAssistantTypingTxt = txt.replace(/\?set\|.+\|set\?/s, '• Done');
   const txtLng = initUrlsAssistantTypingTxt.length;
 
   historyForUrlsAssistant.push({role: 'assistant', content: txt});

@@ -236,11 +236,13 @@ wrapBlocksContainer.addEventListener('click', e => {
     else if(type === 'notes') openNoteWrapBtn.click();
     else if(type === 'urls') openUrlWrapBtn.click();
     else if(type === 'codes') openCodeWrapBtn.click();
+    else if(type === 'texts') openTextsSnippetsWrap.click();
 
     const targetContainer = type === 'todos'
     ? todosContainer : type === 'notes'
     ? allUserNotesCont : type === 'urls'
-    ? allUrlsContainer : allUserCodesContainer;
+    ? allUrlsContainer : type === 'codes'
+    ? allUserCodesContainer : allTextsSnippetsContainer;
 
     const targetBlock = targetContainer.querySelector(`[data-name="${name}"]`);
     targetBlock.scrollIntoView({
@@ -258,18 +260,21 @@ function renderProfileWrapBlocksInfo() {
   : val === 'notes' ? Object.keys(allNotesObj).map(n => {return {name: n, type: 'notes'}})
   : val === 'urls' ? allUrlsArr.map(o => {return {name: o.title, type: 'urls'}})
   : val === 'codes' ? Object.keys(allUserCodesObj).map(n => {return {name: n, type: 'codes'}})
+  : val === 'texts' ? Object.keys(allTextsSnippetsObj).map(n => {return {name: n, type: 'texts'}})
   : [
     ...Object.keys(allTodosObj).map(n => {return {name: n, type: 'todo'}}),
     ...Object.keys(allNotesObj).map(n => {return {name: n, type: 'notes'}}),
     ...allUrlsArr.map(o => {return {name: o.title, type: 'urls'}}),
-    ...Object.keys(allUserCodesObj).map(n => {return {name: n, type: 'codes'}})
+    ...Object.keys(allUserCodesObj).map(n => {return {name: n, type: 'codes'}}),
+    ...Object.keys(allTextsSnippetsObj).map(n => {return {name: n, type: 'texts'}})
   ];
 
   const maxLimit = val === 'todos' ? allBlockLimitsObj.todos
   : val === 'notes' ? allBlockLimitsObj.notes
   : val === 'urls' ? allBlockLimitsObj.urls
   : val === 'codes' ? allBlockLimitsObj.codes
-  : allBlockLimitsObj.todos + allBlockLimitsObj.notes + allBlockLimitsObj.urls + allBlockLimitsObj.codes;
+  : val === 'texts' ? allBlockLimitsObj.text
+  : allBlockLimitsObj.todos + allBlockLimitsObj.notes + allBlockLimitsObj.urls + allBlockLimitsObj.codes + allBlockLimitsObj.text;
 
   wrapBlocksContainer.textContent = '';
   const frag = document.createDocumentFragment();
@@ -310,18 +315,21 @@ function renderProfileFoundWrapBlocksInfo(txt) {
   : val === 'notes' ? Object.keys(allNotesObj).map(n => {return {name: n, type: 'notes'}})
   : val === 'urls' ? allUrlsArr.map(o => {return {name: o.title, type: 'urls'}})
   : val === 'codes' ? Object.keys(allUserCodesObj).map(n => {return {name: n, type: 'codes'}})
+  : val === 'texts' ? Object.keys(allTextsSnippetsObj).map(n => {return {name: n, type: 'texts'}})
   : [
     ...Object.keys(allTodosObj).map(n => {return {name: n, type: 'todo'}}),
     ...Object.keys(allNotesObj).map(n => {return {name: n, type: 'notes'}}),
     ...allUrlsArr.map(o => {return {name: o.title, type: 'urls'}}),
-    ...Object.keys(allUserCodesObj).map(n => {return {name: n, type: 'codes'}})
+    ...Object.keys(allUserCodesObj).map(n => {return {name: n, type: 'codes'}}),
+    ...Object.keys(allTextsSnippetsObj).map(n => {return {name: n, type: 'texts'}})
   ];
 
   const maxLimit = val === 'todos' ? allBlockLimitsObj.todos
   : val === 'notes' ? allBlockLimitsObj.notes
   : val === 'urls' ? allBlockLimitsObj.urls
   : val === 'codes' ? allBlockLimitsObj.codes
-  : allBlockLimitsObj.todos + allBlockLimitsObj.notes + allBlockLimitsObj.urls + allBlockLimitsObj.codes;
+  : val === 'texts' ? allBlockLimitsObj.text
+  : allBlockLimitsObj.todos + allBlockLimitsObj.notes + allBlockLimitsObj.urls + allBlockLimitsObj.codes + allBlockLimitsObj.text;
 
   wrapBlocksContainer.textContent = '';
   const frag = document.createDocumentFragment();

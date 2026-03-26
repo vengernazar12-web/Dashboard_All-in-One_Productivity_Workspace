@@ -249,10 +249,11 @@ function giveInfoForAi(aiGetter) {
   else if(aiGetter.replace(/[^a-z]/ig, '') === 'settings') return `[Відповідь системи на вашу команду get: ?get| settings]:
 ━━━━━━━━ SETTINGS ━━━━━━━━
 Тема: ${localStorage.getItem('todo-theme') || 'light'}
-Час анімації видалення(вказано в мілісекундах): ${localStorage.getItem('del-anim-time') || '1500'}
-Розмір шрифту нотаток(самого контенту): ${localStorage.getItem('notes-font-size') || 1.2}rem
+Час анімації видалення(в мілісекундах): ${localStorage.getItem('del-anim-time') || '1500'}
+Розмір шрифту нотаток(контенту): ${localStorage.getItem('notes-font-size') || 1.2}rem
 Виключена анімація видалення: ${localStorage.getItem('disabled-anim') || 'false'}
-Чи включено підтвердження для видалення: ${localStorage.getItem('conf-before-delete') || 'false'}\n
+Підтвердження для видалення: ${localStorage.getItem('conf-before-delete') || 'false'}\n
+Мова для мікрофону в асистентів: ${localStorage.getItem('mic-lang') || 'en-US'}
 `;
   else if(aiGetter.replace(/[^a-z]/ig, '') === 'actions') return `[Відповідь системи на вашу команду get: ?get| actions]:
 ━━━━━━━━ ACTIONS ━━━━━━━━
@@ -340,7 +341,7 @@ function setContent(type, name, content) {
       else if(type === 'texts') { allTextsSnippetsObj[content.name] = { txt: content.content, isFav: content.isFavorite }; }
     }
 
-    else if(!Object.keys(content).length) { // Delete
+    else if(!content || !Object.keys(content).length) { // Delete
       const targetObj = type === 'todos' ? allTodosObj : type === 'notes' ? allNotesObj : type === 'codes' ? allUserCodesObj : allTextsSnippetsObj;
       delete targetObj[name];
     }
