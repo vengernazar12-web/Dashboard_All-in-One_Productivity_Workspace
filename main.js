@@ -150,6 +150,7 @@ document.addEventListener('keydown', e => {
     else if(userCodeWrap.classList.contains('show')) toggleAddCodeBlockForm.click();
     else if(urlsWrap.classList.contains('show')) toggleUrlFormBtn.click();
     else if(todoWrap.classList.contains('show')) toggleAddTodoForm.click();
+    else if(textsSnippetsWrap.classList.contains('show')) toggleAddTextSnippetForm.click();
   }
   else if(e.ctrlKey && e.code === 'KeyP') {
     e.preventDefault();
@@ -320,6 +321,26 @@ function showResponseFn(text) {
   showResponseText.textContent = text;
   showResponseText.classList.add('show');
 }
+
+// Speaker, voice eventListeners
+let initVoiceTextarea = null;
+
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+const recognition = new SpeechRecognition();
+recognition.lang = 'uk-UA';
+recognition.interimResults = false;
+
+recognition.onresult = (event) => {
+  const text = event.results[0][0].transcript;
+  initVoiceInput.value = text;
+};
+recognition.onend = () => speakWindow.classList.remove('show');
+recognition.onerror = (event) => {
+  showResponseFn(event.error);
+  console.error('Speech error:', event.error);
+};
+
+const speakWindow = document.querySelector('.speak-window');
 
 // Set preloader value
 preloaderProgress.value = 1;

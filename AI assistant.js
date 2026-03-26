@@ -38,13 +38,18 @@ userPromptTextarea.addEventListener('input', () => {
   userPromptTextarea.style.height = `${userPromptTextarea.scrollHeight + 3}px`;
 
   sendPromptBtn.style.border = `1px solid ${userPromptTextarea.value.trim().length > 1000 ? 'red' : 'silver'}`;
+  sendPromptBtn.textContent = userPromptTextarea.value.trim() ? '=>' : '🗣';
 })
 
 // Send prompt
 const sendPromptBtn = assistantWrap.querySelector('.send-prompt-btn');
 sendPromptBtn.addEventListener('click', async () => {
   const userTxt = userPromptTextarea.value.trim();
-  if(!userTxt) return showResponseFn('Nothing to send');
+  if(!userTxt) {
+    initVoiceTextarea = userPromptTextarea;
+    speakWindow.classList.add('show');
+    return recognition.start();
+  }
   if(userTxt.length > 1000) return showResponseFn('Your question is too long (more than 1000 characters)');
 
   // Generate user text
@@ -62,6 +67,7 @@ sendPromptBtn.addEventListener('click', async () => {
 
   userPromptTextarea.value = '';
   userPromptTextarea.style.height = '30px';
+  sendPromptBtn.textContent = '🗣';
 
   useAiResp();
 })
@@ -85,7 +91,7 @@ function createAssistantResponse(txt) {
   assistantResponseContainer.appendChild(div);
 
   initTypingElement = pre;
-  initTypingText = txt.replace(/(?:\n|^)\?get\|[^\n]+/gi, '');
+  initTypingText = txt.replace(/(?:\n|^)\?get\|[^\n]+/gi, '• Get...');
   const txtLng = initTypingText.length;
 
   historyForAiPrompt.push({role: "assistant", content: txt});

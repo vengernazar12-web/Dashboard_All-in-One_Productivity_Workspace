@@ -181,7 +181,7 @@ allUserNotesCont.addEventListener('click', e => {
     descBeforeEdit = allNotesObj[targetNoteBlockName].description;
   }
   else if(e.target.closest('.note-block')) { // Open note content
-    const name = e.target.closest('.note-block').firstElementChild.textContent;
+    const name = e.target.closest('.note-block').dataset.name;
     renderNotesText(name);
   }
 })

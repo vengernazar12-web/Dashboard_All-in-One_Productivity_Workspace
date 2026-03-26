@@ -41,7 +41,10 @@ let groupedTodos = null;
 // Add todo form
 const addTodoForm = todoWrap.querySelector('.add-todo-form');
 const toggleAddTodoForm = todoWrap.querySelector('.toggle-add-todo-form');
-toggleAddTodoForm.addEventListener('click', () => addTodoForm.classList.toggle('show'));
+toggleAddTodoForm.addEventListener('click', () => {
+  addTodoForm.classList.toggle('show');
+  todoNameInput.focus();
+});
 // Close add todo form
 addTodoForm.querySelector('.close-add-todo-form-btn')
 .addEventListener('click', () => addTodoForm.classList.remove('show'));

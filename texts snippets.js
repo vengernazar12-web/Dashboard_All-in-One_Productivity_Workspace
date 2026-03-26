@@ -149,6 +149,7 @@ toggleAddTextSnippetForm.addEventListener('click', () => {
   textSnippetContentLimitTxt.textContent = `0/${allValuesLimit.textContent}`;
   addTextSnippetNameInput.value = '';
   addTextSnippetContentTextarea.value = '';
+  addTextSnippetNameInput.focus();
 });
 
 const addTextSnippetNameInput = addTextSnippetForm.querySelector('.add-text-snippet-name-input');

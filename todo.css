@@ -190,8 +190,8 @@
 }
 .toggle-hidden-todos-window {
   position: absolute;
-  top: 65px;
-  left: calc(2.5% + 115px);
+  top: 100px;
+  left: 2.5%;
   height: 25px;
   border-radius: 7px;
   border: 1px solid black;

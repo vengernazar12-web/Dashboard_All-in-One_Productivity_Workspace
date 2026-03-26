@@ -540,7 +540,7 @@
 
   <!-- User prompt -->
   <textarea type="text" class="user-prompt-textarea" placeholder="How can I help?..."></textarea>
-  <button class="send-prompt-btn">=></button>
+  <button class="send-prompt-btn">🗣</button>
 
   <!-- Memory for ai -->
   <button class="open-memory-for-ai">Memory</button>
@@ -732,6 +732,9 @@
   <span class="loader"></span>
 </div>
 
+<!-- Speak window -->
+<div class="speak-window"><svg><use href="#mic"></use></svg></div>
+
 <!-- Show response text -->
 <p class="show-response"></p>
 
@@ -824,6 +827,12 @@
     <rect width="18" height="18" x="3" y="3" rx="2" />
     <path d="M9 3v18" />
     <path d="m16 15-3-3 3-3" />
+  </symbol>
+
+  <symbol id="mic" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 19v3" />
+    <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+    <rect x="9" y="2" width="6" height="13" rx="3" />
   </symbol>
 </svg>
 
