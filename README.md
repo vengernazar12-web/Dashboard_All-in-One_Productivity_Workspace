@@ -1,83 +1,40 @@
-# DASHBOARD Assistant
+# Dashboard
 
-Асистент для управління DASHBOARD системою з інтеграцією парсера та AI.
-Забезпечує користувачу можливість взаємодіяти з типами даних та сервісами, отримувати пояснення та інструкції, а також автоматизовану обробку команд.
+Dashboard is a web app for managing personal data like notes, todos, music, and more with AI assistance.
 
----
+## Features
 
-## 🔹 Мета проєкту
+### Data Types
+- Todos
+- Notes
+- URLs
+- Code snippets
+- Text snippets
+- Music
 
-- Забезпечити **розумну взаємодію користувача** з дашбордом
-- Підтримка команд типів (`todos`, `notes`, `codes`, `urls`) та сервісів (`weather`, `timezones`, `exchange rates`, `settings`, `profile`, `timer`)
-- Використання AI для пояснень, та асистування
-- Підтримка багатофазних команд через `?multi|` та контрольоване використання даних через `?get|`
+### Services
+- Exchange rates
+- Weather
+- Timezones
+- Settings
 
----
+## AI System
 
-## 📦 Структура системи
-2. **AI Layer**
-   - Використовується, якщо парсер не впорався
-   - Генерує правильні команди, пояснює дії, асистує користувачу
-   - Використовує промпт з чіткими правилами: `?get|` тільки для отримання даних, без автоматичного вставлення
-   - Підтримка multi-команд через `?multi|`
+- Global assistant for general help and interaction
+- Type-specific assistants with full access to their data
+- Each assistant supports voice input
 
-3. **Tools Layer**
-   - Отримання даних (`?get|`) та виконання команд
-   - Всі дії строго через типи та сервіси, нічого поза ними
+- Command-based system for performing actions via AI
 
----
+## Music Player
 
-## ⚙️ Підтримувані типи та сервіси
+- Play / Pause
+- Progress control
+- Loop mode
+- Random loop (shuffle)
 
-### Типи даних
-- `todos` → `names`, `tags` (обов’язково), `marks` (опційно)
-- `notes` → `names` (обов’язково), `descs` (опційно)
-- `codes` → `names`, `languages(html/css/javascript)`
-- `urls` → `names`, `urls`
+## Tech Stack
 
-### Сервіси
-- `weather`, `timezones`, `exchange rates`, `settings`, `profile`, `timer`
-- Доступні команди: `OPEN`, `SHOW`
-
----
-
-## 💬 Команди користувача
-
-| Команда | Пояснення | Потрібні поля |
-|---------|-----------|---------------|
-| ADD | Додавання об’єкту | всі поля типу |
-| DELETE | Видалення об’єкту | `name` |
-| SEARCH | Пошук | одне або всі ключі |
-| CLEAR, SAVE, OPEN | Робота з типом | `type` |
-| LIST/SHOW | Перегляд | без полів: всі блоки, з полями: лише вказані |
-| READ/INFO | Інформація | без назв: глобальна, з назвами: конкретні блоки |
-| CALC | Обчислення | приклади через кому |
-
-**Примітка:** Команди доступні **тільки для типів та сервісів**. Все інше заборонено.
-
----
-
-## 📌 Використання AI
-
-- AI працює **як асистент**, не змінює контент
-- Використовує `?get|` для отримання даних, **не показує команди користувачу**
-- Multi-команди через `?multi|` дозволяють робити кілька дій одночасно
-- Плейсхолдери `[очікування даних про ...]` використовуються для внутрішньої орієнтації AI, показуються користувачу
-
----
-
-## 🛠️ Інтерфейс
-
-- DASHBOARD має **одну панель навігації зліва** з переходами до типів і сервісів
-- Вікна типів містять кнопки для додавання, видалення, редагування, фокусування, копіювання
-- У кодах є кнопки **Run / Save / Delete**; AI може допомагати у перевірці коду
-- Для Todos доступні кнопки сховати/показати виконані елементи, маркування фаворитів
-
----
-
-## 📂 Приклади використання
-
-```text
-add todos, names: "купити хліб", tags: "покупки", marks: "важливо"
-delete notes, name: "database"
-?multi| ['add notes, name: n1', '?set| [{type: "note", name: "n1", content: "Текст"}]']
+- JavaScript (Vanilla)
+- Supabase (auth + database)
+- Cohere API (AI)

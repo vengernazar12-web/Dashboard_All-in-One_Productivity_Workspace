@@ -8,6 +8,7 @@ const allBlockLimitsObj = {
   urls: 25,
   codes: 25,
   text: 50,
+  music: 75,
 }
 // All values limits
 const allValuesLimit = {
@@ -20,6 +21,7 @@ const allValuesLimit = {
   noteDesc: 250,
   textName: 25,
   textContent: 1250,
+  musicName: 25,
 }
 
 const mls = localStorage.getItem('del-anim-time');
@@ -32,37 +34,64 @@ const allDashboardItem = document.querySelector('.all-dashboard-items');
 allDashboardItem.addEventListener('click', e => {
   if(e.target.tagName === 'BUTTON') document.body.style.overflow = 'hidden';
 })
+
+const allOpenBtns = allDashboardItem.querySelectorAll('.--opened-btn');
 // Toggle
 const toggleAllDashboardItemBtn = allDashboardItem.querySelector('.toggle-dashboard-items-btn');
 toggleAllDashboardItemBtn.addEventListener('click', () => {
   allDashboardItem.classList.toggle('open');
   tagUseInToggleSidebarBtn.setAttribute('href', `#${allDashboardItem.classList.contains('open') ? 'close-panel' : 'open-panel'}`);
 
-  openTodoWrapBtn.classList.toggle('unsaved', todoSaveBtn.classList.contains('unsaved'));
-  openNoteWrapBtn.classList.toggle('unsaved', noteSaveBtn.classList.contains('unsaved'));
-  openUrlWrapBtn.classList.toggle('unsaved', urlSaveBtn.classList.contains('unsaved'));
-  openCodeWrapBtn.classList.toggle('unsaved', codeSaveBtn.classList.contains('unsaved'));
+  if(allDashboardItem.classList.contains('open')) {
+    // Toggle unsaved marks
+    openTodoWrapBtn.classList.toggle('unsaved', todoSaveBtn.classList.contains('unsaved'));
+    openNoteWrapBtn.classList.toggle('unsaved', noteSaveBtn.classList.contains('unsaved'));
+    openUrlWrapBtn.classList.toggle('unsaved', urlSaveBtn.classList.contains('unsaved'));
+    openCodeWrapBtn.classList.toggle('unsaved', codeSaveBtn.classList.contains('unsaved'));
+    openTextsSnippetsWrap.classList.toggle('unsaved', textSaveBtn.classList.contains('unsaved'));
+    openMusicWrapBtn.classList.toggle('unsaved', musicSaveBtn.classList.contains('unsaved'));
 
-  if(allDashboardItem.classList.contains('open')) setOpenBtnsTexts();
+    // Set limits info
+    setOpenBtnsTexts();
+
+    // Set active wrap (for buttons)
+    for(let b of allOpenBtns) b.classList.remove('active-btn');
+
+    if(todoWrap.classList.contains('show')) openTodoWrapBtn.classList.add('active-btn');
+    else if(notesWrap.classList.contains('show')) openNoteWrapBtn.classList.add('active-btn');
+    else if(urlsWrap.classList.contains('show')) openUrlWrapBtn.classList.add('active-btn');
+    else if(userCodeWrap.classList.contains('show')) openCodeWrapBtn.classList.add('active-btn');
+    else if(textsSnippetsWrap.classList.contains('show')) openTextsSnippetsWrap.classList.add('active-btn');
+    else if(musicWrap.classList.contains('show')) openMusicWrapBtn.classList.add('active-btn');
+
+    else if(exchangeRateWrap.classList.contains('show')) openExchangeRateWrapBtn.classList.add('active-btn');
+    else if(weatherWrap.classList.contains('show')) openWeatherWrapBtn.classList.add('active-btn');
+    else if(timezoneWrap.classList.contains('show')) openTimezoneWrapBtn.classList.add('active-btn');
+    else if(settingsWindow.classList.contains('show')) openSettingsWindowInSidebar.classList.add('active-btn');
+    else if(assistantWrap.classList.contains('show')) openAssistantWrapBtn.classList.add('active-btn');
+  }
 })
 
 const tagUseInToggleSidebarBtn = toggleAllDashboardItemBtn.querySelector('use');
 
 // Close all wraps
 function closeAllWraps() {
+  assistantWrap.classList.remove('show');
+
   todoWrap.classList.remove('show');
   notesWrap.classList.remove('show');
+  notesContentWrap.classList.remove('show');
   urlsWrap.classList.remove('show');
   userCodeWrap.classList.remove('show');
   textsSnippetsWrap.classList.remove('show');
+  musicWrap.classList.remove('show');
+
   exchangeRateWrap.classList.remove('show');
   weatherWrap.classList.remove('show');
   timezoneWrap.classList.remove('show');
-  assistantWrap.classList.remove('show');
+
   profileWrap.classList.remove('show');
   settingsWindow.classList.remove('show');
-  notesContentWrap.classList.remove('show');
-  hiddenTodosWindow.classList.remove('show');
   timerWindow.classList.remove('show');
   undoLastActionBlock.classList.remove('show');
   lastDataForUndoAction = null;
@@ -78,6 +107,7 @@ function closeAllTypeAssistantWindows() {
   codesAssistantWindow.classList.remove('open');
   codesContentAssistantWindow.classList.remove('open');
   textSnippetsAssistantWindow.classList.remove('open');
+  musicAssistantWindow.classList.remove('open');
 }
 
 // Mark and render init wrap
@@ -97,6 +127,9 @@ function addUnsavedMarkAndRenderInitWrap() {
   } else if(textsSnippetsWrap.classList.contains('show')) {
     renderTextsSnippets();
     textSaveBtn.classList.add('unsaved');
+  } else if(musicWrap.classList.contains('show')) {
+    renderMusic();
+    musicSaveBtn.classList.add('unsaved');
   }
 }
 
@@ -108,6 +141,18 @@ function hashHtmlSymbols(content) {
   .replaceAll('>', '&gt;')
   .replaceAll('"', '&quot;')
   .replaceAll("'", '&#39;');
+}
+
+// Load script
+const header = document.querySelector('header');
+async function loadScript(src) {
+  await new Promise((res, rej) => {
+    const script = document.createElement('script');
+    script.src = src;
+    header.appendChild(script);
+    script.onload = () => res();
+    script.onerror = () => rej();
+  })
 }
 
 // Show fields block
@@ -151,12 +196,15 @@ document.addEventListener('keydown', e => {
     else if(urlsWrap.classList.contains('show')) toggleUrlFormBtn.click();
     else if(todoWrap.classList.contains('show')) toggleAddTodoForm.click();
     else if(textsSnippetsWrap.classList.contains('show')) toggleAddTextSnippetForm.click();
+    else if(musicWrap.classList.contains('show')) toggleAddMusicFormBtn.click();
   }
+  // OPen side panel
   else if(e.ctrlKey && e.code === 'KeyP') {
     e.preventDefault();
     toggleAllDashboardItemBtn.click();
   }
 
+  // Close focus code wrap
   else if(focusWrap.classList.contains('show') && e.key === 'Escape') closeFocusBtn.click();
 
   // Show fields block
@@ -224,6 +272,9 @@ document.addEventListener('keydown', e => {
     } else if(textSnippetsAssistantWindow.classList.contains('open') && !e.shiftKey) {
       e.preventDefault();
       sendTextSnippetsPromptBtn.click();
+    } else if(musicAssistantWindow.classList.contains('open') && !e.shiftKey) {
+      e.preventDefault();
+      sendMusicPromptBtn.click();
     }
 
     else if(addTodoForm.classList.contains('show')) todoAddBtn.click();
@@ -231,6 +282,7 @@ document.addEventListener('keydown', e => {
     else if(addNotesForm.classList.contains('show')) addNotesButton.click();
     else if(addCodeBlockForm.classList.contains('show')) addCodeBlockBtn.click();
     else if(editNoteBlock.classList.contains('show')) confNoteEditChangeBtn.click();
+    else if(addMusicForm.classList.contains('show')) addMusicBtn.click();
   }
 })
 
@@ -286,7 +338,7 @@ undoLastActionBtn.addEventListener('click', () => {
     renderNotesBlocks();
   }
   else if(type === 'urls') {
-    allUrlsArr = lastDataForUndoAction.content;
+    allUrlsObj = lastDataForUndoAction.content;
     urlSaveBtn.classList.toggle('unsaved', lastDataForUndoAction.isSaved);
     renderAllUrls();
   }
@@ -300,14 +352,27 @@ undoLastActionBtn.addEventListener('click', () => {
     textSaveBtn.classList.toggle('unsaved', lastDataForUndoAction.isSaved);
     renderTextsSnippets();
   }
+  else if(type === 'music') {
+    allMusicObj = lastDataForUndoAction.content;
+    musicSaveBtn.classList.toggle('unsaved', lastDataForUndoAction.isSaved);
+    renderMusic();
+  }
   else return;
 
+  clearTimeout(undoTimeout);
   lastDataForUndoAction = null;
 })
 
+let undoTimeout = null;
 function initUndoActionBlock(type, content) {
+  clearTimeout(undoTimeout);
+  undoTimeout = setTimeout(() => {
+    lastDataForUndoAction = null;
+    undoLastActionBlock.classList.remove('show');
+  }, 5000);
+
   lastDataForUndoAction = {type, content: JSON.parse(JSON.stringify(content))};
-  let saveBtn = type === 'todos' ? todoSaveBtn : type === 'notes' ? noteSaveBtn : type === 'urls' ? urlSaveBtn : type === 'codes' ? codeSaveBtn : textSaveBtn;
+  let saveBtn = type === 'todos' ? todoSaveBtn : type === 'notes' ? noteSaveBtn : type === 'urls' ? urlSaveBtn : type === 'codes' ? codeSaveBtn : type === 'texts' ? textSaveBtn : musicSaveBtn;
   lastDataForUndoAction.isSaved = saveBtn.classList.contains('unsaved');
 
   undoLastActionBlock.classList.add('show');
@@ -333,6 +398,7 @@ recognition.interimResults = false;
 recognition.onresult = (event) => {
   const text = event.results[0][0].transcript;
   initVoiceTextarea.value = text;
+  initVoiceTextarea.parentElement.querySelector('.send-prompt-btn').textContent = '=>';
 };
 recognition.onend = () => speakWindow.classList.remove('show');
 recognition.onerror = (event) => {

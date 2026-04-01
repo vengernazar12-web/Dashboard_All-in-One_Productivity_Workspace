@@ -1,5 +1,5 @@
 // Set preloader text
-whatIsLoadingText.textContent = 'Loading assistant logic...';
+whatIsLoadingText.textContent = 'Loading assistants logic...';
 
 // User actions
 const userActionsForAi = [];
@@ -18,8 +18,8 @@ function writeToUserActions(val) {
 // Assistant wrap
 const assistantWrap = document.querySelector('.assistant-wrap');
 // Open
-allDashboardItem.querySelector('.open-assistant-wrap')
-.addEventListener('click', () => {
+const openAssistantWrapBtn = allDashboardItem.querySelector('.open-assistant-wrap');
+openAssistantWrapBtn.addEventListener('click', () => {
   closeAllWraps();
   assistantWrap.classList.add('show');
   userPromptTextarea.focus();
@@ -37,8 +37,9 @@ userPromptTextarea.addEventListener('input', () => {
   userPromptTextarea.style.height = '30px';
   userPromptTextarea.style.height = `${userPromptTextarea.scrollHeight + 3}px`;
 
-  sendPromptBtn.style.border = `1px solid ${userPromptTextarea.value.trim().length > 1000 ? 'red' : 'silver'}`;
-  sendPromptBtn.textContent = userPromptTextarea.value.trim() ? '=>' : '🗣';
+  const val = userPromptTextarea.value.trim();
+  sendPromptBtn.style.border = `1px solid ${val.length > 1000 ? 'red' : 'silver'}`;
+  sendPromptBtn.textContent = val ? '=>' : '🗣';
 })
 
 // Send prompt
@@ -125,6 +126,9 @@ memoryForAiWindow.querySelector('.save-memory-for-ai')
 
   if(memoryForAi !== memoryForAiTextarea.value) {
     showPreloader();
+    preloaderProgress.max = 1;
+    preloaderProgress.value = 0;
+    whatIsLoadingText.textContent = 'Start...';
 
     const { data, error } = await client.auth.getSession();
     if(error) {
@@ -132,7 +136,7 @@ memoryForAiWindow.querySelector('.save-memory-for-ai')
       return showPreloader(false);
     }
 
-    const id = data.session.user.id;
+    const id = data.session?.user.id;
 
     const { error: tableErr} = await client
       .from('user_content')
@@ -144,11 +148,14 @@ memoryForAiWindow.querySelector('.save-memory-for-ai')
       return showPreloader(false);
     }
 
+    preloaderProgress.value = 1;
+    whatIsLoadingText.textContent = 'Saved';
+
     memoryForAi = memoryForAiTextarea.value;
     showResponseFn('Saved');
-    showPreloader(false);
+    setTimeout(() => showPreloader(false), 500);
   }
 })
 
 // Set preloader value
-preloaderProgress.value = 12;
+preloaderProgress.value = 13;

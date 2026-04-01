@@ -3,19 +3,32 @@ whatIsLoadingText.textContent = 'Loading notes system...';
 
 const notesWrap = document.querySelector('.notes-wrap');
 notesWrap.addEventListener('click', e => {
+  if(!e.target.closest('.add-notes-inputs') && !e.target.classList.contains('toggle-add-note-form')) addNotesForm.classList.remove('show');
   if(!e.target.closest('.edit-note-block') && !e.target.closest('.edit-note-btn')) editNoteBlock.classList.remove('show');
 })
 
 const notesContentWrap = document.querySelector('.notes-content-wrap');
 // Open note wrap
 const openNoteWrapBtn = allDashboardItem.querySelector('.open-notes-wrap');
-openNoteWrapBtn.addEventListener('click', () => {
+openNoteWrapBtn.addEventListener('click', async () => {
   closeAllWraps();
-  showPreloader();
+
+  if(!allNotesObj) {
+    showPreloader();
+    preloaderProgress.max = 1;
+    preloaderProgress.value = 0;
+    whatIsLoadingText.textContent = 'Take content...';
+
+    allNotesObj = await getContent('notes');
+    if(!allNotesObj) return;
+
+    preloaderProgress.value = 1;
+    whatIsLoadingText.textContent = 'Content taken';
+    setTimeout(() => showPreloader(false), 500);
+  }
+
   renderNotesBlocks();
   notesWrap.classList.add('show');
-  showPreloader(false);
-  searchNoteBlocksInput.value = '';
 })
 
 // Close notes content wrap
@@ -30,7 +43,7 @@ notesContentWrap.querySelector('.close-notes-content-wrap')
   noteSaveBtn.classList.add('unsaved');
 });
 
-let allNotesObj = {};
+let allNotesObj = null;
 
 // Note progress
 const noteProgress = notesWrap.querySelector('.note-progress');

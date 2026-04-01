@@ -14,8 +14,9 @@ textSnippetsPromptTextarea.addEventListener('input', () => {
   textSnippetsPromptTextarea.style.height = '30px';
   textSnippetsPromptTextarea.style.height = `${textSnippetsPromptTextarea.scrollHeight + 3}px`;
 
-  sendTextSnippetsPromptBtn.style.border = `1px solid ${textSnippetsPromptTextarea.value.trim().length > 1000 ? 'red' : 'silver'}`;
-  sendTextSnippetsPromptBtn.textContent = textSnippetsPromptTextarea.value.trim() ? '=>' : '🗣';
+  const val = textSnippetsPromptTextarea.value.trim();
+  sendTextSnippetsPromptBtn.style.border = `1px solid ${val.length > 1000 ? 'red' : 'silver'}`;
+  sendTextSnippetsPromptBtn.textContent = val ? '=>' : '🗣';
 })
 
 const sendTextSnippetsPromptBtn = textSnippetsAssistantWindow.querySelector('.send-prompt-btn');
@@ -36,7 +37,7 @@ sendTextSnippetsPromptBtn.addEventListener('click', async () => {
   pre.textContent = userTxt;
   div.appendChild(pre);
   textSnippetsAssistantAnswerContainer.appendChild(div);
-  textSnippetsAssistantWindow.scrollTop = textSnippetsAssistantWindow.scrollHeight;
+  textSnippetsAssistantAnswerContainer.scrollTop = textSnippetsAssistantAnswerContainer.scrollHeight;
   // -------
 
   historyForTextSnippetsAssistant.push({role: 'user', content: userTxt});
@@ -63,7 +64,7 @@ sendTextSnippetsPromptBtn.addEventListener('click', async () => {
   createTextSnippetsAssistantResp(aiResp);
 })
 
-// Create codes assistant response text
+// Create text snippets assistant response text
 let textSnippetsAssistantTypingInterval = null;
 let initTextSnippetsAssistantTypingEl = null;
 let initTextSnippetsAssistantTypingTxt = null;
@@ -72,7 +73,7 @@ function createTextSnippetsAssistantResp(txt) {
     clearInterval(textSnippetsAssistantTypingInterval);
     textSnippetsAssistantTypingInterval = null;
     initTextSnippetsAssistantTypingEl.textContent = initTextSnippetsAssistantTypingTxt;
-    textSnippetsAssistantWindow.scrollTop = textSnippetsAssistantWindow.scrollHeight;
+    textSnippetsAssistantAnswerContainer.scrollTop = textSnippetsAssistantAnswerContainer.scrollHeight;
   }
 
   const div = document.createElement('div'),
@@ -91,12 +92,12 @@ function createTextSnippetsAssistantResp(txt) {
   textSnippetsAssistantTypingInterval = setInterval(() => {
     c += Math.floor(Math.random() * 5 + 1);
     initTextSnippetsAssistantTypingEl.textContent = initTextSnippetsAssistantTypingTxt.slice(0, c);
-    textSnippetsAssistantWindow.scrollTop = textSnippetsAssistantWindow.scrollHeight;
+    textSnippetsAssistantAnswerContainer.scrollTop = textSnippetsAssistantAnswerContainer.scrollHeight;
     if(c > txtLng) {
       clearInterval(textSnippetsAssistantTypingInterval);
       textSnippetsAssistantTypingInterval = null;
       initTextSnippetsAssistantTypingEl.textContent = initTextSnippetsAssistantTypingTxt;
-      textSnippetsAssistantWindow.scrollTop = textSnippetsAssistantWindow.scrollHeight;
+      textSnippetsAssistantAnswerContainer.scrollTop = textSnippetsAssistantAnswerContainer.scrollHeight;
     }
   }, 20);
 }

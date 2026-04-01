@@ -6,6 +6,8 @@ const client = supabase.createClient(
   'sb_publishable_gaf3l7-dqfddZGEZjBbatA_-AjzhiZ-'
 );
 
+let userId = null;
+
 const signWindow = document.querySelector('.sign-window');
 
 const signUpForm = signWindow.querySelector('.sign-up-form');
@@ -38,7 +40,7 @@ async function signFn(type) {
       if(contentFetchError && contentFetchError.code !== 'PGRST116') return showResponseFn('Something went wrong');
       showResponseFn('Welcome!');
       signWindow.classList.remove('show');
-      reloadAllContent();
+      takeSessionId();
     }
   } catch(e) { showResponseFn('Error!') };
 }
@@ -52,56 +54,28 @@ todoSaveBtn.addEventListener('click', async () => {
   undoLastActionBlock.classList.remove('show');
   /* Is unsaved check */ if(!todoSaveBtn.classList.contains('unsaved')) return showResponseFn('No changes detected — nothing to save.');
   // Set max function action
-  preloaderProgress.max = 3;
+  preloaderProgress.max = 1;
   preloaderProgress.value = 0;
   whatIsLoadingText.textContent = 'Start...';
   renderTodos();
 
   todoSaveBtn.disabled = true;
   showPreloader();
-  showResponseFn('Please wait...');
-  if((Object.keys(allTodosObj).length + Object.keys(hiddenTodosObj).length) > allBlockLimitsObj.todos) {
+
+  if(Object.keys(allTodosObj).length > allBlockLimitsObj.todos) {
     showPreloader(false);
+    setTimeout(() => {todoSaveBtn.disabled = false}, 150000);
     return showResponseFn('You have todos limit');
   };
 
-  const {data, error} = await client.auth.getSession();
-  if(error) {
-    showPreloader(false);
-    return showResponseFn(error.message);
-  };
-  if(!data.session) {
-    signWindow.classList.add('show');
-    showPreloader(false);
-    return showResponseFn("Please sign in");
-  };
-
-  preloaderProgress.value = 1;
-  whatIsLoadingText.textContent = 'The session has been taken';
-
-  const id = data.session.user.id;
-
-  const {data: initialContent, error: initialError} = await client.from('user_content').select('content').eq('id', id).single();
-  if(initialError) {
-    showPreloader(false);
-    setTimeout(() => {todoSaveBtn.disabled = false}, 150000);
-    return showResponseFn("Something went wrong");
-  }
-
-  preloaderProgress.value = 2;
-  whatIsLoadingText.textContent = 'Old content taken';
-
-  initialContent.content.todos = allTodosObj;
-  initialContent.content.hiddenTodos = hiddenTodosObj;
-
-  const {error: tableError} = await client.from('user_content').update({content: initialContent.content}).eq('id', id);
+  const {error: tableError} = await client.from('user_content').update({todos: allTodosObj}).eq('id', userId);
   if(tableError) {
     showPreloader(false);
     setTimeout(() => todoSaveBtn.disabled = false, 15000);
     return showResponseFn("Your todos haven't been saved, pease try again later...");
   }
 
-  preloaderProgress.value = 3;
+  preloaderProgress.value = 1;
   whatIsLoadingText.textContent = 'Content saved';
 
   todoSaveBtn.classList.remove('unsaved');
@@ -117,64 +91,35 @@ noteSaveBtn.addEventListener('click', async () => {
   undoLastActionBlock.classList.remove('show');
   /* Is unsaved check */ if(!noteSaveBtn.classList.contains('unsaved')) return showResponseFn('No changes detected — nothing to save.');
   // Set max function action
-  preloaderProgress.max = 4;
+  preloaderProgress.max = 1;
   preloaderProgress.value = 0;
   whatIsLoadingText.textContent = 'Start...';
   renderNotesBlocks();
 
   noteSaveBtn.disabled = true;
   showPreloader();
-  showResponseFn('Please wait...');
 
   const arr = Object.keys(allNotesObj);
 
   if(arr.length > allBlockLimitsObj.notes) {
     showPreloader(false);
+    setTimeout(() => {noteSaveBtn.disabled = false}, 150000);
     return showResponseFn('You have notes blocks limit');
   };
   if(arr.find(name => allNotesObj[name].txt.replaceAll('\n','').length > 2000 || allNotesObj[name].description.length > 250)) {
     showPreloader(false);
+    setTimeout(() => {noteSaveBtn.disabled = false}, 150000);
     return showResponseFn('Some note has very long content or description.');
   };
 
-  preloaderProgress.value = 1;
-  whatIsLoadingText.textContent = 'The texts have been checked';
-
-  const {data, error} = await client.auth.getSession();
-  if(error) {
-    showPreloader(false);
-    return showResponseFn(error.message);
-  };
-  if(!data.session) {
-    showResponseFn('Please sign in');
-    showPreloader(false);
-    return signWindow.classList.add('show');
-  };
-
-  preloaderProgress.value = 2;
-  whatIsLoadingText.textContent = 'The session has been taken';
-
-  const id = data.session.user.id;
-
-  const {data: initialContent, error: initialError} = await client.from('user_content').select('content').eq('id', id).single();
-  if(initialError) {
-    showPreloader(false);
-    setTimeout(() => {noteSaveBtn.disabled = false}, 150000);
-    return showResponseFn("Something went wrong");
-  }
-
-  preloaderProgress.value = 3;
-  whatIsLoadingText.textContent = 'Old content taken';
-
-  initialContent.content.notes = allNotesObj;
-  const {error: tableError} = await client.from('user_content').update({content: initialContent.content}).eq('id', id);
+  const {error: tableError} = await client.from('user_content').update({notes: allNotesObj}).eq('id', userId);
   if(tableError) {
     showPreloader(false);
     setTimeout(() => noteSaveBtn.disabled = false, 150000);
     return showResponseFn("Your notes haven't been saved, pease try again later...");
   }
 
-  preloaderProgress.value = 4;
+  preloaderProgress.value = 1;
   whatIsLoadingText.textContent = 'Content saved';
 
   noteSaveBtn.classList.remove('unsaved');
@@ -190,51 +135,28 @@ urlSaveBtn.addEventListener('click', async () => {
   undoLastActionBlock.classList.remove('show');
   /* Is unsaved check */ if(!urlSaveBtn.classList.contains('unsaved')) return showResponseFn('No changes detected — nothing to save.');
   // Set max function action
-  preloaderProgress.max = 5;
+  preloaderProgress.max = 3;
   preloaderProgress.value = 0;
   whatIsLoadingText.textContent = 'Start...';
   renderAllUrls();
 
   urlSaveBtn.disabled = true;
   showPreloader();
-  showResponseFn('Please wait...');
-  if(allUrlsArr.length > allBlockLimitsObj.urls) { showPreloader(false); return showResponseFn('Your have urls limit')};
 
-  const {data, error} = await client.auth.getSession();
-  if(error) {
-    showPreloader(false);
-    return showResponseFn(error.message);
-  };
-  if(!data.session) {
-    showResponseFn('Please sign in');
-    showPreloader(false);
-    return signWindow.classList.add('show');
-  };
-
-  preloaderProgress.value = 1;
-  whatIsLoadingText.textContent = 'The session has been taken';
-
-  const id = data.session.user.id;
-
-  const {data: initialContent, error: initialError} = await client.from('user_content').select('content').eq('id', id).single();
-  if(initialError) {
+  if(Object.keys(allUrlsObj).length > allBlockLimitsObj.urls) {
     showPreloader(false);
     setTimeout(() => {urlSaveBtn.disabled = false}, 150000);
-    return showResponseFn("Something went wrong");
-  }
+    return showResponseFn('You have urls limit');
+  };
 
-  preloaderProgress.value = 2;
-  whatIsLoadingText.textContent = 'Old content taken';
-
-  initialContent.content.urls = allUrlsArr;
-  const {error: tableError} = await client.from('user_content').update({content: initialContent.content}).eq('id', id);
+  const {error: tableError} = await client.from('user_content').update({urls: allUrlsObj}).eq('id', userId);
   if(tableError) {
     showPreloader(false);
     setTimeout(() => urlSaveBtn.disabled = false, 150000);
     return showResponseFn("Your urls haven't been saved, pease try again later...");
   }
 
-  preloaderProgress.value = 3;
+  preloaderProgress.value = 1;
   whatIsLoadingText.textContent = 'Content saved';
 
   // Upload and remove imgs
@@ -248,7 +170,7 @@ urlSaveBtn.addEventListener('click', async () => {
     };
   };
 
-  preloaderProgress.value = 4;
+  preloaderProgress.value = 2;
   whatIsLoadingText.textContent = 'All images uploaded';
 
   // Remove
@@ -261,7 +183,7 @@ urlSaveBtn.addEventListener('click', async () => {
   // Path
   filesToRemove = [];
 
-  preloaderProgress.value = 5;
+  preloaderProgress.value = 3;
   whatIsLoadingText.textContent = 'File cleanup';
 
   // Path
@@ -281,18 +203,18 @@ codeSaveBtn.addEventListener('click', async () => {
   undoLastActionBlock.classList.remove('show');
   /* Is unsaved check */ if(!codeSaveBtn.classList.contains('unsaved')) return showResponseFn('No changes detected — nothing to save.');
   // Set max function action
-  preloaderProgress.max = 4;
+  preloaderProgress.max = 1;
   preloaderProgress.value = 0;
   whatIsLoadingText.textContent = 'Start...';
   renderUserCodesBlocks();
 
   codeSaveBtn.disabled = true;
   showPreloader();
-  showResponseFn('Please wait...');
 
   if(Object.keys(allUserCodesObj).length > allBlockLimitsObj.codes) {
     showPreloader(false);
-    return showResponseFn('Your have codes blocks limit');
+    setTimeout(() => {codeSaveBtn.disabled = false}, 150000);
+    return showResponseFn('You have codes blocks limit');
   };
 
   let isHeightLength = false;
@@ -304,51 +226,23 @@ codeSaveBtn.addEventListener('click', async () => {
     .trim()
     .split('\n')
     .map(word => word.trimRight())
-    .join('\n');
+    .join('\n')
+    .trim();
   }
   if(isHeightLength) {
     showPreloader(false);
+    setTimeout(() => {codeSaveBtn.disabled = false}, 150000);
     return showResponseFn('Some codes are too long.');
   };
 
-  preloaderProgress.value = 1;
-  whatIsLoadingText.textContent = 'Clean code uploaded + length checked';
-
-  const {data, error} = await client.auth.getSession();
-  if(error) {
-    showPreloader(false);
-    return showResponseFn(error.message);
-  };
-  if(!data.session) {
-    showPreloader(false);
-    showResponseFn('Please sign in');
-    signWindow.classList.add('show');
-  };
-
-  preloaderProgress.value = 2;
-  whatIsLoadingText.textContent = 'The session has been taken';
-
-  const id = data.session.user.id;
-
-  const {data: initialContent, error: initialError} = await client.from('user_content').select('content').eq('id', id).single();
-  if(initialError) {
-    showPreloader(false);
-    setTimeout(() => {codeSaveBtn.disabled = false}, 150000);
-    return showResponseFn("Something went wrong");
-  };
-
-  preloaderProgress.value = 3;
-  whatIsLoadingText.textContent = 'Old content taken';
-
-  initialContent.content.codes = allUserCodesObj;
-  const {error: tableError} = await client.from('user_content').update({content: initialContent.content}).eq('id', id);
+  const {error: tableError} = await client.from('user_content').update({codes: allUserCodesObj}).eq('id', userId);
   if(tableError) {
     showPreloader(false);
     setTimeout(() => codeSaveBtn.disabled = false, 150000);
     return showResponseFn("Your codes haven't been saved, pease try again later...");
   }
 
-  preloaderProgress.value = 4;
+  preloaderProgress.value = 1;
   whatIsLoadingText.textContent = 'Content saved';
 
   codeSaveBtn.classList.remove('unsaved');
@@ -364,70 +258,86 @@ textSaveBtn.addEventListener('click', async () => {
   undoLastActionBlock.classList.remove('show');
   /* Is unsaved check */ if(!textSaveBtn.classList.contains('unsaved')) return showResponseFn('No changes detected — nothing to save.');
   // Set max function action
-  preloaderProgress.max = 4;
+  preloaderProgress.max = 1;
   preloaderProgress.value = 0;
   whatIsLoadingText.textContent = 'Start...';
   renderTextsSnippets();
 
   textSaveBtn.disabled = true;
   showPreloader();
-  showResponseFn('Please wait...');
 
   const allNames = Object.keys(allTextsSnippetsObj);
 
   if(allNames.length > allBlockLimitsObj.text) {
     showPreloader(false);
-    return showResponseFn('Your have text blocks limit');
+    setTimeout(() => {textSaveBtn.disabled = false}, 150000);
+    return showResponseFn('You have text blocks limit');
   };
 
   if(allNames.find(n => n.length > allValuesLimit.textName || allTextsSnippetsObj[n].txt.length > allValuesLimit.textContent)) {
     showPreloader(false);
+    setTimeout(() => {textSaveBtn.disabled = false}, 150000);
     return showResponseFn('You have length limit');
   };
 
-  preloaderProgress.value = 1;
-  whatIsLoadingText.textContent = 'Length checked';
-
-  const {data, error} = await client.auth.getSession();
-  if(error) {
-    showPreloader(false);
-    return showResponseFn(error.message);
-  };
-  if(!data.session) {
-    showPreloader(false);
-    showResponseFn('Please sign in');
-    signWindow.classList.add('show');
-  };
-
-  preloaderProgress.value = 2;
-  whatIsLoadingText.textContent = 'The session has been taken';
-
-  const id = data.session.user.id;
-
-  const {data: initialContent, error: initialError} = await client.from('user_content').select('content').eq('id', id).single();
-  if(initialError) {
-    showPreloader(false);
-    setTimeout(() => {codeSaveBtn.disabled = false}, 150000);
-    return showResponseFn("Something went wrong");
-  };
-
-  preloaderProgress.value = 3;
-  whatIsLoadingText.textContent = 'Old content taken';
-
-  initialContent.content.texts = allTextsSnippetsObj;
-  const {error: tableError} = await client.from('user_content').update({content: initialContent.content}).eq('id', id);
+  const {error: tableError} = await client.from('user_content').update({texts: allTextsSnippetsObj}).eq('id', userId);
   if(tableError) {
     showPreloader(false);
-    setTimeout(() => codeSaveBtn.disabled = false, 150000);
+    setTimeout(() => textSaveBtn.disabled = false, 150000);
     return showResponseFn("Your texts haven't been saved, pease try again later...");
   }
 
-  preloaderProgress.value = 4;
+  preloaderProgress.value = 1;
   whatIsLoadingText.textContent = 'Content saved';
 
   textSaveBtn.classList.remove('unsaved');
 
-  setTimeout(() => codeSaveBtn.disabled = false, 150000);
+  setTimeout(() => textSaveBtn.disabled = false, 150000);
+  showResponseFn('Your codes have been saved');
+  setTimeout(() => showPreloader(false), 500);
+})
+
+// Save music content
+const musicSaveBtn = musicWrap.querySelector('.save-music-btn');
+musicSaveBtn.addEventListener('click', async () => {
+  undoLastActionBlock.classList.remove('show');
+  /* Is unsaved check */ if(!musicSaveBtn.classList.contains('unsaved')) return showResponseFn('No changes detected — nothing to save.');
+  // Set max function action
+  preloaderProgress.max = 1;
+  preloaderProgress.value = 0;
+  whatIsLoadingText.textContent = 'Start...';
+  renderMusic();
+
+  musicSaveBtn.disabled = true;
+  showPreloader();
+
+  const allNames = Object.keys(allMusicObj);
+
+  if(allNames.length > allBlockLimitsObj.music) {
+    showPreloader(false);
+    setTimeout(() => {musicSaveBtn.disabled = false}, 150000);
+    return showResponseFn('You have music blocks limit');
+  };
+
+  if(allNames.find(n => n.length > allValuesLimit.musicName)) {
+    showPreloader(false);
+    setTimeout(() => {musicSaveBtn.disabled = false}, 150000);
+    return showResponseFn('You have name length limit');
+  };
+
+  const {error: tableError} = await client.from('user_content').update({music: allMusicObj}).eq('id', userId);
+  if(tableError) {
+    showPreloader(false);
+    setTimeout(() => {musicSaveBtn.disabled = false}, 150000);
+    return showResponseFn("Your music haven't been saved, pease try again later...");
+  }
+
+  preloaderProgress.value = 1;
+  whatIsLoadingText.textContent = 'Content saved';
+
+  musicSaveBtn.classList.remove('unsaved');
+
+  setTimeout(() => musicSaveBtn.disabled = false, 150000);
   showResponseFn('Your codes have been saved');
   setTimeout(() => showPreloader(false), 500);
 })
@@ -449,18 +359,21 @@ todoProgress.max = allBlockLimitsObj.todos;
 noteProgress.max = allBlockLimitsObj.notes;
 urlProgress.max = allBlockLimitsObj.urls;
 codeProgress.max = allBlockLimitsObj.codes;
+textProgress.max = allBlockLimitsObj.text;
+musicProgress.max = allBlockLimitsObj.music;
 
 // Set open btns texts
 function setOpenBtnsTexts() {
-  openTodoWrapBtn.lastElementChild.textContent = `${Object.keys(allTodosObj).length + Object.keys(hiddenTodosObj).length}/${allBlockLimitsObj.todos}`;
-  openNoteWrapBtn.lastElementChild.textContent = `${Object.keys(allNotesObj).length}/${allBlockLimitsObj.notes}`;
-  openUrlWrapBtn.lastElementChild.textContent = `${allUrlsArr.length}/${allBlockLimitsObj.urls}`;
-  openCodeWrapBtn.lastElementChild.textContent = `${Object.keys(allUserCodesObj).length}/${allBlockLimitsObj.codes}`;
-  openTextsSnippetsWrap.lastElementChild.textContent = `${Object.keys(allTextsSnippetsObj).length}/${allBlockLimitsObj.text}`;
+  openTodoWrapBtn.lastElementChild.textContent = `${allTodosObj ? Object.keys(allTodosObj).length : 'Not loaded'} / ${allBlockLimitsObj.todos}`;
+  openNoteWrapBtn.lastElementChild.textContent = `${allNotesObj ? Object.keys(allNotesObj).length : 'Not loaded'} / ${allBlockLimitsObj.notes}`;
+  openUrlWrapBtn.lastElementChild.textContent = `${allUrlsObj ? Object.keys(allUrlsObj).length : 'Not loaded'} / ${allBlockLimitsObj.urls}`;
+  openCodeWrapBtn.lastElementChild.textContent = `${allUserCodesObj ? Object.keys(allUserCodesObj).length : 'Not loaded'} / ${allBlockLimitsObj.codes}`;
+  openTextsSnippetsWrap.lastElementChild.textContent = `${allTextsSnippetsObj ? Object.keys(allTextsSnippetsObj).length : 'Not loaded'} / ${allBlockLimitsObj.text}`;
+  openMusicWrapBtn.lastElementChild.textContent = `${allMusicObj ? Object.keys(allMusicObj).length : 'Not loaded'} / ${allBlockLimitsObj.music}`;
 }
 
 // Initialization all content objects
-async function reloadAllContent() {
+async function takeSessionId() {
   let {data: sessionData, error: sessionError} = await client.auth.getSession();
   if(sessionError) {
     signWindow.classList.add('show');
@@ -471,53 +384,44 @@ async function reloadAllContent() {
     return signWindow.classList.add('show');
   };
   const id = sessionData.session.user.id;
-  const {data: initialContent, error} = await client.from('user_content').select('*').eq('id', id).single();
-  if(error) {
-    showResponseFn('Something went wrong, please sign in or sign up');
-    showPreloader(false);
-    return signWindow.classList.add('show');
+  userId = id;
+  showPreloader(false);
+  setOpenBtnsTexts();
+
+  const { data: imgs, error: imgsError } = await client.storage.from('avatars').list('', { limit: 1000 });
+  if(imgsError) showResponseFn('Error loading avatar');
+  else {
+    allAvatarsArr = await Promise.all(
+      imgs.map(avatarObj => {
+        const name = avatarObj.name;
+        const url = client.storage.from('avatars').getPublicUrl(name).data.publicUrl;
+        return { name, url };
+      })
+    );
+
+    const initAvatar = await client.from('user_content').select('profile').eq('id', userId).single();
+
+    openBtnProfileImg.src = initAvatar.data.profile === -1
+    ? '/all-imgs/no-profile-icon.webp'
+    : allAvatarsArr.find(o => o.name === `${initAvatar.data.profile}.png`)?.url;
+
+    showResponseFn('Loaded!');
   }
-  if(initialContent) {
-    memoryForAi = initialContent.memory || '';
-
-    const content = initialContent.content;
-    allTodosObj = content.todos || {};
-    hiddenTodosObj = content.hiddenTodos || {};
-    allNotesObj = content.notes || {};
-    allUrlsArr = content.urls || [];
-    allUserCodesObj = content.codes || {};
-    allTextsSnippetsObj = content.texts || {};
-    setTimeout(() => showPreloader(false), 500);
-
-    const { data: imgs, error: imgsError } = await client.storage.from('avatars').list('', { limit: 1000 });
-    if(imgsError) showResponseFn('Error loading avatar');
-    else {
-      allAvatarsArr = await Promise.all(
-        imgs.map(avatarObj => {
-          const name = avatarObj.name;
-          const url = client.storage.from('avatars').getPublicUrl(name).data.publicUrl;
-          return { name, url };
-        })
-      );
-
-      openBtnProfileImg.src = initialContent.profile === -1
-      ? '/all-imgs/no-profile-icon.webp'
-      : allAvatarsArr.find(o => o.name === `${initialContent.profile}.png`)?.url;
-    }
-
-    setOpenBtnsTexts();
-
-    const resp = await fetch(`https://695054688531714d9bd055c4.mockapi.io/dashboard/updates`);
-    const data = await resp.json();
-    updatesList = data[0]['updates-list'].join('\n');
-    return showResponseFn('Your content been loaded');
-  } else {
-    showPreloader(false);
-    signWindow.classList.add('show');
-  };
 }
+
+// Get content
+async function getContent(type) {
+  const {data, error} = await client.from('user_content').select(type).eq('id', userId).single();
+  if(error) {
+    console.error(error);
+    showResponseFn('Something went wrong, please try again later...');
+    return null;
+  }
+  return data[type];
+}
+
 // Set preloader value
 preloaderProgress.value = preloaderProgress.max;
 
 // Starter function
-reloadAllContent();
+takeSessionId();

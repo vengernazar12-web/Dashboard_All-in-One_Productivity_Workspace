@@ -4,49 +4,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <!-- Supabase -->
 
-<!-- Core CSS -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/codemirror.min.css">
-<!-- Core JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/codemirror.min.js"></script>
-<!-- JavaScript syntax highlighting -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/javascript/javascript.min.js"></script>
-<!-- Css syntax highlighting -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/css/css.min.js"></script>
-
-<!-- Html syntax highlighting -->
-<!-- XML base -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/xml/xml.min.js"></script>
-<!-- HTML mixed -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/htmlmixed/htmlmixed.min.js"></script>
-
-<!-- Hints -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/hint/show-hint.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/hint/xml-hint.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/hint/html-hint.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/hint/javascript-hint.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/hint/css-hint.min.js"></script>
-
-<!-- Auto-close tags for HTML/XML -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/edit/closetag.min.js"></script>
-<!-- Autocomplete -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/hint/show-hint.min.css">
-<!-- Auto close brackets -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/edit/closebrackets.min.js"></script>
-<!-- Code folding -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/fold/foldcode.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/fold/foldgutter.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/fold/brace-fold.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/fold/foldgutter.min.css">
-<!-- Highlight active line -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/selection/active-line.min.js"></script>
-<!-- Match brackets -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/edit/matchbrackets.min.js"></script>
-<!-- Comment / Uncomment -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/comment/comment.min.js"></script>
-
-<!-- imageCompression -->
-<script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js"></script>
-
 <title>Dashboard</title>
 <meta charset="UTF-8">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -67,10 +24,11 @@
 <link rel="stylesheet" href="Profile.css">
 <link rel="stylesheet" href="AI assistant.css">
 <link rel="stylesheet" href="texts snippets.css">
+<link rel="stylesheet" href="music.css">
+<link rel="stylesheet" href="media styles.css">
 
 <script src="code-snippets-obj.js" async></script>
 <script src="ai response.js" defer></script>
-<script src="popular cities and countries.js" defer></script>
 
 <script src="main.js" defer></script><!--1-->
 <script src="todo.js" defer></script><!--2-->
@@ -83,14 +41,16 @@
 <script src="timezone.js" defer></script><!--9-->
 <script src="Profile.js" defer></script><!--10-->
 <script src="texts snippets.js" defer></script><!--11-->
+<script src="music.js" defer></script><!--12-->
 
 <!-- Assistants -->
-<script src="AI assistant.js" defer></script><!--12-->
+<script src="AI assistant.js" defer></script><!--13-->
 <script src="todos assistant.js" defer></script>
 <script src="notes assistants.js" defer></script>
 <script src="urls assistant.js" defer></script>
 <script src="user codes assistant.js" defer></script>
 <script src="text snippets assistant.js" defer></script>
+<script src="music asisstant.js" defer></script>
 
 <script src="sign.js" defer></script><!--max-->
 <link rel="icon" href="/all-imgs/favicon-32x32.png" type="image/png">
@@ -149,11 +109,17 @@
       <p></p>
       <progress></progress>
     </div>
-  </div>
 
-  <!-- Total block limits -->
-  <progress class="total-block-limits"></progress>
-  <h3 class="total-block-limits-title">Total block limits</h3>
+    <div class="texts">
+      <p></p>
+      <progress></progress>
+    </div>
+
+    <div class="music">
+      <p></p>
+      <progress></progress>
+    </div>
+  </div>
 
   <!-- All wraps blocks -->
   <hr>
@@ -165,6 +131,7 @@
     <option value="urls">Urls</option>
     <option value="codes">Codes</option>
     <option value="texts">Texts</option>
+    <option value="music">Music</option>
     <option value="all">All</option>
   </select>
   <div class="all-wrap-blocks-container"></div>
@@ -175,15 +142,13 @@
 
 <!-- Todos -->
 <div class="todo-wrap is-wrap">
-  <p class='todos-number'>Todos: _/100</p>
+  <p class='todos-number'></p>
   <button class="todo-save-btn --saved-btn" title="Save content"><svg><use href="#save"></use></svg></button>
 
   <input type="text" class='todo-search' placeholder="Search todo...">
 
   <div class='todos-container'></div>
 
-  <button class="hide-completed-todos" title="Hide all completed todos">Hide completed</button>
-  <button class="toggle-hidden-todos-window" title="Show hidden todos">🗂️</button>
   <button class="toggle-add-todo-form --toggle-form-btn" title="ctrl + h">✚</button>
   <button class="toggle-todo-progresses-block">i</button>
 
@@ -196,7 +161,7 @@
   </div>
 
   <!-- Assistant(todo) -->
-  <button class="toggle-todos-assistant-window toggle-type-assistant">Assistant</button>
+  <button class="toggle-todos-assistant-window toggle-type-assistant">AI</button>
   <div class="todos-assistant-window type-assistant">
     <div class="assistant-answer-container"></div>
     <textarea class="user-prompt-textarea" placeholder="How can I help?..."></textarea>
@@ -207,20 +172,11 @@
 
   <!-- Add todo block -->
   <div class="add-todo-form">
-    <button class="close-add-todo-form-btn">❌</button>
     <input type="text" class='todo-name-input' placeholder="Todo name...">
     <input type="text" class="todo-mark-input" placeholder="Todo mark...">
     <input type="text" class="todo-tag-input" placeholder="Todo tag...">
     <button class='add-todo' title="Add todo">Add</button>
-    <p class='todo-symbols-length'>0/25</p>
-  </div>
-
-  <div class="hidden-todos-window is-wrap">
-    <h2>Hidden todos</h2>
-    <hr>
-    <button class="close-hidden-wind-btn">❌</button>
-    <div class="hidden-todos-container"></div>
-    <button class="unhide-todos">Unhide</button>
+    <p class='todo-symbols-length'></p>
   </div>
 
   <div class="edit-todo-block">
@@ -240,7 +196,7 @@
 <!-- Notes -->
 <div class="notes-wrap is-wrap">
   <h1>Notes</h1>
-  <p class="notes-blocks-limit">_/25</p>
+  <p class="notes-blocks-limit"></p>
   <hr>
 
   <button class="note-save-btn --saved-btn" title="Save content"><svg><use href="#save"></use></svg></button>
@@ -265,7 +221,7 @@
   </div>
 
   <!-- Assistant(notes) -->
-  <button class="toggle-notes-assistant-window toggle-type-assistant">Assistant</button>
+  <button class="toggle-notes-assistant-window toggle-type-assistant">AI</button>
   <div class="notes-assistant-window type-assistant">
     <div class="assistant-answer-container"></div>
     <textarea class="user-prompt-textarea" placeholder="How can I help?..."></textarea>
@@ -283,7 +239,7 @@
   <input type="text" class="search-note-text-input" placeholder="Search text...">
 
   <!-- Content assistant -->
-  <button class="toggle-notes-content-assistant-window toggle-type-assistant">Assistant</button>
+  <button class="toggle-notes-content-assistant-window toggle-type-assistant">AI</button>
   <div class="notes-content-assistant-window type-assistant">
     <div class="assistant-answer-container"></div>
     <textarea class="user-prompt-textarea" placeholder="How can I help?..."></textarea>
@@ -298,7 +254,7 @@
 
 <!-- Urls -->
 <div class="save-urls-wrap is-wrap">
-  <p class="url-blocks-limit">_/25</p>
+  <p class="url-blocks-limit"></p>
   <button class="url-save-btn --saved-btn" title="Save content">
     <svg><use href="#save"></use></svg>
   </button>
@@ -309,7 +265,7 @@
   <div class="all-urls-container"></div>
 
   <!-- Urls assistant -->
-  <button class="toggle-urls-assistant-window toggle-type-assistant">Assistant</button>
+  <button class="toggle-urls-assistant-window toggle-type-assistant">AI</button>
   <div class="urls-assistant-window type-assistant">
     <div class="assistant-answer-container"></div>
     <textarea class="user-prompt-textarea" placeholder="How can I help?..."></textarea>
@@ -366,7 +322,7 @@
 <!-- User code wrap -->
 <div class="user-code-wrap is-wrap">
   <h2>Codes</h2>
-  <p class="code-blocks-limit">_/25</p>
+  <p class="code-blocks-limit"></p>
   <button class="code-save-btn --saved-btn" title="Save content"><svg><use href="#save"></use></svg></button>
   <hr>
   <input type="text" class="search-code-input" placeholder="Search name/length...">
@@ -395,7 +351,7 @@
   </div>
 
   <!-- Code assistant -->
-  <button class="toggle-codes-assistant-window toggle-type-assistant">Assistant</button>
+  <button class="toggle-codes-assistant-window toggle-type-assistant">AI</button>
   <div class="codes-assistant-window type-assistant">
     <div class="assistant-answer-container"></div>
     <textarea class="user-prompt-textarea" placeholder="How can I help?..."></textarea>
@@ -450,16 +406,14 @@
 
   <!-- Edit text snippet block -->
   <div class="edit-text-snippet-block">
-    <label for="name">Name</label>
-    <input class="edit-name-input" id="name" type="text" placeholder="New name..."><br>
-    <label for="content">Content</label>
-    <textarea class="edit-content-textarea" id="content" type="text" placeholder="New content..."></textarea>
+    <input class="edit-name-input" type="text" placeholder="New name...">
+    <textarea class="edit-content-textarea" type="text" placeholder="New content..."></textarea>
     <p class="content-limit-txt"></p>
     <button class="confirm-edit-change">OK</button>
   </div>
 
   <!-- Text snippets assistant -->
-  <button class="toggle-text-snippets-assistant-window toggle-type-assistant">Assistant</button>
+  <button class="toggle-text-snippets-assistant-window toggle-type-assistant">AI</button>
   <div class="text-snippets-assistant-window type-assistant">
     <div class="assistant-answer-container"></div>
     <textarea class="user-prompt-textarea" placeholder="How can I help?..."></textarea>
@@ -467,6 +421,62 @@
     <!-- Loader -->
     <span class="loader assistant-loader"></span>
   </div>
+
+  <progress class="texts-progress"></progress>
+  <p class="text-progress-txt"></p>
+</div>
+
+<!-- Music wrap -->
+<div class="music-wrap is-wrap">
+  <input type="text" class="search-music-input" placeholder="Search music...">
+  <button class="save-music-btn --saved-btn"><svg><use href="#save"></use></svg></button>
+
+  <!-- Show init music -->
+  <div class="show-init-music-block">
+    <p class="show-init-music-name">Music</p>
+
+    <button class="play-music"></button>
+    <progress class="play-music-progress"></progress>
+    <p class="play-music-progress-txt"></p>
+
+    <audio preload="none"></audio>
+  </div>
+
+  <div class="all-music-container"></div>
+
+  <button class="toggle-add-music-form --toggle-form-btn" title="Ctrl + h">✚</button>
+  <div class="add-music-form">
+    <input class="name" type="text" placeholder="Music name...">
+    <input class="music-url" type="text" placeholder="Music URL...">
+    <button class="add-music-btn">OK</button>
+  </div>
+
+  <!-- Edit music block -->
+  <div class="edit-music-block">
+    <input type="text" class="name" placeholder="New name...">
+    <input type="text" class="music-url" placeholder="New music URL...">
+    <button class="confirm">OK</button>
+  </div>
+
+  <!-- Set music mode -->
+  <select class="select-music-play-mode">
+    <option value="" selected>▶ Normal</option>
+    <option value="loop">🔁 Loop</option>
+    <option value="random-loop">🔁🔀 Random Loop</option>
+  </select>
+
+  <!-- Assistant(music) -->
+  <button class="toggle-music-assistant-window toggle-type-assistant">AI</button>
+  <div class="music-assistant-window type-assistant">
+    <div class="assistant-answer-container"></div>
+    <textarea class="user-prompt-textarea" placeholder="How can I help?..."></textarea>
+    <button class="send-prompt-btn">🗣</button>
+    <!-- Loader for AI -->
+    <span class="loader assistant-loader"></span>
+  </div>
+
+  <progress class="music-progress"></progress>
+  <p class="music-progress-txt"></p>
 </div>
 
 <!-- Exchange rate wrap -->
@@ -603,7 +613,7 @@
 <!-- SIDE BAR -->
 <article class="all-dashboard-items open">
   <button class="show-timer-window" title="Timer"><svg><use href="#timer"></use></svg></button>
-  <h2>DASHBOARD</h2>
+  <h3>DASHBOARD</h3>
   <button class="toggle-dashboard-items-btn" title="ctrl + p"><svg><use href="#close-panel"></use></svg></button>
   <button class="open-assistant-wrap --opened-btn">Assistant</button>
   <button class="open-todo-wrap --opened-btn"><p>Your todos</p><p></p></button>
@@ -611,7 +621,8 @@
   <button class="open-save-urls-wrap --opened-btn"><p>Your urls</p><p></p></button>
   <button class="open-user-code-wrap --opened-btn"><p>Your code</p><p></p></button>
   <button class="open-texts-snippets-wrap --opened-btn">Your texts<p></p></button>
-  <h3>Services</h3>
+  <button class="open-music-wrap --opened-btn">Your music<p></p></button>
+  <h4>Services</h4>
   <button class="open-exchange-rate-wrap --opened-btn">Exchange rate</button>
   <button class="open-weather-wrap --opened-btn">Weather</button>
   <button class="open-timezone-wrap --opened-btn">Timezones</button>
@@ -735,7 +746,7 @@
   <p>Loading your content. Please wait...</p>
   <img src="/all-imgs/dashboard-favicon-img.svg" alt="Smile img" >
   <!-- Progress max = all scripts -->
-  <progress class="preloader-progress" max="13"></progress>
+  <progress class="preloader-progress" max="14"></progress>
   <p class="what-is-loading-text">Loading...</p>
 
   <span class="loader"></span>

@@ -16,9 +16,10 @@
 .note-block {
   width: 90%;
   min-height: 70px;
-  background: var(--block-bg);
   border-radius: 12px;
-  color: var(--text-color);
+  background: linear-gradient(90deg, rgba(20, 0, 40, 0.9), rgba(140, 80, 255, 0.6), rgba(20, 0, 40, 0.9));
+  color: #f3eaff;
+  box-shadow: 2px 2px 5px rgba(140, 80, 255, 0.5);
   border: 1px solid var(--border-color);
   padding: 5px;
   margin: 10px;

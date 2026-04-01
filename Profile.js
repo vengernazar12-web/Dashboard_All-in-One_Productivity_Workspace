@@ -2,7 +2,7 @@
 whatIsLoadingText.textContent = 'Loading profile logic...';
 
 // All profiles imgs arr
-let allAvatarsArr = null;
+let allAvatarsArr = [];
 
 let isLoadingAvatar = false;
 // Delegation
@@ -86,12 +86,37 @@ profileWrap.addEventListener('click', async e => {
   ) allAvatarsBlock.classList.remove('show');
   // Open setting
   else if(target.closest('.open-settings-window')) initSettingsForOpen();
+
+  else if(target.closest('.info-block')) { // Open
+    const block = target.closest('.info-block');
+    const type = block.dataset.type;
+    const name = block.dataset.value;
+
+    if(type === 'todos') openTodoWrapBtn.click();
+    else if(type === 'notes') openNoteWrapBtn.click();
+    else if(type === 'urls') openUrlWrapBtn.click();
+    else if(type === 'codes') openCodeWrapBtn.click();
+    else if(type === 'texts') openTextsSnippetsWrap.click();
+    else if(type === 'music') openMusicWrapBtn.click();
+
+    const targetContainer = type === 'todos'
+    ? todosContainer : type === 'notes'
+    ? allUserNotesCont : type === 'urls'
+    ? allUrlsContainer : type === 'codes'
+    ? allUserCodesContainer : type === 'texts'
+    ? allTextsSnippetsContainer : allMusicContainer;
+
+    const targetBlock = targetContainer.querySelector(`[data-name="${name}"]`);
+    targetBlock.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center'
+    })
+  }
 })
 // Open
 const openProfileWrapBtn = document.querySelector('.open-user-profile-wrap-btn');
 openProfileWrapBtn.addEventListener('click', () => {
   closeAllWraps();
-  totalBlockLimitsProgress.value = 0;
   profileWrap.classList.add('show');
   if(profileAvatarPreview.src !== openBtnProfileImg.src) profileAvatarPreview.src = openBtnProfileImg.src;
   initUserAccountInfo();
@@ -117,6 +142,8 @@ const userNotesLengthInfo = userAccountInfoBlock.querySelector('.notes-length');
 const userUrlsInfo = userAccountInfoBlock.querySelector('.urls');
 const userCodesInfo = userAccountInfoBlock.querySelector('.codes');
 const userCodesLengthInfo = userAccountInfoBlock.querySelector('.codes-length');
+const userTextsInfo = userAccountInfoBlock.querySelector('.texts');
+const userMusicInfo = userAccountInfoBlock.querySelector('.music');
 
 const allInfos = userAccountInfoBlock.children;
 
@@ -127,43 +154,53 @@ userNotesLengthInfo.lastElementChild.max = allBlockLimitsObj.notes * 2000;
 userUrlsInfo.lastElementChild.max = allBlockLimitsObj.urls;
 userCodesInfo.lastElementChild.max = allBlockLimitsObj.codes;
 userCodesLengthInfo.lastElementChild.max = allBlockLimitsObj.codes * 1500;
+userTextsInfo.lastElementChild.max = allBlockLimitsObj.text;
+userMusicInfo.lastElementChild.max = allBlockLimitsObj.music;
 
 // Set all progress values after animation
-const totalBlockLimitsProgress = profileWrap.querySelector('.total-block-limits');
-totalBlockLimitsProgress.max = Object.values(allBlockLimitsObj).reduce((s, v) => s + v, 0);
 userCodesLengthInfo.lastElementChild.addEventListener('animationend', () => setProgressValues());
 
 function setProgressValues() {
-  const allTodos = [...Object.keys(allTodosObj), ...Object.keys(hiddenTodosObj)];
+  const allTodos = Object.keys(allTodosObj || {});
   userTodosInfo.lastElementChild.value = allTodos.length; // Todo
 
-  const allNotes = Object.keys(allNotesObj);
+  const allNotes = Object.keys(allNotesObj || {});
   userNotesInfo.lastElementChild.value = allNotes.length; // Note
   userNotesLengthInfo.lastElementChild.value = allNotes.reduce((sum, val) => sum + allNotesObj[val].txt.replaceAll('\n','').length, 0); // Note length
 
-  userUrlsInfo.lastElementChild.value = allUrlsArr.length; // Url
+  const allUrls = Object.keys(allUrlsObj || {});
+  userUrlsInfo.lastElementChild.value = allUrls.length; // Url
 
-  const allCodes = Object.keys(allUserCodesObj);
+  const allCodes = Object.keys(allUserCodesObj || {});
   userCodesInfo.lastElementChild.value = allCodes.length; // Code
   userCodesLengthInfo.lastElementChild.value = allCodes.reduce((sum, val) => sum + allUserCodesObj[val].code.replaceAll(' ','').replaceAll('\n','').length, 0); // Code length
 
-  // total block limits progress
-  totalBlockLimitsProgress.value = allTodos.length + allNotes.length + allUrlsArr.length + allCodes.length;
+  const allTexts = Object.keys(allTextsSnippetsObj || {});
+  userTextsInfo.lastElementChild.value = allTexts.length; // Text
+
+  const allMusic = Object.keys(allMusicObj || {});
+  userMusicInfo.lastElementChild.value = allMusic.length; // Music
 }
 
 // Set all stats
 async function initUserAccountInfo() {
-  userTodosInfo.firstElementChild.textContent = `Todos: ${[...Object.keys(allTodosObj), ...Object.keys(hiddenTodosObj)].length}`;
+  userTodosInfo.firstElementChild.textContent = `Todos: ${allTodosObj ? Object.keys(allTodosObj).length : 'Not loaded'}`;
 
-  const allNotes = Object.keys(allNotesObj);
-  userNotesInfo.firstElementChild.textContent = `Notes: ${allNotes.length}`;
-  userNotesLengthInfo.firstElementChild.textContent = `Notes symbols: ${allNotes.reduce((sum, val) => sum + allNotesObj[val].txt.replaceAll('\n','').length, 0)}`;
+  const allNotes = Object.keys(allNotesObj || {});
+  userNotesInfo.firstElementChild.textContent = `Notes: ${allNotesObj ? allNotes.length : 'Not loaded'}`;
+  userNotesLengthInfo.firstElementChild.textContent = `Notes symbols: ${allNotesObj ? allNotes.reduce((sum, val) => sum + allNotesObj[val].txt.replaceAll('\n','').length, 0) : 'Not loaded'}`;
 
-  userUrlsInfo.firstElementChild.textContent = `Urls: ${allUrlsArr.length}`;
+  userUrlsInfo.firstElementChild.textContent = `Urls: ${allUrlsObj ? Object.keys(allUrlsObj).length : 'Not loaded'}`;
 
-  const allCodes = Object.keys(allUserCodesObj);
-  userCodesInfo.firstElementChild.textContent = `Code: ${allCodes.length}`;
-  userCodesLengthInfo.firstElementChild.textContent = `Code symbols: ${allCodes.reduce((sum, val) => sum + allUserCodesObj[val].code.replaceAll(' ','').replaceAll('\n','').length, 0)}`;
+  const allCodes = Object.keys(allUserCodesObj || {});
+  userCodesInfo.firstElementChild.textContent = `Codes: ${allUserCodesObj ? allCodes.length : 'Not loaded'}`;
+  userCodesLengthInfo.firstElementChild.textContent = `Code symbols: ${allUserCodesObj ? allCodes.reduce((sum, val) => sum + allUserCodesObj[val].code.replaceAll(' ','').replaceAll('\n','').length, 0) : 'Not loaded'}`;
+
+  const allTexts = Object.keys(allTextsSnippetsObj || {});
+  userTextsInfo.firstElementChild.textContent = `Texts: ${allTextsSnippetsObj ? allTexts.length : 'Not loaded'}`;
+
+  const allMusic = Object.keys(allMusicObj || {});
+  userMusicInfo.firstElementChild.textContent = `Music: ${allMusicObj ? allMusic.length : 'Not loaded'}`;
 
   if(!userEmailInfo.length) {
     const {data, error} = await client.auth.getSession();
@@ -206,67 +243,24 @@ const selectWrapBlocksType = profileWrap.querySelector('.select-wrap-type');
 selectWrapBlocksType.addEventListener('change', () => renderProfileWrapBlocksInfo());
 
 const wrapBlocksContainer = profileWrap.querySelector('.all-wrap-blocks-container');
-wrapBlocksContainer.addEventListener('click', e => {
-  if(e.target.closest('.delete')) { // Delete
-    if(localStorage.getItem('conf-before-delete') === 'true' && !confirm('Delete?')) return;
 
-    const name = e.target.closest('.delete').parentElement.dataset.value;
-    const val = selectWrapBlocksType.value;
-    if(val === 'urls') {
-      allUrlsArr = allUrlsArr.filter(obj => obj.title !== name);
-      urlSaveBtn.classList.add('unsaved');
-      setOpenBtnsTexts();
-      return renderProfileWrapBlocksInfo();
-    }
-    const targetObj = val === 'todos' ? allTodosObj : val === 'notes' ? allNotesObj : allUserCodesObj;
-    const saveBtn = val === 'todos' ? todoSaveBtn : val === 'notes' ? noteSaveBtn : codeSaveBtn;
-
-    delete targetObj[name];
-    saveBtn.classList.add('unsaved');
-    setOpenBtnsTexts();
-    renderProfileWrapBlocksInfo();
-
-    searchProfileWrapBlocksInfoInput.value = '';
-  }
-  else if(e.target.closest('.info-block')) { // Open
-    const block = e.target.closest('.info-block');
-    const type = block.dataset.type;
-    const name = block.dataset.value;
-    if(type === 'todos') openTodoWrapBtn.click();
-    else if(type === 'notes') openNoteWrapBtn.click();
-    else if(type === 'urls') openUrlWrapBtn.click();
-    else if(type === 'codes') openCodeWrapBtn.click();
-    else if(type === 'texts') openTextsSnippetsWrap.click();
-
-    const targetContainer = type === 'todos'
-    ? todosContainer : type === 'notes'
-    ? allUserNotesCont : type === 'urls'
-    ? allUrlsContainer : type === 'codes'
-    ? allUserCodesContainer : allTextsSnippetsContainer;
-
-    const targetBlock = targetContainer.querySelector(`[data-name="${name}"]`);
-    targetBlock.scrollIntoView({
-      behavior: 'smooth',
-      block: 'center'
-    })
-  }
-})
-
-function renderProfileWrapBlocksInfo() {
+function renderProfileWrapBlocksInfo(searchVal = null) {
   const val = selectWrapBlocksType.value;
   if(!val) return;
 
-  const targetArr = val === 'todos' ? Object.keys(allTodosObj).map(n => {return {name: n, type: 'todo'}})
-  : val === 'notes' ? Object.keys(allNotesObj).map(n => {return {name: n, type: 'notes'}})
-  : val === 'urls' ? allUrlsArr.map(o => {return {name: o.title, type: 'urls'}})
-  : val === 'codes' ? Object.keys(allUserCodesObj).map(n => {return {name: n, type: 'codes'}})
-  : val === 'texts' ? Object.keys(allTextsSnippetsObj).map(n => {return {name: n, type: 'texts'}})
+  const targetArr = val === 'todos' ? Object.keys(allTodosObj).map(n => {return {name: n, type: 'todos'}})
+  : val === 'notes' ? Object.keys(allNotesObj || {}).map(n => {return {name: n, type: 'notes'}})
+  : val === 'urls' ? Object.keys(allUrlsObj || {}).map(n => {return {name: n, type: 'urls'}})
+  : val === 'codes' ? Object.keys(allUserCodesObj || {}).map(n => {return {name: n, type: 'codes'}})
+  : val === 'texts' ? Object.keys(allTextsSnippetsObj || {}).map(n => {return {name: n, type: 'texts'}})
+  : val === 'music' ? Object.keys(allMusicObj || {}).map(n => {return {name: n, type: 'music'}})
   : [
-    ...Object.keys(allTodosObj).map(n => {return {name: n, type: 'todo'}}),
-    ...Object.keys(allNotesObj).map(n => {return {name: n, type: 'notes'}}),
-    ...allUrlsArr.map(o => {return {name: o.title, type: 'urls'}}),
-    ...Object.keys(allUserCodesObj).map(n => {return {name: n, type: 'codes'}}),
-    ...Object.keys(allTextsSnippetsObj).map(n => {return {name: n, type: 'texts'}})
+    ...Object.keys(allTodosObj || {}).map(n => {return {name: n, type: 'todos'}}),
+    ...Object.keys(allNotesObj || {}).map(n => {return {name: n, type: 'notes'}}),
+    ...Object.keys(allUrlsObj || {}).map(n => {return {name: n, type: 'urls'}}),
+    ...Object.keys(allUserCodesObj || {}).map(n => {return {name: n, type: 'codes'}}),
+    ...Object.keys(allTextsSnippetsObj || {}).map(n => {return {name: n, type: 'texts'}}),
+    ...Object.keys(allMusicObj || {}).map(n => {return {name: n, type: 'music'}})
   ];
 
   const maxLimit = val === 'todos' ? allBlockLimitsObj.todos
@@ -274,28 +268,33 @@ function renderProfileWrapBlocksInfo() {
   : val === 'urls' ? allBlockLimitsObj.urls
   : val === 'codes' ? allBlockLimitsObj.codes
   : val === 'texts' ? allBlockLimitsObj.text
-  : allBlockLimitsObj.todos + allBlockLimitsObj.notes + allBlockLimitsObj.urls + allBlockLimitsObj.codes + allBlockLimitsObj.text;
+  : val === 'music' ? allBlockLimitsObj.music
+  : allBlockLimitsObj.todos + allBlockLimitsObj.notes + allBlockLimitsObj.urls + allBlockLimitsObj.codes + allBlockLimitsObj.text + allBlockLimitsObj.music;
 
   wrapBlocksContainer.textContent = '';
   const frag = document.createDocumentFragment();
 
+  const safeTxt = searchVal ? txt.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : null;
+  const regexp = searchVal ? new RegExp(safeTxt, 'ig') : null;
+
   let num = 1;
-  for(let n of targetArr) {
+  for(let o of targetArr) {
+    const name = o.name;
+    if(searchVal && !name.match(matchRegexp)) continue;
+
     const div = document.createElement('div');
     const p = document.createElement('p');
-    const delBtn = document.createElement('button');
 
     div.classList.add('info-block');
-    div.dataset.value = n.name;
-    div.dataset.type = n.type;
+    div.dataset.value = o.name;
+    div.dataset.type = o.type;
 
-    p.textContent = `${n.name} - ${num}/${maxLimit}`;
+    p.innerHTML = searchVal ?
+    `${hashHtmlSymbols(name).replaceAll(regexp, '<mark>$&</mark>')} - ${num}/${maxLimit}`
+    : `${name} - ${num}/${maxLimit}`;
+
     num++;
-
-    delBtn.classList.add('delete');
-    delBtn.innerHTML = '<svg><use href=#delete-code></use></svg>';
-
-    div.append(p, delBtn);
+    div.appendChild(p);
     frag.appendChild(div);
   }
   wrapBlocksContainer.appendChild(frag);
@@ -303,65 +302,7 @@ function renderProfileWrapBlocksInfo() {
 
 // Search wrap blocks
 const searchProfileWrapBlocksInfoInput = profileWrap.querySelector('.search-profile-wrap-blocks-input');
-searchProfileWrapBlocksInfoInput.addEventListener('input', () => renderProfileFoundWrapBlocksInfo(searchProfileWrapBlocksInfoInput.value.trim()));
-
-function renderProfileFoundWrapBlocksInfo(txt) {
-  const selectedValue = selectWrapBlocksType.value;
-  if(!txt || !selectedValue) return renderProfileWrapBlocksInfo();
-
-  const val = selectWrapBlocksType.value;
-
-  const targetArr = val === 'todos' ? Object.keys(allTodosObj).map(n => {return {name: n, type: 'todo'}})
-  : val === 'notes' ? Object.keys(allNotesObj).map(n => {return {name: n, type: 'notes'}})
-  : val === 'urls' ? allUrlsArr.map(o => {return {name: o.title, type: 'urls'}})
-  : val === 'codes' ? Object.keys(allUserCodesObj).map(n => {return {name: n, type: 'codes'}})
-  : val === 'texts' ? Object.keys(allTextsSnippetsObj).map(n => {return {name: n, type: 'texts'}})
-  : [
-    ...Object.keys(allTodosObj).map(n => {return {name: n, type: 'todo'}}),
-    ...Object.keys(allNotesObj).map(n => {return {name: n, type: 'notes'}}),
-    ...allUrlsArr.map(o => {return {name: o.title, type: 'urls'}}),
-    ...Object.keys(allUserCodesObj).map(n => {return {name: n, type: 'codes'}}),
-    ...Object.keys(allTextsSnippetsObj).map(n => {return {name: n, type: 'texts'}})
-  ];
-
-  const maxLimit = val === 'todos' ? allBlockLimitsObj.todos
-  : val === 'notes' ? allBlockLimitsObj.notes
-  : val === 'urls' ? allBlockLimitsObj.urls
-  : val === 'codes' ? allBlockLimitsObj.codes
-  : val === 'texts' ? allBlockLimitsObj.text
-  : allBlockLimitsObj.todos + allBlockLimitsObj.notes + allBlockLimitsObj.urls + allBlockLimitsObj.codes + allBlockLimitsObj.text;
-
-  wrapBlocksContainer.textContent = '';
-  const frag = document.createDocumentFragment();
-
-  const safeTxt = txt.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  const matchRegexp = new RegExp(safeTxt, 'i');
-  const regexp = new RegExp(safeTxt, 'ig');
-
-  let num = 1;
-  for(let n of targetArr) {
-    const arrName = n.name;
-    if(!arrName.match(matchRegexp)) continue;
-
-    const div = document.createElement('div');
-    const p = document.createElement('p');
-    const delBtn = document.createElement('button');
-
-    div.classList.add('info-block');
-    div.dataset.value = n.name;
-    div.dataset.type = n.type;
-
-    p.innerHTML = `${arrName.replaceAll(regexp, '<mark>$&</mark>')} - ${num}/${maxLimit}`;
-    num++;
-
-    delBtn.classList.add('delete');
-    delBtn.innerHTML = '<svg><use href=#delete-code></use></svg>';
-
-    div.append(p, delBtn);
-    frag.appendChild(div);
-  }
-  wrapBlocksContainer.appendChild(frag);
-}
+searchProfileWrapBlocksInfoInput.addEventListener('input', () => renderProfileWrapBlocksInfo(searchProfileWrapBlocksInfoInput.value.trim()));
 
 // SETTINGS
 const settingsWindow = document.querySelector('.settings-window'),
@@ -372,15 +313,14 @@ const openSettingsWindow = profileWrap.querySelector('.open-settings-window');
 settingsWindow.querySelector('.close-settings-window')
 .addEventListener('click', () => {
   settingsWindow.classList.remove('show');
-  totalBlockLimitsProgress.value = 0;
   profileWrap.classList.add('show');
   if(profileAvatarPreview.src !== openBtnProfileImg.src) profileAvatarPreview.src = openBtnProfileImg.src;
   initUserAccountInfo();
 });
 
 // Open settings into sidebar
-allDashboardItem.querySelector('.open-settings-window-into-sidebar')
-.addEventListener('click', () => {
+const openSettingsWindowInSidebar = allDashboardItem.querySelector('.open-settings-window-into-sidebar');
+openSettingsWindowInSidebar.addEventListener('click', () => {
   closeAllWraps();
   initSettingsForOpen();
 });

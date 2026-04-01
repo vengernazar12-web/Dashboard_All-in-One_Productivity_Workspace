@@ -18,8 +18,9 @@ notesAssistantTextarea.addEventListener('input', () => {
   notesAssistantTextarea.style.height = '30px';
   notesAssistantTextarea.style.height = `${notesAssistantTextarea.scrollHeight + 3}px`;
 
-  sendNotesPromptBtn.style.border = `1px solid ${notesAssistantTextarea.value.trim().length > 1000 ? 'red' : 'silver'}`;
-  sendNotesPromptBtn.textContent = notesAssistantTextarea.value.trim() ? '=>' : '🗣';
+  const val = notesAssistantTextarea.value.trim();
+  sendNotesPromptBtn.style.border = `1px solid ${val.length > 1000 ? 'red' : 'silver'}`;
+  sendNotesPromptBtn.textContent = val ? '=>' : '🗣';
 })
 
 const sendNotesPromptBtn = notesAssistantWindow.querySelector('.send-prompt-btn');
@@ -40,7 +41,7 @@ sendNotesPromptBtn.addEventListener('click', async () => {
   pre.textContent = userTxt;
   div.appendChild(pre);
   notesAssistantAnswerContainer.appendChild(div);
-  notesAssistantWindow.scrollTop = notesAssistantWindow.scrollHeight;
+  notesAssistantAnswerContainer.scrollTop = notesAssistantAnswerContainer.scrollHeight;
   // ----
 
   historyForNotesAssistant.push({role: 'user', content: userTxt});
@@ -76,7 +77,7 @@ function createNotesAssistantText(txt) {
     clearInterval(notesAssistantTypingInterval);
     notesAssistantTypingInterval = null;
     initNotesTypingEl.textContent = initNotesTypingTxt;
-    notesAssistantWindow.scrollTop = notesAssistantWindow.scrollHeight;
+    notesAssistantAnswerContainer.scrollTop = notesAssistantAnswerContainer.scrollHeight;
   }
 
   const div = document.createElement('div'),
@@ -96,12 +97,12 @@ function createNotesAssistantText(txt) {
   notesAssistantTypingInterval = setInterval(() => {
     c += Math.floor(Math.random() * 5 + 1);
     initNotesTypingEl.textContent = initNotesTypingTxt.slice(0, c);
-    notesAssistantWindow.scrollTop = notesAssistantWindow.scrollHeight;
+    notesAssistantAnswerContainer.scrollTop = notesAssistantAnswerContainer.scrollHeight;
     if(c > txtLng) {
       clearInterval(notesAssistantTypingInterval);
       notesAssistantTypingInterval = null;
       initNotesTypingEl.textContent = initNotesTypingTxt;
-      notesAssistantWindow.scrollTop = notesAssistantWindow.scrollHeight;
+      notesAssistantAnswerContainer.scrollTop = notesAssistantAnswerContainer.scrollHeight;
     }
   }, 20);
 }
@@ -126,8 +127,9 @@ notesContentAssistantTextarea.addEventListener('input', () => {
   notesContentAssistantTextarea.style.height = '30px';
   notesContentAssistantTextarea.style.height = `${notesContentAssistantTextarea.scrollHeight + 3}px`;
 
-  sendNotesContentPromptBtn.style.border = `1px solid ${notesContentAssistantTextarea.value.trim().length > 1000 ? 'red' : 'silver'}`;
-  sendNotesContentPromptBtn.textContent = notesContentAssistantTextarea.value.trim() ? '=>' : '🗣';
+  const val = notesContentAssistantTextarea.value.trim();
+  sendNotesContentPromptBtn.style.border = `1px solid ${val.length > 1000 ? 'red' : 'silver'}`;
+  sendNotesContentPromptBtn.textContent = val ? '=>' : '🗣';
 })
 
 const sendNotesContentPromptBtn = notesContentAssistantWindow.querySelector('.send-prompt-btn');
@@ -148,7 +150,7 @@ sendNotesContentPromptBtn.addEventListener('click', async () => {
   pre.textContent = userTxt;
   div.appendChild(pre);
   notesContentAssistantAnswerContainer.appendChild(div);
-  notesContentAssistantWindow.scrollTop = notesContentAssistantWindow.scrollHeight;
+  notesContentAssistantAnswerContainer.scrollTop = notesContentAssistantAnswerContainer.scrollHeight;
   // -----
 
   historyForNotesContentAssistant.push({role: 'user', content: userTxt});
@@ -167,7 +169,7 @@ function createNotesContentAssistantText(txt) {
     clearInterval(notesContentAssistantTypingInterval);
     notesContentAssistantTypingInterval = null;
     initNotesContentTypingEl.textContent = initNotesContentTypingTxt;
-    notesContentAssistantWindow.scrollTop = notesContentAssistantWindow.scrollHeight;
+    notesContentAssistantAnswerContainer.scrollTop = notesContentAssistantAnswerContainer.scrollHeight;
   }
 
   const div = document.createElement('div'),
@@ -187,12 +189,12 @@ function createNotesContentAssistantText(txt) {
   notesContentAssistantTypingInterval = setInterval(() => {
     c += Math.floor(Math.random() * 5 + 1);
     initNotesContentTypingEl.textContent = initNotesContentTypingTxt.slice(0, c);
-    notesContentAssistantWindow.scrollTop = notesContentAssistantWindow.scrollHeight;
+    notesContentAssistantAnswerContainer.scrollTop = notesContentAssistantAnswerContainer.scrollHeight;
     if(c > txtLng) {
       clearInterval(notesContentAssistantTypingInterval);
       notesContentAssistantTypingInterval = null;
       initNotesContentTypingEl.textContent = initNotesContentTypingTxt;
-      notesContentAssistantWindow.scrollTop = notesContentAssistantWindow.scrollHeight;
+      notesContentAssistantAnswerContainer.scrollTop = notesContentAssistantAnswerContainer.scrollHeight;
     }
   }, 20);
 }

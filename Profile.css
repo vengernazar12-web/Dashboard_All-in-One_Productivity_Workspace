@@ -88,7 +88,7 @@
   top: 160px;
   right: 5px;
   width: calc(100% - 10px);
-  height: 125px;
+  height: 165px;
   border-radius: 10px;
   border: 1px solid var(--border-color);
   padding: 5px;
@@ -130,19 +130,6 @@
   border-radius: 10px;
   background: linear-gradient( 90deg, #7c7cff, #52e5ff, #7cffc4 );
   box-shadow: 0 0 6px rgba(124,124,255,.7), 0 0 12px rgba(82,229,255,.5);
-}
-
-/* Total block limits progress */
-.total-block-limits-title {
-  position: absolute;
-  top: 305px;
-  left: 7.5%;
-  color: black;
-}
-.user-profile-wrap > .total-block-limits {
-  position: absolute;
-  left: 5%;
-  top: 300px;
 }
 
 /* All profile btns block */
@@ -261,7 +248,6 @@
   word-wrap: break-word;
   max-width: calc(100% - 30px);
 }
-.all-wrap-blocks-container .delete { color: var(--text-color); }
 
 /* Animations */
 @keyframes init-element {

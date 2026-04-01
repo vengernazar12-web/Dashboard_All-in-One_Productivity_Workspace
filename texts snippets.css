@@ -19,7 +19,8 @@
   top: 40px;
   right: 5px;
   border-radius: 5px;
-  padding: 4px;
+  width: 30px;
+  height: 30px;
 }
 
 /* Add text snippet */
@@ -82,10 +83,12 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  padding-bottom: 110px;
 }
 .text-block {
-  background: var(--block-bg);
+  background: linear-gradient(90deg, rgba(0, 40, 20, 0.9), rgba(80, 200, 120, 0.6), rgba(0, 40, 20, 0.9));
   color: var(--text-color);
+  box-shadow: 2px 2px 5px rgba(80, 200, 120, 0.5);
   border-radius: 10px;
   border: 1px solid var(--border-color);
   padding: 5px;
@@ -118,6 +121,7 @@
   text-wrap: wrap;
   padding-top: 5px;
   font-size: 14px;
+  color: #eafff1;
 }
 
 /* Edit text snippet */
@@ -194,4 +198,13 @@
   position: absolute;
   top: 40px;
   left: 5px;
+}
+
+/* Text progress */
+.text-progress-txt {
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  color: black;
+  font-size: 16px
 }

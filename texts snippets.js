@@ -8,13 +8,31 @@ textsSnippetsWrap.addEventListener('click', e => {
 })
 // Open
 const openTextsSnippetsWrap = allDashboardItem.querySelector('.open-texts-snippets-wrap');
-openTextsSnippetsWrap.addEventListener('click', () => {
+openTextsSnippetsWrap.addEventListener('click', async () => {
   closeAllWraps();
+
+  if(!allTextsSnippetsObj) {
+    showPreloader();
+    preloaderProgress.max = 1;
+    preloaderProgress.value = 0;
+    whatIsLoadingText.textContent = 'Take content...';
+
+    allTextsSnippetsObj = await getContent('texts');
+    if(!allTextsSnippetsObj) return;
+
+    preloaderProgress.value = 1;
+    whatIsLoadingText.textContent = 'Content taken';
+    setTimeout(() => showPreloader(false), 500);
+  }
+
   textsSnippetsWrap.classList.add('show');
   renderTextsSnippets();
 })
 
-let allTextsSnippetsObj = {};
+let allTextsSnippetsObj = null;
+
+const textProgress = textsSnippetsWrap.querySelector('.texts-progress');
+const textProgressTxt = textsSnippetsWrap.querySelector('.text-progress-txt');
 
 function createTextSnippetBlock(name, searchVal = null) {
   const regexp = searchVal ? new RegExp(hashHtmlSymbols(searchVal), 'gi') : null;
@@ -64,6 +82,9 @@ function renderTextsSnippets() {
 
   allTextsSnippetsContainer.appendChild(frag);
   for(let p of allTextsSnippetsContainer.querySelectorAll('.text-block > pre')) p.style.height = `${p.scrollHeight + 5}px`;
+
+  textProgress.value = allTextsSnippetsNames.length;
+  textProgressTxt.textContent = `${allTextsSnippetsNames.length}/${allBlockLimitsObj.text}`;
 }
 
 function renderTextTags(text, isCopy = false) {
@@ -170,7 +191,7 @@ addTextSnippetBtn.addEventListener('click', () => {
   let allTextsLng = Object.keys(allTextsSnippetsObj).length;
   if(allTextsLng >= allBlockLimitsObj.text) {
     addTextSnippetForm.classList.remove('show');
-    return showResponseFn(`You have ${allTextsLng}/${allBlockLimitsObj.text}`);
+    return showResponseFn(`You have ${allTextsLng}/${allBlockLimitsObj.text} text blocks`);
   }
 
   const name = addTextSnippetNameInput.value.trim();
@@ -271,6 +292,7 @@ searchTextsSnippetsInput.addEventListener('input', () => {
   for(let n of allNames) if(n.includes(val) && !allTextsSnippetsObj[n].isFav) frag.appendChild(createTextSnippetBlock(n, safeVal));
 
   allTextsSnippetsContainer.appendChild(frag);
+  if(!allTextsSnippetsContainer.childElementCount) allTextsSnippetsContainer.innerHTML = '<h2>No texts found...</h2>';
 });
 
 // Set preloader value

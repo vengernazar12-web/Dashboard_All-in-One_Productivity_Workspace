@@ -17,8 +17,9 @@ urlsAssistantPromptTextarea.addEventListener('input', () => {
   urlsAssistantPromptTextarea.style.height = '30px';
   urlsAssistantPromptTextarea.style.height = `${urlsAssistantPromptTextarea.scrollHeight + 3}px`
 
-  sendUrlsAssistantPrompt.style.border = `1px solid ${urlsAssistantPromptTextarea.value.trim().length > 1000 ? 'red' : 'silver'}`;
-  sendUrlsAssistantPrompt.textContent = urlsAssistantPromptTextarea.value.trim() ? '=>' : '🗣';
+  const val = urlsAssistantPromptTextarea.value.trim();
+  sendUrlsAssistantPrompt.style.border = `1px solid ${val.length > 1000 ? 'red' : 'silver'}`;
+  sendUrlsAssistantPrompt.textContent = val ? '=>' : '🗣';
 })
 
 const sendUrlsAssistantPrompt = urlsAssistantWindow.querySelector('.send-prompt-btn');
@@ -52,7 +53,7 @@ sendUrlsAssistantPrompt.addEventListener('click', async () => {
     try {
       let setCommandArr = JSON.parse(setCommand.replace(/\?set\||\|set\?/g, ''));
       if(!Array.isArray(setCommandArr)) setCommandArr = [setCommandArr];
-      initUndoActionBlock('urls', allUrlsArr);
+      initUndoActionBlock('urls', allUrlsObj);
       for(let obj of setCommandArr) setContent('urls', obj.name, obj.content);
 
       addUnsavedMarkAndRenderInitWrap();

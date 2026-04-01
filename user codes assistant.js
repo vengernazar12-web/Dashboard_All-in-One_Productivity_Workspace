@@ -17,8 +17,9 @@ codesAssistantPromptTextarea.addEventListener('input', () => {
   codesAssistantPromptTextarea.style.height = '30px';
   codesAssistantPromptTextarea.style.height = `${codesAssistantPromptTextarea.scrollHeight + 3}px`;
 
-  sendCodesAssistantPromptBtn.style.border = `1px solid ${codesAssistantPromptTextarea.value.trim().length > 1000 ? 'red' : 'silver'}`;
-  sendCodesAssistantPromptBtn.textContent = codesAssistantPromptTextarea.value.trim() ? '=>' : '🗣';
+  const val = codesAssistantPromptTextarea.value.trim();
+  sendCodesAssistantPromptBtn.style.border = `1px solid ${val.length > 1000 ? 'red' : 'silver'}`;
+  sendCodesAssistantPromptBtn.textContent = val ? '=>' : '🗣';
 })
 
 const sendCodesAssistantPromptBtn = codesAssistantWindow.querySelector('.send-prompt-btn');
@@ -39,7 +40,7 @@ sendCodesAssistantPromptBtn.addEventListener('click', async () => {
   pre.textContent = userTxt;
   div.appendChild(pre);
   codesAssistantAnswerContainer.appendChild(div);
-  codesAssistantWindow.scrollTop = codesAssistantWindow.scrollHeight;
+  codesAssistantAnswerContainer.scrollTop = codesAssistantAnswerContainer.scrollHeight;
   // -------
 
   historyForCodesAssistant.push({role: 'user', content: userTxt});
@@ -75,7 +76,7 @@ function createCodesAssistantResp(txt) {
     clearInterval(codesAssistantTypingInterval);
     codesAssistantTypingInterval = null;
     initCodesAssistantTypingEl.textContent = initCodesAssistantTypingTxt;
-    codesAssistantWindow.scrollTop = codesAssistantWindow.scrollHeight;
+    codesAssistantAnswerContainer.scrollTop = codesAssistantAnswerContainer.scrollHeight;
   }
 
   const div = document.createElement('div'),
@@ -94,12 +95,12 @@ function createCodesAssistantResp(txt) {
   codesAssistantTypingInterval = setInterval(() => {
     c += Math.floor(Math.random() * 5 + 1);
     initCodesAssistantTypingEl.textContent = initCodesAssistantTypingTxt.slice(0, c);
-    codesAssistantWindow.scrollTop = codesAssistantWindow.scrollHeight;
+    codesAssistantAnswerContainer.scrollTop = codesAssistantAnswerContainer.scrollHeight;
     if(c > txtLng) {
       clearInterval(codesAssistantTypingInterval);
       codesAssistantTypingInterval = null;
       initCodesAssistantTypingEl.textContent = initCodesAssistantTypingTxt;
-      codesAssistantWindow.scrollTop = codesAssistantWindow.scrollHeight;
+      codesAssistantAnswerContainer.scrollTop = codesAssistantAnswerContainer.scrollHeight;
     }
   }, 20);
 }
@@ -121,8 +122,9 @@ codesContentAssistantPromptTextarea.addEventListener('input', () => {
   codesContentAssistantPromptTextarea.style.height = '30px';
   codesContentAssistantPromptTextarea.style.height = `${codesContentAssistantPromptTextarea.scrollHeight + 3}px`;
 
-  sendCodesContentAssistantPromptBtn.style.border = `1px solid ${codesContentAssistantPromptTextarea.value.trim().length > 1000 ? 'red' : 'silver'}`;
-  sendCodesContentAssistantPromptBtn.textContent = codesContentAssistantPromptTextarea.value.trim() ? '=>' : '🗣';
+  const val = codesContentAssistantPromptTextarea.value.trim();
+  sendCodesContentAssistantPromptBtn.style.border = `1px solid ${val.length > 1000 ? 'red' : 'silver'}`;
+  sendCodesContentAssistantPromptBtn.textContent = val ? '=>' : '🗣';
 })
 
 const sendCodesContentAssistantPromptBtn = codesContentAssistantWindow.querySelector('.send-prompt-btn');

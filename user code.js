@@ -2,15 +2,97 @@
 whatIsLoadingText.textContent = 'Loading user code editor...';
 
 const userCodeWrap = document.querySelector('.user-code-wrap');
-// Open
-const openCodeWrapBtn = allDashboardItem.querySelector('.open-user-code-wrap');
-openCodeWrapBtn.addEventListener('click', () => {
-  closeAllWraps();
-  renderUserCodesBlocks();
-  userCodeWrap.classList.add('show');
+userCodeWrap.addEventListener('click', e => {
+  if(!e.target.classList.contains('toggle-add-new-block-code-form') && !e.target.closest('.add-new-block-code-form')) addCodeBlockForm.classList.remove('show');
 })
 
-let allUserCodesObj = {};
+const allCodemirrorUrls = {
+css: [
+'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/codemirror.min.css',
+'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/fold/foldgutter.min.css',
+"https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/hint/show-hint.min.css",
+],
+js: [
+'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/codemirror.min.js',
+'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/javascript/javascript.min.js',
+'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/css/css.min.js',
+'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/xml/xml.min.js',
+'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/htmlmixed/htmlmixed.min.js',
+'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/hint/show-hint.min.js',
+"https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/hint/xml-hint.min.js",
+"https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/hint/html-hint.min.js",
+"https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/hint/javascript-hint.min.js",
+"https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/hint/css-hint.min.js",
+"https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/edit/closetag.min.js",
+"https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/edit/closebrackets.min.js",
+"https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/fold/foldcode.min.js",
+"https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/fold/foldgutter.min.js",
+"https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/fold/brace-fold.min.js",
+"https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/selection/active-line.min.js",
+"https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/edit/matchbrackets.min.js",
+"https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/comment/comment.min.js"
+]
+};
+let codeMirrorLoaded = false;
+// Open
+const openCodeWrapBtn = allDashboardItem.querySelector('.open-user-code-wrap');
+openCodeWrapBtn.addEventListener('click', async () => {
+  closeAllWraps();
+
+  if(!codeMirrorLoaded || !allUserCodesObj) {
+    preloaderProgress.max = 1;
+    preloaderProgress.value = 0;
+    showPreloader();
+    whatIsLoadingText.textContent = 'Start...';
+  }
+
+  if(!codeMirrorLoaded) {
+    // Load all codemirror css
+    for(let h of allCodemirrorUrls.css) {
+      const link = document.createElement('link');
+      link.setAttribute('rel', "stylesheet");
+      link.href = h;
+      header.appendChild(link);
+    }
+    // Load all codemirror scripts
+    for(let s of allCodemirrorUrls.js) await loadScript(s);
+
+    focusCodeEditor = CodeMirror.fromTextArea(focusWrap.querySelector('.focus-textarea'), editorOptions);
+
+    focusCodeEditor.on('inputRead', (cm, change) => {
+      clearTimeout(hintTimer);
+      hintTimer = setTimeout(() => {
+        const isUserWrite = change.origin !== 'complete';
+        const cursor = cm.getCursor();
+        const word = (cm.getLine(cursor.line).slice(0, cursor.ch).match(/[a-z.]+$/i) || '')[0];
+        if(isUserWrite && word) cm.showHint({completeSingle: false});
+        clearTimeout(hintTimer);
+      }, 200);
+    })
+
+    focusCodeEditor.on('change', () => {
+      const valueLng = focusCodeEditor.getValue().replaceAll('\n','').replaceAll(' ','').length;
+      focusCodeSymbols.textContent = `${valueLng}/1500`;
+      focusCodeSymbols.style.color = valueLng > 1500 ? 'red' : 'white';
+    })
+
+    codeMirrorLoaded = true;
+  }
+
+  if(!allUserCodesObj) allUserCodesObj = await getContent('codes') || {};
+
+  renderUserCodesBlocks();
+
+  userCodeWrap.classList.add('show');
+
+  if(preloaderWrap.classList.contains('show')) {
+    preloaderProgress.value = 1;
+    whatIsLoadingText.textContent = 'Loaded';
+    setTimeout(() => showPreloader(false), 500);
+  }
+})
+
+let allUserCodesObj = null;
 // --------------------------------
 let hintTimer = null;
 const editorOptions = {
@@ -208,23 +290,7 @@ const focusWrap = userCodeWrap.querySelector('.focus-code-wrap');
 const focusCodeTitle = focusWrap.querySelector('.focus-code-title');
 const focusCodeSymbols = focusWrap.querySelector('.focus-code-symbols');
 const closeFocusBtn = focusWrap.querySelector('.unfocus-btn');
-const focusCodeEditor = CodeMirror.fromTextArea(focusWrap.querySelector('.focus-textarea'), editorOptions);
-
-focusCodeEditor.on('inputRead', (cm, change) => {
-  clearTimeout(hintTimer);
-  hintTimer = setTimeout(() => {
-    const isUserWrite = change.origin !== 'complete';
-    const cursor = cm.getCursor();
-    const word = (cm.getLine(cursor.line).slice(0, cursor.ch).match(/[a-z.]+$/i) || '')[0];
-    if(isUserWrite && word) cm.showHint({completeSingle: false});
-    clearTimeout(hintTimer);
-  }, 200);
-})
-focusCodeEditor.on('change', () => {
-  const valueLng = focusCodeEditor.getValue().replaceAll('\n','').replaceAll(' ','').length;
-  focusCodeSymbols.textContent = `${valueLng}/1500`;
-  focusCodeSymbols.style.color = valueLng > 1500 ? 'red' : 'white';
-})
+let focusCodeEditor = null;
 
 function focusInit(name, value) {
   isInitialization = true;

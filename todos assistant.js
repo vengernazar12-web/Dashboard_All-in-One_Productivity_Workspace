@@ -17,8 +17,9 @@ userTodosAssistantPromptTextarea.addEventListener('input', () => {
   userTodosAssistantPromptTextarea.style.height = '30px';
   userTodosAssistantPromptTextarea.style.height = `${userTodosAssistantPromptTextarea.scrollHeight + 3}px`;
 
-  sendTodosAssistantPromptBtn.style.border = `1px solid ${userTodosAssistantPromptTextarea.value.trim().length > 1000 ? 'red' : 'silver'}`
-  sendTodosAssistantPromptBtn.textContent = userTodosAssistantPromptTextarea.value.trim() ? '=>' : '🗣';
+  const val = userTodosAssistantPromptTextarea.value.trim();
+  sendTodosAssistantPromptBtn.style.border = `1px solid ${val.length > 1000 ? 'red' : 'silver'}`
+  sendTodosAssistantPromptBtn.textContent = val ? '=>' : '🗣';
 })
 
 // Send prompt
@@ -102,6 +103,7 @@ function createTodosAssistantResponse(txt) {
         clearInterval(todosTypingInterval);
         todosTypingInterval = null;
         todosTypingElement.textContent = todosTypingText;
+        todosAssistantAnswerCont.scrollTop = todosAssistantAnswerCont.scrollHeight;
       }
     } catch(e) { console.error(e); clearInterval(todosTypingInterval); }
   }, 20);
