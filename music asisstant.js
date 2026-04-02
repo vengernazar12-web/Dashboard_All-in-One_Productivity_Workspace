@@ -50,7 +50,7 @@ sendMusicPromptBtn.addEventListener('click', async () => {
     try {
       let setCommandArr = JSON.parse(setCommand.replace(/\?set\||\|set\?/g, ''));
       if(!Array.isArray(setCommandArr)) setCommandArr = [setCommandArr];
-      initUndoActionBlock('music', allTextsSnippetsObj);
+      initUndoActionBlock('music', allMusicObj);
       for(let obj of setCommandArr) setContent('music', obj.name, obj.content);
 
       addUnsavedMarkAndRenderInitWrap();

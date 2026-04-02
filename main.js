@@ -8,19 +8,19 @@ const allBlockLimitsObj = {
   urls: 25,
   codes: 25,
   text: 50,
-  music: 75,
+  music: 100,
 }
 // All values limits
 const allValuesLimit = {
-  todoName: 25,
-  todoMark: 12,
-  todoTag: 25,
+  todoName: 30,
+  todoMark: 15,
+  todoTag: 30,
   urlTitle: 50,
-  codeName: 25,
+  codeName: 30,
   noteName: 50,
-  noteDesc: 250,
-  textName: 25,
-  textContent: 1250,
+  noteDesc: 200,
+  textName: 30,
+  textContent: 1000,
   musicName: 25,
 }
 
