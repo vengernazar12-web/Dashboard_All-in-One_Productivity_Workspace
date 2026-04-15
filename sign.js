@@ -39,8 +39,8 @@ async function signFn(type) {
 
       if(contentFetchError && contentFetchError.code !== 'PGRST116') return showResponseFn('Something went wrong');
       showResponseFn('Welcome!');
+      await initAccountInfos();
       signWindow.classList.remove('show');
-      initAccountInfos();
     }
   } catch(e) { showResponseFn('Error!') };
 }
@@ -369,6 +369,7 @@ async function initAccountInfos() {
   try {
     let { data: sessionData, error: sessionError } = await client.auth.getSession();
     if (sessionError) {
+      showPreloader(false);
       signWindow.classList.add('show');
       return showResponseFn(sessionError);
     };
