@@ -1,5 +1,5 @@
 .weather-wrap {
-  background-image: url('/all-imgs/weather-svg.svg');
+  background-image: url('./all-imgs/weather-svg.svg');
   background-size: contain;
   background-position: center;
   background-color: #222222;
