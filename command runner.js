@@ -3,8 +3,8 @@ whatIsLoadingText.textContent = 'Loading command runner...';
 
 const commandRunnerWrap = document.querySelector('.commands-runner-wrap');
 // Open
-allDashboardItem.querySelector('.open-commands-runner-wrap')
-.addEventListener('click', async () => {
+const openCommandRunnerWrapBtn = allDashboardItem.querySelector('.open-commands-runner-wrap');
+openCommandRunnerWrapBtn.addEventListener('click', async () => {
   closeAllWraps();
 
   if(!codeMirrorLoaded) {

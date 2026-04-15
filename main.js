@@ -51,6 +51,9 @@ toggleAllDashboardItemBtn.addEventListener('click', () => {
     else if(timezoneWrap.classList.contains('show')) openTimezoneWrapBtn.classList.add('active-btn');
     else if(settingsWindow.classList.contains('show')) openSettingsWindowInSidebar.classList.add('active-btn');
     else if(assistantWrap.classList.contains('show')) openAssistantWrapBtn.classList.add('active-btn');
+    else if(githubWrap.classList.contains('show')) openGithubWrapBtn.classList.add('active-btn');
+
+    else if(commandRunnerWrap.classList.contains('show')) openCommandRunnerWrapBtn.classList.add('active-btn');
   }
 })
 
