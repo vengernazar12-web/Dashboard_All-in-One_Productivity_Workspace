@@ -21,7 +21,6 @@ Dashboard is a web app for managing personal data like notes, todos, music, and 
 ## AI System
 
 - Global assistant for general help and interaction
-- Type-specific assistants with full access to their data
 - Each assistant supports voice input
 
 - Command-based system for performing actions via AI

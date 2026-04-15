@@ -1,9 +1,7 @@
 // Set progress text
 whatIsLoadingText.textContent = 'Loading weather logic...';
 
-// Api
-const WEATHER_API = 'http://api.weatherapi.com/v1/';
-const WEATHER_KEY = '22e4bbfc56e94f04b50101532260302';
+const WORKER_WEATHER_API = 'https://weather-fetch.vengernazar0.workers.dev/';
 
 const weatherWrap = document.querySelector('.weather-wrap');
 weatherWrap.addEventListener('click', e => {
@@ -64,7 +62,14 @@ let searchCityTimer = null;
 function renderFoundCities(txt) {
   clearTimeout(searchCityTimer);
   searchCityTimer = setTimeout(async () => {
-    const resp = await fetch(`${WEATHER_API}search.json?key=${WEATHER_KEY}&q=${txt}`);
+    const resp = await fetch(WORKER_WEATHER_API, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json',},
+      body: JSON.stringify({
+        point: txt,
+        need: 'search',
+      })
+    });
     const data = await resp.json();
 
     searchCityCont.textContent = '';
@@ -81,7 +86,14 @@ function renderFoundCities(txt) {
 
 // City getter
 async function getCityInfo(point) {
-  const resp = await fetch(`${WEATHER_API}current.json?key=${WEATHER_KEY}&q=${point}`);
+  const resp = await fetch(WORKER_WEATHER_API, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json',},
+    body: JSON.stringify({
+      point: point,
+      need: 'info',
+    })
+  });
   const data = await resp.json();
   return data.current;
 }
@@ -124,4 +136,4 @@ function renderInfo(city, coordinates) {
 }
 
 // Set progress value
-preloaderProgress.value = 8;
+preloaderProgress.value = 7;

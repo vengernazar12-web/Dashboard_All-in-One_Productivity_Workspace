@@ -1,0 +1,68 @@
+.search-github-user-input {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: calc(100% - 70px);
+}
+.search-github-user-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 16px;
+  padding: 2px;
+  border-radius: 7px;
+  border: 1px solid var(--border-color);
+  height: 30px;
+  background-color: black;
+  color: white;
+}
+
+.found-user-info-container {
+  position: absolute;
+  top: 45px;
+  left: auto;
+  padding: 5px;
+  width: 100%;
+}
+.found-user-info-container > * { user-select: text; }
+.found-user-info-container > .github-user-avatar {
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+}
+
+.found-user-info-container > .github-user-repo-block {
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 5px;
+  margin-bottom: 5px;
+  width: 100%;
+  position: relative;
+  cursor: pointer;
+}
+.found-user-info-container a { color: blue; }
+
+.github-user-repo-block > .show-info-from-repo-block {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: var(--block-bg);
+  border-radius: 10px;
+  display: none;
+  min-height: 100%;
+  max-height: 50vh;
+  width: 100%;
+  overflow-y: auto;
+  z-index: 1000;
+  padding: 2px;
+  cursor: auto;
+}
+.show-info-from-repo-block > .user-github-commit-block {
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  margin-bottom: 2px;
+  padding: 2px;
+  width: 100%;
+  text-wrap: wrap;
+  word-wrap: break-word;
+}

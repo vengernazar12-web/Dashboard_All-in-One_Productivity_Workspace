@@ -6,16 +6,22 @@
 .code-save-btn {
   position: absolute;
   top: 10px;
-  right: 10px;
-  padding: 5px;
-  border-radius: 10px;
+  right: calc(2.5% + 40px);
+}
+
+/* Search snippets */
+.search-snippets-input {
+  position: absolute;
+  top: 10px;
+  left: 5px;
+  width: calc(100% - 50px);
 }
 
 /* Add code block */
 .toggle-add-new-block-code-form {
   position: absolute;
   top: 10px;
-  right: 50px;
+  right: 2.5%;
 }
 
 .add-new-block-code-form {
@@ -88,7 +94,7 @@
   z-index: 10;
 }
 /* Code editor styles */
-html .is-wrap .user-code-content {
+html .is-wrap {
   min-height: 50px;
   border: 1px solid #444;
   border-radius: 6px;
@@ -96,7 +102,7 @@ html .is-wrap .user-code-content {
 }
 html .is-wrap .CodeMirror-scroll { overflow-y: auto; }
 html .is-wrap .CodeMirror-hscrollbar { height: 0 !important; }
-html .is-wrap .user-code-content .CodeMirror {
+html .is-wrap .CodeMirror {
   background-color: rgb(175, 175, 175);
   color: black;
   text-align: left;
@@ -107,7 +113,7 @@ html .is-wrap .CodeMirror-gutters {
   background-color: #1b1b1b;
   border-right: 1px solid #333;
 }
-html .is-wrap .CodeMirror-matchingbracket { border: 2px solid gold; }
+html .is-wrap .cm-bracket { color: black; }
 html .is-wrap .CodeMirror .CodeMirror-nonmatchingbracket { border: 2px solid red; }
 html .is-wrap .CodeMirror .CodeMirror-selected { background-color: rgba(0, 120, 133, 0.4); }
 /* Code editor styles */
@@ -233,34 +239,9 @@ html .is-wrap .CodeMirror .CodeMirror-selected { background-color: rgba(0, 120, 
   font-size: 1.25rem;
 }
 
-/* Search snippets */
-.search-snippets-input {
-  position: absolute;
-  top: 10px;
-  left: 5px;
-  width: calc(100% - 50px);
-}
-
 /* Snippet favorite */
 .snippet-fav-btn {
   position: absolute;
   top: 2px;
   right: 30px;
-}
-
-/* Codes assistants */
-.toggle-codes-content-assistant-window {
-  color: white;
-  font-size: 16px;
-  background-color: blue;
-  border: 1px solid silver;
-  border-radius: 5px;
-  padding: 3px;
-}
-
-.user-code-wrap > .toggle-codes-assistant-window {
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  font-size: 17px;
 }

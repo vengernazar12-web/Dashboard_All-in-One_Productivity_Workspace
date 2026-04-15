@@ -296,4 +296,4 @@ searchTextsSnippetsInput.addEventListener('input', () => {
 });
 
 // Set preloader value
-preloaderProgress.value = 11;
+preloaderProgress.value = 10;

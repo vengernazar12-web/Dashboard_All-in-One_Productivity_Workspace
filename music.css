@@ -2,9 +2,6 @@
   position: absolute;
   top: 5px;
   right: 5px;
-  height: 30px;
-  width: 30px;
-  font-size: 20px;
 }
 .add-music-form {
   position: fixed;
@@ -42,9 +39,6 @@
   position: absolute;
   top: 40px;
   right: 5px;
-  width: 30px;
-  height: 30px;
-  border-radius: 5px;
 }
 
 /* Show init music */

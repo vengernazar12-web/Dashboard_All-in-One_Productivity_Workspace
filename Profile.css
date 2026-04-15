@@ -1,14 +1,12 @@
 .open-user-profile-wrap-btn {
-  position: absolute;
-  bottom: 5px;
-  left: 5px;
   width: 65px;
   height: 65px;
+  margin-top: 15px;
   color: var(--text-color);
   font-size: 12px;
 }
 .open-user-profile-wrap-btn > img {
-  height: 50px;
+  height: 65px;
   width: auto;
   border-radius: 25%;
   object-fit: contain;

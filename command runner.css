@@ -1,0 +1,54 @@
+.commands-runner-wrap { background: black; }
+.commands-runner-wrap * { user-select: text; }
+
+.run-command-btn {
+  position: absolute;
+  top: calc(60% + 15px);
+  right: 10px;
+  color: white;
+  background: linear-gradient(180deg, rgb(0, 146, 0), rgb(0, 88, 0));
+  padding: 2px 5px;
+  border: 1px solid silver;
+  border-radius: 3px;
+  font-size: 16px;
+  opacity: 0.75;
+}
+.run-command-btn:hover { opacity: 1; }
+.run-command-result-block {
+  position: absolute;
+  top: calc(60% + 10px);
+  left: 5px;
+  width: calc(100% - 10px);
+  height: calc(40% - 15px);
+  overflow-y: auto;
+  background-color: rgb(30, 30, 30);
+  color: white;
+  border-radius: 3px;
+  border: 1px solid silver;
+  font-size: 12px;
+  padding: 3px;
+  word-break: break-all;
+  text-wrap: wrap;
+  white-space: pre-wrap;
+}
+.run-command-result-block > span {
+  font-weight: 900;
+  border-bottom: 1px dashed silver;
+}
+
+html .commands-runner-wrap .CodeMirror {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: calc(100% - 10px);
+  height: 60%;
+  border: 1px solid silver;
+  border-radius: 5px;
+}
+
+.commands-runner-wrap .cm-keyword { color: #c678dd; }
+.commands-runner-wrap .cm-property { color: red; }
+.commands-runner-wrap .cm-string { color: #98c379; }
+.commands-runner-wrap .cm-number { color: #d19a66; }
+
+.run-command-loader { display: none; }

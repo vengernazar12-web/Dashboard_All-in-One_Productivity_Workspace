@@ -2,7 +2,6 @@
 <head>
 <!-- Supabase -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<!-- Supabase -->
 
 <title>Dashboard</title>
 <meta charset="UTF-8">
@@ -17,7 +16,6 @@
 <link rel="stylesheet" href="saveUrls.css">
 <link rel="stylesheet" href="user code.css">
 <link rel="stylesheet" href="sign.css">
-<link rel="stylesheet" href="timer.css">
 <link rel="stylesheet" href="exchange rate.css">
 <link rel="stylesheet" href="weather.css">
 <link rel="stylesheet" href="timezone.css">
@@ -26,33 +24,33 @@
 <link rel="stylesheet" href="texts snippets.css">
 <link rel="stylesheet" href="music.css">
 <link rel="stylesheet" href="media styles.css">
+<link rel="stylesheet" href="github.css">
+<link rel="stylesheet" href="command runner.css">
 
-<script src="code-snippets-obj.js" async></script>
-<script src="ai response.js" defer></script>
+<script src="code-snippets-obj.js" defer></script>
 
 <script src="main.js" defer></script><!--1-->
 <script src="todo.js" defer></script><!--2-->
 <script src="notes.js" defer></script><!--3-->
 <script src="saveUrls.js" defer></script><!--4-->
 <script src="user code.js" defer></script><!--5-->
-<script src="timer.js" defer></script><!--6-->
-<script src="exchange rate.js" defer></script><!--7-->
-<script src="weather.js" defer></script><!--8-->
-<script src="timezone.js" defer></script><!--9-->
-<script src="Profile.js" defer></script><!--10-->
-<script src="texts snippets.js" defer></script><!--11-->
-<script src="music.js" defer></script><!--12-->
+<script src="exchange rate.js" defer></script><!--6-->
+<script src="weather.js" defer></script><!--7-->
+<script src="timezone.js" defer></script><!--8-->
+<script src="Profile.js" defer></script><!--9-->
+<script src="texts snippets.js" defer></script><!--10-->
+<script src="music.js" defer></script><!--11-->
+<script src="github.js" defer></script><!--12-->
+<script src="command runner.js" defer></script><!--13-->
 
 <!-- Assistants -->
-<script src="AI assistant.js" defer></script><!--13-->
-<script src="todos assistant.js" defer></script>
-<script src="notes assistants.js" defer></script>
-<script src="urls assistant.js" defer></script>
-<script src="user codes assistant.js" defer></script>
-<script src="text snippets assistant.js" defer></script>
-<script src="music asisstant.js" defer></script>
+<script src="AI assistant.js" defer></script><!--14-->
+<script src="ai response.js" defer></script>
+<script src="notes content assistant.js" defer></script>
+<script src="user code assistant.js" defer></script>
 
 <script src="sign.js" defer></script><!--max-->
+
 <link rel="icon" href="/all-imgs/favicon-32x32.png" type="image/png">
 </head>
 
@@ -142,7 +140,9 @@
 
 <!-- Todos -->
 <div class="todo-wrap is-wrap">
-  <p class='todos-number'></p>
+  <h2>Todos</h2>
+  <hr>
+
   <button class="todo-save-btn --saved-btn" title="Save content"><svg><use href="#save"></use></svg></button>
 
   <input type="text" class='todo-search' placeholder="Search todo...">
@@ -158,16 +158,6 @@
     <p class="completed">Completed</p>
     <p class="not-completed">Pending</p>
     <progress></progress>
-  </div>
-
-  <!-- Assistant(todo) -->
-  <button class="toggle-todos-assistant-window toggle-type-assistant">AI</button>
-  <div class="todos-assistant-window type-assistant">
-    <div class="assistant-answer-container"></div>
-    <textarea class="user-prompt-textarea" placeholder="How can I help?..."></textarea>
-    <button class="send-prompt-btn">🗣</button>
-    <!-- Loader for AI -->
-    <span class="loader assistant-loader"></span>
   </div>
 
   <!-- Add todo block -->
@@ -191,11 +181,12 @@
   </div>
 
   <progress class="todo-progress"></progress>
+  <p class='todos-number'></p>
 </div>
 
 <!-- Notes -->
 <div class="notes-wrap is-wrap">
-  <h1>Notes</h1>
+  <h2>Notes</h2>
   <p class="notes-blocks-limit"></p>
   <hr>
 
@@ -218,16 +209,6 @@
     <input type="text" class="edit-note-name-input" placeholder="New name...">
     <input type="text" class="edit-note-desc-input" placeholder="New description...">
     <button class="conf-note-edit-change-btn">OK</button>
-  </div>
-
-  <!-- Assistant(notes) -->
-  <button class="toggle-notes-assistant-window toggle-type-assistant">AI</button>
-  <div class="notes-assistant-window type-assistant">
-    <div class="assistant-answer-container"></div>
-    <textarea class="user-prompt-textarea" placeholder="How can I help?..."></textarea>
-    <button class="send-prompt-btn">🗣</button>
-    <!-- Loader -->
-    <span class="loader assistant-loader"></span>
   </div>
 
   <progress class="note-progress"></progress>
@@ -254,7 +235,9 @@
 
 <!-- Urls -->
 <div class="save-urls-wrap is-wrap">
-  <p class="url-blocks-limit"></p>
+  <h2>Urls</h2>
+  <hr>
+
   <button class="url-save-btn --saved-btn" title="Save content">
     <svg><use href="#save"></use></svg>
   </button>
@@ -263,16 +246,6 @@
   <input type="text" class="search-url" placeholder="Search your urls...">
 
   <div class="all-urls-container"></div>
-
-  <!-- Urls assistant -->
-  <button class="toggle-urls-assistant-window toggle-type-assistant">AI</button>
-  <div class="urls-assistant-window type-assistant">
-    <div class="assistant-answer-container"></div>
-    <textarea class="user-prompt-textarea" placeholder="How can I help?..."></textarea>
-    <button class="send-prompt-btn">🗣</button>
-    <!-- Loader -->
-    <span class="loader assistant-loader"></span>
-  </div>
 
   <div class="add-url-form">
     <h3>Add new url</h3>
@@ -317,6 +290,7 @@
   </div>
 
   <progress class="ulr-progress"></progress>
+  <p class="url-blocks-limit"></p>
 </div>
 
 <!-- User code wrap -->
@@ -350,16 +324,6 @@
     <div class="code-snippets-container"></div>
   </div>
 
-  <!-- Code assistant -->
-  <button class="toggle-codes-assistant-window toggle-type-assistant">AI</button>
-  <div class="codes-assistant-window type-assistant">
-    <div class="assistant-answer-container"></div>
-    <textarea class="user-prompt-textarea" placeholder="How can I help?..."></textarea>
-    <button class="send-prompt-btn">🗣</button>
-    <!-- Loader -->
-    <span class="loader assistant-loader"></span>
-  </div>
-
   <!-- Focus code -->
   <div class="focus-code-wrap is-wrap">
     <h3 class="focus-code-title"></h3>
@@ -390,6 +354,9 @@
 
 <!-- Text snippets wrap -->
 <div class="texts-snippets-wrap is-wrap">
+  <h2>Texts</h2>
+  <hr>
+
   <input type="text" class="search-texts-snippets-input" placeholder="Search blocks...">
   <button class="save-texts-snippets --saved-btn"><svg><use href="#save"></use></svg></button>
 
@@ -410,16 +377,6 @@
     <textarea class="edit-content-textarea" type="text" placeholder="New content..."></textarea>
     <p class="content-limit-txt"></p>
     <button class="confirm-edit-change">OK</button>
-  </div>
-
-  <!-- Text snippets assistant -->
-  <button class="toggle-text-snippets-assistant-window toggle-type-assistant">AI</button>
-  <div class="text-snippets-assistant-window type-assistant">
-    <div class="assistant-answer-container"></div>
-    <textarea class="user-prompt-textarea" placeholder="How can I help?..."></textarea>
-    <button class="send-prompt-btn">🗣</button>
-    <!-- Loader -->
-    <span class="loader assistant-loader"></span>
   </div>
 
   <progress class="texts-progress"></progress>
@@ -464,16 +421,6 @@
     <option value="loop">🔁 Loop</option>
     <option value="random-loop">🔁🔀 Random Loop</option>
   </select>
-
-  <!-- Assistant(music) -->
-  <button class="toggle-music-assistant-window toggle-type-assistant">AI</button>
-  <div class="music-assistant-window type-assistant">
-    <div class="assistant-answer-container"></div>
-    <textarea class="user-prompt-textarea" placeholder="How can I help?..."></textarea>
-    <button class="send-prompt-btn">🗣</button>
-    <!-- Loader for AI -->
-    <span class="loader assistant-loader"></span>
-  </div>
 
   <progress class="music-progress"></progress>
   <p class="music-progress-txt"></p>
@@ -544,6 +491,14 @@
   </div>
 </div>
 
+<!-- Github wrap -->
+<div class="github-wrap is-wrap">
+  <input type="text" class="search-github-user-input" placeholder="Search github user...">
+  <button class="search-github-user-btn">Search</button>
+
+  <div class="found-user-info-container"></div>
+</div>
+
 <!-- Assistant wrap -->
 <div class="assistant-wrap is-wrap">
   <!-- assistant answer container -->
@@ -610,9 +565,16 @@
   </div>
 </div>
 
+<!-- Runner wrap -->
+<div class="commands-runner-wrap is-wrap">
+  <textarea class="user-run-command-textarea" placeholder="Write you command..." spellcheck="false"></textarea>
+  <div class="run-command-result-block"></div>
+  <button class="run-command-btn">Run</button>
+  <span class="loader run-command-loader"></span>
+</div>
+
 <!-- SIDE BAR -->
 <article class="all-dashboard-items open">
-  <button class="show-timer-window" title="Timer"><svg><use href="#timer"></use></svg></button>
   <h3>DASHBOARD</h3>
   <button class="toggle-dashboard-items-btn" title="ctrl + p"><svg><use href="#close-panel"></use></svg></button>
   <button class="open-assistant-wrap --opened-btn">Assistant</button>
@@ -626,56 +588,16 @@
   <button class="open-exchange-rate-wrap --opened-btn">Exchange rate</button>
   <button class="open-weather-wrap --opened-btn">Weather</button>
   <button class="open-timezone-wrap --opened-btn">Timezones</button>
+  <button class="open-github-wrap --opened-btn">Github</button>
   <button class="open-settings-window-into-sidebar --opened-btn">Settings</button>
+  <h4>Runner</h4>
+  <button class="open-commands-runner-wrap --opened-btn">Runner</button>
 
   <button class="open-user-profile-wrap-btn">
     <img src="/all-imgs/no-profile-icon.webp" alt="Profile-img">
     <p>Profile</p>
   </button>
 </article>
-
-<!-- Timer -->
-<div class="timer-window">
-  <h3>⏱ Focus timer</h3>
-  <button class="close-timer-window">❌</button>
-  <progress></progress>
-  <p class="timer-time"></p>
-
-  <hr>
-
-  <label for="set-time">Set your time (Your can write: number and s/m/h)</label>
-  <input class="set-time-input" type="text" id="set-time" placeholder="Set your time..." autocomplete="false">
-
-  <hr>
-
-  <div class="set-timer-point">
-    <label for="type">Select point type:</label>
-    <select id="type" class="select-type" title="Select point type...">
-      <option value="todos">Todos</option>
-      <option value="notes">Notes</option>
-      <option value="urls">Urls</option>
-      <option value="codes">Codes</option>
-      <option value="exchange">Exchange rate</option>
-      <option value="weather">Weather</option>
-      <option value="timezones">Time zones</option>
-    </select>
-    <label for="item">Select point item:</label>
-    <select id="item" class="select-type-item" title="Select point type...">
-      <option value="">----|----</option>
-    </select>
-  </div>
-
-  <button class="start-timer-btn show">Start</button>
-  <button class="stop-timer-btn">Stop</button>
-</div>
-
-<!-- User is ready window -->
-<div class="user-is-ready-window">
-  <h3>Are you ready?</h3>
-  <button class="user-is-ready">Yes</button>
-  <button class="user-no-ready">No</button>
-  <p>...</p>
-</div>
 
 <!-- Show fields block -->
 <div class="show-fields-block"></div>
@@ -746,7 +668,7 @@
   <p>Loading your content. Please wait...</p>
   <img src="/all-imgs/dashboard-favicon-img.svg" alt="Smile img" >
   <!-- Progress max = all scripts -->
-  <progress class="preloader-progress" max="14"></progress>
+  <progress class="preloader-progress" max="15"></progress>
   <p class="what-is-loading-text">Loading...</p>
 
   <span class="loader"></span>
@@ -757,6 +679,9 @@
 
 <!-- Show response text -->
 <p class="show-response"></p>
+
+<!-- No internet icon -->
+<svg class="no-internet-icon"><use href="#no-internet"></use></svg>
 
 <script> // Initialization preloader
   const preloaderWrap = document.querySelector('.preloader-wrap');
@@ -802,15 +727,6 @@
     <path d="M21 19V7a2 2 0 0 0-2-2h-6" />
   </symbol>
 
-  <symbol id="timer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" title="Timer">
-    <circle cx="12" cy="13" r="8" />
-    <path d="M12 9v4l2 2" />
-    <path d="M5 3 2 6" />
-    <path d="m22 6-3-3" />
-    <path d="M6.38 18.7 4 21" />
-    <path d="M17.64 18.67 20 21" />
-  </symbol>
-
   <symbol id="focus" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <circle cx="12" cy="12" r="3"/>
     <path d="M3 7V5a2 2 0 0 1 2-2h2"/>
@@ -853,6 +769,17 @@
     <path d="M12 19v3" />
     <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
     <rect x="9" y="2" width="6" height="13" rx="3" />
+  </symbol>
+
+  <symbol id="no-internet" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="164" height="164" viewBox="0 0 24 24">
+    <g fill="none">
+      <path stroke="currentColor" stroke-width="1.5" d="M5 5a9.85 9.85 0 0 0-3 7.083C2 17.56 6.477 22 12 22a10 10 0 0 0 7-2.835"></path>
+      <path stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M15.5 16c-.617 3.532-1.86 6-3.5 6c-2.21 0-4-4.477-4-10c0-1.231.089-2.41.252-3.5"></path>
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2 12h10"></path>
+      <path fill="currentColor" d="M7.162 2.398a.75.75 0 0 0 .676 1.339zm13.1 13.764a.75.75 0 0 0 1.34.676zM16 12h-.75c0 .414.336.75.75.75zM8.303 4.726a.75.75 0 0 0 1.396.548zM12 2.75A9.25 9.25 0 0 1 21.25 12h1.5c0-5.937-4.813-10.75-10.75-10.75zm-4.162.987A9.2 9.2 0 0 1 12 2.75v-1.5a10.7 10.7 0 0 0-4.838 1.148zM21.25 12a9.2 9.2 0 0 1-.987 4.162l1.339.676A10.7 10.7 0 0 0 22.75 12zM12 2.75c.28 0 .622.139 1.012.551c.392.414.78 1.054 1.12 1.906c.68 1.701 1.118 4.103 1.118 6.793h1.5c0-2.832-.458-5.431-1.225-7.35c-.383-.957-.858-1.782-1.423-2.38c-.567-.599-1.277-1.02-2.102-1.02zM9.7 5.274c.335-.855.755-1.51 1.183-1.938c.433-.432.822-.586 1.117-.586v-1.5c-.824 0-1.572.42-2.177 1.025c-.61.61-1.13 1.455-1.52 2.451zM16 12.75h6v-1.5h-6z">
+      </path>
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m2 2l20 20"></path>
+    </g>
   </symbol>
 </svg>
 

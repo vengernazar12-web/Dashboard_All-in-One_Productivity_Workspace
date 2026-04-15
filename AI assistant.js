@@ -29,7 +29,74 @@ openAssistantWrapBtn.addEventListener('click', () => {
 const assistantLoader = assistantWrap.querySelector('.assistant-loader');
 
 // Assistant response container
+let isRunGeneratedCommand = false;
 const assistantResponseContainer = assistantWrap.querySelector('.assistant-answer-container');
+assistantResponseContainer.addEventListener('click', async e => {
+  const target = e.target;
+  if(target.classList.contains('runner-command-btn')) {
+    if(isRunGeneratedCommand) return;
+    isRunGeneratedCommand = true;
+
+    const cancelBtn = target.parentElement.querySelector('.cancel-command-btn');
+
+    const command = target.dataset.command;
+    const tool_id = target.dataset.toolId;
+
+    target.disabled = true;
+    cancelBtn.disabled = true;
+
+    const commandResult = await goRunner(command);
+    if(!commandResult.result.errors.length) delete commandResult.result.errors;
+
+    const doActions = commandResult.result.do_action;
+    if(doActions) doRunnerActions(doActions);
+    delete commandResult.result.do_action;
+
+    historyForAiPrompt.push({
+      role: 'tool',
+      tool_call_id: tool_id,
+      content: unhashHtmlSymbols(JSON.stringify(commandResult.result).replace(/<\/?span>/g, ''))
+    });
+
+    target.remove();
+    cancelBtn.remove();
+
+    generatedCommandsCount--;
+
+    isRunGeneratedCommand = false;
+
+    if(generatedCommandsCount <= 0) {
+      generatedCommandsCount = 0;
+      assistantLoader.style.display = 'block';
+      const aiResp = await getAiResponse();
+      createAssistantResponse(aiResp);
+    }
+  }
+  else if(target.classList.contains('cancel-command-btn')) {
+    if(isRunGeneratedCommand) return;
+    isRunGeneratedCommand = true;
+
+    const runCommandBtn = target.parentElement.querySelector('.runner-command-btn');
+
+    target.remove();
+    runCommandBtn.remove();
+
+    const tool_id = target.dataset.toolId;
+
+    historyForAiPrompt.push({role: "tool", tool_call_id: tool_id, content: JSON.stringify({CANCEL_ERROR: 'The user rejected the command'})});
+
+    generatedCommandsCount--;
+
+    isRunGeneratedCommand = false;
+
+    if(generatedCommandsCount <= 0) {
+      generatedCommandsCount = 0;
+      assistantLoader.style.display = 'block';
+      const aiResp = await getAiResponse();
+      createAssistantResponse(aiResp);
+    }
+  }
+})
 
 // User prompt textarea
 const userPromptTextarea = assistantWrap.querySelector('.user-prompt-textarea');
@@ -60,52 +127,68 @@ sendPromptBtn.addEventListener('click', async () => {
   // ------------
 
   historyForAiPrompt.push({role: 'user', content: userTxt});
-  if(historyForAiPrompt.length > 9) historyForAiPrompt.shift();
 
   userPromptTextarea.value = '';
   userPromptTextarea.style.height = '30px';
   sendPromptBtn.textContent = '🗣';
 
-  useAiResp();
+  const aiResp = await getAiResponse();
+  createAssistantResponse(aiResp);
 })
 
 // Create assistant response
 let typingInterval = null;
 let initTypingElement = null;
 let initTypingText = null;
+let initTypingHTML = null;
 
-function createAssistantResponse(txt) {
+let isLastBeenThinking = false;
+
+function createAssistantResponse(txt, isThinking = false) {
   if(typingInterval) {
     clearInterval(typingInterval);
     typingInterval = null;
-    initTypingElement.textContent = initTypingText;
+    initTypingElement.innerHTML = initTypingHTML;
     assistantResponseContainer.scrollTop = assistantResponseContainer.scrollHeight;
   };
 
-  const div = document.createElement('div');
-  const pre = document.createElement('pre');
-  div.appendChild(pre);
-  assistantResponseContainer.appendChild(div);
+  if(isLastBeenThinking) {
+    initTypingElement.textContent = '';
 
-  initTypingElement = pre;
-  initTypingText = txt.replace(/(?:\n|^)\?get\|[^\n]+/gi, '• Get...');
+    if(!isThinking) {
+      initTypingElement.classList.remove('thinking-ai-text');
+      isLastBeenThinking = false;
+    };
+  }
+
+  else {
+    const div = document.createElement('div');
+    const pre = document.createElement('pre');
+    div.appendChild(pre);
+    assistantResponseContainer.appendChild(div);
+    initTypingElement = pre;
+    if(isThinking) {
+      pre.classList.add('thinking-ai-text');
+      isLastBeenThinking = true;
+    }
+  }
+
+  initTypingHTML = txt;
+  initTypingText = new DOMParser().parseFromString((unhashHtmlSymbols(txt)), "text/html").body.textContent;;
   const txtLng = initTypingText.length;
-
-  historyForAiPrompt.push({role: "assistant", content: txt});
-  if(historyForAiPrompt.length > 9) historyForAiPrompt.shift();
 
   let c = 0;
   typingInterval = setInterval(() => {
-    c += Math.floor(Math.random() * 5 + 1);
+    c += Math.floor(Math.random() * 6 + 1);
     initTypingElement.textContent = initTypingText.slice(0, c);
     assistantResponseContainer.scrollTop = assistantResponseContainer.scrollHeight;
     if(c > txtLng) {
       clearInterval(typingInterval);
       typingInterval = null;
-      initTypingElement.textContent = initTypingText;
+      initTypingElement.innerHTML = initTypingHTML;
       assistantResponseContainer.scrollTop = assistantResponseContainer.scrollHeight;
     };
-  }, 20);
+  }, isThinking ? 50 : 15);
 }
 
 // Memory for ai
@@ -130,18 +213,10 @@ memoryForAiWindow.querySelector('.save-memory-for-ai')
     preloaderProgress.value = 0;
     whatIsLoadingText.textContent = 'Start...';
 
-    const { data, error } = await client.auth.getSession();
-    if(error) {
-      showResponseFn('Something went wrong. Please try again later...');
-      return showPreloader(false);
-    }
-
-    const id = data.session?.user.id;
-
     const { error: tableErr} = await client
       .from('user_content')
       .update({memory: memoryForAiTextarea.value})
-      .eq('id', id);
+      .eq('id', userId);
 
     if(tableErr) {
       showResponseFn('Something went wrong. Please try again later...');
@@ -158,4 +233,4 @@ memoryForAiWindow.querySelector('.save-memory-for-ai')
 })
 
 // Set preloader value
-preloaderProgress.value = 13;
+preloaderProgress.value = 14;

@@ -396,4 +396,4 @@ function setMusicPlayingClass(name) {
 }
 
 // Set preloader value
-preloaderProgress.value = 12;
+preloaderProgress.value = 11;

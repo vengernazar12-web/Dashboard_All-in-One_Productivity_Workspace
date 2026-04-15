@@ -117,6 +117,7 @@ profileWrap.addEventListener('click', async e => {
 const openProfileWrapBtn = document.querySelector('.open-user-profile-wrap-btn');
 openProfileWrapBtn.addEventListener('click', () => {
   closeAllWraps();
+  setProfileInfosProgressesMax();
   profileWrap.classList.add('show');
   if(profileAvatarPreview.src !== openBtnProfileImg.src) profileAvatarPreview.src = openBtnProfileImg.src;
   initUserAccountInfo();
@@ -148,14 +149,16 @@ const userMusicInfo = userAccountInfoBlock.querySelector('.music');
 const allInfos = userAccountInfoBlock.children;
 
 // Set all progress.max
-userTodosInfo.lastElementChild.max = allBlockLimitsObj.todos;
-userNotesInfo.lastElementChild.max = allBlockLimitsObj.notes;
-userNotesLengthInfo.lastElementChild.max = allBlockLimitsObj.notes * 2000;
-userUrlsInfo.lastElementChild.max = allBlockLimitsObj.urls;
-userCodesInfo.lastElementChild.max = allBlockLimitsObj.codes;
-userCodesLengthInfo.lastElementChild.max = allBlockLimitsObj.codes * 1500;
-userTextsInfo.lastElementChild.max = allBlockLimitsObj.text;
-userMusicInfo.lastElementChild.max = allBlockLimitsObj.music;
+function setProfileInfosProgressesMax() {
+  userTodosInfo.lastElementChild.max = allBlockLimitsObj.todos;
+  userNotesInfo.lastElementChild.max = allBlockLimitsObj.notes;
+  userNotesLengthInfo.lastElementChild.max = allBlockLimitsObj.notes * 2000;
+  userUrlsInfo.lastElementChild.max = allBlockLimitsObj.urls;
+  userCodesInfo.lastElementChild.max = allBlockLimitsObj.codes;
+  userCodesLengthInfo.lastElementChild.max = allBlockLimitsObj.codes * 1500;
+  userTextsInfo.lastElementChild.max = allBlockLimitsObj.text;
+  userMusicInfo.lastElementChild.max = allBlockLimitsObj.music;
+}
 
 // Set all progress values after animation
 userCodesLengthInfo.lastElementChild.addEventListener('animationend', () => setProgressValues());
@@ -379,4 +382,4 @@ selectMicLang.addEventListener('change', () => {
 })
 
 // Set preloader value
-preloaderProgress.value = 10;
+preloaderProgress.value = 9;

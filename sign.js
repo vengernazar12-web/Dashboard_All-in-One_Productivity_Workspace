@@ -40,7 +40,7 @@ async function signFn(type) {
       if(contentFetchError && contentFetchError.code !== 'PGRST116') return showResponseFn('Something went wrong');
       showResponseFn('Welcome!');
       signWindow.classList.remove('show');
-      takeSessionId();
+      initAccountInfos();
     }
   } catch(e) { showResponseFn('Error!') };
 }
@@ -72,7 +72,7 @@ todoSaveBtn.addEventListener('click', async () => {
   if(tableError) {
     showPreloader(false);
     setTimeout(() => todoSaveBtn.disabled = false, 15000);
-    return showResponseFn("Your todos haven't been saved, pease try again later...");
+    return showResponseFn(`Your todos haven't been saved, pease try again later...`);
   }
 
   preloaderProgress.value = 1;
@@ -106,7 +106,7 @@ noteSaveBtn.addEventListener('click', async () => {
     setTimeout(() => {noteSaveBtn.disabled = false}, 150000);
     return showResponseFn('You have notes blocks limit');
   };
-  if(arr.find(name => allNotesObj[name].txt.replaceAll('\n','').length > 2000 || allNotesObj[name].description.length > 250)) {
+  if(arr.find(name => allNotesObj[name].txt.replaceAll('\n','').length > allValuesLimit.notesContent || allNotesObj[name].description.length > allValuesLimit.noteDesc)) {
     showPreloader(false);
     setTimeout(() => {noteSaveBtn.disabled = false}, 150000);
     return showResponseFn('Some note has very long content or description.');
@@ -116,7 +116,7 @@ noteSaveBtn.addEventListener('click', async () => {
   if(tableError) {
     showPreloader(false);
     setTimeout(() => noteSaveBtn.disabled = false, 150000);
-    return showResponseFn("Your notes haven't been saved, pease try again later...");
+    return showResponseFn(`Your notes haven't been saved, pease try again later...`);
   }
 
   preloaderProgress.value = 1;
@@ -153,7 +153,7 @@ urlSaveBtn.addEventListener('click', async () => {
   if(tableError) {
     showPreloader(false);
     setTimeout(() => urlSaveBtn.disabled = false, 150000);
-    return showResponseFn("Your urls haven't been saved, pease try again later...");
+    return showResponseFn(`Your urls haven't been saved, pease try again later...`);
   }
 
   preloaderProgress.value = 1;
@@ -220,7 +220,7 @@ codeSaveBtn.addEventListener('click', async () => {
   let isHeightLength = false;
   for(let block of allUserCodesContainer.children) {
     const userCode = block.querySelector('textarea')._editor.getValue();
-    if(userCode.replaceAll(' ','').replaceAll('\n','').length > 1500) isHeightLength = true;
+    if(userCode.replace(/\s/g,'').length > allValuesLimit.codeContent) isHeightLength = true;
 
     allUserCodesObj[block.firstElementChild.textContent].code = userCode
     .trim()
@@ -239,7 +239,7 @@ codeSaveBtn.addEventListener('click', async () => {
   if(tableError) {
     showPreloader(false);
     setTimeout(() => codeSaveBtn.disabled = false, 150000);
-    return showResponseFn("Your codes haven't been saved, pease try again later...");
+    return showResponseFn(`Your codes haven't been saved, pease try again later...`);
   }
 
   preloaderProgress.value = 1;
@@ -284,7 +284,7 @@ textSaveBtn.addEventListener('click', async () => {
   if(tableError) {
     showPreloader(false);
     setTimeout(() => textSaveBtn.disabled = false, 150000);
-    return showResponseFn("Your texts haven't been saved, pease try again later...");
+    return showResponseFn(`Your texts haven't been saved, pease try again later...`);
   }
 
   preloaderProgress.value = 1;
@@ -293,7 +293,7 @@ textSaveBtn.addEventListener('click', async () => {
   textSaveBtn.classList.remove('unsaved');
 
   setTimeout(() => textSaveBtn.disabled = false, 150000);
-  showResponseFn('Your codes have been saved');
+  showResponseFn('Your texts have been saved');
   setTimeout(() => showPreloader(false), 500);
 })
 
@@ -329,7 +329,7 @@ musicSaveBtn.addEventListener('click', async () => {
   if(tableError) {
     showPreloader(false);
     setTimeout(() => {musicSaveBtn.disabled = false}, 150000);
-    return showResponseFn("Your music haven't been saved, pease try again later...");
+    return showResponseFn(`Your music haven't been saved, pease try again later...`);
   }
 
   preloaderProgress.value = 1;
@@ -338,7 +338,7 @@ musicSaveBtn.addEventListener('click', async () => {
   musicSaveBtn.classList.remove('unsaved');
 
   setTimeout(() => musicSaveBtn.disabled = false, 150000);
-  showResponseFn('Your codes have been saved');
+  showResponseFn('Your music have been saved');
   setTimeout(() => showPreloader(false), 500);
 })
 
@@ -354,14 +354,6 @@ window.addEventListener('beforeunload', e => {
   }
 })
 
-// Set all blocks limits
-todoProgress.max = allBlockLimitsObj.todos;
-noteProgress.max = allBlockLimitsObj.notes;
-urlProgress.max = allBlockLimitsObj.urls;
-codeProgress.max = allBlockLimitsObj.codes;
-textProgress.max = allBlockLimitsObj.text;
-musicProgress.max = allBlockLimitsObj.music;
-
 // Set open btns texts
 function setOpenBtnsTexts() {
   openTodoWrapBtn.lastElementChild.textContent = `${allTodosObj ? Object.keys(allTodosObj).length : 'Not loaded'} / ${allBlockLimitsObj.todos}`;
@@ -372,40 +364,62 @@ function setOpenBtnsTexts() {
   openMusicWrapBtn.lastElementChild.textContent = `${allMusicObj ? Object.keys(allMusicObj).length : 'Not loaded'} / ${allBlockLimitsObj.music}`;
 }
 
-// Initialization all content objects
-async function takeSessionId() {
-  let {data: sessionData, error: sessionError} = await client.auth.getSession();
-  if(sessionError) {
-    signWindow.classList.add('show');
-    return showResponseFn(sessionError);
-  };
-  if(!sessionData.session) {
+// Take session id
+async function initAccountInfos() {
+  try {
+    let { data: sessionData, error: sessionError } = await client.auth.getSession();
+    if (sessionError) {
+      signWindow.classList.add('show');
+      return showResponseFn(sessionError);
+    };
+    if (!sessionData.session) {
+      showPreloader(false);
+      return signWindow.classList.add('show');
+    };
+    const id = sessionData.session.user.id;
+    userId = id;
+
+    const {data: memoryResp} = await client.from('user_content').select('memory').eq('id', userId).single();
+    memoryForAi = memoryResp.memory;
+
+    const {data: limitsData} = await client.from('app_content_limits').select('*').eq('id', 1).single();
+    allBlockLimitsObj = limitsData.blocks;
+    allValuesLimit = limitsData.values;
+
     showPreloader(false);
-    return signWindow.classList.add('show');
-  };
-  const id = sessionData.session.user.id;
-  userId = id;
-  showPreloader(false);
-  setOpenBtnsTexts();
+    setOpenBtnsTexts();
 
-  const { data: imgs, error: imgsError } = await client.storage.from('avatars').list('', { limit: 1000 });
-  if(imgsError) showResponseFn('Error loading avatar');
-  else {
-    allAvatarsArr = await Promise.all(
-      imgs.map(avatarObj => {
-        const name = avatarObj.name;
-        const url = client.storage.from('avatars').getPublicUrl(name).data.publicUrl;
-        return { name, url };
-      })
-    );
+    const { data: imgs, error: imgsError } = await client.storage.from('avatars').list('', { limit: 1000 });
+    if (imgsError) showResponseFn('Error loading avatars');
+    else {
+      allAvatarsArr = await Promise.all(
+        imgs.map(avatarObj => {
+          const name = avatarObj.name;
+          const url = client.storage.from('avatars').getPublicUrl(name).data.publicUrl;
+          return { name, url };
+        })
+      );
 
-    const initAvatar = await client.from('user_content').select('profile').eq('id', userId).single();
+      const initAvatar = await client.from('user_content').select('profile').eq('id', userId).single();
 
-    openBtnProfileImg.src = initAvatar.data.profile === -1
-    ? '/all-imgs/no-profile-icon.webp'
-    : allAvatarsArr.find(o => o.name === `${initAvatar.data.profile}.png`)?.url;
+      openBtnProfileImg.src = initAvatar.data.profile === -1
+        ? '/all-imgs/no-profile-icon.webp'
+        : allAvatarsArr.find(o => o.name === `${initAvatar.data.profile}.png`)?.url;
+    }
 
     showResponseFn('Loaded!');
+
+    // Set all blocks limits
+    todoProgress.max = allBlockLimitsObj.todos;
+    noteProgress.max = allBlockLimitsObj.notes;
+    urlProgress.max = allBlockLimitsObj.urls;
+    codeProgress.max = allBlockLimitsObj.codes;
+    textProgress.max = allBlockLimitsObj.text;
+    musicProgress.max = allBlockLimitsObj.music;
+  } catch(e) {
+    console.error(e);
+    showPreloader(false);
+    showResponseFn(`Error: ${e}`);
   }
 }
 
@@ -424,4 +438,4 @@ async function getContent(type) {
 preloaderProgress.value = preloaderProgress.max;
 
 // Starter function
-takeSessionId();
+initAccountInfos();

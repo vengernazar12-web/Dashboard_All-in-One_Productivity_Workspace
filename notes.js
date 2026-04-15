@@ -150,7 +150,6 @@ confNoteEditChangeBtn.addEventListener('click', () => {
 })
 
 // Delegation
-let delNoteTimer = null;
 const allUserNotesCont = notesWrap.querySelector('.all-user-notes-container');
 allUserNotesCont.addEventListener('click', e => {
   if(e.target.closest('.delete-note-btn')) { // Delete note block
@@ -167,8 +166,7 @@ allUserNotesCont.addEventListener('click', e => {
     if(localStorage.getItem('disabled-anim') === 'true') return renderNotesBlocks();
 
     noteBlock.classList.add('del-anim');
-    clearTimeout(delNoteTimer);
-    delNoteTimer = setTimeout(renderNotesBlocks, delAnimTime);
+    setTimeout(renderNotesBlocks, delAnimTime);
 
     // Save change for userActions
     writeToUserActions(`Видалено нотатку з назвою ${noteName}`);
@@ -206,8 +204,8 @@ const notesContentTitle = notesContentWrap.querySelector('h3');
 const userNotesText = notesContentWrap.querySelector('.notes-user-content');
 userNotesText.addEventListener('input', () => {
   const lng = userNotesText.innerText.replaceAll('\n', '').length;
-  notesSymbolsLimitText.style.color = lng > 2000 ? 'red' : 'var(--text-color)';
-  notesSymbolsLimitText.textContent = `${lng}/2000`;
+  notesSymbolsLimitText.style.color = lng > allValuesLimit.notesContent ? 'red' : 'var(--text-color)';
+  notesSymbolsLimitText.textContent = `${lng}/${allValuesLimit.notesContent}`;
 })
 
 /* Render functions */
@@ -260,7 +258,7 @@ function renderNotesText(name) {
   notesContentTitle.textContent = name;
   userNotesText.style.fontSize = `${localStorage.getItem('notes-font-size') || 1.2}rem`;
   notesContentWrap.classList.add('show');
-  notesSymbolsLimitText.textContent = `${allNotesObj[name].txt.replaceAll('\n', '').length}/2000`;
+  notesSymbolsLimitText.textContent = `${allNotesObj[name].txt.replaceAll('\n', '').length}/${allValuesLimit.notesContent}`;
 }
 function renderNotesBlocks() {
   const arr = Object.keys(allNotesObj);

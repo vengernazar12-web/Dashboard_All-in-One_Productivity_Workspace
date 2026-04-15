@@ -18,7 +18,7 @@
 ::-webkit-scrollbar-track, ::-webkit-scrollbar-corner { background: transparent; }
 
 input:focus { outline: 2px solid rgb(104, 104, 182); }
-html .show { display: block; }
+html .show { display: block !important; }
 
 body, input { font-family: Roboto, sans-serif; font-weight: 500; }
 input {
@@ -29,7 +29,7 @@ input {
   border: 1px solid var(--border-color);
   padding-left: 5px;
 }
-input::placeholder { color: var(--text-color); }
+input::placeholder, textarea::placeholder { color: var(--text-color); }
 
 html button {
   cursor: pointer;
@@ -37,11 +37,11 @@ html button {
   padding: 1px;
 }
 html button:disabled {
-  background: rgb(79, 70, 70);
-  background-color: rgb(79, 70, 70);
-  color: white;
-  border: none;
-  cursor: not-allowed;
+  background: rgb(79, 70, 70) !important;
+  background-color: rgb(79, 70, 70) !important;
+  color: white !important;
+  border: none !important;
+  cursor: not-allowed !important;
 }
 
 hr {
@@ -67,7 +67,13 @@ hr {
 
 svg {width: 20px; height: 20px;}
 
-.--saved-btn { background-color: black; border: 1px solid var(--border-color); }
+.--saved-btn {
+  background-color: black;
+  border: 1px solid var(--border-color);
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+}
 
 html .unsaved:after {
   content: '';
@@ -84,11 +90,11 @@ html .unsaved:after {
 .--toggle-form-btn {
   background-color: rgb(115, 115, 255);
   color: white;
-  border-radius: 6px;
-  font-size: 22px;
-  height: 35px;
-  width: 35px;
-  border: 1px solid black;
+  border-radius: 7px;
+  font-size: 19px;
+  height: 30px;
+  width: 30px;
+  border: 1px solid white;
 }
 
 progress { border: 1px solid var(--border-color); }
@@ -133,6 +139,10 @@ body {
 }
 
 .dashboard-header { text-align: center; }
+.dashboard-header > img {
+  width: 50%;
+  height: auto;
+}
 
 .show-all-dashboard-stats {
   position: absolute;
@@ -161,10 +171,11 @@ body {
   top: 0;
   left: 0;
   height: 100vh;
-  width: 30vw;
+  width: 32vw;
   background: var(--block-bg);
   display: flex;
   flex-direction: column;
+  justify-content: start;
   gap: 10px;
   text-align: center;
   padding: 7px;
@@ -299,6 +310,17 @@ body {
   border-radius: 14px;
   background: linear-gradient(90deg, #3b82f6, #06b6d4);
   box-shadow: 0 0 12px rgba(59,130,246,0.45);
+}
+
+/* No internet icon */
+.no-internet-icon {
+  position: fixed;
+  top: 5px;
+  left: calc(25% + 32px);
+  width: 50%;
+  height: 50%;
+  color: red;
+  display: none;
 }
 
 /* Del animation */

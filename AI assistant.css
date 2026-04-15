@@ -16,9 +16,9 @@
   width: calc(100% - 10px);
   height: calc(100% - 90px);
   background-color: rgb(50, 47, 47);
-  border-radius: 15px;
+  border-radius: 10px;
   overflow-y: auto;
-  border: 1px solid white;
+  border: 2px solid white;
   padding: 7px;
   display: flex;
   flex-direction: column;
@@ -30,9 +30,40 @@
   text-wrap: wrap;
   word-wrap: break-word;
   font-size: 13px;
-  line-height: 15px;
-  border-bottom: 1px solid rgb(73, 73, 73);
+  line-height: 16px;
   padding-bottom: 3px;
+}
+.assistant-answer-container span { font-weight: 800; }
+
+.assistant-answer-container hr { margin: 0; border-radius: 0; }
+
+.assistant-answer-container ul {
+  padding-left: 1.25rem;
+  list-style: none;
+}
+
+.assistant-answer-container ul li {
+  position: relative;
+  margin: 0.25rem 0;
+  padding-left: 8px;
+  line-height: 1.35;
+  color: #d6d6d6;
+}
+
+.assistant-answer-container ul li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  top: 1px;
+  color: #9a9a9a;
+  transform: scale(1);
+  animation: list-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes list-pulse {
+  0% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.4); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.6; }
 }
 
 /* User prompt (all assistants) */
@@ -95,7 +126,7 @@
   position: absolute;
   top: 5px;
   left: 15px;
-  font-size: 16px;
+  font-size: 15px;
 }
 .memory-for-ai > textarea {
   position: absolute;
@@ -103,10 +134,10 @@
   left: 5px;
   width: calc(100% - 10px);
   height: calc(100% - 35px);
-  border-radius: 15px;
+  border-radius: 10px;
   resize: none;
   padding: 5px;
-  border: 1px solid blue;
+  box-shadow: 0 0 2px 1px blue;
 }
 .save-memory-for-ai {
   position: absolute;
@@ -117,6 +148,61 @@
   border: 1px solid silver;
   font-size: 16px;
   border-radius: 5px;
+}
+.save-memory-for-ai:hover { background-color: white; color: black; }
+
+/* Generated runner commands */
+.runner-command-block {
+  position: relative;
+  white-space: pre-wrap;
+  text-wrap: wrap;
+  padding: 5px;
+  background-color: rgb(30, 30, 30);
+  border-radius: 5px;
+  border: 2px solid silver;
+  height: max-content;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  gap: 5px;
+  align-items: end;
+}
+
+.runner-command-block:has(.runner-command-btn)::before {
+  content: "Assistant wants to run this query";
+  position: absolute;
+  bottom: 10px;
+  left: 5px;
+  font-size: 10px;
+}
+
+.runner-command-block > .command {
+  background-color: black;
+  padding: 5px;
+  border-radius: 7px;
+  border: 1px solid silver;
+  font-size: 10px;
+  width: calc(100%);
+  height: max-content;
+  max-height: 200px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+}
+.runner-command-block > .cancel-command-btn {
+  background: linear-gradient(190deg, rgb(103, 0, 0), red);
+  color: white;
+  font-size: 14px;
+  padding: 1px 5px;
+  border-radius: 5px;
+}
+.runner-command-block > .runner-command-btn {
+  color: black;
+  background: linear-gradient(180deg, green, rgb(0, 255, 0));
+  padding: 2px 5px;
+  border-radius: 5px;
+  border: 1px solid silver;
+  font-size: 14px;
 }
 
 /* All assistants */
@@ -168,4 +254,28 @@
   position: absolute;
   top: -11px;
   left: 3px;
+}
+
+/* Thinking ai text */
+.thinking-ai-text {
+  background: linear-gradient(
+    90deg,
+    #777,
+    #aaa,
+    #fff,
+    #aaa,
+    #777
+  );
+  background-size: 200% 100%;
+
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+
+  animation: shimmerText 2s linear infinite;
+}
+
+@keyframes shimmerText {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
 }

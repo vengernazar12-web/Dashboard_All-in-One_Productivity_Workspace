@@ -1,8 +1,5 @@
 /* Note wrap (all notes blocks) */
-.notes-wrap {
-  text-align: center;
-  padding: 5px;
-}
+.notes-wrap { text-align: center; padding-top: 7px; }
 
 .all-user-notes-container {
   display: flex;
@@ -46,7 +43,7 @@
 .note-block-btns-cont > button:hover { background-color: rgb(10, 25, 60); }
 
 /* Search note blocks/text */
-.search-note-blocks-input { width: 95%; }
+.search-note-blocks-input { width: 90%; }
 .search-note-text-input {
   position: absolute;
   top: 48px;
@@ -57,10 +54,8 @@
 .note-save-btn {
   position: absolute;
   top: 10px;
-  right: 10px;
-  padding: 5px;
-  border-radius: 10px;
-}/* Note save btn */
+  right: calc(2.5% + 40px);
+}
 
 /* Notes content wrap */
 .notes-content-wrap { text-align: center; padding-top: 15px; }
@@ -84,7 +79,7 @@
 .toggle-add-note-form {
   position: absolute;
   top: 10px;
-  right: 50px;
+  right: 2.5%;
 }
 
 .add-notes-inputs {
@@ -166,14 +161,7 @@
   border: 1px solid var(--border-color);
   border-radius: 8px;
 }
-
-/* Notes assistantS */
-.toggle-notes-assistant-window {
-  position: absolute;
-  top: 5px;
-  left: 5px;
-}
-
+/* Note content assistant */
 .toggle-notes-content-assistant-window {
   position: absolute;
   top: 80px;

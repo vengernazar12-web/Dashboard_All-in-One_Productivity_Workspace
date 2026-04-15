@@ -179,4 +179,4 @@ swapSelectsBtn.addEventListener('click', async () => {
 })
 
 // Set progress value
-preloaderProgress.value = 7;
+preloaderProgress.value = 6;

@@ -2,27 +2,9 @@
 whatIsLoadingText.textContent = 'Loading core functionality...';
 
 // All blocks limits
-const allBlockLimitsObj = {
-  todos: 100,
-  notes: 25,
-  urls: 25,
-  codes: 25,
-  text: 50,
-  music: 100,
-}
+let allBlockLimitsObj = {}
 // All values limits
-const allValuesLimit = {
-  todoName: 30,
-  todoMark: 15,
-  todoTag: 30,
-  urlTitle: 50,
-  codeName: 30,
-  noteName: 50,
-  noteDesc: 200,
-  textName: 30,
-  textContent: 1000,
-  musicName: 25,
-}
+let allValuesLimit = {}
 
 const mls = localStorage.getItem('del-anim-time');
 let delAnimTime = mls !== null ? +mls : 1500;
@@ -89,25 +71,22 @@ function closeAllWraps() {
   exchangeRateWrap.classList.remove('show');
   weatherWrap.classList.remove('show');
   timezoneWrap.classList.remove('show');
+  githubWrap.classList.remove('show');
 
   profileWrap.classList.remove('show');
   settingsWindow.classList.remove('show');
-  timerWindow.classList.remove('show');
   undoLastActionBlock.classList.remove('show');
   lastDataForUndoAction = null;
+
+  commandRunnerWrap.classList.remove('show');
+
   if(allDashboardItem.classList.contains('open')) toggleAllDashboardItemBtn.click();
 }
 
 // Close all type-assistant windows
 function closeAllTypeAssistantWindows() {
-  todosAssistantWindow.classList.remove('open');
   notesContentAssistantWindow.classList.remove('open');
-  notesAssistantWindow.classList.remove('open');
-  urlsAssistantWindow.classList.remove('open');
-  codesAssistantWindow.classList.remove('open');
   codesContentAssistantWindow.classList.remove('open');
-  textSnippetsAssistantWindow.classList.remove('open');
-  musicAssistantWindow.classList.remove('open');
 }
 
 // Mark and render init wrap
@@ -136,11 +115,20 @@ function addUnsavedMarkAndRenderInitWrap() {
 // Replace: htmlSymbols - symbol code; hash html symbols
 function hashHtmlSymbols(content) {
   return content
-  .replaceAll('&', '&amp;')
-  .replaceAll('<', '&lt;')
-  .replaceAll('>', '&gt;')
-  .replaceAll('"', '&quot;')
-  .replaceAll("'", '&#39;');
+  ?.replaceAll('&', '&amp;')
+  ?.replaceAll('<', '&lt;')
+  ?.replaceAll('>', '&gt;')
+  ?.replaceAll('"', '&quot;')
+  ?.replaceAll("'", '&#39;');
+}
+// Replace symbol code to symbol
+function unhashHtmlSymbols(content) {
+  return content
+  ?.replaceAll('&lt;', '<')
+  ?.replaceAll('&gt;', '>')
+  ?.replaceAll('&quot;', '"')
+  ?.replaceAll('&#39;', "'")
+  ?.replaceAll('&amp;', '&');
 }
 
 // Load script
@@ -153,6 +141,49 @@ async function loadScript(src) {
     script.onload = () => res();
     script.onerror = () => rej();
   })
+}
+
+// Load codemirror
+const allCodemirrorUrls = {
+css: [
+'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/codemirror.min.css',
+'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/fold/foldgutter.min.css',
+"https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/hint/show-hint.min.css",
+],
+js: [
+'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/codemirror.min.js',
+'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/javascript/javascript.min.js',
+'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/css/css.min.js',
+'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/xml/xml.min.js',
+'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/htmlmixed/htmlmixed.min.js',
+'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/hint/show-hint.min.js',
+"https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/hint/xml-hint.min.js",
+"https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/hint/html-hint.min.js",
+"https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/hint/javascript-hint.min.js",
+"https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/hint/css-hint.min.js",
+"https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/edit/closetag.min.js",
+"https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/edit/closebrackets.min.js",
+"https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/fold/foldcode.min.js",
+"https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/fold/foldgutter.min.js",
+"https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/fold/brace-fold.min.js",
+"https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/selection/active-line.min.js",
+"https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/edit/matchbrackets.min.js",
+"https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/comment/comment.min.js",
+]
+};
+let codeMirrorLoaded = false;
+async function loadCodemirror() {
+  // Load all codemirror css
+    for(let h of allCodemirrorUrls.css) {
+      const link = document.createElement('link');
+      link.setAttribute('rel', "stylesheet");
+      link.href = h;
+      header.appendChild(link);
+    }
+    // Load all codemirror scripts
+    for(let s of allCodemirrorUrls.js) await loadScript(s);
+
+    codeMirrorLoaded = true;
 }
 
 // Show fields block
@@ -251,30 +282,12 @@ document.addEventListener('keydown', e => {
     if(assistantWrap.classList.contains('show') && !e.shiftKey && !memoryForAiWindow.classList.contains('show')) {
       e.preventDefault();
       sendPromptBtn.click();
-    } else if(todosAssistantWindow.classList.contains('open') && !e.shiftKey) {
-      e.preventDefault();
-      sendTodosAssistantPromptBtn.click();
     } else if(notesContentAssistantWindow.classList.contains('open') && !e.shiftKey) {
       e.preventDefault();
       sendNotesContentPromptBtn.click();
-    } else if(notesAssistantWindow.classList.contains('open') && !e.shiftKey) {
-      e.preventDefault();
-      sendNotesPromptBtn.click();
-    } else if(urlsAssistantWindow.classList.contains('open') && !e.shiftKey) {
-      e.preventDefault();
-      sendUrlsAssistantPrompt.click();
-    } else if(codesAssistantWindow.classList.contains('open') && !e.shiftKey) {
-      e.preventDefault();
-      sendCodesAssistantPromptBtn.click();
     } else if(codesContentAssistantWindow.classList.contains('open') && !e.shiftKey) {
       e.preventDefault();
       sendCodesContentAssistantPromptBtn.click();
-    } else if(textSnippetsAssistantWindow.classList.contains('open') && !e.shiftKey) {
-      e.preventDefault();
-      sendTextSnippetsPromptBtn.click();
-    } else if(musicAssistantWindow.classList.contains('open') && !e.shiftKey) {
-      e.preventDefault();
-      sendMusicPromptBtn.click();
     }
 
     else if(addTodoForm.classList.contains('show')) todoAddBtn.click();
@@ -369,7 +382,7 @@ function initUndoActionBlock(type, content) {
   undoTimeout = setTimeout(() => {
     lastDataForUndoAction = null;
     undoLastActionBlock.classList.remove('show');
-  }, 5000);
+  }, 15000);
 
   lastDataForUndoAction = {type, content: JSON.parse(JSON.stringify(content))};
   let saveBtn = type === 'todos' ? todoSaveBtn : type === 'notes' ? noteSaveBtn : type === 'urls' ? urlSaveBtn : type === 'codes' ? codeSaveBtn : type === 'texts' ? textSaveBtn : musicSaveBtn;
@@ -413,6 +426,11 @@ function initSpeakWindow(textarea) {
   speakWindow.classList.add('show');
   recognition.start();
 }
+
+// Show internet status
+const noInternetIcon = document.querySelector('.no-internet-icon');
+window.addEventListener('online', () => noInternetIcon.style.display = 'none');
+window.addEventListener('offline', () => noInternetIcon.style.display = 'block');
 
 // Set preloader value
 preloaderProgress.value = 1;

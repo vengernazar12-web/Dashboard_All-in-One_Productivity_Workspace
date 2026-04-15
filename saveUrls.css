@@ -1,7 +1,9 @@
+.save-urls-wrap { text-align: center; padding-top: 7px; }
+
 .all-urls-container {
   width: 97.5%;
   position: absolute;
-  top: 100px;
+  top: 150px;
   left: 1.25%;
   display: flex;
   flex-wrap: wrap;
@@ -11,10 +13,7 @@
 }
 
 .search-url {
-  position: absolute;
-  top: 10px;
-  width: 95%;
-  left: 2.5%;
+  width: 90%;
 }
 
 .url-block {
@@ -86,23 +85,18 @@
 }
 
 .url-save-btn {
-  border-radius: 5px;
   position: absolute;
-  top: 50px;
+  top: 10px;
   right: calc(2.5% + 40px);
-  height: 30px;
-  width: 50px;
 }
 
 /* Add url form */
 .toggle-add-url-form {
-  width: 30px;
-  height: 30px;
-  font-size: 1.2rem;
   position: absolute;
-  top: 50px;
+  top: 10px;
   right: 2.5%;
 }
+
 .add-url-form {
   height: 65%;
   width: 90%;
@@ -193,11 +187,4 @@
   height: 25px;
   border-radius: 5px;
   padding: 2px;
-}
-
-/* Urls assistant */
-.toggle-urls-assistant-window {
-  position: absolute;
-  top: 50px;
-  left: 2.5%;
 }

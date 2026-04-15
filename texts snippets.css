@@ -1,29 +1,27 @@
-.search-texts-snippets-input {
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  width: calc(100% - 45px);
-}
+.texts-snippets-wrap { text-align: center; padding-top: 7px; }
 
-.toggle-add-text-snippet-btn {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  width: 30px;
-  height: 30px;
-  font-size: 20px;
-}
+.search-texts-snippets-input { width: 90%; }
 
 .save-texts-snippets {
   position: absolute;
-  top: 40px;
-  right: 5px;
-  border-radius: 5px;
-  width: 30px;
-  height: 30px;
+  top: 10px;
+  right: calc(2.5% + 40px);
+}
+
+.text-progress-txt {
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  color: black;
 }
 
 /* Add text snippet */
+.toggle-add-text-snippet-btn {
+  position: absolute;
+  top: 10px;
+  right: 2.5%;
+}
+
 .add-text-snippet-form {
   position: fixed;
   top: 12vh;
@@ -76,7 +74,7 @@
 /* Texts container */
 .all-texts-snippets-container {
   position: absolute;
-  top: 85px;
+  top: 150px;
   left: 0;
   width: 100%;
   padding: 5px;
@@ -191,20 +189,4 @@
   border-radius: 5px;
   padding: 3px;
   white-space: pre-wrap;
-}
-
-/* Toggle assistant */
-.toggle-text-snippets-assistant-window {
-  position: absolute;
-  top: 40px;
-  left: 5px;
-}
-
-/* Text progress */
-.text-progress-txt {
-  position: fixed;
-  bottom: 10px;
-  left: 50%;
-  color: black;
-  font-size: 16px
 }

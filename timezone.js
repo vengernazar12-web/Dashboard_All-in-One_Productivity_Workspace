@@ -1,9 +1,18 @@
 // Set progress text
 whatIsLoadingText.textContent = 'Loading time zones logic...';
 
+const WORKER_TIMEZONE_API = 'https://timezone-fetch.vengernazar0.workers.dev';
+
 async function initAllTimezones() {
   try {
-    const resp = await fetch(TIMEZONE_LIST_API);
+    const resp = await fetch(WORKER_TIMEZONE_API, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json',},
+      body: JSON.stringify({
+        timeZone: '',
+        need: 'list',
+      })
+    });
     const data = await resp.json();
     timezonesArr = data.zones;
   } catch {
@@ -49,11 +58,6 @@ openTimezoneWrapBtn.addEventListener('click', async () => {
 let timezonesArr = [];
 let initUsedTimezonesArr = [];
 
-// Api
-const TIMEZONE_KEY = 'JQMFJEY9H7X9';
-const TIMEZONE_LIST_API = `http://api.timezonedb.com/v2.1/list-time-zone?key=${TIMEZONE_KEY}&format=json`;
-const TIMEZONE_TIME_API = `http://api.timezonedb.com/v2.1/get-time-zone?key=${TIMEZONE_KEY}&format=json&by=zone&zone=`;
-
 // Time zone info
 const showZoneTimeBlock = timezoneWrap.querySelector('.time-zone-info-block');
 const timeZoneTitleTxt = showZoneTimeBlock.firstElementChild;
@@ -66,13 +70,25 @@ function showTimeZoneInfo(timeZone) {
 
   clearTimeout(timeZoneInfoTimer);
   timeZoneInfoTimer = setTimeout(async () => {
-    const resp = await fetch(`${TIMEZONE_TIME_API}${timeZone}`);
-    const data = await resp.json();
-    timeZoneTitleTxt.textContent = `${data.countryCode} | ${data.countryName}\nTime zone: ${data.zoneName}`;
-    timeZoneTimeTxt.textContent = `${data.formatted} ${data.abbreviation}`.replaceAll(' ', '\n');
+    try {
+      const resp = await fetch(WORKER_TIMEZONE_API, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json',},
+        body: JSON.stringify({
+          timeZone: timeZone,
+          need: 'time',
+        })
+      });
+      const data = await resp.json();
+      timeZoneTitleTxt.textContent = `${data.countryCode} | ${data.countryName}\nTime zone: ${data.zoneName}`;
+      timeZoneTimeTxt.textContent = `${data.formatted} ${data.abbreviation}`.replaceAll(' ', '\n');
 
-    showZoneTimeBlock.classList.add('open');
-    timeZoneInfoTimer = null;
+      showZoneTimeBlock.classList.add('open');
+      timeZoneInfoTimer = null;
+    } catch(e) {
+      console.error(e);
+      showResponseFn('Sorry, something went wrong...');
+    }
   });
 }
 
@@ -81,7 +97,7 @@ const allTimezonesCont = timezoneWrap.querySelector('.all-timezones-container');
 allTimezonesCont.addEventListener('click', e => {
   if(showZoneTimeBlock.classList.contains('open')) return showZoneTimeBlock.classList.remove('open');
   const val = e.target.dataset?.value;
-  if(val) { showTimeZoneInfo(val); }
+  if(val) showTimeZoneInfo(val);
 })
 
 // Render select options
@@ -183,4 +199,4 @@ function renderFoundTimezones(val) {
 }
 
 // Set progress value
-preloaderProgress.value = 9;
+preloaderProgress.value = 8;

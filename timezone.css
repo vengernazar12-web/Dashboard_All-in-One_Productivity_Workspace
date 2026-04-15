@@ -39,7 +39,7 @@
 
 .time-zone-info-block {
   min-height: 40%;
-  width: 75%;
+  width: calc(75% - 32px);
   background-color: rgba(0, 0, 0, 0.85);
   color: white;
   border-radius: 6px;
@@ -47,7 +47,7 @@
   border: 1px solid silver;
   position: fixed;
   top: 25%;
-  left: 12.5%;
+  left: calc(12.5% + 32px);
   padding: 7px;
   transition: transform .5s;
 }
