@@ -83,7 +83,9 @@ assistantResponseContainer.addEventListener('click', async e => {
 
     const tool_id = target.dataset.toolId;
 
-    historyForAiPrompt.push({role: "tool", tool_call_id: tool_id, content: JSON.stringify({CANCEL_ERROR: 'The user rejected the command'})});
+    historyForAiPrompt.push({role: "tool", tool_call_id: tool_id, content: JSON.stringify({
+      CANCELLED: 'the user rejected the given command'
+    })});
 
     generatedCommandsCount--;
 
