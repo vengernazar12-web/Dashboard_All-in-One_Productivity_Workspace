@@ -435,8 +435,8 @@ async function getContent(type) {
   return data[type];
 }
 
-// Set preloader value
-preloaderProgress.value = preloaderProgress.max;
-
 // Starter function
 initAccountInfos();
+
+// Set preloader value
+preloaderProgress.value = preloaderProgress.max;

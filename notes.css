@@ -161,9 +161,3 @@
   border: 1px solid var(--border-color);
   border-radius: 8px;
 }
-/* Note content assistant */
-.toggle-notes-content-assistant-window {
-  position: absolute;
-  top: 80px;
-  left: 5%;
-}

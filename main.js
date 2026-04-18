@@ -86,12 +86,6 @@ function closeAllWraps() {
   if(allDashboardItem.classList.contains('open')) toggleAllDashboardItemBtn.click();
 }
 
-// Close all type-assistant windows
-function closeAllTypeAssistantWindows() {
-  notesContentAssistantWindow.classList.remove('open');
-  codesContentAssistantWindow.classList.remove('open');
-}
-
 // Mark and render init wrap
 function addUnsavedMarkAndRenderInitWrap() {
   if(todoWrap.classList.contains('show')) {
@@ -220,7 +214,7 @@ function renderShowFieldsBlock(orgValuesArr, val, input, isName = false) {
   }
 }
 
-// Key... events
+// Key... event
 document.addEventListener('keydown', e => {
   if(notesWrap.classList.contains('show') && (e.key === '<' || e.key === '>' || e.key === '&' || e.key === '/')) e.preventDefault();
   else if(e.ctrlKey && e.code === 'KeyH') {
@@ -285,12 +279,6 @@ document.addEventListener('keydown', e => {
     if(assistantWrap.classList.contains('show') && !e.shiftKey && !memoryForAiWindow.classList.contains('show')) {
       e.preventDefault();
       sendPromptBtn.click();
-    } else if(notesContentAssistantWindow.classList.contains('open') && !e.shiftKey) {
-      e.preventDefault();
-      sendNotesContentPromptBtn.click();
-    } else if(codesContentAssistantWindow.classList.contains('open') && !e.shiftKey) {
-      e.preventDefault();
-      sendCodesContentAssistantPromptBtn.click();
     }
 
     else if(addTodoForm.classList.contains('show')) todoAddBtn.click();
@@ -305,7 +293,6 @@ document.addEventListener('keydown', e => {
 // Document click event
 document.addEventListener('click', e => {
   if(allDashboardItem.classList.contains('open') && !e.target.closest('.all-dashboard-items')) toggleAllDashboardItemBtn.click();
-  if(!e.target.closest('.type-assistant') && !e.target.classList.contains('toggle-type-assistant')) closeAllTypeAssistantWindows();
 
   if(showFieldsBlock.classList.contains('show') && !e.target.closest('.show-fields-block')) showFieldsBlock.classList.remove('show');
 })

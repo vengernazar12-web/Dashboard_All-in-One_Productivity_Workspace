@@ -3,12 +3,12 @@
 
 .run-command-btn {
   position: absolute;
-  top: calc(60% + 15px);
-  right: 10px;
+  top: calc(60% + 10px);
+  right: 5px;
   color: white;
   background: linear-gradient(180deg, rgb(0, 146, 0), rgb(0, 88, 0));
   padding: 2px 5px;
-  border: 1px solid silver;
+  border: 1px solid white;
   border-radius: 3px;
   font-size: 16px;
   opacity: 0.75;
