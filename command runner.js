@@ -73,9 +73,9 @@ runCommandBtn.addEventListener('click', async () => {
     let resultTxt = '';
 
     const success = serverCommandValidationData.result.success;
-    resultTxt = `${success.length ? '→ ' : ''}${success.join('\n→ ')}`;
+    resultTxt = `${success?.length ? '→ ' : ''}${success?.join('\n→ ')}`;
     const errors = serverCommandValidationData.result.errors;
-    if (errors.length) resultTxt += `\n\n<span>Errors</span>\n✕ ${errors.map(obj => `${obj.error}: ${obj.need}`).join('\n✕ ')}`;
+    if (errors?.length) resultTxt += `\n\n<span>Errors</span>\n✕ ${errors?.map(obj => `${obj.error}: ${obj.need}`).join('\n✕ ')}`;
 
     runCommandResultBlock.innerHTML = resultTxt;
 

@@ -276,7 +276,7 @@ document.addEventListener('keydown', e => {
 
   // Global enter
   else if(e.key === 'Enter') {
-    if(assistantWrap.classList.contains('show') && !e.shiftKey && !memoryForAiWindow.classList.contains('show')) {
+    if(assistantWrap.classList.contains('show') && !e.shiftKey) {
       e.preventDefault();
       sendPromptBtn.click();
     }

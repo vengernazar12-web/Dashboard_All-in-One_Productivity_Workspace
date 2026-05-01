@@ -1,6 +1,8 @@
 // Set preloader text
 whatIsLoadingText.textContent = 'Loading assistants logic...';
 
+const HISTORY_WORKER_API = 'https://assistant-history.vengernazar0.workers.dev';
+
 // User actions
 const userActionsForAi = [];
 
@@ -19,8 +21,50 @@ function writeToUserActions(val) {
 const assistantWrap = document.querySelector('.assistant-wrap');
 // Open
 const openAssistantWrapBtn = allDashboardItem.querySelector('.open-assistant-wrap');
-openAssistantWrapBtn.addEventListener('click', () => {
+openAssistantWrapBtn.addEventListener('click', async () => {
   closeAllWraps();
+
+  if(!historyForAiPrompt) {
+    showPreloader();
+    preloaderProgress.max = 1;
+    preloaderProgress.value = 0;
+    whatIsLoadingText.textContent = 'Start loading history...';
+
+    const resp = await fetch(HISTORY_WORKER_API, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json',},
+      body: JSON.stringify({ userId: userId, isGetChat: true })
+    });
+    const data = await resp.json();
+    historyForAiPrompt = data.for_history;
+
+    const frag = document.createDocumentFragment();
+    for(let obj of data.for_show || []) {
+      const div = document.createElement('div');
+      const pre = document.createElement('pre');
+      div.appendChild(pre);
+
+      const role = obj.role;
+      const content = obj.content;
+
+      if(role === 'user') {
+        div.classList.add('user-text');
+        pre.innerHTML = content;
+      } else if(role === 'assistant' && content) pre.innerHTML = content;
+      else continue;
+
+      frag.appendChild(div);
+    }
+
+    assistantResponseContainer.appendChild(frag);
+
+    preloaderProgress.value = 1;
+    setTimeout(() => {
+      assistantResponseContainer.scrollTop = assistantResponseContainer.scrollHeight;
+      showPreloader(false);
+    }, 500);
+  }
+
   assistantWrap.classList.add('show');
   userPromptTextarea.focus();
 });
@@ -53,11 +97,10 @@ assistantResponseContainer.addEventListener('click', async e => {
     delete commandResult.result.do_action;
 
     historyForAiPrompt.push({
-      role: 'tool',
-      tool_call_id: tool_id,
-      content: unhashHtmlSymbols(JSON.stringify(commandResult.result).replace(/<\/?span>/g, ''))
+      type: "function_call_output",
+      call_id: tool_id,
+      output: unhashHtmlSymbols(JSON.stringify(commandResult.result).replace(/<\/?span>/g, ''))
     });
-
     target.remove();
     cancelBtn.remove();
 
@@ -83,9 +126,11 @@ assistantResponseContainer.addEventListener('click', async e => {
 
     const tool_id = target.dataset.toolId;
 
-    historyForAiPrompt.push({role: "tool", tool_call_id: tool_id, content: JSON.stringify({
-      CANCELLED: 'the user rejected the given command'
-    })});
+    historyForAiPrompt.push({
+      type: "function_call_output",
+      call_id: tool_id,
+      output: JSON.stringify({ success: ["Command run...", "Cancelled: the user rejected the given command"] })
+    });
 
     generatedCommandsCount--;
 
@@ -147,6 +192,8 @@ let initTypingHTML = null;
 let isLastBeenThinking = false;
 
 function createAssistantResponse(txt, isThinking = false) {
+  if(!txt) return;
+
   if(typingInterval) {
     clearInterval(typingInterval);
     typingInterval = null;
@@ -192,47 +239,6 @@ function createAssistantResponse(txt, isThinking = false) {
     };
   }, isThinking ? 50 : 15);
 }
-
-// Memory for ai
-const memoryForAiWindow = assistantWrap.querySelector('.memory-for-ai');
-assistantWrap.querySelector('.open-memory-for-ai')
-.addEventListener('click', () => {
-  memoryForAiWindow.classList.toggle('show');
-  memoryForAiTextarea.value = memoryForAi;
-});
-
-const memoryForAiTextarea = memoryForAiWindow.querySelector('textarea');
-memoryForAiTextarea.addEventListener('input', () => memoryForAiTextarea.value = memoryForAiTextarea.value.slice(0, 150));
-
-// Save memory for ai
-memoryForAiWindow.querySelector('.save-memory-for-ai')
-.addEventListener('click', async () => {
-  memoryForAiWindow.classList.remove('show');
-
-  if(memoryForAi !== memoryForAiTextarea.value) {
-    showPreloader();
-    preloaderProgress.max = 1;
-    preloaderProgress.value = 0;
-    whatIsLoadingText.textContent = 'Start...';
-
-    const { error: tableErr} = await client
-      .from('user_content')
-      .update({memory: memoryForAiTextarea.value})
-      .eq('id', userId);
-
-    if(tableErr) {
-      showResponseFn('Something went wrong. Please try again later...');
-      return showPreloader(false);
-    }
-
-    preloaderProgress.value = 1;
-    whatIsLoadingText.textContent = 'Saved';
-
-    memoryForAi = memoryForAiTextarea.value;
-    showResponseFn('Saved');
-    setTimeout(() => showPreloader(false), 500);
-  }
-})
 
 // Set preloader value
 preloaderProgress.value = 14;

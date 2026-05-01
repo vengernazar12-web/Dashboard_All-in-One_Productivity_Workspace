@@ -380,9 +380,6 @@ async function initAccountInfos() {
     const id = sessionData.session.user.id;
     userId = id;
 
-    const {data: memoryResp} = await client.from('user_content').select('memory').eq('id', userId).single();
-    memoryForAi = memoryResp.memory;
-
     const {data: limitsData} = await client.from('app_content_limits').select('*').eq('id', 1).single();
     allBlockLimitsObj = limitsData.blocks;
     allValuesLimit = limitsData.values;
