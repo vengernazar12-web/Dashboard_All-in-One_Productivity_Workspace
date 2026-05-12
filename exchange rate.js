@@ -1,19 +1,27 @@
 // Set progress text
-whatIsLoadingText.textContent = 'Loading exchange rate...';
+whatIsLoadingText.textContent = 'Loading services...';
 
 const exchangeRateWrap = document.querySelector('.exchange-rate-wrap');
 // Open
+let flagsCssLoaded = false;
 const openExchangeRateWrapBtn = allDashboardItem.querySelector('.open-exchange-rate-wrap');
 openExchangeRateWrapBtn.addEventListener('click', async () => {
   if(exchangeRateWrap.classList.contains('show')) return;
+
+  if(!flagsCssLoaded) {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://cdn.jsdelivr.net/npm/currency-flags@4.0.7/dist/currency-flags.min.css';
+    header.appendChild(link);
+    flagsCssLoaded = true;
+  }
+
   closeAllWraps();
   preloaderProgress.max = 1;
   preloaderProgress.value = 0;
   whatIsLoadingText.textContent = 'Loading exchange rate...';
   showPreloader();
   showResponseFn('Please wait...');
-
-  cachedFlags = JSON.parse(localStorage.getItem('cached-flags') || "{}");
 
   await renderExchangeRateSelects();
 
@@ -26,7 +34,6 @@ openExchangeRateWrapBtn.addEventListener('click', async () => {
 
 // Api
 const EX_API = 'https://v6.exchangerate-api.com/v6/3823f0dc50f06c6954ddca0d/latest/';
-const FLAGS_API = 'https://restcountries.com/v3.1/currency/';
 // All rates
 let rates = {};
 
@@ -114,8 +121,8 @@ async function initRates(rate, ignoreCache = false, changedValues = []) {
 }
 
 // Set rate info
-const firstFlagImg = exchangeRateWrap.querySelector('.first-flag');
-const secondFlagImg = exchangeRateWrap.querySelector('.second-flag');
+const firstFlagImgBlock = exchangeRateWrap.querySelector('.first-flag');
+const secondFlagImgBLock = exchangeRateWrap.querySelector('.second-flag');
 
 let cachedFlags = {};
 async function setRateInfo(values) {
@@ -130,41 +137,12 @@ async function setRateInfo(values) {
   if(!values.length) return;
 
   try {
-    const value1 = values[0];
-    if(value1) {
-      if(cachedFlags[value1]) firstFlagImg.src = cachedFlags[value1];
-      else if(value1 === 'USD') {
-        firstFlagImg.src = 'https://flagcdn.com/us.svg';
-        cachedFlags[value1] = 'https://flagcdn.com/us.svg';
-      }
-      else {
-        const resp1 = await fetch(`${FLAGS_API}${value1}`);
-        const data1 = await resp1.json();
-        firstFlagImg.src = data1[0].flags.svg;
-        cachedFlags[value1] = data1[0].flags.svg;
-        localStorage.setItem('cached-flags', JSON.stringify(cachedFlags));
-      }
-    }
+    const value1 = values[0]?.toLowerCase();
+    if(value1) firstFlagImgBlock.className = `first-flag currency-flag currency-flag-${value1}`;
 
-    const value2 = values[1];
-    if(value2) {
-      if(cachedFlags[value2]) secondFlagImg.src = cachedFlags[value2];
-      else if(value2 === 'USD') {
-        secondFlagImg.src = 'https://flagcdn.com/us.svg';
-        cachedFlags[value2] = 'https://flagcdn.com/us.svg';
-      }
-      else {
-        const resp2 = await fetch(`${FLAGS_API}${value2}`);
-        const data2 = await resp2.json();
-        secondFlagImg.src = data2[0].flags.svg;
-        cachedFlags[value2] = data2[0].flags.svg;
-        localStorage.setItem('cached-flags', JSON.stringify(cachedFlags));
-      }
-    }
-  } catch {
-    firstFlagImg.src = '/all-imgs/Classic-dashboard-img.webp';
-    secondFlagImg.src = '/all-imgs/Classic-dashboard-img.webp';
-  }
+    const value2 = values[1]?.toLowerCase();
+    if(value2) secondFlagImgBLock.className = `second-flag currency-flag currency-flag-${value2}`;
+  } catch(e) { console.error(e.message); }
 }
 
 // Swap selector
@@ -179,4 +157,4 @@ swapSelectsBtn.addEventListener('click', async () => {
 })
 
 // Set progress value
-preloaderProgress.value = 6;
+preloaderProgress.value = 2;

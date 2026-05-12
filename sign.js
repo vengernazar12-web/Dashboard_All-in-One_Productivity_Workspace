@@ -25,19 +25,11 @@ async function signFn(type) {
       if(error) return showResponseFn(error.message);
       showResponseFn('Check your email address and use sign-in form');
     }
-    else {
-      // Sign in
+    else { // Sign in
       const {data, error} = await client.auth.signInWithPassword({email, password});
       if(error) return showResponseFn(error.message);
       if(!data.user.email_confirmed_at) return showResponseFn(`You must confirm your email address! Check you email address: ${data.user.email}`);
 
-      const {data: contentFetchData, error: contentFetchError} = await client
-      .from('user_content')
-      .select('id, content')
-      .eq('id', data.session.user.id)
-      .single();
-
-      if(contentFetchError && contentFetchError.code !== 'PGRST116') return showResponseFn('Something went wrong');
       showResponseFn('Welcome!');
       await initAccountInfos();
       signWindow.classList.remove('show');
@@ -380,7 +372,7 @@ async function initAccountInfos() {
     const id = sessionData.session.user.id;
     userId = id;
 
-    const {data: limitsData} = await client.from('app_content_limits').select('*').eq('id', 1).single();
+    const {data: limitsData, error} = await client.from('app_content_limits').select('*').eq('id', 1).single();
     allBlockLimitsObj = limitsData.blocks;
     allValuesLimit = limitsData.values;
 

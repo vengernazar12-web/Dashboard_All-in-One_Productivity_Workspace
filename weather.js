@@ -1,6 +1,3 @@
-// Set progress text
-whatIsLoadingText.textContent = 'Loading weather logic...';
-
 const WORKER_WEATHER_API = 'https://weather-fetch.vengernazar0.workers.dev/';
 
 const weatherWrap = document.querySelector('.weather-wrap');
@@ -134,6 +131,3 @@ function renderInfo(city, coordinates) {
   weatherIcon.src = info.condition.icon;
   }, 150);
 }
-
-// Set progress value
-preloaderProgress.value = 7;

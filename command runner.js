@@ -1,6 +1,3 @@
-// Set preloader text
-whatIsLoadingText.textContent = 'Loading command runner...';
-
 const commandRunnerWrap = document.querySelector('.commands-runner-wrap');
 // Open
 const openCommandRunnerWrapBtn = allDashboardItem.querySelector('.open-commands-runner-wrap');
@@ -31,12 +28,9 @@ openCommandRunnerWrapBtn.addEventListener('click', async () => {
 
     CodeMirror.defineSimpleMode("runner", {
       start: [
-        { regex: /"(create|delete|check|find)"/, token: "keyword" },
-        { regex: /"(target|action|from|where)"/, token: "property" },
-
-        { regex: /"(?:[^\\]|\\.)*?"/, token: "string" },
-        { regex: /'(?:[^\\]|\\.)*?'/, token: "string" },
-
+        { regex: /\b(create|delete|check|find)\b/, token: "keyword" },
+        { regex: /\b(target|action|from|where)\b/, token: "property" },
+        { regex: /["'`](?:[^\\]|\\.)*?["'`]/, token: "string" },
         { regex: /\b\d+\b/, token: "number" },
       ]
     });
@@ -50,6 +44,16 @@ openCommandRunnerWrapBtn.addEventListener('click', async () => {
     preloaderProgress.value = 2;
     whatIsLoadingText.textContent = 'Loaded';
     setTimeout(() => showPreloader(false), 500);
+  }
+
+  if(!isJson5Loaded) {
+    showPreloader();
+    whatIsLoadingText.textContent = 'Loading JSON5';
+
+    await loadScript("https://unpkg.com/json5/dist/index.min.js");
+    isJson5Loaded = true;
+
+    showPreloader(false);
   }
 });
 
@@ -90,7 +94,7 @@ runCommandBtn.addEventListener('click', async () => {
 
 async function goRunner(command) {
   try {
-    let allCommandsArr = JSON.parse("[" + command + "]");
+    let allCommandsArr = JSON5.parse("[" + command + "]");
     if (Array.isArray(allCommandsArr[0])) allCommandsArr = allCommandsArr[0];
     const allTypes = new Set(allCommandsArr.map(obj => obj.target));
 
@@ -169,6 +173,3 @@ function doRunnerActions(doActions) {
       contentSaveBns[target].classList.add('unsaved');
     }
 }
-
-// Set preloader value
-preloaderProgress.value = 13;

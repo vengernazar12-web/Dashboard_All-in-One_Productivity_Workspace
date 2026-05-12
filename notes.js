@@ -1,6 +1,3 @@
-// Set preloader text
-whatIsLoadingText.textContent = 'Loading notes system...';
-
 const notesWrap = document.querySelector('.notes-wrap');
 notesWrap.addEventListener('click', e => {
   if(!e.target.closest('.add-notes-inputs') && !e.target.classList.contains('toggle-add-note-form')) addNotesForm.classList.remove('show');
@@ -89,9 +86,6 @@ addNotesButton.addEventListener('click', () => {
   renderNotesBlocks();
 
   noteSaveBtn.classList.add('unsaved');
-
-  // Save change for userActions
-  writeToUserActions(`Додано нотатку з назвою ${name}${desc !== 'Description' ? ` та з описом ${desc}` : ''}`);
 })
 
 // Edit note
@@ -139,14 +133,6 @@ confNoteEditChangeBtn.addEventListener('click', () => {
   showResponseFn('The note has been edited.');
 
   noteSaveBtn.classList.add('unsaved');
-
-  // Save change for userActions
-  writeToUserActions(
-    newName !== initEditingNoteName && descBeforeEdit !== newDesc
-    ? `Змінено назву нотатки з '${initEditingNoteName}' на '${newName}' та опис з '${descBeforeEdit}' на '${newDesc}'`
-    : newName !== initEditingNoteName ? `Користувач замінив назву нотатки з '${initEditingNoteName}' на '${newName}'`
-    : `Змінено опис нотатки з назвою '${initEditingNoteName}' з '${descBeforeEdit}' на '${newDesc}'`
-  );
 })
 
 // Delegation
@@ -167,9 +153,6 @@ allUserNotesCont.addEventListener('click', e => {
 
     noteBlock.classList.add('del-anim');
     setTimeout(renderNotesBlocks, delAnimTime);
-
-    // Save change for userActions
-    writeToUserActions(`Видалено нотатку з назвою ${noteName}`);
   }
   else if(e.target.closest('.fav-note-btn')) { // Favorite note block
     const noteName = e.target.closest('.note-block').firstElementChild.textContent;
@@ -178,9 +161,6 @@ allUserNotesCont.addEventListener('click', e => {
     renderNotesBlocks();
 
     noteSaveBtn.classList.add('unsaved');
-
-    // Save change for userActions
-    writeToUserActions(allNotesObj[noteName].isFav ? `Позначено нотатку з назвою ${noteName} як фаворіт` : `Забрано нотатку з назвою ${noteName} з фаворітів`);
   }
   else if(e.target.closest('.edit-note-btn')) { // Open edit block
     const targetNoteBlockName = e.target.closest('.note-block').firstElementChild.textContent;
@@ -207,6 +187,13 @@ userNotesText.addEventListener('input', () => {
   notesSymbolsLimitText.style.color = lng > allValuesLimit.notesContent ? 'red' : 'var(--text-color)';
   notesSymbolsLimitText.textContent = `${lng}/${allValuesLimit.notesContent}`;
 })
+userNotesText.addEventListener('blur', () => {
+  const txt = userNotesText.innerText;
+  if(txt.includes('<') || txt.includes('>')) {
+    userNotesText.innerText = txt.replace(/[<>]/g, '');
+    showResponseFn('The symbols "<>" are not allowed in notes');
+  };
+});
 
 /* Render functions */
 function createNoteBlock( name, desc, isFavorite, searchVal ) {
@@ -327,7 +314,7 @@ const searchNoteTextInput = notesContentWrap.querySelector('.search-note-text-in
 searchNoteTextInput.addEventListener('input', () => {
   const searchText = hashHtmlSymbols(searchNoteTextInput.value.trim())
   .replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  if(!searchText) return userNotesText.innerHTML = hashHtmlSymbols(allNotesObj[notesContentTitle.textContent].txt).replaceAll('\n', '<br>');
+  if(!searchText) return userNotesText.innerText = allNotesObj[notesContentTitle.textContent].txt;
 
   const regex = new RegExp(`(?<!<)${searchText}(?!>)`, "gi");
   userNotesText.innerHTML = hashHtmlSymbols(allNotesObj[notesContentTitle.textContent].txt)
@@ -337,13 +324,8 @@ searchNoteTextInput.addEventListener('input', () => {
   const firstMark = userNotesText.querySelector('mark');
   if(firstMark) firstMark.scrollIntoView({block: 'center', behavior: 'smooth'});
 })
-searchNoteTextInput.addEventListener('focus', () => { allNotesObj[notesContentTitle.textContent].txt = userNotesText.innerText; })
+searchNoteTextInput.addEventListener('focus', () => allNotesObj[notesContentTitle.textContent].txt = userNotesText.innerText)
 searchNoteTextInput.addEventListener('blur', () => {
   searchNoteTextInput.value = '';
-  userNotesText.innerHTML = hashHtmlSymbols(allNotesObj[notesContentTitle.textContent].txt)
-  .replaceAll(/<\/?mark/g, '')
-  .replaceAll('\n', '<br>');
+  userNotesText.innerText = allNotesObj[notesContentTitle.textContent].txt;
 })
-
-// Set preloader value
-preloaderProgress.value = 3;

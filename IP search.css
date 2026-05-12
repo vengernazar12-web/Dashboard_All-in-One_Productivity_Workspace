@@ -1,0 +1,45 @@
+.ip-search-wrap > input {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 60%;
+}
+.ip-search-wrap > button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: calc(40% - 30px);
+  background: brown;
+  color: white;
+  height: 30px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+}
+.ip-search-wrap > div {
+  position: absolute;
+  top: 50px;
+  left: 10px;
+  background: var(--block-bg);
+  width: calc(100% - 20px);
+  height: max-content;
+  max-height: calc(100% - 50px);
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  padding: 0 5px 5px 5px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.ip-search-wrap > div > h4 {
+  border-bottom: 1px solid var(--border-color);
+}
+.ip-search-wrap > div *:not(h3):not(img) { user-select: text; }
+
+.ip-search-wrap > div > .title-and-img {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ip-search-wrap > .loader { display: none; }

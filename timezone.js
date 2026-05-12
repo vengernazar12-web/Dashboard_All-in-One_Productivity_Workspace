@@ -1,6 +1,3 @@
-// Set progress text
-whatIsLoadingText.textContent = 'Loading time zones logic...';
-
 const WORKER_TIMEZONE_API = 'https://timezone-fetch.vengernazar0.workers.dev';
 
 async function initAllTimezones() {
@@ -197,6 +194,3 @@ function renderFoundTimezones(val) {
   }
   allTimezonesCont.appendChild(frag);
 }
-
-// Set progress value
-preloaderProgress.value = 8;

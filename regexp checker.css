@@ -1,0 +1,27 @@
+.regexp-checker-wrap > .regexp {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: calc(75% - 20px);
+}
+.regexp-checker-wrap > .flags {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: calc(25% - 10px);
+}
+
+.regexp-checker-wrap > div {
+  position: absolute;
+  top: 50px;
+  left: 5px;
+  width: calc(100% - 10px);
+  min-height: 100px;
+  height: max-content;
+  max-height: calc(100% - 60px);
+  background: var(--block-bg);
+  border-radius: 5px;
+  border: 1px solid var(--border-color);
+  padding: 5px;
+  overflow-y: auto;
+}

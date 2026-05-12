@@ -1,0 +1,73 @@
+.json-worker-wrap { overflow-y: auto !important; }
+
+.json-worker-wrap > textarea {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: calc(100% - 10px);
+  height: 70%;
+  color: var(--text-color);
+  background: var(--block-bg);
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  padding: 5px;
+}
+.json-worker-wrap > button {
+  position: absolute;
+  top: calc(70% + 10px);
+  left: 10px;
+  width: calc(100% - 20px);
+  height: 30px;
+  font-size: 16px;
+  background-color: blue;
+  color: white;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+.json-worker-wrap > div {
+  position: absolute;
+  top: calc(70% + 50px);
+  left: 5px;
+  width: calc(100% - 10px);
+  height: auto;
+  max-height: 300%;
+  overflow: auto;
+  background-color: rgb(67, 67, 67);
+  color: white;
+  padding: 5px;
+  border: 1px solid var(--border-color);
+  border-radius: 7px;
+}
+.json-worker-wrap > div :not(hr) { user-select: text; width: max-content }
+.json-worker-wrap > div > hr {
+  margin: 10px 0;
+  border-radius: 0;
+  height: 1px;
+  border: 1px solid white;
+}
+
+.json-worker-wrap > div :not(summary) { font-size: 15px; }
+.json-worker-wrap > div summary { font-size: 17px; }
+
+.json-worker-wrap > div details > :not(summary) { margin-left: 15px; }
+
+.json-worker-wrap > div summary { position: relative; }
+
+.json-worker-wrap > div details:not([open]) > summary::after {
+  content: attr(data-for-close-state);
+  font-size: 14px;
+  position: absolute;
+  top: 2px;
+  right: -40px;
+  text-shadow: 0 0 2px red;
+}
+.json-worker-wrap > div details[open] > summary::after {
+  content: attr(data-for-open-state);
+  font-size: 14px;
+  position: absolute;
+  top: 2px;
+  right: -40px;
+  text-shadow: 0 0 2px blue;
+}
+
+.json-worker-wrap > .loader { display: none; }

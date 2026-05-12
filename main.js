@@ -49,12 +49,21 @@ toggleAllDashboardItemBtn.addEventListener('click', () => {
     else if(exchangeRateWrap.classList.contains('show')) openExchangeRateWrapBtn.classList.add('active-btn');
     else if(weatherWrap.classList.contains('show')) openWeatherWrapBtn.classList.add('active-btn');
     else if(timezoneWrap.classList.contains('show')) openTimezoneWrapBtn.classList.add('active-btn');
-    else if(settingsWindow.classList.contains('show')) openSettingsWindowInSidebar.classList.add('active-btn');
     else if(assistantWrap.classList.contains('show')) openAssistantWrapBtn.classList.add('active-btn');
     else if(githubWrap.classList.contains('show')) openGithubWrapBtn.classList.add('active-btn');
+    else if(generateImageWrap.classList.contains('show')) opeGenerateImgWrapBtn.classList.add('active-btn');
+    else if(textWorkerServiceWrap.classList.contains('show')) openTextWorkerServiceBtn.classList.add('active-btn');
+    else if(qrCodeGenerationWrap.classList.contains('show')) openQrCodeGenerationBtn.classList.add('active-btn');
+    else if(browserWorkerWrap.classList.contains('show')) openBrowserWorkerBtn.classList.add('active-btn');
+    else if(regexpCheckerWrap.classList.contains('show')) openRegexpCheckerBtn.classList.add('active-btn');
+    else if(wikipediaWrap.classList.contains('show')) openWikipediaBtn.classList.add('active-btn');
+    else if(ipSearchWrap.classList.contains('show')) openIpSearchBtn.classList.add('active-btn');
+    else if(jsonWorkerWrap.classList.contains('show')) openJsonWorkerBtn.classList.add('active-btn');
 
+    else if(settingsWindow.classList.contains('show')) openSettingsWindowInSidebar.classList.add('active-btn');
     else if(commandRunnerWrap.classList.contains('show')) openCommandRunnerWrapBtn.classList.add('active-btn');
   }
+  else allDashboardItem.scrollTop = 0;
 })
 
 const tagUseInToggleSidebarBtn = toggleAllDashboardItemBtn.querySelector('use');
@@ -63,6 +72,7 @@ const tagUseInToggleSidebarBtn = toggleAllDashboardItemBtn.querySelector('use');
 function closeAllWraps() {
   assistantWrap.classList.remove('show');
 
+  // Types
   todoWrap.classList.remove('show');
   notesWrap.classList.remove('show');
   notesContentWrap.classList.remove('show');
@@ -71,11 +81,21 @@ function closeAllWraps() {
   textsSnippetsWrap.classList.remove('show');
   musicWrap.classList.remove('show');
 
+  // Services
   exchangeRateWrap.classList.remove('show');
   weatherWrap.classList.remove('show');
   timezoneWrap.classList.remove('show');
   githubWrap.classList.remove('show');
+  generateImageWrap.classList.remove('show');
+  textWorkerServiceWrap.classList.remove('show');
+  qrCodeGenerationWrap.classList.remove('show');
+  browserWorkerWrap.classList.remove('show');
+  regexpCheckerWrap.classList.remove('show');
+  wikipediaWrap.classList.remove('show');
+  ipSearchWrap.classList.remove('show');
+  jsonWorkerWrap.classList.remove('show');
 
+  // ...
   profileWrap.classList.remove('show');
   settingsWindow.classList.remove('show');
   undoLastActionBlock.classList.remove('show');
@@ -114,17 +134,13 @@ function hashHtmlSymbols(content) {
   return content
   ?.replaceAll('&', '&amp;')
   ?.replaceAll('<', '&lt;')
-  ?.replaceAll('>', '&gt;')
-  ?.replaceAll('"', '&quot;')
-  ?.replaceAll("'", '&#39;');
+  ?.replaceAll('>', '&gt;');
 }
 // Replace symbol code to symbol
 function unhashHtmlSymbols(content) {
   return content
   ?.replaceAll('&lt;', '<')
   ?.replaceAll('&gt;', '>')
-  ?.replaceAll('&quot;', '"')
-  ?.replaceAll('&#39;', "'")
   ?.replaceAll('&amp;', '&');
 }
 
@@ -168,6 +184,7 @@ js: [
 "https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/comment/comment.min.js",
 ]
 };
+let isJson5Loaded = false;
 let codeMirrorLoaded = false;
 async function loadCodemirror() {
   // Load all codemirror css
@@ -216,8 +233,7 @@ function renderShowFieldsBlock(orgValuesArr, val, input, isName = false) {
 
 // Key... event
 document.addEventListener('keydown', e => {
-  if(notesWrap.classList.contains('show') && (e.key === '<' || e.key === '>' || e.key === '&' || e.key === '/')) e.preventDefault();
-  else if(e.ctrlKey && e.code === 'KeyH') {
+  if(e.ctrlKey && e.code === 'KeyH') {
     e.preventDefault();
     if(notesWrap.classList.contains('show')) openAddNoteForm.click();
     else if(userCodeWrap.classList.contains('show')) toggleAddCodeBlockForm.click();
@@ -287,6 +303,12 @@ document.addEventListener('keydown', e => {
     else if(addCodeBlockForm.classList.contains('show')) addCodeBlockBtn.click();
     else if(editNoteBlock.classList.contains('show')) confNoteEditChangeBtn.click();
     else if(addMusicForm.classList.contains('show')) addMusicBtn.click();
+
+    // Services
+    else if(githubWrap.classList.contains('show')) searchGithubUserBtn.click();
+    else if(generateImageWrap.classList.contains('show')) sendPromptForGenerateImgBtn.click();
+    else if(browserWorkerWrap.classList.contains('show')) setBrowserWorkerBtn.click();
+    else if(ipSearchWrap.classList.contains('show')) searchIpBtn.click();
   }
 })
 

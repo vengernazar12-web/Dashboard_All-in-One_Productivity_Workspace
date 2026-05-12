@@ -1,6 +1,3 @@
-// Set preloader text
-whatIsLoadingText.textContent = 'Loading music...';
-
 const musicWrap = document.querySelector('.music-wrap');
 musicWrap.addEventListener('click', e => {
   if(!e.target.closest('.edit') && !e.target.closest('.edit-music-block')) editMusicBlock.classList.remove('show');
@@ -53,9 +50,6 @@ allMusicContainer.addEventListener('click', e => {
 
     initBlock.classList.add('del-anim');
     setTimeout(() => renderMusic(), delAnimTime);
-
-    // Write to user actions
-    writeToUserActions(`Видалено музику з назвою ${blockName}`);
   }
   else if(target.closest('.favorite')) { // Favorite music block
     const initBlock = target.closest('.music-block');
@@ -64,12 +58,6 @@ allMusicContainer.addEventListener('click', e => {
     allMusicObj[blockName].isFav = !allMusicObj[blockName].isFav;
     renderMusic();
     musicSaveBtn.classList.add('unsaved');
-
-    // Write to user actions
-    writeToUserActions(
-      allMusicObj[blockName].isFav ? `Позначено музику з назвою ${blockName} як фаворит`
-      : `Забрано музику з назвою ${blockName} з фаворитів`
-    );
   }
   else if(target.closest('.edit')) { // Open edit music block
     const initBlock = target.closest('.music-block');
@@ -172,9 +160,6 @@ addMusicBtn.addEventListener('click', () => {
   renderMusic();
 
   musicSaveBtn.classList.add('unsaved');
-
-  // Write to user actions
-  writeToUserActions(`Додано музику з назвою ${name} та з посиланням ${musicUrl}`);
 })
 
 // Search music
@@ -232,14 +217,6 @@ editMusicBlock.querySelector('.confirm')
 
   musicSaveBtn.classList.add('unsaved');
   renderMusic();
-
-  // Write to user actions
-  writeToUserActions(
-    name !== musicNameBeforeEdit && musicUrl !== musicUrlBeforeEdit
-    ? `Змінено назву музики з '${musicNameBeforeEdit}' на '${name}' та посилання з '${musicUrlBeforeEdit}' на ${musicUrl}`
-    : name !== musicNameBeforeEdit ? `Змінено назву музики з '${musicNameBeforeEdit}' на '${name}'`
-    : `Змінено посилання музики з назвою '${musicNameBeforeEdit}' з '${musicUrlBeforeEdit}' на ${musicUrl}`
-  )
 })
 
 // Start music/Play music
@@ -394,6 +371,3 @@ function setMusicPlayingClass(name) {
     else m.classList.remove('is-playing');
   }
 }
-
-// Set preloader value
-preloaderProgress.value = 11;

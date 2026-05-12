@@ -1,6 +1,3 @@
-// Set preloader text
-whatIsLoadingText.textContent = 'Loading user code editor...';
-
 const userCodeWrap = document.querySelector('.user-code-wrap');
 userCodeWrap.addEventListener('click', e => {
   if(!e.target.classList.contains('toggle-add-new-block-code-form') && !e.target.closest('.add-new-block-code-form')) addCodeBlockForm.classList.remove('show');
@@ -206,9 +203,6 @@ addCodeBlockBtn.addEventListener('click', () => {
   addCodeBlockForm.classList.remove('show');
 
   codeSaveBtn.classList.add('unsaved');
-
-  // Save change for userActions
-  writeToUserActions(`Додано блок коду з назвою ${name} та з мовою ${lang}`);
 })
 
 // Search user code
@@ -325,9 +319,6 @@ allUserCodesContainer.addEventListener('click', e => {
     clearTimeout(deleteTimer);
     deleteTimer = setTimeout(() => renderUserCodesBlocks(), delAnimTime);
 
-    // Save change for userActions
-    writeToUserActions(`Видалено блок коду з назвою ${name}`);
-
     return;
   }
   else if(e.target.closest('.copy-code-btn')) { // Copy code
@@ -363,6 +354,3 @@ allUserCodesContainer.addEventListener('click', e => {
 // Code-progress and code-blocks-limit
 const codeProgress = userCodeWrap.querySelector('.code-progress');
 const codeBlocksLimitText = userCodeWrap.querySelector('.code-blocks-limit');
-
-// Set preloader value
-preloaderProgress.value = 5;

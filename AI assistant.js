@@ -1,20 +1,51 @@
 // Set preloader text
-whatIsLoadingText.textContent = 'Loading assistants logic...';
+whatIsLoadingText.textContent = 'Loading assistant logic...';
 
 const HISTORY_WORKER_API = 'https://assistant-history.vengernazar0.workers.dev';
 
 // User actions
 const userActionsForAi = [];
 
-function writeToUserActions(val) {
-  const d = new Date();
-  const day = d.getDate();
-  const hour = d.getHours();
-  const minutes = d.getMinutes();
-  const seconds = d.getSeconds();
+async function renderHistoryChat() {
+  showPreloader();
+  preloaderProgress.max = 1;
+  preloaderProgress.value = 0;
+  whatIsLoadingText.textContent = 'Start loading history...';
 
-  userActionsForAi.push(`${val} дня ${String(day).padStart(2, '0')} та час ${String(hour).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`);
-  if(userActionsForAi.length > 25) userActionsForAi.shift();
+  const resp = await fetch(HISTORY_WORKER_API, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', },
+    body: JSON.stringify({ userId: userId, isGetChat: true })
+  });
+  const data = await resp.json();
+  historyForAiPrompt = data.for_history;
+
+  const frag = document.createDocumentFragment();
+  for (let obj of data.for_show || []) {
+    const div = document.createElement('div');
+    const pre = document.createElement('pre');
+    div.appendChild(pre);
+
+    const role = obj.role;
+    const content = obj.content;
+
+    if (role === 'user') {
+      div.classList.add('user-text');
+      pre.innerHTML = content;
+    } else if (role === 'assistant' && content) pre.innerHTML = content;
+    else continue;
+
+    frag.appendChild(div);
+  }
+
+  assistantResponseContainer.textContent = '';
+  assistantResponseContainer.appendChild(frag);
+
+  preloaderProgress.value = 1;
+  setTimeout(() => {
+    assistantResponseContainer.scrollTop = assistantResponseContainer.scrollHeight;
+    showPreloader(false);
+  }, 500);
 }
 
 // Assistant wrap
@@ -23,47 +54,7 @@ const assistantWrap = document.querySelector('.assistant-wrap');
 const openAssistantWrapBtn = allDashboardItem.querySelector('.open-assistant-wrap');
 openAssistantWrapBtn.addEventListener('click', async () => {
   closeAllWraps();
-
-  if(!historyForAiPrompt) {
-    showPreloader();
-    preloaderProgress.max = 1;
-    preloaderProgress.value = 0;
-    whatIsLoadingText.textContent = 'Start loading history...';
-
-    const resp = await fetch(HISTORY_WORKER_API, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json',},
-      body: JSON.stringify({ userId: userId, isGetChat: true })
-    });
-    const data = await resp.json();
-    historyForAiPrompt = data.for_history;
-
-    const frag = document.createDocumentFragment();
-    for(let obj of data.for_show || []) {
-      const div = document.createElement('div');
-      const pre = document.createElement('pre');
-      div.appendChild(pre);
-
-      const role = obj.role;
-      const content = obj.content;
-
-      if(role === 'user') {
-        div.classList.add('user-text');
-        pre.innerHTML = content;
-      } else if(role === 'assistant' && content) pre.innerHTML = content;
-      else continue;
-
-      frag.appendChild(div);
-    }
-
-    assistantResponseContainer.appendChild(frag);
-
-    preloaderProgress.value = 1;
-    setTimeout(() => {
-      assistantResponseContainer.scrollTop = assistantResponseContainer.scrollHeight;
-      showPreloader(false);
-    }, 500);
-  }
+  if(!historyForAiPrompt || historyForAiPrompt.length > 100) await renderHistoryChat();
 
   assistantWrap.classList.add('show');
   userPromptTextarea.focus();
@@ -230,15 +221,15 @@ function createAssistantResponse(txt, isThinking = false) {
   typingInterval = setInterval(() => {
     c += Math.floor(Math.random() * 6 + 1);
     initTypingElement.textContent = initTypingText.slice(0, c);
-    assistantResponseContainer.scrollTop = assistantResponseContainer.scrollHeight;
     if(c > txtLng) {
+      if(isThinking) assistantResponseContainer.scrollTop = assistantResponseContainer.scrollHeight;
+
       clearInterval(typingInterval);
       typingInterval = null;
       initTypingElement.innerHTML = initTypingHTML;
-      assistantResponseContainer.scrollTop = assistantResponseContainer.scrollHeight;
     };
   }, isThinking ? 50 : 15);
 }
 
 // Set preloader value
-preloaderProgress.value = 14;
+preloaderProgress.value = 3;

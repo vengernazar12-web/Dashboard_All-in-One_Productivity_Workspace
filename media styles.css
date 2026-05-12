@@ -1,3 +1,4 @@
 @media(max-width: 725px) {
   .all-dashboard-items { width: 65vw; }
+  .exchange-rate-nav-block > .currency-flag { width: 30%; }
 }

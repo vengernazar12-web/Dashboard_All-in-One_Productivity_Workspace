@@ -1,6 +1,3 @@
-// Set preloader text
-whatIsLoadingText.textContent = 'Loading profile logic...';
-
 // All profiles imgs arr
 let allAvatarsArr = [];
 
@@ -380,6 +377,3 @@ selectMicLang.addEventListener('change', () => {
   localStorage.setItem('mic-lang', val);
   currentMicLang = val;
 })
-
-// Set preloader value
-preloaderProgress.value = 9;

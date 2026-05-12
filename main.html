@@ -15,34 +15,53 @@
 <link rel="stylesheet" href="notes.css">
 <link rel="stylesheet" href="saveUrls.css">
 <link rel="stylesheet" href="user code.css">
-<link rel="stylesheet" href="sign.css">
+<link rel="stylesheet" href="texts snippets.css">
+<link rel="stylesheet" href="music.css">
+
 <link rel="stylesheet" href="exchange rate.css">
 <link rel="stylesheet" href="weather.css">
 <link rel="stylesheet" href="timezone.css">
 <link rel="stylesheet" href="Profile.css">
 <link rel="stylesheet" href="AI assistant.css">
-<link rel="stylesheet" href="texts snippets.css">
-<link rel="stylesheet" href="music.css">
 <link rel="stylesheet" href="media styles.css">
 <link rel="stylesheet" href="github.css">
 <link rel="stylesheet" href="command runner.css">
+<link rel="stylesheet" href="generate image service.css">
+<link rel="stylesheet" href="text-worker service.css">
+<link rel="stylesheet" href="qr-code generation.css">
+<link rel="stylesheet" href="browser worker.css">
+<link rel="stylesheet" href="regexp checker.css">
+<link rel="stylesheet" href="wikipedia.css">
+<link rel="stylesheet" href="IP search.css">
+<link rel="stylesheet" href="JSON worker.css">
 
-<script src="main.js" defer></script><!--1-->
-<script src="todo.js" defer></script><!--2-->
-<script src="notes.js" defer></script><!--3-->
-<script src="saveUrls.js" defer></script><!--4-->
-<script src="user code.js" defer></script><!--5-->
-<script src="exchange rate.js" defer></script><!--6-->
-<script src="weather.js" defer></script><!--7-->
-<script src="timezone.js" defer></script><!--8-->
-<script src="Profile.js" defer></script><!--9-->
-<script src="texts snippets.js" defer></script><!--10-->
-<script src="music.js" defer></script><!--11-->
-<script src="github.js" defer></script><!--12-->
-<script src="command runner.js" defer></script><!--13-->
+<link rel="stylesheet" href="sign.css">
+
+<script src="main.js" defer></script><!--1 Types-->
+<script src="todo.js" defer></script>
+<script src="notes.js" defer></script>
+<script src="saveUrls.js" defer></script>
+<script src="user code.js" defer></script>
+<script src="texts snippets.js" defer></script>
+<script src="music.js" defer></script>
+
+<script src="exchange rate.js" defer></script><!--2 Services-->
+<script src="weather.js" defer></script>
+<script src="timezone.js" defer></script>
+<script src="Profile.js" defer></script>
+<script src="github.js" defer></script>
+<script src="command runner.js" defer></script>
+<script src="generate image service.js" defer></script>
+<script src="text-worker service.js" defer></script>
+<script src="qr-code generation.js" defer></script>
+<script src="browser worker.js" defer></script>
+<script src="regexp checker.js" defer></script>
+<script src="wikipedia.js" defer></script>
+<script src="IP search.js" defer></script>
+<script src="JSON worker.js" defer></script>
 
 <!-- Assistants -->
-<script src="AI assistant.js" defer></script><!--14-->
+<script src="AI assistant.js" defer></script><!--3-->
 <script src="ai response.js" defer></script>
 
 <script src="sign.js" defer></script><!--max-->
@@ -398,8 +417,8 @@
   <svg><use href="#dollar"></use></svg>
 
   <div class="exchange-rate-nav-block">
-    <img alt="Flag" class="first-flag">
-    <img alt="Flag" class="second-flag">
+    <div alt="Flag" class="first-flag currency-flag"></div>
+    <div alt="Flag" class="second-flag currency-flag"></div>
     <select class="first-select"></select>
     <button class="swap-selects">Swap</button>
     <select class="second-select"></select>
@@ -458,12 +477,90 @@
   </div>
 </div>
 
-<!-- Github wrap -->
+<!-- Github user search wrap -->
 <div class="github-wrap is-wrap">
   <input type="text" class="search-github-user-input" placeholder="Search github user...">
   <button class="search-github-user-btn">Search</button>
 
   <div class="found-user-info-container"></div>
+
+  <div class="show-user-repos"></div>
+  <div class="show-repos-commits"></div>
+
+  <span class="loader"></span>
+</div>
+
+<!-- Image ia-generator wrap -->
+<div class="image-ai-generator-wrap is-wrap">
+  <img src="./all-imgs/Classic-dashboard-img.webp" alt="Generated image" class="image-preview" loading="lazy">
+
+  <a class="download-generated-image-a" download="Generated-dashboard-image.jpeg">Download</a>
+  <input type="text" class="prompt-for-generate-image-input" placeholder="Image...">
+  <button class="send-prompt-for-generate-image-btn">SEND</button>
+
+  <span class="loader"></span>
+</div>
+
+<!-- Text-worker wrap -->
+<div class="text-worker-service-wrap is-wrap">
+  <textarea class="user-txt" placeholder="Your text..."></textarea>
+  <div class="generated-text" readonly>Result...</div>
+  <input type="text" placeholder="What to do?">
+  <button>SEND</button>
+  <span class="loader"></span>
+</div>
+
+<!-- QRCode generation wrap -->
+<div class="qr-code-generation-wrap is-wrap">
+  <textarea placeholder="Text or URL..."></textarea>
+  <button>Get QR-Code</button>
+  <a download="QR-CODE.png">DOWNLOAD</a>
+  <img src="./all-imgs/Classic-dashboard-img.webp" alt="Generated QR-Code">
+  <span class="loader"></span>
+</div>
+
+<!-- Browser worker wrap -->
+<div class="browser-worker-wrap is-wrap">
+  <input type="text" placeholder="URL : website, music, video, ...">
+  <button class="set-content">SET</button>
+  <iframe src="" sandbox="allow-scripts allow-same-origin" referrerpolicy="no-referrer"></iframe>
+  <audio src="" controls></audio>
+  <video src="" controls></video>
+</div>
+
+<!-- RegExp checker wrap -->
+<div class="regexp-checker-wrap is-wrap">
+  <input class="regexp" type="text" placeholder="Your regexp: /.../">
+  <input class="flags" type="text" placeholder="Flags...">
+  <div contenteditable="true"></div>
+</div>
+
+<!-- Wikipedia wrap -->
+<div class="wikipedia-wrap is-wrap">
+  <input type="text" class="search-value" placeholder="Search value...">
+  <input type="number" class="search-limit" placeholder="Results limit... (default 10)">
+  <button class="search-btn">OK</button>
+
+  <div class="search-results"></div>
+  <div class="origin-wikipedia-html"></div>
+
+  <span class="loader"></span>
+</div>
+
+<!-- IP search wrap -->
+<div class="ip-search-wrap is-wrap">
+  <input type="text" placeholder="IP...">
+  <button>SEARCH</button>
+  <div></div>
+  <span class="loader"></span>
+</div>
+
+<!-- JSON worker wrap -->
+<div class="json-worker-wrap is-wrap">
+  <textarea placeholder="Write your JSON5 / JSON object / array..."></textarea>
+  <button>WORK</button>
+  <div></div>
+  <span class="loader"></span>
 </div>
 
 <!-- Assistant wrap -->
@@ -543,12 +640,24 @@
   <button class="open-user-code-wrap --opened-btn"><p>Your code</p><p></p></button>
   <button class="open-texts-snippets-wrap --opened-btn">Your texts<p></p></button>
   <button class="open-music-wrap --opened-btn">Your music<p></p></button>
+
   <h4>Services</h4>
   <button class="open-exchange-rate-wrap --opened-btn">Exchange rate</button>
   <button class="open-weather-wrap --opened-btn">Weather</button>
   <button class="open-timezone-wrap --opened-btn">Timezones</button>
-  <button class="open-github-wrap --opened-btn">Github</button>
+  <button class="open-github-wrap --opened-btn">Github search</button>
+  <button class="open-generate-img-wrap --opened-btn">Generate image</button>
+  <button class="open-text-worker-service-wrap --opened-btn">Text worker</button>
+  <button class="open-qr-code-generation-wrap --opened-btn">QR-Code generation</button>
+  <button class="open-browser-worker-wrap --opened-btn">Browser worker</button>
+  <button class="open-regexp-checker-wrap --opened-btn">RegExp checker</button>
+  <button class="open-wikipedia-wrap --opened-btn">Wikipedia</button>
+  <button class="open-ip-search-wrap --opened-btn">IP search</button>
+  <button class="open-json-worker-wrap --opened-btn">JSON worker</button>
+
+  <h4>Settings</h4>
   <button class="open-settings-window-into-sidebar --opened-btn">Settings</button>
+
   <h4>Runner</h4>
   <button class="open-commands-runner-wrap --opened-btn">Runner</button>
 
@@ -627,7 +736,7 @@
   <p>Loading your content. Please wait...</p>
   <img src="./all-imgs/dashboard-favicon-img.svg" alt="Smile img" >
   <!-- Progress max = all scripts -->
-  <progress class="preloader-progress" max="15"></progress>
+  <progress class="preloader-progress" max="4"></progress>
   <p class="what-is-loading-text">Loading...</p>
 
   <span class="loader"></span>

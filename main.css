@@ -21,6 +21,7 @@ input:focus { outline: 2px solid rgb(104, 104, 182); }
 html .show { display: block !important; }
 
 body, input { font-family: Roboto, sans-serif; font-weight: 500; }
+
 input {
   height: 30px;
   border-radius: 7px;
@@ -29,7 +30,8 @@ input {
   border: 1px solid var(--border-color);
   padding-left: 5px;
 }
-input::placeholder, textarea::placeholder { color: var(--text-color); }
+textarea { resize: none; }
+input::placeholder, textarea::placeholder { color: var(--text-color); opacity: 0.75 }
 
 html button {
   cursor: pointer;
@@ -57,7 +59,7 @@ hr {
   position: fixed;
   top: 0;
   right: 0;
-  width: calc(100vw - 32px);
+  width: calc(100vw - 40px);
   height: 100vh;
   display: none;
   background: var(--body-bg);
@@ -65,7 +67,7 @@ hr {
   overflow-y: auto;
 }
 
-svg {width: 20px; height: 20px;}
+svg { width: 20px; height: 20px; }
 
 .--saved-btn {
   background-color: black;
@@ -171,7 +173,7 @@ body {
   top: 0;
   left: 0;
   height: 100vh;
-  width: 32vw;
+  width: 40vw;
   background: var(--block-bg);
   display: flex;
   flex-direction: column;
@@ -181,7 +183,7 @@ body {
   padding: 7px;
   border-right: 2px solid var(--border-color);
   overflow-y: auto;
-  transform: translateX(calc(-100% + 32px));
+  transform: translateX(calc(-100% + 40px));
   transition: transform .3s;
 }
 

@@ -1,0 +1,53 @@
+.qr-code-generation-wrap > .loader { display: none; }
+
+.qr-code-generation-wrap > textarea {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: var(--block-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 7px;
+  padding: 5px;
+  width: 70%;
+  height: 35%;
+  overflow-y: auto;
+}
+
+.qr-code-generation-wrap > button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: calc(30% - 30px);
+  background-color: green;
+  padding: 2px;
+  border-radius: 5px;
+  border: 1px solid var(--border-color);
+}
+
+.qr-code-generation-wrap > a {
+  position: absolute;
+  top: calc(35% + 20px);
+  left: 10px;
+  color: var(--text-color);
+  background-color: blue;
+  padding: 5px;
+  width: calc(100% - 20px);
+  border-radius: 5px;
+  border: 1px solid var(--border-color);
+  text-align: center;
+  cursor: pointer;
+}
+.qr-code-generation-wrap > a:not([href]) {
+  opacity: 0.5;
+  cursor: default;
+  font-size: 16px;
+}
+
+.qr-code-generation-wrap > img {
+  position: absolute;
+  top: calc(35% + 65px);
+  left: 5px;
+  max-width: calc(100% - 20px);
+  max-height: calc(65% - 75px);
+}

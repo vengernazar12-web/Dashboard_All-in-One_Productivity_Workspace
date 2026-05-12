@@ -1,6 +1,3 @@
-// Set preloader text
-whatIsLoadingText.textContent = 'Loading texts snippets...';
-
 const textsSnippetsWrap = document.querySelector('.texts-snippets-wrap');
 textsSnippetsWrap.addEventListener('click', e => {
   if(!e.target.closest('.add-text-snippet-form') && !e.target.classList.contains('toggle-add-text-snippet-btn')) addTextSnippetForm.classList.remove('show');
@@ -120,9 +117,6 @@ allTextsSnippetsContainer.addEventListener('click', e => {
     allTextsSnippetsObj[snippetName].isFav = !allTextsSnippetsObj[snippetName].isFav;
     renderTextsSnippets();
     textSaveBtn.classList.add('unsaved');
-
-    // Write to user actions
-    writeToUserActions(allTextsSnippetsObj[snippetName].isFav ? `Позначено блок тексту з назвою ${snippetName} як фаворит` : `Забрато блок тексту з назвою ${snippetName} з фаворитів`);
   }
   else if(target.closest('.delete')) { // Delete
     if(localStorage.getItem('conf-before-delete') === 'true' && !confirm('Delete?')) return;
@@ -138,9 +132,6 @@ allTextsSnippetsContainer.addEventListener('click', e => {
 
     snippetBlock.classList.add('del-anim');
     setTimeout(() => renderTextsSnippets(), delAnimTime);
-
-    // Write to user actions
-    writeToUserActions(`Видалено блок тексту з назвою ${snippetName}`);
   }
   else if(target.closest('.edit')) { // Open edit
     editTextSnippetBlock.classList.add('show');
@@ -218,9 +209,6 @@ addTextSnippetBtn.addEventListener('click', () => {
   renderTextsSnippets();
 
   textSaveBtn.classList.add('unsaved');
-
-  // Write to user action
-  writeToUserActions(`Додано новий блок тексту з назвою ${name}`);
 })
 
 // Edit text snippet
@@ -267,13 +255,6 @@ confirmTextSnippetEditChangeBtn.addEventListener('click', () => {
   textSaveBtn.classList.add('unsaved');
   renderTextsSnippets();
   showResponseFn('The text block has been edited.');
-
-  // Write to user actions
-  writeToUserActions(
-    nameBeforeEdit !== name && contentBeforeEdit !== content ? `Оновлено назву блоку тексту з '${nameBeforeEdit}' на '${name}' та контент з '${contentBeforeEdit}' на '${content}'`
-    : nameBeforeEdit !== name ? `Оновлено назву блоку тексту з '${nameBeforeEdit}' на '${name}'`
-    : `Оновлено контент блоку тексту з назвою '${name}' з '${contentBeforeEdit}' на '${content}'`
-  );
 });
 
 // Search texts blocks
@@ -294,6 +275,3 @@ searchTextsSnippetsInput.addEventListener('input', () => {
   allTextsSnippetsContainer.appendChild(frag);
   if(!allTextsSnippetsContainer.childElementCount) allTextsSnippetsContainer.innerHTML = '<h2>No texts found...</h2>';
 });
-
-// Set preloader value
-preloaderProgress.value = 10;

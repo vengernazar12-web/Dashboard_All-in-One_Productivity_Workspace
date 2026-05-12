@@ -1,6 +1,3 @@
-// Set preloader text
-whatIsLoadingText.textContent = 'Loading URL handling...';
-
 // Path
 let filesToRemove = [],
 // Path: imgUrl
@@ -9,10 +6,10 @@ filesToUpload = {},
 localImgUrls = {};
 
 const compressImgOptions = {
-  maxSizeMB: 0.35,
-  maxWidthOrHeight: 475,
+  maxSizeMB: 0.2,
+  maxWidthOrHeight: 450,
   fileType: 'image/webp',
-  initialQuality: 0.8,
+  initialQuality: 1,
   useWebWorker: true
 };
 // ==========================================
@@ -192,9 +189,6 @@ addUrlBtn.addEventListener('click', async () => {
   nameUrlInput.value = '';
   openedUrlInput.value = '';
   imageUrlInput.value = '';
-
-  // Save change for userActions
-  writeToUserActions(`Додано урл блок з назвою ${name} та з посиланням ${url}`);
 })
 
 // Search urls
@@ -304,14 +298,6 @@ confirmEditUrlBtn.addEventListener('click', async () => {
     editUrlForm.classList.remove('show');
     urlSaveBtn.classList.add('unsaved');
   }
-
-  // Save change for userActions
-  writeToUserActions(
-    editItem === 'name'
-    ? `Змінено назву урл-блоку з ${initEditUrlName} на ${editChange}`
-    : editItem === 'url' ? `Змінено посилання в урл-блоку з назвою ${initEditUrlName}`
-    : `Змінено картинку в урлі з назвою ${initEditUrlName}`
-  );
 })
 
 // Delegation
@@ -340,9 +326,6 @@ allUrlsContainer.addEventListener('click', e => {
     targetUrlBlock.classList.add('del-anim');
     clearTimeout(delUrlTimer);
     delUrlTimer = setTimeout(renderAllUrls, delAnimTime);
-
-    // Save change for userActions
-  writeToUserActions(`Видалено урл-блок з назвою ${delUrlName}`);
   }
   else if(e.target.closest('.open-edit-url-form-btn')) { // Open url edit
     editUrlForm.classList.add('show');
@@ -367,11 +350,5 @@ allUrlsContainer.addEventListener('click', e => {
     favoriteUrlTimer = setTimeout(renderAllUrls, 500);
 
     urlSaveBtn.classList.add('unsaved');
-
-    // Save change for userActions
-    writeToUserActions(allUrlsObj[urlName].isFav ? `Позначено урл-блок з назвою ${urlName} як фаворит` : `Забрано урл-блок з назвою ${urlName} з фаворитів`);
   }
 })
-
-// Set preloader value
-preloaderProgress.value = 4;
