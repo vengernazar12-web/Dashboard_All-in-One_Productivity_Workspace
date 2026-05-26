@@ -23,138 +23,102 @@ openExchangeRateWrapBtn.addEventListener('click', async () => {
   showPreloader();
   showResponseFn('Please wait...');
 
-  await renderExchangeRateSelects();
+  exchangeRateCurrencyInput.value = 1;
+
+  currencyMetadata = await fetch('https://openexchangerates.org/api/currencies.json').then(r => r.json());
+  await renderExchangeRateState();
 
   exchangeRateWrap.classList.add('show');
 
   preloaderProgress.value = 1;
   setTimeout(() => showPreloader(false), 500);
-  showResponseFn('Exchange rate are been loaded');
 });
+
+const exchangeRateLoader = exchangeRateWrap.querySelector('.loader');
 
 // Api
 const EX_API = 'https://v6.exchangerate-api.com/v6/3823f0dc50f06c6954ddca0d/latest/';
 // All rates
 let rates = {};
+let currencyMetadata = {};
 
-// Rate text info
-const rateTextInfo = exchangeRateWrap.querySelector('.exchange-rate-answer');
-const howRateText = exchangeRateWrap.querySelector('.how-rate-text');
-
-// Rate calculator input
-const rateCalcInput = exchangeRateWrap.querySelector('.rate-calc-input');
-rateCalcInput.addEventListener('beforeinput', e => {
-  if(!/^[0-9.]+$/.test(e.data) && e.data !== null) return e.preventDefault();
-})
-rateCalcInput.addEventListener('input', () => {
-  const val1 = firstSelect.value;
-  const val2 = secondSelect.value;
-
-  let inputVal = rateCalcInput.value;
-  if(!inputVal) inputVal = '0';
-  if(inputVal.endsWith('.')) inputVal += '0';
-  if(inputVal.startsWith('.')) inputVal = '0' + inputVal;
-
-  howRateText.textContent = `${val1} = ${+inputVal * rates[val2]} ${val2}`;
-})
-
-// Selectors
-const firstSelect = exchangeRateWrap.querySelector('.first-select');
-const secondSelect = exchangeRateWrap.querySelector('.second-select');
-
-firstSelect.addEventListener('change', async () => {
-  await initRates(firstSelect.value, true, [firstSelect.value, null]);
-  localStorage.setItem('first-select', firstSelect.value);
-});
-secondSelect.addEventListener('change', () => {
-  setRateInfo([null, secondSelect.value]);
-  localStorage.setItem('second-select', secondSelect.value);
+const exchangeRateSelectCurrency = exchangeRateWrap.querySelector('select');
+exchangeRateSelectCurrency.addEventListener('change', () => {
+  localStorage.setItem('selected-currency', exchangeRateSelectCurrency.value);
+  exchangeRateCurrencyInput.value = 1;
+  renderExchangeRateState();
 });
 
-// Render selectors
-async function renderExchangeRateSelects() {
-  firstSelect.textContent = '';
-  secondSelect.textContent = '';
+const exchangeRateCurrencyInput = exchangeRateWrap.querySelector('input.count');
+exchangeRateCurrencyInput.addEventListener('input', () => {
+  const count = +exchangeRateCurrencyInput.value ?? 0;
 
-  const sesVal1 = localStorage.getItem('first-select');
-  const sesVal2 = localStorage.getItem('second-select');
+  for(const currResultBlock of exchangeRateResultCont.children) {
+    const curr = currResultBlock.dataset.curr;
+    const p = currResultBlock.firstElementChild;
 
-  await initRates(sesVal1);
-
-  const frag = document.createDocumentFragment();
-  const frag2 = document.createDocumentFragment();
-  for(let n in rates) {
-    const option = document.createElement('option');
-    option.value = n;
-    option.textContent = n;
-    frag.appendChild(option);
-
-    const option2 = document.createElement('option');
-    option2.value = n;
-    option2.textContent = n;
-    frag2.appendChild(option2);
+    p.textContent = `${curr} - ${(rates[curr] * count).toFixed(3)}\n${currencyMetadata[curr] || ''}`.trim();
   }
-  // Append fragments
-  firstSelect.appendChild(frag);
-  secondSelect.appendChild(frag2);
-
-  firstSelect.value = sesVal1 ? sesVal1 : 'USD';
-  secondSelect.value = sesVal2 ? sesVal2 : 'USD';
-
-  setRateInfo([firstSelect.value, secondSelect.value]);
-}
-
-// Init rates
-async function initRates(rate, ignoreCache = false, changedValues = []) {
-  try{
-    const savedRates = JSON.parse(sessionStorage.getItem('rates'));
-    if(!ignoreCache && savedRates) rates = savedRates;
-    else {
-      const resp = await fetch(`${EX_API}${rate ? rate : 'USD'}`);
-      const data = await resp.json();
-      rates = data.conversion_rates;
-      sessionStorage.setItem('rates', JSON.stringify(rates));
-    }
-  } catch { showResponseFn('Something went wrong! Please try again later...') };
-
-  if(rate) setRateInfo(changedValues);
-}
-
-// Set rate info
-const firstFlagImgBlock = exchangeRateWrap.querySelector('.first-flag');
-const secondFlagImgBLock = exchangeRateWrap.querySelector('.second-flag');
-
-let cachedFlags = {};
-async function setRateInfo(values) {
-  const val1 = firstSelect.value;
-  const val2 = secondSelect.value;
-
-  rateTextInfo.textContent = `1 ${val1} = ${rates[val2]} ${val2}`;
-
-  rateCalcInput.value = '';
-  howRateText.textContent = `${val1} = ... ${val2}`;
-
-  if(!values.length) return;
-
-  try {
-    const value1 = values[0]?.toLowerCase();
-    if(value1) firstFlagImgBlock.className = `first-flag currency-flag currency-flag-${value1}`;
-
-    const value2 = values[1]?.toLowerCase();
-    if(value2) secondFlagImgBLock.className = `second-flag currency-flag currency-flag-${value2}`;
-  } catch(e) { console.error(e.message); }
-}
-
-// Swap selector
-const swapSelectsBtn = exchangeRateWrap.querySelector('.swap-selects');
-swapSelectsBtn.addEventListener('click', async () => {
-  swapSelectsBtn.disabled = true;
-  const val1 = firstSelect.value;
-  firstSelect.value = secondSelect.value;
-  secondSelect.value = val1;
-  await initRates(firstSelect.value, true, [firstSelect.value, secondSelect.value]);
-  setTimeout(() => swapSelectsBtn.disabled = false, 5000);
 })
+
+const exchangeRateLastUpdateTxt = exchangeRateWrap.querySelector('p');
+
+// Search
+const exchangeRateSearchInput = exchangeRateWrap.querySelector('input.search');
+exchangeRateSearchInput.addEventListener('input', () => {
+  const value = exchangeRateSearchInput.value.trim().toLowerCase();
+  if(!value) {
+    for(const resBlock of exchangeRateResultCont.children) resBlock.style.display = 'flex';
+    return;
+  }
+
+  for(const resBlock of exchangeRateResultCont.children) {
+    if(resBlock.firstElementChild.textContent.toLowerCase().includes(value)) resBlock.style.display = 'flex';
+    else resBlock.style.display = 'none';
+  }
+})
+
+const exchangeRateResultCont = exchangeRateWrap.querySelector('div');
+
+async function renderExchangeRateState() {
+  exchangeRateSelectCurrency.textContent = '';
+  exchangeRateResultCont.textContent = '';
+  exchangeRateLastUpdateTxt.textContent = 'Last update...';
+  exchangeRateSearchInput.value = '';
+  const currency = exchangeRateSelectCurrency.value || localStorage.getItem('selected-currency') || 'USD';
+
+  const resp = await fetch(`${EX_API}${currency}`);
+  const data = await resp.json();
+
+  exchangeRateLastUpdateTxt.textContent = data.time_last_update_utc;
+
+  rates = data.conversion_rates;
+
+  const fragSelect = document.createDocumentFragment();
+  const fragResult = document.createDocumentFragment();
+
+  for(const curr in rates) {
+    const option = document.createElement('option');
+    option.textContent = curr;
+    fragSelect.appendChild(option);
+
+    // Render results
+    const div = document.createElement('div');
+    const pre = document.createElement('pre');
+    const imgDiv = document.createElement('div');
+
+    div.dataset.curr = curr;
+    div.append(pre, imgDiv);
+
+    pre.textContent = `${curr} - ${rates[curr].toFixed(3)}\n${currencyMetadata[curr] || ''}`.trim();
+    imgDiv.className = `currency-flag currency-flag-${curr.toLowerCase()}`;
+    fragResult.appendChild(div);
+  }
+  exchangeRateSelectCurrency.appendChild(fragSelect);
+  exchangeRateSelectCurrency.value = currency;
+
+  exchangeRateResultCont.appendChild(fragResult);
+}
 
 // Set progress value
 preloaderProgress.value = 2;

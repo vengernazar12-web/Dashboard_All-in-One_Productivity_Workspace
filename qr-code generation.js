@@ -24,7 +24,7 @@ sendContentForQrCodeGenerateBtn.addEventListener('click', async () => {
   sendContentForQrCodeGenerateBtn.disabled = true;
   generateQrCodeLoader.style.display = 'block';
 
-  const resp = await fetch(`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(content)}&format=png`);
+  const resp = await fetch(`https://api.qrserver.com/v1/create-qr-code/?size=200&data=${encodeURIComponent(content)}`);
 
   const ok = resp.ok;
 

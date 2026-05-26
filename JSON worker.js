@@ -27,6 +27,34 @@ const jsonWorkerLoader = jsonWorkerWrap.querySelector('.loader');
 const userJsonTextareaWorker = jsonWorkerWrap.querySelector('textarea');
 const jsonWorkerResultCont = jsonWorkerWrap.querySelector('div');
 
+const searchJsonTreeInput = jsonWorkerWrap.querySelector('input');
+searchJsonTreeInput.addEventListener('input', () => {
+  const value = searchJsonTreeInput.value.trim();
+
+  for(const el of jsonWorkerResultCont.querySelectorAll("details:first-of-type details")) el.open = false;
+
+  if(!value) return;
+
+  const foundElements = jsonWorkerResultCont.querySelectorAll("details:first-of-type *:not(details)");
+  if(!foundElements.length) return showResponseFn('Nothing found');
+
+  let foundEl = null;
+  for(let el of foundElements) if(el.textContent.toLowerCase().includes(value.toLowerCase())) { foundEl = el; break; };
+
+  if(!foundEl) return showResponseFn('Nothing found');
+  let parentEl = foundEl.closest('details');
+  while(parentEl?.tagName === 'DETAILS') {
+    parentEl.open = true;
+    parentEl = parentEl.parentElement;
+  }
+
+  foundEl.classList.remove('found-json-el-anim');
+  void foundEl.offsetWidth;
+  foundEl.classList.add('found-json-el-anim');
+
+  requestAnimationFrame(() => jsonWorkerResultCont.scrollTop = foundEl.offsetTop - 100);
+})
+
 const sendJsonWorkerBtn = jsonWorkerWrap.querySelector('button');
 sendJsonWorkerBtn.addEventListener('click', async () => {
   let json = userJsonTextareaWorker.value.trim();

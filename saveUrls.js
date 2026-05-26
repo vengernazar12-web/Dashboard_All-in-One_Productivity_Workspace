@@ -5,13 +5,6 @@ filesToUpload = {},
 // Url-name: imgUrl
 localImgUrls = {};
 
-const compressImgOptions = {
-  maxSizeMB: 0.2,
-  maxWidthOrHeight: 450,
-  fileType: 'image/webp',
-  initialQuality: 1,
-  useWebWorker: true
-};
 // ==========================================
 const urlsWrap = document.querySelector('.save-urls-wrap');
 urlsWrap.addEventListener('click', e => {
@@ -20,7 +13,6 @@ urlsWrap.addEventListener('click', e => {
 
 const allUrlsContainer = urlsWrap.querySelector('.all-urls-container');
 // Open
-let imgCompressLoaded = false;
 const openUrlWrapBtn = allDashboardItem.querySelector('.open-save-urls-wrap');
 openUrlWrapBtn.addEventListener('click', async () => {
   closeAllWraps();

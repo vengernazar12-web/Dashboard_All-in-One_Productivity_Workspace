@@ -7,18 +7,32 @@ weatherWrap.addEventListener('click', e => {
     && e.target.tagName !== 'BUTTON'
     && !e.target.closest('.search-city-window')
   ) searchCityWindow.classList.remove('open');
+
+  else if(!e.target.closest('.weather-map') && !e.target.closest('.open-map')) {
+    weatherMapBlock.classList.remove('open');
+    weatherMapBlock.firstElementChild.src = '';
+  }
 })
 // Open
 const openWeatherWrapBtn = allDashboardItem.querySelector('.open-weather-wrap');
-openWeatherWrapBtn.addEventListener('click', () => {
+openWeatherWrapBtn.addEventListener('click', async () => {
   if(weatherWrap.classList.contains('show')) return;
   closeAllWraps();
+
   const savedCityInfo = JSON.parse(localStorage.getItem('city-info'));
+
   if(savedCityInfo) {
     showPreloader();
-    renderInfo(savedCityInfo.city, savedCityInfo.coord);
-    showPreloader(false);
+    preloaderProgress.max = 1;
+    preloaderProgress.value = 0;
+    whatIsLoadingText.textContent = 'Loading saved point weather...';
+
+    await renderInfo(savedCityInfo.city, savedCityInfo.coord);
+
+    preloaderProgress.value = 1;
+    setTimeout(() => showPreloader(false), 500);
   }
+
   weatherWrap.classList.add('show');
 });
 
@@ -27,12 +41,12 @@ const searchCityWindow = weatherWrap.querySelector('.search-city-window');
 
 // Container delegation
 const searchCityCont = searchCityWindow.querySelector('.all-found-cities-cont');
-searchCityCont.addEventListener('click', e => {
+searchCityCont.addEventListener('click', async e => {
   if(e.target.tagName === 'P') {
     searchCityWindow.classList.remove('open');
     const city = e.target.textContent;
     const coord = e.target.dataset.coordinates;
-    renderInfo(city, coord);
+    await renderInfo(city, coord);
     localStorage.setItem('city-info', JSON.stringify({city, coord}))
   }
 })
@@ -81,53 +95,29 @@ function renderFoundCities(txt) {
   }, 1250);
 }
 
-// City getter
-async function getCityInfo(point) {
+// render info
+async function renderInfo(city, coordinates) {
   const resp = await fetch(WORKER_WEATHER_API, {
     method: 'POST',
     headers: {'Content-Type': 'application/json',},
     body: JSON.stringify({
-      point: point,
+      point: coordinates,
       need: 'info',
     })
   });
-  const data = await resp.json();
-  return data.current;
+  const info = await resp.text();
+
+  weatherInfoBlock.innerHTML = info;
+  weatherInfoBlock.dataset.coord = coordinates;
 }
 
-// All info elements
-const WCityName = weatherInfoBlock.querySelector('.city-name');
-const WLastUpdate = weatherInfoBlock.querySelector('.last-update-txt');
-const WTempTxt = weatherInfoBlock.querySelector('.temperature-txt');
-const WFeelsLikeTxt = weatherInfoBlock.querySelector('.feels-like-txt');
-const WWindTxt = weatherInfoBlock.querySelector('.wind-txt');
-const WHumidityTxt = weatherInfoBlock.querySelector('.humidity-txt');
-const WCloudTxt = weatherInfoBlock.querySelector('.cloud-txt');
-const WPressTxt = weatherInfoBlock.querySelector('.pressure-txt');
-const weatherText = weatherInfoBlock.querySelector('.weather-text');
-const weatherIcon = weatherInfoBlock.querySelector('.weather-icon');
+// Weather map
+const weatherMapBlock = weatherWrap.querySelector('.weather-map');
+// Open weather map
+weatherWrap.querySelector('.open-map')
+.addEventListener('click', () => {
+  const coord = weatherInfoBlock.dataset.coord.split(',');
+  weatherMapBlock.firstElementChild.src = `https://embed.windy.com/embed2.html?lat=${coord[0]}&lon=${coord[1]}&detailLat=${coord[0]}&detailLon=${coord[1]}&zoom=7&level=surface&overlay=wind`;
 
-// render info
-let renderDefendTimer = null;
-function renderInfo(city, coordinates) {
-  clearTimeout(renderDefendTimer);
-  renderDefendTimer = setTimeout(async () => {
-  const info = await getCityInfo(coordinates);
-
-  WCityName.textContent = city;
-  WLastUpdate.textContent = `Last update: ${info.last_updated}`;
-
-  WTempTxt.textContent = `Temperature: ${info.temp_c}°C`;
-  WFeelsLikeTxt.textContent = `Feels like: ${info.feelslike_c}°C`;
-
-  WWindTxt.textContent = `Wind: ${info.wind_kph} kph ${info.wind_dir}`;
-
-  WHumidityTxt.textContent = `Humidity: ${info.humidity}%`;
-  WCloudTxt.textContent = `Cloud: ${info.cloud}%`;
-
-  WPressTxt.textContent = `Pressure: ${info.pressure_mb} mb`;
-
-  weatherText.textContent = info.condition.text;
-  weatherIcon.src = info.condition.icon;
-  }, 150);
-}
+  weatherMapBlock.classList.add('open');
+});

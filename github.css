@@ -33,13 +33,14 @@
   border: 1px solid var(--border-color);
   border-radius: 10px;
   background: var(--block-bg);
-  padding: 0 5px;
+  padding: 5px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  cursor: pointer;
+  flex-direction: column;
+  align-items: start;
+  position: relative;
 }
+.found-user-info-container > .github-user > :not(:last-child) { margin-bottom: 5px; }
+
 .github-wrap a { color: var(--text-color); }
 
 .found-user-info-container .github-user-avatar {
@@ -54,40 +55,100 @@
 }
 
 /* Show info containers */
-.github-wrap > .show-user-repos,
-.github-wrap > .show-repos-commits {
+.github-wrap > .show-user-infos {
   position: absolute;
   top: 55px;
   left: 0;
   width: 100%;
-  height: calc(100% - 50px);
+  height: calc(100% - 55px);
   transform: translateY(100%);
   transition: transform .5s;
   border-radius: 5px 5px 0 0;
   border-top: 1px solid var(--border-color);
   background: var(--block-bg);
   overflow-y: auto;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   gap: 5px;
-  padding: 2px;
+  padding: 5px;
+  padding-top: 30px;
 }
-.github-wrap > .show-user-repos.open,
-.github-wrap > .show-repos-commits.open { transform: translateY(0); }
+.github-wrap > .show-user-infos.open { transform: translateY(0); }
 
-.github-wrap > .show-user-repos > .github-user-repo-block {
-  border: 1px solid var(--border-color);
-  border-radius: 5px;
+.github-wrap > .show-user-infos > div {
   padding: 3px;
+  border: 1px dotted var(--border-color);
+  border-radius: 5px / 15%;
+  color: var(--text-color);
+  box-shadow: 1px 1px 3px black;
+  position: relative;
+}
+
+.github-wrap > .show-user-infos * {
+  text-wrap: wrap;
+  word-wrap: break-word;
+  user-select: text;
+}
+
+.github-wrap > .show-user-infos img {
+  width: 50%;
+  height: auto;
+  border-radius: 50%;
+  border: 1px dashed var(--border-color);
+}
+
+.github-wrap > .show-user-infos > button {
+  position: absolute;
+  top: 5px;
+  font-size: 15px;
+  border-radius: 7px;
+  border: 1px solid var(--border-color);
+  height: 20px;
+  width: 35px;
   display: flex;
-  flex-direction: column;
-  gap: 5px;
-  cursor: pointer;
+  align-items: center;
+  align-self: center;
+  justify-content: center;
 }
-.github-wrap > .show-user-repos > .github-user-repo-block > * { width: max-content; }
+.github-wrap > .show-user-infos > button.back {
+  left: 5px;
+  background-color: rgb(255, 92, 92);
+  color: white;
+}
+.github-wrap > .show-user-infos > button.close {
+  right: 5px;
+  background-color: red;
+  color: white;
+}
 
-.github-wrap > .show-repos-commits > .user-github-commit-block {
-  border: 1px solid var(--border-color);
-  border-radius: 5px;
-  padding: 3px;
+.github-wrap > .show-user-infos > div.repo { cursor: pointer; }
+
+/* User actions styles */
+.github-wrap .user-actions {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+  border-top: 1px solid var(--border-color);
+  padding: 5px;
+  border-radius: 10px 10px 0 0;
+  width: 100%;
+  height: max-content;
+}
+.github-wrap .user-actions > button {
+  background-color: green;
+  color: white;
+  padding: 2px 5px;
+  border-radius: 7px;
+  font-size: 14px;
+  box-shadow: 1px 1px var(--border-color);
+  transform: translate(0);
+  transition: box-shadow .2s, transform .2s;
+}
+.github-wrap .user-actions > button:hover {
+  box-shadow: 0 0 var(--border-color);
+  transform: translateY(2px);
 }

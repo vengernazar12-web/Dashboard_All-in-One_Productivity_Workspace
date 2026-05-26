@@ -77,8 +77,13 @@ function showTimeZoneInfo(timeZone) {
         })
       });
       const data = await resp.json();
+
       timeZoneTitleTxt.textContent = `${data.countryCode} | ${data.countryName}\nTime zone: ${data.zoneName}`;
-      timeZoneTimeTxt.textContent = `${data.formatted} ${data.abbreviation}`.replaceAll(' ', '\n');
+      timeZoneTimeTxt.textContent = `
+${data.formatted.replace(' ', '\n')}\n${data.abbreviation}
+---
+DST: ${!!(+data.dst)}
+`.trim();
 
       showZoneTimeBlock.classList.add('open');
       timeZoneInfoTimer = null;

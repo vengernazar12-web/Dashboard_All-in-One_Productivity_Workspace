@@ -59,6 +59,7 @@ toggleAllDashboardItemBtn.addEventListener('click', () => {
     else if(wikipediaWrap.classList.contains('show')) openWikipediaBtn.classList.add('active-btn');
     else if(ipSearchWrap.classList.contains('show')) openIpSearchBtn.classList.add('active-btn');
     else if(jsonWorkerWrap.classList.contains('show')) openJsonWorkerBtn.classList.add('active-btn');
+    else if(reasoningAiWrap.classList.contains('show')) openReasoningAiBtn.classList.add('active-btn');
 
     else if(settingsWindow.classList.contains('show')) openSettingsWindowInSidebar.classList.add('active-btn');
     else if(commandRunnerWrap.classList.contains('show')) openCommandRunnerWrapBtn.classList.add('active-btn');
@@ -94,6 +95,7 @@ function closeAllWraps() {
   wikipediaWrap.classList.remove('show');
   ipSearchWrap.classList.remove('show');
   jsonWorkerWrap.classList.remove('show');
+  reasoningAiWrap.classList.remove('show');
 
   // ...
   profileWrap.classList.remove('show');
@@ -439,10 +441,15 @@ function initSpeakWindow(textarea) {
   recognition.start();
 }
 
-// Show internet status
-const noInternetIcon = document.querySelector('.no-internet-icon');
-window.addEventListener('online', () => noInternetIcon.style.display = 'none');
-window.addEventListener('offline', () => noInternetIcon.style.display = 'block');
+// Image compress
+let imgCompressLoaded = false;
+const compressImgOptions = {
+  maxSizeMB: 0.75,
+  maxWidthOrHeight: 1500,
+  fileType: 'image/webp',
+  initialQuality: 1,
+  useWebWorker: true
+};
 
 // Set preloader value
 preloaderProgress.value = 1;

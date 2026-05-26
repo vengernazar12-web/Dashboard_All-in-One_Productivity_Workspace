@@ -14,7 +14,7 @@ async function getAiResponse() {
 
     const resp = await fetch('https://throbbing-night-c338.vengernazar0.workers.dev', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', },
+      headers: { 'Content-Type': 'application/json', "Authorization": userId},
       body: JSON.stringify({
         history: historyForAiPrompt,
         limits: { blocks: allBlockLimitsObj, values: allValuesLimit }
@@ -86,8 +86,8 @@ async function getAiResponse() {
     try {
       await fetch(HISTORY_WORKER_API, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', },
-        body: JSON.stringify({ history: historyForAiPrompt, userId: userId })
+        headers: { 'Content-Type': 'application/json', "Authorization": userId },
+        body: JSON.stringify({ history: historyForAiPrompt })
       });
     } catch {};
 

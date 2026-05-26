@@ -20,6 +20,8 @@
   margin-top: 10px;
   color: white;
   font-size: 1.15rem;
+  height: calc(100% - 70px);
+  overflow-y: auto;
 }
 .all-timezones-container > pre {
   border: 1px solid var(--border-color);

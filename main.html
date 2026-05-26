@@ -34,6 +34,7 @@
 <link rel="stylesheet" href="wikipedia.css">
 <link rel="stylesheet" href="IP search.css">
 <link rel="stylesheet" href="JSON worker.css">
+<link rel="stylesheet" href="ai-reasoning worker.css">
 
 <link rel="stylesheet" href="sign.css">
 
@@ -59,6 +60,7 @@
 <script src="wikipedia.js" defer></script>
 <script src="IP search.js" defer></script>
 <script src="JSON worker.js" defer></script>
+<script src="ai-reasoning worker.js" defer></script>
 
 <!-- Assistants -->
 <script src="AI assistant.js" defer></script><!--3-->
@@ -414,37 +416,22 @@
 
 <!-- Exchange rate wrap -->
 <div class="exchange-rate-wrap is-wrap">
-  <svg><use href="#dollar"></use></svg>
-
-  <div class="exchange-rate-nav-block">
-    <div alt="Flag" class="first-flag currency-flag"></div>
-    <div alt="Flag" class="second-flag currency-flag"></div>
-    <select class="first-select"></select>
-    <button class="swap-selects">Swap</button>
-    <select class="second-select"></select>
-    <input type="number" class="rate-calc-input" placeholder="How...">
-    <p class="how-rate-text"></p>
-  </div>
-
-  <p class="exchange-rate-answer"></p>
+  <select></select>
+  <input type="number" placeholder="How..." value="1" class="count">
+  <p>Last update...</p>
+  <input type="text" class="search" placeholder="Search">
+  <div></div>
+  <span class="loader"></span>
 </div>
 
 <!-- Weather wrap -->
 <div class="weather-wrap is-wrap">
   <!-- Weather info block -->
   <div class="weather-info-block">
-    <h3 class="city-name">Country, City</h3>
-    <p class="last-update-txt">Last update:</p>
+    <h3>Country, City</h3>
+    <p>Last update</p>
     <hr>
-    <p class="temperature-txt">Temperature:</p>
-    <p class="feels-like-txt">Feels like:</p>
-    <p class="wind-txt">Wind:</p>
-    <p class="humidity-txt">Humidity:</p>
-    <p class="cloud-txt">Cloud:</p>
-    <p class="pressure-txt">Pressure:</p>
-    <hr>
-    <p class="weather-text">weather</p>
-    <img src="./all-imgs/dashboard-favicon-img.svg" alt="Weather icon" class="weather-icon">
+    <p>Info...</p>
   </div>
 
   <!-- Search city -->
@@ -455,6 +442,12 @@
     <div class="all-found-cities-cont">
       <h2>City/country...</h2>
     </div>
+  </div>
+
+  <!-- weather map -->
+  <button class="open-map">MAP</button>
+  <div class="weather-map">
+    <iframe src="" width="100%" height="100%"></iframe>
   </div>
 </div>
 
@@ -484,8 +477,7 @@
 
   <div class="found-user-info-container"></div>
 
-  <div class="show-user-repos"></div>
-  <div class="show-repos-commits"></div>
+  <div class="show-user-infos"></div>
 
   <span class="loader"></span>
 </div>
@@ -504,8 +496,7 @@
 <!-- Text-worker wrap -->
 <div class="text-worker-service-wrap is-wrap">
   <textarea class="user-txt" placeholder="Your text..."></textarea>
-  <div class="generated-text" readonly>Result...</div>
-  <input type="text" placeholder="What to do?">
+  <div class="generated-text is-ai-text" readonly>Result...</div>
   <button>SEND</button>
   <span class="loader"></span>
 </div>
@@ -523,7 +514,7 @@
 <div class="browser-worker-wrap is-wrap">
   <input type="text" placeholder="URL : website, music, video, ...">
   <button class="set-content">SET</button>
-  <iframe src="" sandbox="allow-scripts allow-same-origin" referrerpolicy="no-referrer"></iframe>
+  <iframe src="" sandbox="allow-scripts allow-same-origin allow-popups allow-forms" referrerpolicy="no-referrer"></iframe>
   <audio src="" controls></audio>
   <video src="" controls></video>
 </div>
@@ -544,6 +535,8 @@
   <div class="search-results"></div>
   <div class="origin-wikipedia-html"></div>
 
+  <div class="show-auto-complete"></div>
+
   <span class="loader"></span>
 </div>
 
@@ -559,14 +552,25 @@
 <div class="json-worker-wrap is-wrap">
   <textarea placeholder="Write your JSON5 / JSON object / array..."></textarea>
   <button>WORK</button>
+  <input type="text" placeholder="Search JSON tree...">
   <div></div>
+  <span class="loader"></span>
+</div>
+
+<!-- Reasoning ai wrap -->
+<div class="reasoning-ai-wrap is-wrap">
+  <textarea placeholder="Your task..."></textarea>
+  <button class="send">SEND TASK</button>
+  <button class="history">History</button>
+  <div class="ai-resp is-ai-text"></div>
+  <div class="history is-ai-text"></div>
   <span class="loader"></span>
 </div>
 
 <!-- Assistant wrap -->
 <div class="assistant-wrap is-wrap">
   <!-- assistant answer container -->
-  <div class="assistant-answer-container"></div>
+  <div class="assistant-answer-container is-ai-text"></div>
 
   <!-- User prompt -->
   <textarea type="text" class="user-prompt-textarea" placeholder="How can I help?..."></textarea>
@@ -654,6 +658,7 @@
   <button class="open-wikipedia-wrap --opened-btn">Wikipedia</button>
   <button class="open-ip-search-wrap --opened-btn">IP search</button>
   <button class="open-json-worker-wrap --opened-btn">JSON worker</button>
+  <button class="open-reasoning-ai-wrap --opened-btn">Reasoning AI</button>
 
   <h4>Settings</h4>
   <button class="open-settings-window-into-sidebar --opened-btn">Settings</button>
@@ -748,9 +753,6 @@
 <!-- Show response text -->
 <p class="show-response"></p>
 
-<!-- No internet icon -->
-<svg class="no-internet-icon"><use href="#no-internet"></use></svg>
-
 <script> // Initialization preloader
   const preloaderWrap = document.querySelector('.preloader-wrap');
   function showPreloader(show = true) {
@@ -810,12 +812,6 @@
     <path d="M16 21v-3a2 2 0 0 1 2-2h3" />
   </symbol>
 
-  <symbol id="dollar" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
-    <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" />
-    <path d="M12 18V6" />
-  </symbol>
-
   <symbol id="eye" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
     <circle cx="12" cy="12" r="3" />
@@ -837,17 +833,6 @@
     <path d="M12 19v3" />
     <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
     <rect x="9" y="2" width="6" height="13" rx="3" />
-  </symbol>
-
-  <symbol id="no-internet" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="164" height="164" viewBox="0 0 24 24">
-    <g fill="none">
-      <path stroke="currentColor" stroke-width="1.5" d="M5 5a9.85 9.85 0 0 0-3 7.083C2 17.56 6.477 22 12 22a10 10 0 0 0 7-2.835"></path>
-      <path stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M15.5 16c-.617 3.532-1.86 6-3.5 6c-2.21 0-4-4.477-4-10c0-1.231.089-2.41.252-3.5"></path>
-      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2 12h10"></path>
-      <path fill="currentColor" d="M7.162 2.398a.75.75 0 0 0 .676 1.339zm13.1 13.764a.75.75 0 0 0 1.34.676zM16 12h-.75c0 .414.336.75.75.75zM8.303 4.726a.75.75 0 0 0 1.396.548zM12 2.75A9.25 9.25 0 0 1 21.25 12h1.5c0-5.937-4.813-10.75-10.75-10.75zm-4.162.987A9.2 9.2 0 0 1 12 2.75v-1.5a10.7 10.7 0 0 0-4.838 1.148zM21.25 12a9.2 9.2 0 0 1-.987 4.162l1.339.676A10.7 10.7 0 0 0 22.75 12zM12 2.75c.28 0 .622.139 1.012.551c.392.414.78 1.054 1.12 1.906c.68 1.701 1.118 4.103 1.118 6.793h1.5c0-2.832-.458-5.431-1.225-7.35c-.383-.957-.858-1.782-1.423-2.38c-.567-.599-1.277-1.02-2.102-1.02zM9.7 5.274c.335-.855.755-1.51 1.183-1.938c.433-.432.822-.586 1.117-.586v-1.5c-.824 0-1.572.42-2.177 1.025c-.61.61-1.13 1.455-1.52 2.451zM16 12.75h6v-1.5h-6z">
-      </path>
-      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m2 2l20 20"></path>
-    </g>
   </symbol>
 </svg>
 

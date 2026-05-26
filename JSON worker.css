@@ -1,4 +1,4 @@
-.json-worker-wrap { overflow-y: auto !important; }
+html .json-worker-wrap { overflow-y: auto; }
 
 .json-worker-wrap > textarea {
   position: absolute;
@@ -24,9 +24,17 @@
   border: 1px solid var(--border-color);
   border-radius: 8px;
 }
-.json-worker-wrap > div {
+
+.json-worker-wrap > input {
   position: absolute;
   top: calc(70% + 50px);
+  left: 5px;
+  width: calc(100% - 10px);
+}
+
+.json-worker-wrap > div {
+  position: absolute;
+  top: calc(70% + 85px);
   left: 5px;
   width: calc(100% - 10px);
   height: auto;
@@ -46,11 +54,6 @@
   border: 1px solid white;
 }
 
-.json-worker-wrap > div :not(summary) { font-size: 15px; }
-.json-worker-wrap > div summary { font-size: 17px; }
-
-.json-worker-wrap > div details > :not(summary) { margin-left: 15px; }
-
 .json-worker-wrap > div summary { position: relative; }
 
 .json-worker-wrap > div details:not([open]) > summary::after {
@@ -58,7 +61,8 @@
   font-size: 14px;
   position: absolute;
   top: 2px;
-  right: -40px;
+  right: -45px;
+  color: white;
   text-shadow: 0 0 2px red;
 }
 .json-worker-wrap > div details[open] > summary::after {
@@ -66,8 +70,19 @@
   font-size: 14px;
   position: absolute;
   top: 2px;
-  right: -40px;
+  right: -45px;
+  color: white;
   text-shadow: 0 0 2px blue;
 }
 
 .json-worker-wrap > .loader { display: none; }
+
+.json-worker-wrap .found-json-el-anim {
+  border-radius: 3px;
+  border: 1px solid transparent;
+  animation: 3s found_json_el_blink forwards;
+}
+@keyframes found_json_el_blink {
+  0%, 50% { background-color: black; border-color: white; }
+  100% { background-color: transparent; border-color: transparent; }
+}

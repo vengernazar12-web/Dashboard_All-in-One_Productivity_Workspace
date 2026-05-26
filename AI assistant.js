@@ -12,40 +12,42 @@ async function renderHistoryChat() {
   preloaderProgress.value = 0;
   whatIsLoadingText.textContent = 'Start loading history...';
 
-  const resp = await fetch(HISTORY_WORKER_API, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', },
-    body: JSON.stringify({ userId: userId, isGetChat: true })
-  });
-  const data = await resp.json();
-  historyForAiPrompt = data.for_history;
+  try {
+    const resp = await fetch(HISTORY_WORKER_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', "Authorization": userId },
+      body: JSON.stringify({ isGetChat: true })
+    });
+    const data = await resp.json();
+    historyForAiPrompt = data.for_history;
 
-  const frag = document.createDocumentFragment();
-  for (let obj of data.for_show || []) {
-    const div = document.createElement('div');
-    const pre = document.createElement('pre');
-    div.appendChild(pre);
+    const frag = document.createDocumentFragment();
+    for (let obj of data.for_show || []) {
+      const div = document.createElement('div');
+      const pre = document.createElement('pre');
+      div.appendChild(pre);
 
-    const role = obj.role;
-    const content = obj.content;
+      const role = obj.role;
+      const content = obj.content;
 
-    if (role === 'user') {
-      div.classList.add('user-text');
-      pre.innerHTML = content;
-    } else if (role === 'assistant' && content) pre.innerHTML = content;
-    else continue;
+      if (role === 'user') {
+        div.classList.add('user-text');
+        pre.innerHTML = content;
+      } else if (role === 'assistant' && content) pre.innerHTML = content;
+      else continue;
 
-    frag.appendChild(div);
-  }
+      frag.appendChild(div);
+    }
 
-  assistantResponseContainer.textContent = '';
-  assistantResponseContainer.appendChild(frag);
+    assistantResponseContainer.textContent = '';
+    assistantResponseContainer.appendChild(frag);
 
-  preloaderProgress.value = 1;
-  setTimeout(() => {
-    assistantResponseContainer.scrollTop = assistantResponseContainer.scrollHeight;
-    showPreloader(false);
-  }, 500);
+    preloaderProgress.value = 1;
+    setTimeout(() => {
+      assistantResponseContainer.scrollTop = assistantResponseContainer.scrollHeight;
+      showPreloader(false);
+    }, 500);
+  } catch (e) { showResponseFn(`Error: ${e.message}`); console.error(e); }
 }
 
 // Assistant wrap
@@ -214,21 +216,25 @@ function createAssistantResponse(txt, isThinking = false) {
   }
 
   initTypingHTML = txt;
-  initTypingText = new DOMParser().parseFromString((unhashHtmlSymbols(txt)), "text/html").body.textContent;;
+  if(isThinking) {
+    initTypingElement.innerHTML = initTypingHTML;
+    assistantResponseContainer.scrollTop = assistantResponseContainer.scrollHeight;
+    return;
+  }
+
+  initTypingText = new DOMParser().parseFromString((unhashHtmlSymbols(txt)), "text/html").body.textContent;
   const txtLng = initTypingText.length;
 
   let c = 0;
   typingInterval = setInterval(() => {
-    c += Math.floor(Math.random() * 6 + 1);
+    c += Math.floor(Math.random() * 10 + 1);
     initTypingElement.textContent = initTypingText.slice(0, c);
     if(c > txtLng) {
-      if(isThinking) assistantResponseContainer.scrollTop = assistantResponseContainer.scrollHeight;
-
       clearInterval(typingInterval);
       typingInterval = null;
       initTypingElement.innerHTML = initTypingHTML;
     };
-  }, isThinking ? 50 : 15);
+  }, 25);
 }
 
 // Set preloader value
