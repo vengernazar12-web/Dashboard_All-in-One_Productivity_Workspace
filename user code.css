@@ -85,7 +85,7 @@
   left: 5px;
   color: rgba(255, 255, 255, 0.6);
 }
-.all-user-codes-container { padding-bottom: 110px; }
+.all-user-codes-container { padding-bottom: 110px; contain: content; }
 .code-blocks-limit {
   position: fixed;
   bottom: 10px;

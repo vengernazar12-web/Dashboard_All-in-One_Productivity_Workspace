@@ -19,12 +19,13 @@
   position: absolute;
   top: 50px;
   left: 10px;
-  background: var(--block-bg);
   width: calc(100% - 20px);
   height: max-content;
   max-height: calc(100% - 50px);
-  border: 1px solid var(--border-color);
-  border-radius: 5px;
+  background: var(--block-bg);
+  color: var(--text-color);
+  border: 1px dotted green;
+  border-radius: 10px;
   padding: 0 5px 5px 5px;
   overflow: auto;
   display: flex;

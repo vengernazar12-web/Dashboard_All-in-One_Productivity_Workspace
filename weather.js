@@ -70,28 +70,38 @@ searchCityInput.addEventListener('input', () => {
 
 // City search
 let searchCityTimer = null;
+let weatherFetchController;
 function renderFoundCities(txt) {
+  weatherFetchController?.abort();
   clearTimeout(searchCityTimer);
   searchCityTimer = setTimeout(async () => {
-    const resp = await fetch(WORKER_WEATHER_API, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json',},
-      body: JSON.stringify({
-        point: txt,
-        need: 'search',
-      })
-    });
-    const data = await resp.json();
+    weatherFetchController = new AbortController();
 
-    searchCityCont.textContent = '';
-    const frag = document.createDocumentFragment();
-    for(let obj of data) {
-      const p = document.createElement('p');
-      p.textContent = `${obj.country}, ${obj.name}`;
-      p.dataset.coordinates = `${obj.lat},${obj.lon}`;
-      frag.appendChild(p);
-    }
-    searchCityCont.appendChild(frag);
+    try {
+      const resp = await fetch(WORKER_WEATHER_API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', },
+        body: JSON.stringify({
+          point: txt,
+          need: 'search',
+        }),
+        signal: weatherFetchController.signal
+      });
+      const data = await resp.json();
+
+      if(!data.length) return showResponseFn('Not found...');
+
+      searchCityCont.textContent = '';
+      const frag = document.createDocumentFragment();
+      for (let obj of data) {
+        const p = document.createElement('p');
+        p.textContent = `${obj.country}, ${obj.name}`;
+        p.dataset.coordinates = `${obj.lat},${obj.lon}`;
+        frag.appendChild(p);
+      }
+      searchCityCont.appendChild(frag);
+    } catch (e) { e.name !== 'AbortError' ? showResponseFn(`Error: ${e.message}`) : '' }
+    finally { weatherFetchController = undefined; }
   }, 1250);
 }
 

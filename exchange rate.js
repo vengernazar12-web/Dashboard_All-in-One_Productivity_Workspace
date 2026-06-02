@@ -2,6 +2,23 @@
 whatIsLoadingText.textContent = 'Loading services...';
 
 const exchangeRateWrap = document.querySelector('.exchange-rate-wrap');
+exchangeRateWrap.addEventListener('click', e => {
+  const target = e.target;
+  const closestCurrBlock = target.closest('.curr-block');
+
+  if(closestCurrBlock) {
+    const curr = closestCurrBlock.dataset.curr;
+    const savedFavs = JSON.parse(localStorage.getItem('fav-currencies') || "[]");
+
+    if(savedFavs.includes(curr)) localStorage.setItem('fav-currencies', JSON.stringify(savedFavs.filter(c => c !== curr)));
+    else {
+      savedFavs.push(curr);
+      localStorage.setItem('fav-currencies', JSON.stringify(savedFavs));
+    }
+  }
+
+  renderExchangeRateResults();
+})
 // Open
 let flagsCssLoaded = false;
 const openExchangeRateWrapBtn = allDashboardItem.querySelector('.open-exchange-rate-wrap');
@@ -82,7 +99,6 @@ const exchangeRateResultCont = exchangeRateWrap.querySelector('div');
 
 async function renderExchangeRateState() {
   exchangeRateSelectCurrency.textContent = '';
-  exchangeRateResultCont.textContent = '';
   exchangeRateLastUpdateTxt.textContent = 'Last update...';
   exchangeRateSearchInput.value = '';
   const currency = exchangeRateSelectCurrency.value || localStorage.getItem('selected-currency') || 'USD';
@@ -95,27 +111,58 @@ async function renderExchangeRateState() {
   rates = data.conversion_rates;
 
   const fragSelect = document.createDocumentFragment();
-  const fragResult = document.createDocumentFragment();
 
   for(const curr in rates) {
     const option = document.createElement('option');
     option.textContent = curr;
     fragSelect.appendChild(option);
+  }
+  exchangeRateSelectCurrency.appendChild(fragSelect);
+  exchangeRateSelectCurrency.value = currency;
 
-    // Render results
+  renderExchangeRateResults();
+}
+
+function renderExchangeRateResults() {
+  const favoritesCurrencies = JSON.parse(localStorage.getItem('fav-currencies') || "[]");
+
+  exchangeRateResultCont.textContent = '';
+  const fragResult = document.createDocumentFragment();
+
+  // Render favorites
+  for(const curr in rates) {
+    if(!favoritesCurrencies.includes(curr)) continue;
+
     const div = document.createElement('div');
     const pre = document.createElement('pre');
     const imgDiv = document.createElement('div');
 
     div.dataset.curr = curr;
     div.append(pre, imgDiv);
+    div.classList.add('curr-block');
+    div.classList.add('is-fav'); // Add fov class
 
     pre.textContent = `${curr} - ${rates[curr].toFixed(3)}\n${currencyMetadata[curr] || ''}`.trim();
     imgDiv.className = `currency-flag currency-flag-${curr.toLowerCase()}`;
     fragResult.appendChild(div);
   }
-  exchangeRateSelectCurrency.appendChild(fragSelect);
-  exchangeRateSelectCurrency.value = currency;
+
+  // Render no-favorites
+  for(const curr in rates) {
+    if(favoritesCurrencies.includes(curr)) continue;
+
+    const div = document.createElement('div');
+    const pre = document.createElement('pre');
+    const imgDiv = document.createElement('div');
+
+    div.dataset.curr = curr;
+    div.append(pre, imgDiv);
+    div.classList.add('curr-block');
+
+    pre.textContent = `${curr} - ${rates[curr].toFixed(3)}\n${currencyMetadata[curr] || ''}`.trim();
+    imgDiv.className = `currency-flag currency-flag-${curr.toLowerCase()}`;
+    fragResult.appendChild(div);
+  }
 
   exchangeRateResultCont.appendChild(fragResult);
 }

@@ -63,8 +63,9 @@
   width: 100%;
   padding: 5px;
   padding-bottom: 110px;
+  contain: content;
 }
-.music-block {
+.all-music-container .music-block {
   position: relative;
   width: 95%;
   background: linear-gradient( 90deg, rgba(0, 0, 0, 0.9), rgba(0, 100, 255, 0.75), rgba(0, 0, 0, 0.9) );
@@ -75,6 +76,7 @@
   padding: 5px;
   cursor: pointer;
   margin-bottom: 10px;
+  contain: content;
   transition: transform .2s;
 }
 .music-block:hover { transform: translateX(10px); }

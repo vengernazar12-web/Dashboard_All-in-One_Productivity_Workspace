@@ -143,6 +143,7 @@
   border: 1px solid var(--border-color);
   border-radius: 10px;
 }
+.all-profile-btns-block svg { width: 35px; height: 35px; }
 .all-profile-btns-block > button { color: var(--text-color) }
 
 /* Settings */

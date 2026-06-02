@@ -9,18 +9,6 @@ reasoningAiWrap.addEventListener('click', e => {
 // Open
 const openReasoningAiBtn = allDashboardItem.querySelector('.open-reasoning-ai-wrap');
 openReasoningAiBtn.addEventListener('click', async () => {
-  if(!imgCompressLoaded) {
-    preloaderProgress.max = 1;
-    preloaderProgress.value = 0;
-    whatIsLoadingText.textContent = 'Loading image logic...';
-    showPreloader();
-
-    await loadScript('https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js');
-    imgCompressLoaded = true;
-
-    preloaderProgress.value = 1;
-    setTimeout(() => showPreloader(false), 500);
-  }
   closeAllWraps();
   reasoningAiWrap.classList.add('show');
 })

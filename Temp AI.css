@@ -1,0 +1,74 @@
+html .template-ai-wrap { overflow-y: auto; }
+
+.template-ai-wrap > textarea {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: calc(100% - 10px);
+  height: 50%;
+  background: var(--block-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 7px;
+  padding: 5px;
+}
+.template-ai-wrap > button.send {
+  position: absolute;
+  top: calc(10px + 50%);
+  left: 15px;
+  width: calc(90% - 30px);
+  height: 30px;
+  font-size: 16px;
+  background-color: blue;
+  color: white;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+}
+.template-ai-wrap > button.copy {
+  position: absolute;
+  top: calc(10px + 50%);
+  right: 5px;
+  width: calc(10%);
+  height: 30px;
+  background-color: green;
+  color: white;
+  border-radius: 7px;
+  border: 1px dashed blueviolet;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.template-ai-wrap > div {
+  position: absolute;
+  top: calc(50% + 45px);
+  left: 5px;
+  width: calc(100% - 10px);
+  height: max-content;
+  max-height: 300%;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  text-wrap: wrap;
+  background: var(--block-bg);
+  color: var(--text-color);
+  border: 1px dotted green;
+  border-radius: 10px;
+  padding: 5px;
+  font-size: 15px;
+}
+.template-ai-wrap > div,
+.template-ai-wrap > div * { user-select: text; }
+.template-ai-wrap > div span {
+  display: inline-block;
+  min-width: 25px;
+  background-color: rgba(255, 132, 132, 0.5);
+  color: aqua;
+  caret-color: black;
+  padding: 0 2px;
+  border-radius: 4px;
+  border: 1px dashed silver;
+  position: relative;
+}
+.template-ai-wrap > div span:focus { background-color: rgb(255, 132, 132); }
+
+.template-ai-wrap > .loader { display: none; }

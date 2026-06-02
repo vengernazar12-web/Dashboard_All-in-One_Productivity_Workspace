@@ -8,7 +8,6 @@ wikipediaWrap.addEventListener('click', e => {
     originWikipediaHtmlCont.classList.remove('open');
     originWikipediaHtmlCont.textContent = '';
   };
-  if(!target.closest('.show-auto-complete')) wikipediaShowAutoCompleteCont.style.display = 'none';
 })
 // Open
 const openWikipediaBtn = allDashboardItem.querySelector('.open-wikipedia-wrap');
@@ -20,17 +19,6 @@ openWikipediaBtn.addEventListener('click', () => {
 const wikipediaSearchLoader = wikipediaWrap.querySelector('.loader');
 
 const wikipediaShowAutoCompleteCont = wikipediaWrap.querySelector('.show-auto-complete');
-wikipediaShowAutoCompleteCont.addEventListener('click', e => {
-  const target = e.target;
-  const closestAutoCompBlock = target.closest('[data-title]');
-  if(closestAutoCompBlock) {
-    clearTimeout(wikiShowAutoCompTimeout);
-
-    searchWikipediaValueInput.value = closestAutoCompBlock.dataset.title;
-    wikipediaShowAutoCompleteCont.style.display = 'none';
-  }
-})
-
 const originWikipediaHtmlCont = wikipediaWrap.querySelector('.origin-wikipedia-html');
 
 const searchWikipediaResultsCont = wikipediaWrap.querySelector('.search-results');
@@ -57,32 +45,25 @@ searchWikipediaResultsCont.addEventListener('click', async e => {
 })
 
 let wikiShowAutoCompTimeout = null;
+let wikipediaFetchController;
 const searchWikipediaValueInput = wikipediaWrap.querySelector('.search-value');
 searchWikipediaValueInput.addEventListener('input', () => {
   const val = searchWikipediaValueInput.value.trim();
-  if(!val) return wikipediaShowAutoCompleteCont.style.display = 'none';
+  if(!val) return;
+
+  wikipediaFetchController?.abort();
 
   clearTimeout(wikiShowAutoCompTimeout);
   wikiShowAutoCompTimeout = setTimeout(async () => {
-    const autoCompResp = await fetch(`https://en.wikipedia.org/w/rest.php/v1/search/title?q=${val}&limit=10`);
+    wikipediaFetchController = new AbortController();
+
+    const autoCompResp = await fetch(`https://en.wikipedia.org/w/rest.php/v1/search/title?q=${val}&limit=25`, { signal: wikipediaFetchController.signal });
     const autoCompData = await autoCompResp.json();
 
     const pages = autoCompData.pages;
-    if(!pages.length) return wikipediaShowAutoCompleteCont.style.display = 'none';
+    if(!pages.length) return;
 
-    wikipediaShowAutoCompleteCont.innerHTML = pages.map(p => `
-<div data-title='${p.title}'>
-  <h3><strong>${p.title}</strong></h3>
-  <p>${p.description || '...'}</p>
-</div>
-`.trim()).join('');
-
-  if(wikipediaShowAutoCompleteCont.style.display === 'none') {
-    wikipediaShowAutoCompleteCont.style.display = 'block';
-    wikipediaShowAutoCompleteCont.style.height = '0px';
-    void wikipediaShowAutoCompleteCont.offsetWidth;
-  }
-  wikipediaShowAutoCompleteCont.style.height = `${wikipediaShowAutoCompleteCont.scrollHeight}px`;
+    wikipediaShowAutoCompleteCont.innerHTML = pages.map(p => `<option value="${p.title}"></option>`).join('');
   }, 500);
 })
 

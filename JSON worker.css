@@ -40,11 +40,11 @@ html .json-worker-wrap { overflow-y: auto; }
   height: auto;
   max-height: 300%;
   overflow: auto;
-  background-color: rgb(67, 67, 67);
-  color: white;
+  background: var(--block-bg);
+  color: var(--text-color);
+  border: 1px dotted green;
+  border-radius: 10px;
   padding: 5px;
-  border: 1px solid var(--border-color);
-  border-radius: 7px;
 }
 .json-worker-wrap > div :not(hr) { user-select: text; width: max-content }
 .json-worker-wrap > div > hr {

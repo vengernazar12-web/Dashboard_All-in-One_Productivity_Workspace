@@ -82,6 +82,7 @@
   flex-direction: column;
   gap: 20px;
   padding-bottom: 110px;
+  contain: content;
 }
 .text-block {
   background: linear-gradient(90deg, rgba(0, 40, 20, 0.9), rgba(80, 200, 120, 0.6), rgba(0, 40, 20, 0.9));

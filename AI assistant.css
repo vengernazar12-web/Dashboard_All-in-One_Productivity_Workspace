@@ -24,6 +24,7 @@
   display: flex;
   flex-direction: column;
   gap: 7px;
+  contain: content;
 }
 .assistant-answer-container pre {
   white-space: pre-wrap;

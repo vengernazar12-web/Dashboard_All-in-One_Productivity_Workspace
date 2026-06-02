@@ -39,6 +39,7 @@ toggleAllDashboardItemBtn.addEventListener('click', () => {
     // Set active wrap (for buttons)
     for(let b of allOpenBtns) b.classList.remove('active-btn');
 
+    // Types
     if(todoWrap.classList.contains('show')) openTodoWrapBtn.classList.add('active-btn');
     else if(notesWrap.classList.contains('show')) openNoteWrapBtn.classList.add('active-btn');
     else if(urlsWrap.classList.contains('show')) openUrlWrapBtn.classList.add('active-btn');
@@ -46,6 +47,7 @@ toggleAllDashboardItemBtn.addEventListener('click', () => {
     else if(textsSnippetsWrap.classList.contains('show')) openTextsSnippetsWrap.classList.add('active-btn');
     else if(musicWrap.classList.contains('show')) openMusicWrapBtn.classList.add('active-btn');
 
+    // Services
     else if(exchangeRateWrap.classList.contains('show')) openExchangeRateWrapBtn.classList.add('active-btn');
     else if(weatherWrap.classList.contains('show')) openWeatherWrapBtn.classList.add('active-btn');
     else if(timezoneWrap.classList.contains('show')) openTimezoneWrapBtn.classList.add('active-btn');
@@ -60,6 +62,9 @@ toggleAllDashboardItemBtn.addEventListener('click', () => {
     else if(ipSearchWrap.classList.contains('show')) openIpSearchBtn.classList.add('active-btn');
     else if(jsonWorkerWrap.classList.contains('show')) openJsonWorkerBtn.classList.add('active-btn');
     else if(reasoningAiWrap.classList.contains('show')) openReasoningAiBtn.classList.add('active-btn');
+    else if(tempAiWrap.classList.contains('show')) openTempAiBtn.classList.add('active-btn');
+    else if(fetchServiceWrap.classList.contains('show')) openFetchServiceBtn.classList.add('active-btn');
+    else if(mediaSearchWrap.classList.contains('show')) openMediaSearchBtn.classList.add('active-btn');
 
     else if(settingsWindow.classList.contains('show')) openSettingsWindowInSidebar.classList.add('active-btn');
     else if(commandRunnerWrap.classList.contains('show')) openCommandRunnerWrapBtn.classList.add('active-btn');
@@ -96,6 +101,9 @@ function closeAllWraps() {
   ipSearchWrap.classList.remove('show');
   jsonWorkerWrap.classList.remove('show');
   reasoningAiWrap.classList.remove('show');
+  tempAiWrap.classList.remove('show');
+  fetchServiceWrap.classList.remove('show');
+  mediaSearchWrap.classList.remove('show');
 
   // ...
   profileWrap.classList.remove('show');
@@ -311,6 +319,7 @@ document.addEventListener('keydown', e => {
     else if(generateImageWrap.classList.contains('show')) sendPromptForGenerateImgBtn.click();
     else if(browserWorkerWrap.classList.contains('show')) setBrowserWorkerBtn.click();
     else if(ipSearchWrap.classList.contains('show')) searchIpBtn.click();
+    else if(mediaSearchWrap.classList.contains('show')) searchMediaBtn.click();
   }
 })
 

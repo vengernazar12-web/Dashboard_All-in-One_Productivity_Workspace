@@ -35,6 +35,9 @@
 <link rel="stylesheet" href="IP search.css">
 <link rel="stylesheet" href="JSON worker.css">
 <link rel="stylesheet" href="ai-reasoning worker.css">
+<link rel="stylesheet" href="Temp AI.css">
+<link rel="stylesheet" href="fetch service.css">
+<link rel="stylesheet" href="media search.css">
 
 <link rel="stylesheet" href="sign.css">
 
@@ -61,6 +64,9 @@
 <script src="IP search.js" defer></script>
 <script src="JSON worker.js" defer></script>
 <script src="ai-reasoning worker.js" defer></script>
+<script src="temp AI.js" defer></script>
+<script src="fetch service.js" defer></script>
+<script src="media search.js" defer></script>
 
 <!-- Assistants -->
 <script src="AI assistant.js" defer></script><!--3-->
@@ -85,12 +91,7 @@
 
   <div class="all-profile-btns-block">
     <!-- Open setting window -->
-    <button class="open-settings-window">
-      <svg xmlns="http://www.w3.org/2000/svg" style="width: 35px; height: 35px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" />
-        <circle cx="12" cy="12" r="3" />
-      </svg>
-    </button>
+    <button class="open-settings-window"><svg><use href="#settings"></use></svg></button>
   </div>
 
   <!-- User account info -->
@@ -497,7 +498,7 @@
 <div class="text-worker-service-wrap is-wrap">
   <textarea class="user-txt" placeholder="Your text..."></textarea>
   <div class="generated-text is-ai-text" readonly>Result...</div>
-  <button>SEND</button>
+  <button>SEND FOR TEXT WORKER</button>
   <span class="loader"></span>
 </div>
 
@@ -528,14 +529,13 @@
 
 <!-- Wikipedia wrap -->
 <div class="wikipedia-wrap is-wrap">
-  <input type="text" class="search-value" placeholder="Search value...">
+  <input list="wiki-titles" type="text" class="search-value" placeholder="Search value...">
+  <datalist id="wiki-titles" class="show-auto-complete"></datalist>
   <input type="number" class="search-limit" placeholder="Results limit... (default 10)">
   <button class="search-btn">OK</button>
 
   <div class="search-results"></div>
   <div class="origin-wikipedia-html"></div>
-
-  <div class="show-auto-complete"></div>
 
   <span class="loader"></span>
 </div>
@@ -551,7 +551,7 @@
 <!-- JSON worker wrap -->
 <div class="json-worker-wrap is-wrap">
   <textarea placeholder="Write your JSON5 / JSON object / array..."></textarea>
-  <button>WORK</button>
+  <button>WORK JSON</button>
   <input type="text" placeholder="Search JSON tree...">
   <div></div>
   <span class="loader"></span>
@@ -564,6 +564,102 @@
   <button class="history">History</button>
   <div class="ai-resp is-ai-text"></div>
   <div class="history is-ai-text"></div>
+  <span class="loader"></span>
+</div>
+
+<!-- Template AI -->
+<div class="template-ai-wrap is-wrap">
+  <textarea placeholder="Which template do you need?"></textarea>
+  <button class="send">SEND FOR TEMPLATE</button>
+  <button class="copy"><svg><use href="#copy-code"></use></svg></button>
+  <div></div>
+  <span class="loader"></span>
+</div>
+
+<!-- Fetch service wrap -->
+<div class="fetch-service-wrap is-wrap">
+  <input type="text" placeholder="URL..." class="url">
+
+  <select class="method">
+    <option value="GET">GET</option>
+    <option value="POST">POST</option>
+    <option value="PUT">PUT</option>
+    <option value="PATCH">PATCH</option>
+    <option value="DELETE">DELETE</option>
+    <option value="HEAD">HEAD</option>
+    <option value="OPTIONS">OPTIONS</option>
+    <option value="CONNECT">CONNECT</option>
+    <option value="TRACE">TRACE</option>
+  </select>
+
+  <h3>Headers</h3>
+  <div class="headers">
+    <button class="add">ADD</button>
+  </div>
+
+  <h3>Body</h3>
+  <div class="body">
+    <button class="add">ADD</button>
+  </div>
+
+  <div class="fetch_abort-buttons">
+    <button class="abort">ABORT</button>
+    <button class="fetch">FETCH</button>
+  </div>
+  <div class="result"></div>
+
+  <span class="loader"></span>
+</div>
+
+<!-- Media search -->
+<div class="media-search-wrap is-wrap">
+  <select class="country">
+    <option value="UA">Ukraine</option>
+    <option value="US">United States</option>
+    <option value="GB">United Kingdom</option>
+    <option value="CZ">Czechia</option>
+    <option value="DE">Germany</option>
+    <option value="FR">France</option>
+    <option value="IT">Italy</option>
+    <option value="ES">Spain</option>
+    <option value="PL">Poland</option>
+    <option value="NL">Netherlands</option>
+    <option value="SE">Sweden</option>
+    <option value="NO">Norway</option>
+    <option value="FI">Finland</option>
+    <option value="DK">Denmark</option>
+    <option value="CA">Canada</option>
+    <option value="AU">Australia</option>
+    <option value="JP">Japan</option>
+    <option value="KR">South Korea</option>
+    <option value="BR">Brazil</option>
+    <option value="MX">Mexico</option>
+    <option value="IN">India</option>
+    <option value="TR">Turkey</option>
+  </select>
+
+  <select class="media">
+    <option value="music">Music</option>
+    <option value="podcast">Podcasts</option>
+    <option value="audiobook">Audiobooks</option>
+    <option value="musicVideo">Music Videos</option>
+    <option value="software">Software / Apps</option>
+    <option value="ebook">eBooks</option>
+    <option value="literature">Literature</option>
+    <option value="visual">Visual</option>
+    <option value="emoji">Emoji</option>
+    <option value="country">Country</option>
+    <option value="word">EN Words</option>
+    <option value="recipes">Recipes</option>
+    <option value="chem">Chem</option>
+  </select>
+
+  <input list="search-values" type="text" class="search" placeholder="Search">
+  <datalist id="search-values"></datalist>
+  <button class="send">OK</button>
+  <div class="result"></div>
+
+  <div class="show-info-popup"></div>
   <span class="loader"></span>
 </div>
 
@@ -659,6 +755,9 @@
   <button class="open-ip-search-wrap --opened-btn">IP search</button>
   <button class="open-json-worker-wrap --opened-btn">JSON worker</button>
   <button class="open-reasoning-ai-wrap --opened-btn">Reasoning AI</button>
+  <button class="open-template-ai-wrap --opened-btn">Template AI</button>
+  <button class="open-fetch-service-wrap --opened-btn">Fetch service</button>
+  <button class="open-media-search-wrap --opened-btn">Media search</button>
 
   <h4>Settings</h4>
   <button class="open-settings-window-into-sidebar --opened-btn">Settings</button>
@@ -833,6 +932,11 @@
     <path d="M12 19v3" />
     <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
     <rect x="9" y="2" width="6" height="13" rx="3" />
+  </symbol>
+
+  <symbol id="settings" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" />
+    <circle cx="12" cy="12" r="3" />
   </symbol>
 </svg>
 
