@@ -49,7 +49,7 @@ mediaSearchSelectCountry.addEventListener('change', () => {
 const savedMediaSearchCountry = localStorage.getItem('media-search_country');
 if(savedMediaSearchCountry) mediaSearchSelectCountry.value = savedMediaSearchCountry;
 
-const mediaForNotWorkCountrySelect = ['literature', 'visual', 'emoji', 'country', 'word', 'recipes', 'chem'];
+const mediaForNotWorkCountrySelect = ['literature', 'visual', 'emoji', 'country', 'word', 'recipes', 'chem', 'nasa'];
 
 let allCountriesForShowMedia = null;
 
@@ -78,7 +78,6 @@ mediaSearchSelectMedia.addEventListener('change', async () => {
 const mediaSearchValuesCont = mediaSearchWrap.querySelector('datalist#search-values');
 
 let mediaSearchShowChemDatalistTimer = null;
-let mediaSearchFetchController = null;
 const searchMediaInput = mediaSearchWrap.querySelector('.search');
 searchMediaInput.addEventListener('input', () => {
   const media = mediaSearchSelectMedia.value;
@@ -112,11 +111,9 @@ searchMediaInput.addEventListener('input', () => {
   else if(media === 'chem') {
     clearTimeout(mediaSearchShowChemDatalistTimer);
     mediaSearchShowChemDatalistTimer = setTimeout(async () => {
-      mediaSearchFetchController?.abort();
-      mediaSearchFetchController = new AbortController();
-
       const val = searchMediaInput.value.trim();
-      const foundVals = await fetch(`https://pubchem.ncbi.nlm.nih.gov/rest/autocomplete/compound/${encodeURIComponent(val)}/json`, {signal: mediaSearchFetchController.signal})
+      if(!val) return;
+      const foundVals = await fetch(`https://pubchem.ncbi.nlm.nih.gov/rest/autocomplete/compound/${encodeURIComponent(val)}/json`)
       .then(r => r.json())
       .then(d => d?.dictionary_terms?.compound ?? []);
 
@@ -171,7 +168,7 @@ searchMusicResult.addEventListener('click', async e => {
 const searchMediaBtn = mediaSearchWrap.querySelector('.send');
 searchMediaBtn.addEventListener('click', async () => {
   const value = searchMediaInput.value.trim();
-  if (!value) return;
+  if (mediaSearchSelectMedia.value !== 'nasa' && !value) return;
   if (value.length > 200) return showResponseFn('Your search value is too long (>200 symbols)');
 
   const country = mediaSearchSelectCountry.value || 'UA';
@@ -974,7 +971,15 @@ https://itunes.apple.com/search
     </a>
   </p>
 </div>
-`.trim()).join('') || 'No results...', title: `CHEM (${d.PC_Compounds?.length || 0})`
+`.trim()).join(''), title: `CHEM (${d.PC_Compounds?.length || 0})`
     }))
+  },
+
+  nasa: async (_, value) => {
+    await fetch('https://nasa-search.vengernazar0.workers.dev', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ value })
+    }).then(r => r.json()).then(d => d.error ? showResponseFn(`Error: ${d.error}`) : d.forEach(obj => mediaSearchCache.push(obj)));
   }
 }
