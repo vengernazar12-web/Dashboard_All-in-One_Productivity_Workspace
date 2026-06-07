@@ -379,24 +379,6 @@ async function initAccountInfos() {
     showPreloader(false);
     setOpenBtnsTexts();
 
-    const { data: imgs, error: imgsError } = await client.storage.from('avatars').list('', { limit: 1000 });
-    if (imgsError) showResponseFn('Error loading avatars');
-    else {
-      allAvatarsArr = await Promise.all(
-        imgs.map(avatarObj => {
-          const name = avatarObj.name;
-          const url = client.storage.from('avatars').getPublicUrl(name).data.publicUrl;
-          return { name, url };
-        })
-      );
-
-      const initAvatar = await client.from('user_content').select('profile').eq('id', userId).single();
-
-      openBtnProfileImg.src = initAvatar.data.profile === -1
-        ? '/all-imgs/no-profile-icon.webp'
-        : allAvatarsArr.find(o => o.name === `${initAvatar.data.profile}.png`)?.url;
-    }
-
     showResponseFn('Loaded!');
 
     // Set all blocks limits

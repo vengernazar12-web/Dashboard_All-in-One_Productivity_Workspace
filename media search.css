@@ -141,10 +141,10 @@
 
 /* Show info popup */
 .media-search-wrap > .show-info-popup {
-  position: absolute;
+  position: fixed;
   top: 90px;
-  left: 0;
-  width: 100%;
+  left: 41px;
+  width: calc(100% - 41px);
   height: calc(100% - 90px);
   overflow-y: auto;
   border-radius: 10px 10px 0 0;

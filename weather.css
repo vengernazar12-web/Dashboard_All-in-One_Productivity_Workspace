@@ -71,10 +71,10 @@
 
 /* Weather map */
 .weather-wrap > .weather-map {
-  position: absolute;
+  position: fixed;
   top: 20%;
-  left: 0;
-  width: 100%;
+  left: 41px;
+  width: calc(100% - 41px);
   height: 80%;
   border-radius: 20px 20px 0 0;
   background-color: black;

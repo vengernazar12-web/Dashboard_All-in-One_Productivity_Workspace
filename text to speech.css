@@ -29,13 +29,20 @@
   padding: 7px;
 }
 
-.text-to-speech-wrap > button {
+.text-to-speech-wrap > input.speed {
   position: absolute;
   top: calc(60% + 60px);
   left: 10px;
+  width: 50%;
+}
+
+.text-to-speech-wrap > button {
+  position: absolute;
+  top: calc(60% + 60px);
+  right: 10px;
   background-color: green;
   color: white;
-  width: calc(100% - 20px);
+  width: calc(50% - 30px);
   height: 30px;
   font-size: 15px;
   border-radius: 6px;

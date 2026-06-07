@@ -35,23 +35,7 @@
   padding-bottom: 3px;
 }
 
-.assistant-answer-container ul li::before {
-  content: "•";
-  position: absolute;
-  left: 0;
-  top: 0;
-  color: #9a9a9a;
-  transform: scale(1);
-  animation: list-pulse 1.6s infinite;
-}
-
-@keyframes list-pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.4); }
-  100% { transform: scale(1);  }
-}
-
-/* User prompt (all assistants) */
+/* User prompt */
 .user-prompt-textarea {
   position: absolute;
   bottom: 5px;
@@ -80,59 +64,6 @@
   background-color: black;
 }
 .send-prompt-btn:hover { background-color: rgb(35, 35, 35); }
-
-/* Memory for ai */
-.open-memory-for-ai {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  color: white;
-  background-color: rgb(51, 51, 51);
-  padding: 5px;
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-  font-size: 1.2rem;
-}
-.open-memory-for-ai:hover { background-color: black; }
-
-.memory-for-ai {
-  position: absolute;
-  top: 15vh;
-  left: 15%;
-  width: 70%;
-  height: 70vh;
-  background-color: black;
-  border: 1px solid silver;
-  border-radius: 15px;
-  display: none;
-}
-.memory-for-ai > h3 {
-  position: absolute;
-  top: 5px;
-  left: 15px;
-  font-size: 15px;
-}
-.memory-for-ai > textarea {
-  position: absolute;
-  top: 30px;
-  left: 5px;
-  width: calc(100% - 10px);
-  height: calc(100% - 35px);
-  border-radius: 10px;
-  padding: 5px;
-  box-shadow: 0 0 2px 1px blue;
-}
-.save-memory-for-ai {
-  position: absolute;
-  top: 5px;
-  right: 15px;
-  color: white;
-  background-color: rgb(51, 51, 51);
-  border: 1px solid silver;
-  font-size: 16px;
-  border-radius: 5px;
-}
-.save-memory-for-ai:hover { background-color: white; color: black; }
 
 /* Generated runner commands */
 .runner-command-block {
@@ -222,7 +153,8 @@
   padding: 3px 7px;
   border-radius: 5px;
   position: relative;
-  background-color: rgb(0, 0, 96);
+  background-color: rgb(0, 0, 121);
+  color: white;
 }
 .user-text > pre::before {
   content: 'You:';
@@ -230,6 +162,7 @@
   position: absolute;
   top: -11px;
   left: 3px;
+  font-size: 12px;
 }
 
 /* Thinking ai text */
@@ -248,7 +181,7 @@
   background-clip: text;
   -webkit-background-clip: text;
 
-  animation: shimmerText 2s linear infinite;
+  animation: shimmerText 2s infinite;
 }
 
 @keyframes shimmerText {

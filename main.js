@@ -68,7 +68,7 @@ toggleAllDashboardItemBtn.addEventListener('click', () => {
     else if(unitConverterWrap.classList.contains('show')) openUnitConverterBtn.classList.add('active-btn');
     else if(textToSpeechWrap.classList.contains('show')) openTextToSpeechBtn.classList.add('active-btn');
 
-    else if(settingsWindow.classList.contains('show')) openSettingsWindowInSidebar.classList.add('active-btn');
+    else if(settingsWrap.classList.contains('show')) openSettingsWrapBtn.classList.add('active-btn');
     else if(commandRunnerWrap.classList.contains('show')) openCommandRunnerWrapBtn.classList.add('active-btn');
   }
   else allDashboardItem.scrollTop = 0;
@@ -110,8 +110,7 @@ function closeAllWraps() {
   textToSpeechWrap.classList.remove('show');
 
   // ...
-  profileWrap.classList.remove('show');
-  settingsWindow.classList.remove('show');
+  settingsWrap.classList.remove('show');
   undoLastActionBlock.classList.remove('show');
   lastDataForUndoAction = null;
 

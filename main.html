@@ -21,7 +21,7 @@
 <link rel="stylesheet" href="exchange rate.css">
 <link rel="stylesheet" href="weather.css">
 <link rel="stylesheet" href="timezone.css">
-<link rel="stylesheet" href="Profile.css">
+<link rel="stylesheet" href="settings.css">
 <link rel="stylesheet" href="AI assistant.css">
 <link rel="stylesheet" href="media styles.css">
 <link rel="stylesheet" href="github.css">
@@ -54,7 +54,7 @@
 <script src="exchange rate.js" defer></script><!--2 Services-->
 <script src="weather.js" defer></script>
 <script src="timezone.js" defer></script>
-<script src="Profile.js" defer></script>
+<script src="settings.js" defer></script>
 <script src="github.js" defer></script>
 <script src="command runner.js" defer></script>
 <script src="generate image service.js" defer></script>
@@ -88,76 +88,49 @@
   <img src="./all-imgs/dashboard-favicon-img.svg" alt="DASHBOARD SMILE">
 </header>
 
-<!-- User profile -->
-<div class="user-profile-wrap is-wrap">
-  <img src="./all-imgs/no-profile-icon.webp" alt="Profile img" class="profile-img-preview" loading="lazy">
-  <p class="user-email-info"></p>
+<!-- Settings -->
+<div class="settings-wrap is-wrap">
+  <h1>Your settings</h1>
 
-  <div class="all-profile-btns-block">
-    <!-- Open setting window -->
-    <button class="open-settings-window"><svg><use href="#settings"></use></svg></button>
+  <div class="settings-block">
+    <p>Theme</p>
+    <button data-theme-switcher></button>
   </div>
 
-  <!-- User account info -->
-  <div class="user-account-info">
-    <div class="todos">
-      <p></p>
-      <progress></progress>
-    </div>
-
-    <div class="notes">
-      <p></p>
-      <progress></progress>
-    </div>
-
-    <div class="notes-length">
-      <p></p>
-      <progress></progress>
-    </div>
-
-    <div class="urls">
-      <p></p>
-      <progress></progress>
-    </div>
-
-    <div class="codes">
-      <p></p>
-      <progress></progress>
-    </div>
-
-    <div class="codes-length">
-      <p></p>
-      <progress></progress>
-    </div>
-
-    <div class="texts">
-      <p></p>
-      <progress></progress>
-    </div>
-
-    <div class="music">
-      <p></p>
-      <progress></progress>
-    </div>
+  <div class="settings-block">
+    <p>Delete animation time</p>
+    <select class="animation-time-select">
+      <option value="0.5s">0.5s</option>
+      <option value="1s">1s</option>
+      <option value="1.5s" selected>1.5s</option>
+      <option value="2s">2s</option>
+      <option value="2.5s">2.5s</option>
+      <option value="3s">3s</option>
+    </select>
   </div>
 
-  <!-- All wraps blocks -->
-  <hr>
-  <input type="text" class="search-profile-wrap-blocks-input" placeholder="Search blocks...">
-  <select class="select-wrap-type">
-    <option value="">---|---</option>
-    <option value="todos">Todos</option>
-    <option value="notes">Notes</option>
-    <option value="urls">Urls</option>
-    <option value="codes">Codes</option>
-    <option value="texts">Texts</option>
-    <option value="music">Music</option>
-    <option value="all">All</option>
-  </select>
-  <div class="all-wrap-blocks-container"></div>
+  <div class="settings-block">
+    <p>Notes font size</p>
+    <input type="number" class="notes-font-size-sett" placeholder="1.2" value="1.2" step="0.1">
+  </div>
 
-  <!-- All avatars block -->
-  <div class="all-avatars-block"></div>
+  <div class="settings-block">
+    <p>Disabled delete animation</p>
+    <button class="disabled-animation-sett">✖️</button>
+  </div>
+
+  <div class="settings-block">
+    <p>Confirm before delete</p>
+    <button class="conf-before-del-sett">✖️</button>
+  </div>
+
+  <div class="settings-block">
+    <p>Microphone language</p>
+    <select class="select-mic-lang">
+      <option value="en-US">EN</option>
+      <option value="uk-UA">UA</option>
+    </select>
+  </div>
 </div>
 
 <!-- Todos -->
@@ -500,10 +473,75 @@
 
 <!-- Text-worker wrap -->
 <div class="text-worker-service-wrap is-wrap">
-  <textarea class="user-txt" placeholder="Your text..."></textarea>
-  <div class="generated-text is-ai-text" readonly>Result...</div>
-  <button>SEND FOR TEXT WORKER</button>
-  <span class="loader"></span>
+  <div class="ai cont">
+    <h3>AI worker</h3>
+    <textarea placeholder="Your text..."></textarea>
+    <button>SEND FOR TEXT WORKER</button>
+    <div class="is-ai-text" readonly>Result...</div>
+    <span class="loader"></span>
+  </div>
+
+  <div class="cloner cont">
+    <h3>Text cloner</h3>
+    <textarea placeholder="Your text..."></textarea>
+    <input type="number" placeholder="Count...">
+    <button>Clone</button>
+    <div>Result...</div>
+  </div>
+
+  <div class="info cont">
+    <h3>Text info</h3>
+    <textarea placeholder="Your text..."></textarea>
+    <div>Result...</div>
+  </div>
+
+  <div class="replacer cont">
+    <h3>Replace worker</h3>
+    <textarea placeholder="Your text for replace..."></textarea>
+    <input type="text" class="from" placeholder="Replace all from...">
+    <input type="text" class="to" placeholder="Replace all to...">
+    <button>Replace all</button>
+    <div>Result...</div>
+  </div>
+
+  <div class="case-converter cont">
+    <h3>Case converter</h3>
+    <textarea placeholder="Your text..."></textarea>
+    <select>
+      <option value="UPPERCASE">UPPERCASE</option>
+      <option value="lowercase">lowercase</option>
+      <option value="Title Case">Title Case</option>
+      <option value="iNVERT cASE">iNVERT cASE</option>
+      <option value="camelCase">camelCase</option>
+      <option value="snake_case">snake_case</option>
+      <option value="kebab-case">kebab-case</option>
+    </select>
+    <button>Convert</button>
+    <div>Result...</div>
+  </div>
+
+  <div class="cleanup cont">
+    <h3>Cleanup text</h3>
+    <textarea placeholder="Your text for cleanup..."></textarea>
+    <div></div>
+  </div>
+
+  <div class="remove-duplicates cont">
+    <h3>Remove duplicates</h3>
+    <textarea placeholder="Your text for remove duplicates..."></textarea>
+    <div>Result...</div>
+  </div>
+
+  <div class="sort-lines cont">
+    <h3>Sort lines</h3>
+    <textarea placeholder="Your text for sort lines..."></textarea>
+    <select>
+      <option value="az">A → Z</option>
+      <option value="za">Z → A</option>
+    </select>
+    <button>Sort</button>
+    <div>Result...</div>
+  </div>
 </div>
 
 <!-- QRCode generation wrap -->
@@ -685,7 +723,8 @@
 <div class="text-to-speech-wrap is-wrap">
   <select></select>
   <textarea placeholder="Your text..."></textarea>
-  <button>TEXT TO SPEECH</button>
+  <button>TTS</button>
+  <input type="number" step="0.1" value="1" class="speed" placeholder="Speed 0.5 - 2.0">
   <audio src="" controls></audio>
   <span class="loader"></span>
 </div>
@@ -701,51 +740,6 @@
 
   <!-- Loader for AI -->
   <span class="loader assistant-loader"></span>
-</div>
-
-<!-- Settings -->
-<div class="settings-window is-wrap">
-  <h1>Your settings</h1>
-  <button class="close-settings-window">❌</button>
-  <div class="settings-block">
-    <p>Theme</p>
-    <button data-theme-switcher></button>
-  </div>
-
-  <div class="settings-block">
-    <p>Delete animation time</p>
-    <select class="animation-time-select">
-      <option value="0.5s">0.5s</option>
-      <option value="1s">1s</option>
-      <option value="1.5s" selected>1.5s</option>
-      <option value="2s">2s</option>
-      <option value="2.5s">2.5s</option>
-      <option value="3s">3s</option>
-    </select>
-  </div>
-
-  <div class="settings-block">
-    <p>Notes font size</p>
-    <input type="number" class="notes-font-size-sett" placeholder="1.2" value="1.2" step="0.1">
-  </div>
-
-  <div class="settings-block">
-    <p>Disabled delete animation</p>
-    <button class="disabled-animation-sett">✖️</button>
-  </div>
-
-  <div class="settings-block">
-    <p>Confirm before delete</p>
-    <button class="conf-before-del-sett">✖️</button>
-  </div>
-
-  <div class="settings-block">
-    <p>Microphone language</p>
-    <select class="select-mic-lang">
-      <option value="en-US">EN</option>
-      <option value="uk-UA">UA</option>
-    </select>
-  </div>
 </div>
 
 <!-- Runner wrap -->
@@ -789,15 +783,10 @@
   <button class="open-text-to-speech-wrap --opened-btn">Text to speech</button>
 
   <h4>Settings</h4>
-  <button class="open-settings-window-into-sidebar --opened-btn">Settings</button>
+  <button class="open-settings-wrap --opened-btn">Settings</button>
 
   <h4>Runner</h4>
   <button class="open-commands-runner-wrap --opened-btn">Runner</button>
-
-  <button class="open-user-profile-wrap-btn">
-    <img src="./all-imgs/no-profile-icon.webp" alt="Profile-img">
-    <p>Profile</p>
-  </button>
 </article>
 
 <!-- Show fields block -->

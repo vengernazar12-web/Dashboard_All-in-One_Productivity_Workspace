@@ -234,7 +234,7 @@ function createAssistantResponse(txt, isThinking = false) {
       typingInterval = null;
       initTypingElement.innerHTML = initTypingHTML;
     };
-  }, 25);
+  }, 30);
 }
 
 // Set preloader value

@@ -29,6 +29,7 @@ const textToSpeechLoader = textToSpeechWrap.querySelector('span.loader');
 
 const textToSpeechSelectVoice = textToSpeechWrap.querySelector('select');
 const textToSpeechTextarea = textToSpeechWrap.querySelector('textarea');
+const textToSpeechSpeedInput = textToSpeechWrap.querySelector('input.speed');
 
 const textToSpeechBtn = textToSpeechWrap.querySelector('button');
 textToSpeechBtn.addEventListener('click', async () => {
@@ -47,7 +48,7 @@ textToSpeechBtn.addEventListener('click', async () => {
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
         need: 'text-to-speech',
-        text, voiceId
+        text, voiceId, speed: textToSpeechSpeedInput.value || 0.5
       })
     }).then(r => r.ok ? r.text() : r.json())
       .then(b => !b.error ? b : showResponseFn(`Error: ${b.error}`));
