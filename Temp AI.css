@@ -1,5 +1,3 @@
-html .template-ai-wrap { overflow-y: auto; }
-
 .template-ai-wrap > textarea {
   position: absolute;
   top: 5px;

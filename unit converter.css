@@ -1,0 +1,63 @@
+.unit-converter-wrap > input {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: calc(100% - 20px);
+}
+
+.unit-converter-wrap > .selects {
+  position: absolute;
+  top: 60px;
+  left: 10px;
+  width: calc(100% - 20px);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.unit-converter-wrap > .selects::before {
+  content: 'type';
+  position: absolute;
+  top: -15px;
+  left: 5px;
+  font-size: 12px;
+  color: var(--text-color);
+  opacity: 0.75;
+}
+.unit-converter-wrap > .selects::after {
+  content: 'to';
+  position: absolute;
+  top: -15px;
+  right: 5px;
+  font-size: 12px;
+  color: var(--text-color);
+  opacity: 0.75;
+}
+
+.unit-converter-wrap select {
+  height: 30px;
+  width: 30%;
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  background: var(--block-bg);
+  border-radius: 8px;
+}
+.unit-converter-wrap select > option { background-color: silver; color: black; }
+
+.unit-converter-wrap > p.result {
+  position: absolute;
+  top: 95px;
+  left: 10px;
+  font-size: 16px;
+  width: calc(100% - 20px);
+  text-align: center;
+  user-select: text;
+}
+
+.unit-converter-wrap > svg {
+  position: absolute;
+  top: 150px;
+  left: 10px;
+  width: calc(100% - 20px);
+  max-height: calc(100% - 155px);
+  height: auto;
+}

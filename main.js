@@ -65,6 +65,8 @@ toggleAllDashboardItemBtn.addEventListener('click', () => {
     else if(tempAiWrap.classList.contains('show')) openTempAiBtn.classList.add('active-btn');
     else if(fetchServiceWrap.classList.contains('show')) openFetchServiceBtn.classList.add('active-btn');
     else if(mediaSearchWrap.classList.contains('show')) openMediaSearchBtn.classList.add('active-btn');
+    else if(unitConverterWrap.classList.contains('show')) openUnitConverterBtn.classList.add('active-btn');
+    else if(textToSpeechWrap.classList.contains('show')) openTextToSpeechBtn.classList.add('active-btn');
 
     else if(settingsWindow.classList.contains('show')) openSettingsWindowInSidebar.classList.add('active-btn');
     else if(commandRunnerWrap.classList.contains('show')) openCommandRunnerWrapBtn.classList.add('active-btn');
@@ -104,6 +106,8 @@ function closeAllWraps() {
   tempAiWrap.classList.remove('show');
   fetchServiceWrap.classList.remove('show');
   mediaSearchWrap.classList.remove('show');
+  unitConverterWrap.classList.remove('show');
+  textToSpeechWrap.classList.remove('show');
 
   // ...
   profileWrap.classList.remove('show');
@@ -162,8 +166,9 @@ async function loadScript(src) {
     script.src = src;
     header.appendChild(script);
     script.onload = () => res();
-    script.onerror = () => rej();
+    script.onerror = () => rej(new Error('Script failed to load'));
   })
+  return 'Done';
 }
 
 // Load codemirror

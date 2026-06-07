@@ -1,0 +1,52 @@
+.text-to-speech-wrap > select {
+  position: absolute;
+  top: 10px;
+  left: 5px;
+  width: calc(100% - 10px);
+  height: 30px;
+  background: var(--block-bg);
+  color: var(--text-color);
+  border-radius: 7px;
+  border: 1px solid var(--border-color);
+  padding: 0 3px;
+  contain: content;
+}
+.text-to-speech-wrap > select > option {
+  background-color: silver;
+  color: black;
+}
+
+.text-to-speech-wrap > textarea {
+  position: absolute;
+  top: 50px;
+  left: 10px;
+  width: calc(100% - 20px);
+  height: 60%;
+  background: var(--block-bg);
+  color: var(--text-color);
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  padding: 7px;
+}
+
+.text-to-speech-wrap > button {
+  position: absolute;
+  top: calc(60% + 60px);
+  left: 10px;
+  background-color: green;
+  color: white;
+  width: calc(100% - 20px);
+  height: 30px;
+  font-size: 15px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+}
+
+.text-to-speech-wrap > audio {
+  position: absolute;
+  top: calc(60% + 100px);
+  left: 10px;
+  width: calc(100% - 20px);
+}
+
+.text-to-speech-wrap > .loader { display: none; }

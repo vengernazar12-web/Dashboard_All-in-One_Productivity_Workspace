@@ -1,5 +1,3 @@
-html .json-worker-wrap { overflow-y: auto; }
-
 .json-worker-wrap > textarea {
   position: absolute;
   top: 5px;

@@ -1,5 +1,3 @@
-html .reasoning-ai-wrap { overflow-y: auto; }
-
 .reasoning-ai-wrap > textarea {
   position: absolute;
   top: 5px;
