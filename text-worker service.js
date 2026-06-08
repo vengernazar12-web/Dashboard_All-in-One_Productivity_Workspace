@@ -91,10 +91,15 @@ textWorkerInfoTextarea.addEventListener('input', () => {
   const characters = val.length;
   const spaces = val.match(/[ \t]/g)?.length ?? 0;
 
-  const allWords = val.toLowerCase().split(/\s+/);
+  const allWords = val.trim().replace(/[^\p{L}\p{N}]+/gu, ' ').toLowerCase().split(/\s+/);
+
+  const allWordsLng = allWords.map(w => w.length);
+  const longestWordLng = Math.max(...allWordsLng);
+  const shortestWordLng = Math.min(...allWordsLng);
+
   const uniqueWords = [...new Set(allWords)];
 
-  textWorkerInfoResult.textContent = `
+  textWorkerInfoResult.innerHTML = `
 Characters: ${characters}
 Spaces: ${spaces}
 Characters without spaces: ${characters - spaces}
@@ -110,10 +115,15 @@ Lines: ${val ? val.split('\n').length : 0}
 Numbers: ${val.match(/\d+/g)?.length ?? 0}
 Newlines: ${val.match(/\n/g)?.length ?? 0}
 Symbols: ${val.match(/[^\p{L}\p{N}\s]/gu)?.length ?? 0}
-Unique words (${uniqueWords.length}): ${val.trim() ? uniqueWords
+
+Longest word: ${allWords.find(w => w.length === longestWordLng) || 'Nothing...'}
+Shortest word: ${allWords.find(w => w.length === shortestWordLng) || 'Nothing...'}
+
+Unique words (${uniqueWords.length}): ${val.trim() ? `<details>${
+  uniqueWords
   .map(w => `${w} - ${allWords.filter(fw => fw === w).length}`)
-  .join("\n" + " ".repeat(20 + String(uniqueWords.length).length))
-  : 'Nothing...'
+  .join("\n").trim()}
+  </details>`.trim() : 'Nothing...'
 }
 `.trim();
 })
@@ -166,8 +176,10 @@ const textWorkerCleanupResult = textWorkerCleanupCont.querySelector('div');
 const textWorkerCleanupTextarea = textWorkerCleanupCont.querySelector('textarea');
 textWorkerCleanupTextarea.addEventListener('input', () => {
   const val = textWorkerCleanupTextarea.value.trim();
-  textWorkerCleanupResult.textContent = val.replace(/[\t ]+|,+|\.{4,}|\n+/g, all => all[0]);
-})
+  textWorkerCleanupResult.textContent = val
+    .replace(/,+|\.{4,}|!+|;+|'+|"+| +/g, all => all[0])
+    .replace(/\n{3,}/g, '\n\n');
+});
 
 // Remove duplicates
 const textWorkerRemoveDuplicatesCont = textWorkerServiceWrap.querySelector('div.remove-duplicates');
@@ -199,4 +211,22 @@ textWorkerSortLinesBtn.addEventListener('click', () => {
     .split(/\n+/)
     .sort((a, b) => type === 'az' ? a.localeCompare(b) : b.localeCompare(a))
     .join('\n');
+})
+
+// Number lines
+const textWorkerNumberLinesCont = textWorkerServiceWrap.querySelector('div.number-lines');
+const textWorkerNumberLinesResult = textWorkerNumberLinesCont.querySelector('div');
+const textWorkerNumberLinesSelectAction = textWorkerNumberLinesCont.querySelector('select');
+const textWorkerNumberLinesTextarea = textWorkerNumberLinesCont.querySelector('textarea');
+
+const textWorkerNumberLinesBtn = textWorkerNumberLinesCont.querySelector('button');
+textWorkerNumberLinesBtn.addEventListener('click', () => {
+  const val = textWorkerNumberLinesTextarea.value.trim();
+  const action = textWorkerNumberLinesSelectAction.value;
+  const lines = val.split(/\n+/);
+
+  textWorkerNumberLinesResult.textContent =
+  action === 'add' ? lines.map((l, i) => `${i + 1}. ${l}`).join('\n')
+  : action === 'remove' ? lines.map(l => l.replace(/^\d+\. /g, '')).join('\n')
+  : val;
 })

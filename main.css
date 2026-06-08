@@ -280,12 +280,12 @@ body {
   gap: 10px;
   padding: 7px;
   border-right: 2px solid var(--border-color);
-  overflow-y: auto;
+  overflow-y: hidden;
   transform: translateX(calc(-100% + 40px));
   transition: transform .3s;
 }
 
-.all-dashboard-items.open { transform: translateX(0); }
+.all-dashboard-items.open { transform: translateX(0); overflow-y: auto; }
 .all-dashboard-items > h4 {
   text-align: left;
   border-bottom: 2px solid var(--border-color);
