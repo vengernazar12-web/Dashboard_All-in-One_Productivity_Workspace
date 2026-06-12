@@ -63,6 +63,7 @@ const openAssistantWrapBtn = allDashboardItem.querySelector('.open-assistant-wra
 openAssistantWrapBtn.addEventListener('click', async () => {
   sendPromptBtn.disabled = false;
   closeAllWraps();
+  if(needPushState) history.pushState({}, null, '#assistant');
   if(!historyForAiPrompt || historyForAiPrompt.length > 100) await renderHistoryChat();
 
   assistantWrap.classList.add('show');

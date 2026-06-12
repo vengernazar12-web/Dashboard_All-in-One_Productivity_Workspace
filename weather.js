@@ -18,6 +18,7 @@ const openWeatherWrapBtn = allDashboardItem.querySelector('.open-weather-wrap');
 openWeatherWrapBtn.addEventListener('click', async () => {
   if(weatherWrap.classList.contains('show')) return;
   closeAllWraps();
+  if(needPushState) history.pushState({}, null, '#weather');
 
   const savedCityInfo = JSON.parse(localStorage.getItem('city-info'));
 

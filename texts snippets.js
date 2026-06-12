@@ -7,6 +7,7 @@ textsSnippetsWrap.addEventListener('click', e => {
 const openTextsSnippetsWrap = allDashboardItem.querySelector('.open-texts-snippets-wrap');
 openTextsSnippetsWrap.addEventListener('click', async () => {
   closeAllWraps();
+  if(needPushState) history.pushState({}, null, '#texts');
 
   if(!allTextsSnippetsObj) {
     showPreloader();

@@ -5,6 +5,7 @@ const generateImageWrap = document.querySelector('.image-ai-generator-wrap');
 const opeGenerateImgWrapBtn = allDashboardItem.querySelector('.open-generate-img-wrap');
 opeGenerateImgWrapBtn.addEventListener('click', () => {
   closeAllWraps();
+  if(needPushState) history.pushState({}, null, '#image-generation');
   generateImageWrap.classList.add('show');
 });
 

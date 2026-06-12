@@ -23,6 +23,7 @@ const mediaSearchWrap = document.querySelector('.media-search-wrap');
 const openMediaSearchBtn = allDashboardItem.querySelector('.open-media-search-wrap');
 openMediaSearchBtn.addEventListener('click', () => {
   closeAllWraps();
+  if(needPushState) history.pushState({}, null, '#media-search');
   if(!savedMediaBeenSet) setSavedMedia();
   mediaSearchWrap.classList.add('show');
 });

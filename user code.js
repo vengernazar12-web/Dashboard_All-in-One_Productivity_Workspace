@@ -6,6 +6,7 @@ userCodeWrap.addEventListener('click', e => {
 const openCodeWrapBtn = allDashboardItem.querySelector('.open-user-code-wrap');
 openCodeWrapBtn.addEventListener('click', async () => {
   closeAllWraps();
+  if(needPushState) history.pushState({}, null, '#codes');
 
   if(!codeMirrorLoaded || !allUserCodesObj) {
     preloaderProgress.max = 1;

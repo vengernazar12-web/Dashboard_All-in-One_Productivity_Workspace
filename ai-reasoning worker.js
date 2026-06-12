@@ -10,6 +10,7 @@ reasoningAiWrap.addEventListener('click', e => {
 const openReasoningAiBtn = allDashboardItem.querySelector('.open-reasoning-ai-wrap');
 openReasoningAiBtn.addEventListener('click', async () => {
   closeAllWraps();
+  if(needPushState) history.pushState({}, null, '#reasoning-ai');
   reasoningAiWrap.classList.add('show');
 })
 

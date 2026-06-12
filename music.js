@@ -7,6 +7,7 @@ musicWrap.addEventListener('click', e => {
 const openMusicWrapBtn = allDashboardItem.querySelector('.open-music-wrap');
 openMusicWrapBtn.addEventListener('click', async () => {
   closeAllWraps();
+  if(needPushState) history.pushState({}, null, '#music');
 
   if(!allMusicObj) {
     showPreloader();

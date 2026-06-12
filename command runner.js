@@ -3,6 +3,7 @@ const commandRunnerWrap = document.querySelector('.commands-runner-wrap');
 const openCommandRunnerWrapBtn = allDashboardItem.querySelector('.open-commands-runner-wrap');
 openCommandRunnerWrapBtn.addEventListener('click', async () => {
   closeAllWraps();
+  if(needPushState) history.pushState({}, null, '#runner');
 
   if(!codeMirrorLoaded) {
     showPreloader();

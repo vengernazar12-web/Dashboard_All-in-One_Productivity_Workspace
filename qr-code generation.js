@@ -3,6 +3,7 @@ const qrCodeGenerationWrap = document.querySelector('.qr-code-generation-wrap');
 const openQrCodeGenerationBtn = allDashboardItem.querySelector('.open-qr-code-generation-wrap');
 openQrCodeGenerationBtn.addEventListener('click', () => {
   closeAllWraps();
+  if(needPushState) history.pushState({}, null, '#qr-codes');
   qrCodeGenerationWrap.classList.add('show');
 });
 

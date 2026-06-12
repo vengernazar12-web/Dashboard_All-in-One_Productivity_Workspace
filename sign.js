@@ -381,6 +381,8 @@ async function initAccountInfos() {
 
     showResponseFn('Loaded!');
 
+    if(location.hash?.slice(1).length) setInitWindowState();
+
     // Set all blocks limits
     todoProgress.max = allBlockLimitsObj.todos;
     noteProgress.max = allBlockLimitsObj.notes;

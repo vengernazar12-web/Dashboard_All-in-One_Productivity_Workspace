@@ -131,6 +131,7 @@ const unitConverterWrap = document.querySelector('.unit-converter-wrap');
 const openUnitConverterBtn = allDashboardItem.querySelector('.open-unit-converter-wrap');
 openUnitConverterBtn.addEventListener('click', () => {
   closeAllWraps();
+  if(needPushState) history.pushState({}, null, '#unit-converter');
   unitConverterWrap.classList.add('show');
 
   if(!unitConverterSelectType.childElementCount) {

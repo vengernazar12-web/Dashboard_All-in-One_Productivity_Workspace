@@ -5,6 +5,7 @@ const textToSpeechWrap = document.querySelector('.text-to-speech-wrap');
 const openTextToSpeechBtn = allDashboardItem.querySelector('.open-text-to-speech-wrap');
 openTextToSpeechBtn.addEventListener('click', async () => {
   closeAllWraps();
+  if(needPushState) history.pushState({}, null, '#text-to-speech');
 
   if(!textToSpeechSelectVoice.childElementCount) {
     showPreloader();

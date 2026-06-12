@@ -5,6 +5,7 @@ const jsonWorkerWrap = document.querySelector('.json-worker-wrap');
 const openJsonWorkerBtn = allDashboardItem.querySelector('.open-json-worker-wrap');
 openJsonWorkerBtn.addEventListener('click', async () => {
   closeAllWraps();
+  if(needPushState) history.pushState({}, null, '#json-worker');
 
   if(!isJson5Loaded) {
     preloaderProgress.max = 1;

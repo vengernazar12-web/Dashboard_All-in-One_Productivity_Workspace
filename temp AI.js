@@ -5,6 +5,7 @@ const tempAiWrap = document.querySelector('.template-ai-wrap');
 const openTempAiBtn = allDashboardItem.querySelector('.open-template-ai-wrap');
 openTempAiBtn.addEventListener('click', () => {
   closeAllWraps();
+  if(needPushState) history.pushState({}, null, '#template-ai');
   tempAiWrap.classList.add('show');
 })
 

@@ -23,6 +23,7 @@ const browserWorkerWrap = document.querySelector('.browser-worker-wrap');
 const openBrowserWorkerBtn = allDashboardItem.querySelector('.open-browser-worker-wrap');
 openBrowserWorkerBtn.addEventListener('click', () => {
   closeAllWraps();
+  if(needPushState) history.pushState({}, null, '#browser-worker');
   browserWorkerWrap.classList.add('show');
 })
 

@@ -34,6 +34,7 @@ const openTimezoneWrapBtn = allDashboardItem.querySelector('.open-timezone-wrap'
 openTimezoneWrapBtn.addEventListener('click', async () => {
   if(timezoneWrap.classList.contains('show')) return;
   closeAllWraps();
+  if(needPushState) history.pushState({}, null, '#timezones');
   preloaderProgress.max = 1;
   preloaderProgress.value = 0;
   whatIsLoadingText.textContent = 'Start...';

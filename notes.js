@@ -9,6 +9,7 @@ const notesContentWrap = document.querySelector('.notes-content-wrap');
 const openNoteWrapBtn = allDashboardItem.querySelector('.open-notes-wrap');
 openNoteWrapBtn.addEventListener('click', async () => {
   closeAllWraps();
+  if(needPushState) history.pushState({}, null, '#notes');
 
   if(!allNotesObj) {
     showPreloader();

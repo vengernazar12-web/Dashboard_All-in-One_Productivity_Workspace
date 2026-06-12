@@ -22,6 +22,7 @@ const openSettingsWrapBtn = allDashboardItem.querySelector('.open-settings-wrap'
 // Open
 openSettingsWrapBtn.addEventListener('click', () => {
   closeAllWraps();
+  if(needPushState) history.pushState({}, null, '#settings');
   settingsWrap.classList.add('show');
 });
 

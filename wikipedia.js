@@ -13,6 +13,7 @@ wikipediaWrap.addEventListener('click', e => {
 const openWikipediaBtn = allDashboardItem.querySelector('.open-wikipedia-wrap');
 openWikipediaBtn.addEventListener('click', () => {
   closeAllWraps();
+  if(needPushState) history.pushState({}, null, '#wikipedia');
   wikipediaWrap.classList.add('show');
 })
 

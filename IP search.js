@@ -5,6 +5,7 @@ const ipSearchWrap = document.querySelector('.ip-search-wrap');
 const openIpSearchBtn = allDashboardItem.querySelector('.open-ip-search-wrap');
 openIpSearchBtn.addEventListener('click', () => {
   closeAllWraps();
+  if(needPushState) history.pushState({}, null, '#ip-search');
   ipSearchWrap.classList.add('show');
 })
 

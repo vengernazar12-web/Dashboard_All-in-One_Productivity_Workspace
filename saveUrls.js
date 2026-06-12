@@ -16,6 +16,7 @@ const allUrlsContainer = urlsWrap.querySelector('.all-urls-container');
 const openUrlWrapBtn = allDashboardItem.querySelector('.open-save-urls-wrap');
 openUrlWrapBtn.addEventListener('click', async () => {
   closeAllWraps();
+  if(needPushState) history.pushState({}, null, '#urls');
 
   if(!imgCompressLoaded || !allUrlsObj) {
     preloaderProgress.max = 1;

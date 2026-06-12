@@ -430,5 +430,53 @@ const compressImgOptions = {
   useWebWorker: true
 };
 
+// Init window state
+let needPushState = true;
+function setInitWindowState() {
+  const hash = location.hash?.slice(1);
+
+  needPushState = false;
+  switch(hash) {
+    case 'assistant': openAssistantWrapBtn.click(); break;
+
+    case 'todos': openTodoWrapBtn.click(); break;
+    case 'notes': openNoteWrapBtn.click(); break;
+    case 'urls': openUrlWrapBtn.click(); break;
+    case 'codes': openCodeWrapBtn.click(); break;
+    case 'texts': openTextsSnippetsWrap.click(); break;
+    case 'music': openMusicWrapBtn.click(); break;
+
+    case 'exchange-rate': openExchangeRateWrapBtn.click(); break;
+    case 'timezones': openTimezoneWrapBtn.click(); break;
+    case 'qr-codes': openQrCodeGenerationBtn.click(); break;
+    case 'fetch-service': openFetchServiceBtn.click(); break;
+    case 'unit-converter': openUnitConverterBtn.click(); break;
+    case 'regexp-checker': openRegexpCheckerBtn.click(); break;
+
+    case 'reasoning-ai': openReasoningAiBtn.click(); break;
+    case 'template-ai': openTempAiBtn.click(); break;
+    case 'text-to-speech': openTextToSpeechBtn.click(); break;
+    case 'image-generation': opeGenerateImgWrapBtn.click(); break;
+    case 'text-worker': openTextWorkerServiceBtn.click(); break;
+
+    case 'weather': openWeatherWrapBtn.click(); break;
+    case 'github': openGithubWrapBtn.click(); break;
+    case 'wikipedia': openWikipediaBtn.click(); break;
+    case 'ip-search': openIpSearchBtn.click(); break;
+    case 'media-search': openMediaSearchBtn.click(); break;
+
+    case 'browser-worker': openBrowserWorkerBtn.click(); break;
+    case 'json-worker': openJsonWorkerBtn.click(); break;
+
+    case 'settings': openSettingsWrapBtn.click(); break;
+    case 'runner': openCommandRunnerWrapBtn.click(); break;
+
+    default: break;
+  }
+
+  needPushState = true;
+}
+window.addEventListener('popstate', () => setInitWindowState());
+
 // Set preloader value
 preloaderProgress.value = 1;
