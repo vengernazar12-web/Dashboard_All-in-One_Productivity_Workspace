@@ -118,7 +118,7 @@
   width: 80%;
   height: 75%;
   padding: 10px;
-  background: var(--block-bg);
+  background-color: var(--block-bg);
   border: 1px solid var(--border-color);
   border-radius: 10px;
   display: none;
@@ -167,7 +167,7 @@
 .edit-todo-block {
   width: calc(75% - 32px);
   min-height: 50%;
-  background: var(--body-bg);
+  background-color: var(--body-bg);
   color: var(--text-color);
   padding: 5px;
   position: fixed;
@@ -271,7 +271,7 @@
   flex-direction: column;
   gap: 5px;
   padding: 5px;
-  background: var(--block-bg);
+  background-color: var(--block-bg);
   border: 2px solid var(--border-color);
   border-radius: 5px;
   width: 200px;

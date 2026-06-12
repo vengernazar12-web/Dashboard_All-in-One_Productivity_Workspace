@@ -10,7 +10,7 @@
   min-width: 50%;
   border-radius: 5px;
   height: 25px;
-  background: var(--block-bg);
+  background-color: var(--block-bg);
   color: var(--text-color);
   border: 1px solid var(--border-color);
 }

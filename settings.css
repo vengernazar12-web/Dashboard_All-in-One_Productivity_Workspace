@@ -3,7 +3,7 @@
 .settings-block {
   width: 90%;
   height: 50px;
-  background: var(--block-bg);
+  background-color: var(--block-bg);
   margin: 10px auto;
   border-radius: 5px;
   display: flex;

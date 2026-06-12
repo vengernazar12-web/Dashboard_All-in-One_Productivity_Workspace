@@ -32,7 +32,7 @@
 .found-user-info-container > .github-user {
   border: 1px solid var(--border-color);
   border-radius: 10px;
-  background: var(--block-bg);
+  background-color: var(--block-bg);
   padding: 5px;
   display: flex;
   flex-direction: column;
@@ -65,7 +65,7 @@
   transition: transform .5s;
   border-radius: 5px 5px 0 0;
   border-top: 1px solid var(--border-color);
-  background: var(--block-bg);
+  background-color: var(--block-bg);
   overflow-y: auto;
   overflow-x: hidden;
   display: flex;

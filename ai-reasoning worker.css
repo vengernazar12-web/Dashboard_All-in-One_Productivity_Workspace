@@ -4,7 +4,7 @@
   left: 5px;
   width: calc(100% - 10px);
   height: 50%;
-  background: var(--block-bg);
+  background-color: var(--block-bg);
   color: var(--text-color);
   padding: 5px;
   border-radius: 5px;
@@ -31,7 +31,7 @@
   max-height: 300%;
   height: max-content;
   overflow-y: auto;
-  background: var(--block-bg);
+  background-color: var(--block-bg);
   color: var(--text-color);
   border: 1px dotted green;
   border-radius: 10px;

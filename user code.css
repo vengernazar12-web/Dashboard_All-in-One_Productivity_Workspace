@@ -30,7 +30,7 @@
   left: 5%;
   width: 90%;
   height: 25%;
-  background: var(--block-bg);
+  background-color: var(--block-bg);
   color: var(--text-color);
   text-align: center;
   border-radius: 8px;

@@ -66,7 +66,7 @@
   left: 5px;
   width: calc(100% - 10px);
   height: calc(100% - 115px);
-  background: var(--block-bg);
+  background-color: var(--block-bg);
   color: var(--text-color);
   border-radius: 7px;
   padding: 3px;
@@ -89,7 +89,7 @@
   left: 5%;
   width: 90%;
   height: 25%;
-  background: var(--block-bg);
+  background-color: var(--block-bg);
   text-align: center;
   border-radius: 8px;
   border: 3px solid var(--border-color);
@@ -141,7 +141,7 @@
   position: fixed;
   top: 10%;
   left: calc(12.5% + 32px);
-  background: var(--block-bg);
+  background-color: var(--block-bg);
   border: 2px solid var(--border-color);
   border-radius: 10px;
   padding: 5px;

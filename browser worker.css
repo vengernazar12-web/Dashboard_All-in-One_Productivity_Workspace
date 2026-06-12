@@ -25,7 +25,7 @@
   width: calc(100% - 20px);
   height: calc(100% - 60px);
   object-fit: contain;
-  background: var(--block-bg);
+  background-color: var(--block-bg);
   border: 1px solid var(--border-color);
   border-radius: 5px;
 }

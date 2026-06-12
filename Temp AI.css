@@ -4,7 +4,7 @@
   left: 5px;
   width: calc(100% - 10px);
   height: 50%;
-  background: var(--block-bg);
+  background-color: var(--block-bg);
   color: var(--text-color);
   border: 1px solid var(--border-color);
   border-radius: 7px;
@@ -47,7 +47,7 @@
   overflow-y: auto;
   white-space: pre-wrap;
   text-wrap: wrap;
-  background: var(--block-bg);
+  background-color: var(--block-bg);
   color: var(--text-color);
   border: 1px dotted green;
   border-radius: 10px;

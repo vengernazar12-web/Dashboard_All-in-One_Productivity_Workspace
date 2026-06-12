@@ -38,7 +38,7 @@
   width: 30%;
   border: 1px solid var(--border-color);
   color: var(--text-color);
-  background: var(--block-bg);
+  background-color: var(--block-bg);
   border-radius: 8px;
 }
 .unit-converter-wrap select > option { background-color: silver; color: black; }

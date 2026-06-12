@@ -10,7 +10,7 @@ async function renderHistoryChat() {
   showPreloader();
   preloaderProgress.max = 1;
   preloaderProgress.value = 0;
-  whatIsLoadingText.textContent = 'Start loading history...';
+  whatIsLoadingText.textContent = 'Loading...';
 
   try {
     const resp = await fetch(HISTORY_WORKER_API, {
@@ -42,6 +42,12 @@ async function renderHistoryChat() {
     assistantResponseContainer.textContent = '';
     assistantResponseContainer.appendChild(frag);
 
+    if (!isJson5Loaded) {
+      whatIsLoadingText.textContent = 'Loading JSON5...';
+      await loadScript("https://unpkg.com/json5/dist/index.min.js");
+      isJson5Loaded = true;
+    }
+
     preloaderProgress.value = 1;
     setTimeout(() => {
       assistantResponseContainer.scrollTop = assistantResponseContainer.scrollHeight;
@@ -55,6 +61,7 @@ const assistantWrap = document.querySelector('.assistant-wrap');
 // Open
 const openAssistantWrapBtn = allDashboardItem.querySelector('.open-assistant-wrap');
 openAssistantWrapBtn.addEventListener('click', async () => {
+  sendPromptBtn.disabled = false;
   closeAllWraps();
   if(!historyForAiPrompt || historyForAiPrompt.length > 100) await renderHistoryChat();
 

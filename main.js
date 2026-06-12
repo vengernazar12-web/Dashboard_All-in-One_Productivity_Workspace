@@ -37,7 +37,7 @@ toggleAllDashboardItemBtn.addEventListener('click', () => {
     setOpenBtnsTexts();
 
     // Set active wrap (for buttons)
-    for(let b of allOpenBtns) b.classList.remove('active-btn');
+    for(let b of allOpenBtns) b.classList.remove('active-btn'); // Remove active-btn class
 
     // Types
     if(todoWrap.classList.contains('show')) openTodoWrapBtn.classList.add('active-btn');
@@ -71,50 +71,16 @@ toggleAllDashboardItemBtn.addEventListener('click', () => {
     else if(settingsWrap.classList.contains('show')) openSettingsWrapBtn.classList.add('active-btn');
     else if(commandRunnerWrap.classList.contains('show')) openCommandRunnerWrapBtn.classList.add('active-btn');
   }
-  else allDashboardItem.scrollTop = 0;
 })
 
 const tagUseInToggleSidebarBtn = toggleAllDashboardItemBtn.querySelector('use');
 
 // Close all wraps
 function closeAllWraps() {
-  assistantWrap.classList.remove('show');
+  document.querySelector('.is-wrap.show')?.classList.remove('show');
 
-  // Types
-  todoWrap.classList.remove('show');
-  notesWrap.classList.remove('show');
-  notesContentWrap.classList.remove('show');
-  urlsWrap.classList.remove('show');
-  userCodeWrap.classList.remove('show');
-  textsSnippetsWrap.classList.remove('show');
-  musicWrap.classList.remove('show');
-
-  // Services
-  exchangeRateWrap.classList.remove('show');
-  weatherWrap.classList.remove('show');
-  timezoneWrap.classList.remove('show');
-  githubWrap.classList.remove('show');
-  generateImageWrap.classList.remove('show');
-  textWorkerServiceWrap.classList.remove('show');
-  qrCodeGenerationWrap.classList.remove('show');
-  browserWorkerWrap.classList.remove('show');
-  regexpCheckerWrap.classList.remove('show');
-  wikipediaWrap.classList.remove('show');
-  ipSearchWrap.classList.remove('show');
-  jsonWorkerWrap.classList.remove('show');
-  reasoningAiWrap.classList.remove('show');
-  tempAiWrap.classList.remove('show');
-  fetchServiceWrap.classList.remove('show');
-  mediaSearchWrap.classList.remove('show');
-  unitConverterWrap.classList.remove('show');
-  textToSpeechWrap.classList.remove('show');
-
-  // ...
-  settingsWrap.classList.remove('show');
   undoLastActionBlock.classList.remove('show');
   lastDataForUndoAction = null;
-
-  commandRunnerWrap.classList.remove('show');
 
   if(allDashboardItem.classList.contains('open')) toggleAllDashboardItemBtn.click();
 }

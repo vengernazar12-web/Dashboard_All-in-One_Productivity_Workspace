@@ -19,7 +19,7 @@
   min-height: 100px;
   height: max-content;
   max-height: calc(100% - 60px);
-  background: var(--block-bg);
+  background-color: var(--block-bg);
   border-radius: 5px;
   border: 1px solid var(--border-color);
   padding: 5px;

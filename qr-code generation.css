@@ -4,7 +4,7 @@
   position: absolute;
   top: 10px;
   left: 10px;
-  background: var(--block-bg);
+  background-color: var(--block-bg);
   color: var(--text-color);
   border: 1px solid var(--border-color);
   border-radius: 7px;

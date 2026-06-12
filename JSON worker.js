@@ -25,7 +25,18 @@ openJsonWorkerBtn.addEventListener('click', async () => {
 const jsonWorkerLoader = jsonWorkerWrap.querySelector('.loader');
 
 const userJsonTextareaWorker = jsonWorkerWrap.querySelector('textarea');
+
 const jsonWorkerResultCont = jsonWorkerWrap.querySelector('div');
+jsonWorkerResultCont.addEventListener('click', e => {
+  const target = e.target;
+  const closestElDataPath = target.closest('[data-path]');
+
+  if(closestElDataPath) {
+    const path = unhashHtmlSymbols(closestElDataPath.dataset.path);
+    navigator.clipboard.writeText(path);
+    showResponseFn(`${path} copied`);
+  }
+})
 
 const searchJsonTreeInput = jsonWorkerWrap.querySelector('input');
 searchJsonTreeInput.addEventListener('input', () => {

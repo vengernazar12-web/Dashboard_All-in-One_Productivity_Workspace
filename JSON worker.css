@@ -5,7 +5,7 @@
   width: calc(100% - 10px);
   height: 70%;
   color: var(--text-color);
-  background: var(--block-bg);
+  background-color: var(--block-bg);
   border-radius: 6px;
   border: 1px solid var(--border-color);
   padding: 5px;
@@ -38,7 +38,7 @@
   height: auto;
   max-height: 300%;
   overflow: auto;
-  background: var(--block-bg);
+  background-color: var(--block-bg);
   color: var(--text-color);
   border: 1px dotted green;
   border-radius: 10px;
@@ -51,6 +51,8 @@
   height: 1px;
   border: 1px solid white;
 }
+
+.json-worker-wrap > div [data-path] { cursor: pointer; }
 
 .json-worker-wrap > div summary { position: relative; }
 

@@ -8,7 +8,7 @@
   height: 30px;
   border: 1px solid var(--border-color);
   border-radius: 5px;
-  background: var(--block-bg);
+  background-color: var(--block-bg);
   color: var(--text-color);
 }
 .exchange-rate-wrap > select > option {
@@ -41,7 +41,7 @@
   position: absolute;
   top: 110px;
   left: 5px;
-  background: var(--block-bg);
+  background-color: var(--block-bg);
   color: var(--text-color);
   border-radius: 7px 7px 3px 3px;
   width: calc(100% - 10px);

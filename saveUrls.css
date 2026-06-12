@@ -101,7 +101,7 @@
 .add-url-form {
   height: 65%;
   width: 90%;
-  background: var(--block-bg);
+  background-color: var(--block-bg);
   position: absolute;
   top: 10%;
   left: 5%;
@@ -151,7 +151,7 @@
 .edit-url-form {
   position: absolute;
   width: max-content;
-  background: var(--block-bg);
+  background-color: var(--block-bg);
   padding: 5px;
   border-radius: 10px;
   width: 250px;

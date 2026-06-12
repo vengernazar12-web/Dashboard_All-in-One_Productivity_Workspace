@@ -22,7 +22,7 @@
   width: calc(100% - 20px);
   height: max-content;
   max-height: calc(100% - 50px);
-  background: var(--block-bg);
+  background-color: var(--block-bg);
   color: var(--text-color);
   border: 1px dotted green;
   border-radius: 10px;
