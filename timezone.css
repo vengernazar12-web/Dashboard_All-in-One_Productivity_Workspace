@@ -1,6 +1,4 @@
-.timezone-wrap {
-  padding: 5px;
-}
+.timezone-wrap { padding: 5px; }
 
 .search-timezone-input {
   width: 100%;
@@ -18,7 +16,7 @@
 .all-timezones-container {
   width: 100%;
   margin-top: 10px;
-  color: white;
+  color: var(--text-color);
   font-size: 1.15rem;
   height: calc(100% - 70px);
   overflow-y: auto;
@@ -26,18 +24,18 @@
 }
 .all-timezones-container > pre {
   border: 1px solid var(--border-color);
-  background-color: rgb(42, 27, 110);
+  background-color: var(--block-bg);
   margin-bottom: 1px;
   border-radius: 3px;
   padding: 1px;
   padding-left: 4px;
   text-wrap: wrap;
   cursor: pointer;
-  transition: padding-left .2s, background-color .2s;
+  transition: border-left-width .2s, background-color .2s;
 }
 .all-timezones-container > pre:hover {
-  padding-left: 7px;
-  background-color: rgb(16, 16, 41);
+  border-left: 7px double var(--border-color);
+  background-color: color-mix(in srgb, var(--block-bg) 50%, transparent);
 }
 
 .time-zone-info-block {

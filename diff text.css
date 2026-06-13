@@ -1,0 +1,59 @@
+.diff-text-wrap > div.text {
+  position: absolute;
+  top: 5px;
+  width: calc(50% - 7.5px);
+  height: 60%;
+  background-color: var(--block-bg);
+  color: var(--text-color);
+  padding: 5px;
+  border-radius: 7px;
+  border: 1px solid var(--border-color);
+  font-size: 14px;
+  overflow: auto;
+  text-wrap: nowrap;
+}
+
+.diff-text-wrap > div.text1 { left: 5px; }
+.diff-text-wrap > div.text2 { right: 5px; }
+
+.diff-text-wrap > button {
+  position: absolute;
+  top: calc(60% + 10px);
+  left: 15px;
+  width: calc(100% - 30px);
+  height: 30px;
+  background-color: aqua;
+  color: black;
+  border-radius: 7px;
+  border: 1px solid var(--border-color);
+  font-size: 16px;
+}
+
+.diff-text-wrap > div.result {
+  position: absolute;
+  top: calc(60% + 50px);
+  left: 10px;
+  width: calc(100% - 20px);
+  height: max-content;
+  max-height: 350%;
+  font-size: 14px;
+  background-color: var(--block-bg);
+  border: 1px dashed green;
+  padding: 5px;
+  border-radius: 7px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 5px;
+  overflow: auto;
+}
+
+.diff-text-wrap > div.result > div {
+  width: max-content;
+  height: max-content;
+  padding: 2px 4px;
+  white-space: pre-wrap;
+}
+.diff-text-wrap > div.result > div[style] {
+  border-radius: 3px;
+}

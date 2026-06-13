@@ -349,7 +349,7 @@ header.dashboard-header > img {
 /* Opened btns */
 .--opened-btn {
   position: relative;
-  font-size: 16px;
+  font-size: 15px;
   color: var(--text-color);
   border-bottom: 1px solid var(--border-color);
   box-shadow: 1px 1px 3px var(--border-color);
@@ -364,14 +364,14 @@ header.dashboard-header > img {
   transition: background-color .2s, border-left-width .1s;
 }
 .--opened-btn:not(.open-assistant-wrap):hover {
-  background-color: rgba(255,255,255,0.1);
+  background-color: rgba(255, 255, 255, 0.1);
   border-left: 2px solid var(--border-color);
 }
 
 .--opened-btn > p { font-size: 9px; }
 
 .active-btn:not(.open-assistant-wrap) {
-  background-color: rgba(0, 255, 0, 0.08);
+  background-color: rgba(0, 255, 0, 0.1);
   border-left: 2px solid rgb(0, 255, 0);
 }
 

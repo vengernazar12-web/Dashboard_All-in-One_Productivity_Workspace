@@ -17,7 +17,7 @@ const promptForGenerateImgInput = generateImageWrap.querySelector('.prompt-for-g
 promptForGenerateImgInput.addEventListener('input', () => {
   const promptLng = promptForGenerateImgInput.value.trim().length;
 
-  promptForGenerateImgInput.style.color = promptLng <= 100 ? 'var(--text-color)' : 'red';
+  promptForGenerateImgInput.style.color = promptLng <= 1000 ? 'var(--text-color)' : 'red';
 });
 
 const downloadGeneratedImgA = generateImageWrap.querySelector('.download-generated-image-a');
@@ -26,7 +26,7 @@ const sendPromptForGenerateImgBtn = generateImageWrap.querySelector('.send-promp
 sendPromptForGenerateImgBtn.addEventListener('click', async () => {
   const value = promptForGenerateImgInput.value.trim();
   if(!value) return;
-  if(value.length > 100) return showResponseFn(`Message is too long (${value.length}/100)`);
+  if(value.length > 1000) return showResponseFn(`Message is too long (${value.length}/1000)`);
 
   imageGenerateLoader.style.display = 'block';
   sendPromptForGenerateImgBtn.disabled = true;

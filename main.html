@@ -40,6 +40,7 @@
 <link rel="stylesheet" href="media search.css">
 <link rel="stylesheet" href="unit converter.css">
 <link rel="stylesheet" href="text to speech.css">
+<link rel="stylesheet" href="diff text.css">
 
 <link rel="stylesheet" href="sign.css">
 
@@ -71,6 +72,7 @@
 <script src="media search.js" defer></script>
 <script src="unit converter.js" defer></script>
 <script src="text to speech.js" defer></script>
+<script src="diff text.js" defer></script>
 
 <!-- Assistants -->
 <script src="AI assistant.js" defer></script><!--3-->
@@ -88,7 +90,7 @@
   <p>AI tools, search services and utilities in one place</p>
   <small>Open the sidebar to get started</small>
   <br><br>
-  <small>18 services • AI assistant • todos, notes, urls and more</small>
+  <small>19 services • AI assistant • todos, notes, urls and more</small>
 </header>
 
 <!-- Settings -->
@@ -468,7 +470,7 @@
   <img src="./all-imgs/Classic-dashboard-img.webp" alt="Generated image" class="image-preview" loading="lazy">
 
   <a class="download-generated-image-a" download="Generated-dashboard-image.jpeg">Download</a>
-  <input type="text" class="prompt-for-generate-image-input" placeholder="Image...">
+  <input type="text" class="prompt-for-generate-image-input" placeholder="Image description...">
   <button class="send-prompt-for-generate-image-btn">SEND</button>
 
   <span class="loader"></span>
@@ -561,8 +563,11 @@
 <!-- QRCode generation wrap -->
 <div class="qr-code-generation-wrap is-wrap">
   <textarea placeholder="Text or URL..."></textarea>
-  <button>Get QR-Code</button>
-  <a download="QR-CODE.png">DOWNLOAD</a>
+  <div class="buttons">
+    <button>Get QR-Code</button>
+    <a download="QR-CODE.png">DOWNLOAD</a>
+  </div>
+
   <img src="./all-imgs/Classic-dashboard-img.webp" alt="Generated QR-Code">
   <span class="loader"></span>
 </div>
@@ -743,6 +748,14 @@
   <span class="loader"></span>
 </div>
 
+<!-- Diff text wrap -->
+<div class="diff-text-wrap is-wrap">
+  <div contenteditable="true" class="text text1"></div>
+  <div contenteditable="true" class="text text2"></div>
+  <button>Compare</button>
+  <div class="result"></div>
+</div>
+
 <!-- Assistant wrap -->
 <div class="assistant-wrap is-wrap">
   <!-- assistant answer container -->
@@ -788,6 +801,7 @@
     <button class="open-fetch-service-wrap --opened-btn">Fetch service<p>FETCH</p></button>
     <button class="open-unit-converter-wrap --opened-btn">Unit converter<p>CONVERT</p></button>
     <button class="open-regexp-checker-wrap --opened-btn">RegExp checker<p>TEXT · REGEXP</p></button>
+    <button class="open-diff-text-wrap --opened-btn">Compare different text<p>TEXT</p></button>
   </section>
 
   <section data-group="ai">

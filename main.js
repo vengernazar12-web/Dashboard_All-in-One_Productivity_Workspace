@@ -67,6 +67,7 @@ toggleAllDashboardItemBtn.addEventListener('click', () => {
     else if(mediaSearchWrap.classList.contains('show')) openMediaSearchBtn.classList.add('active-btn');
     else if(unitConverterWrap.classList.contains('show')) openUnitConverterBtn.classList.add('active-btn');
     else if(textToSpeechWrap.classList.contains('show')) openTextToSpeechBtn.classList.add('active-btn');
+    else if(diffTextWrap.classList.contains('show')) openDiffTextBtn.classList.add('active-btn');
 
     else if(settingsWrap.classList.contains('show')) openSettingsWrapBtn.classList.add('active-btn');
     else if(commandRunnerWrap.classList.contains('show')) openCommandRunnerWrapBtn.classList.add('active-btn');
@@ -452,6 +453,7 @@ function setInitWindowState() {
     case 'fetch-service': openFetchServiceBtn.click(); break;
     case 'unit-converter': openUnitConverterBtn.click(); break;
     case 'regexp-checker': openRegexpCheckerBtn.click(); break;
+    case 'diff-text': openDiffTextBtn.click(); break;
 
     case 'reasoning-ai': openReasoningAiBtn.click(); break;
     case 'template-ai': openTempAiBtn.click(); break;
