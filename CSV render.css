@@ -99,12 +99,9 @@
   border: 1px solid var(--border-color);
   cursor: pointer;
   padding: 5px 10px;
+  text-align: left;
 }
 
-.csv-render-wrap th {
-  text-align: left;
-  background-color: rgba(127, 127, 127, 0.1);
-}
 .csv-render-wrap th.active { position: relative; }
 .csv-render-wrap th.active::after {
   content: 'S';

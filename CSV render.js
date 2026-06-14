@@ -83,6 +83,10 @@ csvRenderBtn.addEventListener('click', () => {
     <td>Rows</td>
     <td colspan='${maxCols - 1}'>${lines.length}</td>
   </tr>
+  <tr>
+    <td>Cells</td>
+    <td colspan='${maxCols - 1}'>${maxCols * lines.length}</td>
+  </tr>
 </tfoot>
 `.trim();
 
