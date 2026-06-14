@@ -21,7 +21,8 @@
   top: 50px;
   left: 10px;
   width: calc(100% - 20px);
-  height: 60%;
+  min-height: 100px;
+  height: 60%;;
   background-color: var(--block-bg);
   color: var(--text-color);
   border-radius: 10px;

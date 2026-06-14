@@ -3,7 +3,8 @@
   top: 5px;
   left: 5px;
   width: calc(100% - 10px);
-  height: 50%;
+  min-height: 100px;
+  height: 50%;;
   background-color: var(--block-bg);
   color: var(--text-color);
   border: 1px solid var(--border-color);

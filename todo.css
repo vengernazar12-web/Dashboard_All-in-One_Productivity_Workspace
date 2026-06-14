@@ -166,7 +166,8 @@
 /* Edit todos */
 .edit-todo-block {
   width: calc(75% - 32px);
-  min-height: 50%;
+  min-min-height: 100px;
+  height: 50%;;
   background-color: var(--body-bg);
   color: var(--text-color);
   padding: 5px;

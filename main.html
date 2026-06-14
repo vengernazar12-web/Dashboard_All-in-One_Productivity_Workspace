@@ -41,6 +41,7 @@
 <link rel="stylesheet" href="unit converter.css">
 <link rel="stylesheet" href="text to speech.css">
 <link rel="stylesheet" href="diff text.css">
+<link rel="stylesheet" href="CSV render.css">
 
 <link rel="stylesheet" href="sign.css">
 
@@ -73,6 +74,7 @@
 <script src="unit converter.js" defer></script>
 <script src="text to speech.js" defer></script>
 <script src="diff text.js" defer></script>
+<script src="CSV render.js" defer></script>
 
 <!-- Assistants -->
 <script src="AI assistant.js" defer></script><!--3-->
@@ -90,7 +92,7 @@
   <p>AI tools, search services and utilities in one place</p>
   <small>Open the sidebar to get started</small>
   <br><br>
-  <small>19 services • AI assistant • todos, notes, urls and more</small>
+  <small>20 services • AI assistant • todos, notes, urls and more</small>
 </header>
 
 <!-- Settings -->
@@ -558,6 +560,12 @@
     <button>OK</button>
     <div>Result...</div>
   </div>
+
+  <div class="generate-uuid cont">
+    <h3>Generate UUID</h3>
+    <button>Generate</button>
+    <p></p>
+  </div>
 </div>
 
 <!-- QRCode generation wrap -->
@@ -756,6 +764,45 @@
   <div class="result"></div>
 </div>
 
+<!-- CSV render wrap -->
+<div class="csv-render-wrap is-wrap">
+  <textarea placeholder="Your CSV..."></textarea>
+  <select class="separator">
+    <option value="auto" selected>Auto</option>
+    <option value=",">,</option>
+    <option value=";">;</option>
+    <option value="|">|</option>
+    <option value="||">||</option>
+    <option value=":">:</option>
+    <option value="::">::</option>
+    <option value="/">/</option>
+    <option value="\\">\</option>
+    <option value=".">.</option>
+    <option value="-">-</option>
+    <option value="_">_</option>
+    <option value="=">=</option>
+    <option value="+">+</option>
+    <option value="!">!</option>
+    <option value="?">?</option>
+    <option value="#">#</option>
+    <option value="@">@</option>
+    <option value="$">$</option>
+    <option value="^">^</option>
+    <option value="*">*</option>
+    <option value="&">&</option>
+  </select>
+
+  <select class="sort-type">
+    <option value="original">Original</option>
+    <option value="A → Z | 0 → 9">A → Z | 0 → 9</option>
+    <option value="Z → A | 9 → 0">Z → A | 9 → 0</option>
+  </select>
+
+  <button class="render">Render and view</button>
+  <button class="copy"><svg><use href="#copy-code"></use></svg></button>
+  <div></div>
+</div>
+
 <!-- Assistant wrap -->
 <div class="assistant-wrap is-wrap">
   <!-- assistant answer container -->
@@ -826,6 +873,7 @@
     <h4 class="group-title">VIEW<svg><use href="#view"></use></svg></h4>
     <button class="open-browser-worker-wrap --opened-btn">Browser worker<p>VIEW</p></button>
     <button class="open-json-worker-wrap --opened-btn">JSON worker<p>JSON · VIEW</p></button>
+    <button class="open-csv-render-wrap --opened-btn">CSV render<p>CSV · VIEW</p></button>
   </section>
 
   <h4>Settings</h4>

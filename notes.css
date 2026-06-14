@@ -137,7 +137,8 @@
 /* Edit note */
 .edit-note-block {
   width: calc(75% - 32px);
-  min-height: 50%;
+  min-min-height: 100px;
+  height: 50%;;
   position: fixed;
   top: 10%;
   left: calc(12.5% + 32px);

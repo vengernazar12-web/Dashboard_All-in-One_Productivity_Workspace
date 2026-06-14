@@ -25,7 +25,7 @@ const reasoningAiSendTaskBtn = reasoningAiWrap.querySelector('button.send');
 reasoningAiSendTaskBtn.addEventListener('click', async () => {
   const userAsk = reasoningAiUserTaskTextarea.value.trim();
   if(!userAsk) return;
-  if(userAsk.length > 25_000) return showResponseFn('User task is too long (more 25 000 symbols)');
+  if(userAsk.length > 15_000) return showResponseFn('Task is too long (more 15 000 symbols)');
 
   try {
     reasoningAiLoader.style.display = 'block';

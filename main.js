@@ -68,6 +68,7 @@ toggleAllDashboardItemBtn.addEventListener('click', () => {
     else if(unitConverterWrap.classList.contains('show')) openUnitConverterBtn.classList.add('active-btn');
     else if(textToSpeechWrap.classList.contains('show')) openTextToSpeechBtn.classList.add('active-btn');
     else if(diffTextWrap.classList.contains('show')) openDiffTextBtn.classList.add('active-btn');
+    else if(csvRenderWrap.classList.contains('show')) openCsvRenderBtn.classList.add('active-btn');
 
     else if(settingsWrap.classList.contains('show')) openSettingsWrapBtn.classList.add('active-btn');
     else if(commandRunnerWrap.classList.contains('show')) openCommandRunnerWrapBtn.classList.add('active-btn');
@@ -114,13 +115,17 @@ function hashHtmlSymbols(content) {
   return content
   ?.replaceAll('&', '&amp;')
   ?.replaceAll('<', '&lt;')
-  ?.replaceAll('>', '&gt;');
+  ?.replaceAll('>', '&gt;')
+  ?.replaceAll('"', '&quot;')
+  ?.replaceAll("'", '&#39;');
 }
 // Replace symbol code to symbol
 function unhashHtmlSymbols(content) {
   return content
   ?.replaceAll('&lt;', '<')
   ?.replaceAll('&gt;', '>')
+  ?.replaceAll('&quot;', '"')
+  ?.replaceAll("&#39;", "'")
   ?.replaceAll('&amp;', '&');
 }
 
@@ -469,6 +474,7 @@ function setInitWindowState() {
 
     case 'browser-worker': openBrowserWorkerBtn.click(); break;
     case 'json-worker': openJsonWorkerBtn.click(); break;
+    case 'csv': openCsvRenderBtn.click(); break;
 
     case 'settings': openSettingsWrapBtn.click(); break;
     case 'runner': openCommandRunnerWrapBtn.click(); break;

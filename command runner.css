@@ -41,7 +41,8 @@ html .commands-runner-wrap .CodeMirror {
   top: 5px;
   left: 5px;
   width: calc(100% - 10px);
-  height: 60%;
+  min-height: 100px;
+  height: 60%;;
   border: 1px solid silver;
   border-radius: 5px;
 }

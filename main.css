@@ -101,6 +101,15 @@ html .unsaved:after {
 
 progress { border: 1px solid var(--border-color); }
 
+table {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+table::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
 /* Assistants loader */
 .assistant-loader { display: none; }
 .type-assistant .assistant-loader { z-index: 1000; }
@@ -115,9 +124,9 @@ progress { border: 1px solid var(--border-color); }
 
 /* Theme styles */
 :root {
-  --body-bg: rgb(158, 158, 158);
+  --body-bg: rgb(215, 215, 215);
   --text-color: black;
-  --block-bg: rgb(135, 135, 135);
+  --block-bg: rgb(130, 130, 130);
   --border-color: black;
   --scroll-bg: rgb(44, 44, 44);
 

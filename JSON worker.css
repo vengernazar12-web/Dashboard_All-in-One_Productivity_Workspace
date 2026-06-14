@@ -86,3 +86,35 @@
   0%, 50% { background-color: black; border-color: white; }
   100% { background-color: transparent; border-color: transparent; }
 }
+
+/* JSON paths table */
+.json-worker-wrap table {
+  max-width: 100%;
+  border-collapse: collapse;
+  display: block;
+  overflow: auto;
+  font-size: 14px;
+}
+
+.json-worker-wrap table thead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.json-worker-wrap table th,
+.json-worker-wrap table td {
+  padding: 8px 10px;
+  text-align: left;
+  border: 1px dotted var(--border-color);
+  vertical-align: top;
+}
+
+.json-worker-wrap table th {
+  background-color: #1e1e1e;
+  color: white;
+  font-weight: 600;
+}
+
+.json-worker-wrap table td:first-child,
+.json-worker-wrap table td:last-child { white-space: break-all; text-wrap: wrap; word-break: break-all; }

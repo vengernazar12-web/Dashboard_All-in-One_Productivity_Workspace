@@ -231,3 +231,13 @@ textWorkerNumberLinesBtn.addEventListener('click', () => {
   : action === 'remove' ? lines.map(l => l.replace(/^\d+\. /g, '')).join('\n')
   : val;
 })
+
+// Generate uuid
+const textWorkerGenerateUuidCont = textWorkerServiceWrap.querySelector('div.generate-uuid');
+const textWorkerGenerateUuidTxtP = textWorkerGenerateUuidCont.querySelector('p');
+
+const textWorkerGenerateUuidBtn = textWorkerGenerateUuidCont.querySelector('button');
+textWorkerGenerateUuidBtn.addEventListener('click', () => {
+  const uuid = crypto.randomUUID();
+  textWorkerGenerateUuidTxtP.innerHTML = `${uuid}<button class='copy-btn' onclick='navigator.clipboard.writeText("${uuid}"); showResponseFn("${uuid} - copied")'><svg><use href='#copy-code'></use></svg></button>`
+})
