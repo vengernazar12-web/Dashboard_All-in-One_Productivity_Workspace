@@ -8,8 +8,8 @@
   user-select: none;
 }
 ::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-thumb {
   background-color: var(--scroll-bg);
@@ -100,15 +100,6 @@ html .unsaved:after {
 }
 
 progress { border: 1px solid var(--border-color); }
-
-table {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-table::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-}
 
 /* Assistants loader */
 .assistant-loader { display: none; }

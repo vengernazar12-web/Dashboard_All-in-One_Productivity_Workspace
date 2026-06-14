@@ -69,7 +69,7 @@
   left: 3px;
   width: calc(100% - 6px);
   height: max-content;
-  overflow: auto;
+  overflow-x: auto;
 
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -90,60 +90,46 @@
   background-color: var(--block-bg);
   color: var(--text-color);
   counter-reset: row;
+  contain: content;
 }
 
 .csv-render-wrap th,
 .csv-render-wrap td {
   white-space: nowrap;
-  border: 1px dotted var(--border-color);
+  border: 1px solid var(--border-color);
   cursor: pointer;
+  padding: 5px 10px;
 }
 
 .csv-render-wrap th {
-  background-color: var(--block-bg);
   text-align: left;
-  padding: 8px 10px;
-  border-bottom: 1px solid var(--border-color);
-  background: rgba(127, 127, 127, 0.08);
-  box-shadow: 0 1px var(--border-color);
+  background-color: rgba(127, 127, 127, 0.1);
 }
-.csv-render-wrap th.active {
-  border-bottom-width: 3px;
-  position: relative;
-}
+.csv-render-wrap th.active { position: relative; }
 .csv-render-wrap th.active::after {
   content: 'S';
   position: absolute;
   top: 1px;
-  right: 1px;
+  right: 2px;
   font-size: 12px;
-  opacity: 0.75;
 }
 
-.csv-render-wrap td {
-  padding: 7px 10px;
-  border-bottom: 1px solid var(--border-color);
-  vertical-align: top;
-}
+.csv-render-wrap td { vertical-align: top; }
+
+.csv-render-wrap tbody { contain: content; }
 
 .csv-render-wrap tbody tr { counter-increment: row; }
 .csv-render-wrap tbody tr:hover { background-color: color-mix(in srgb, var(--body-bg) 15%, transparent); }
 
-.csv-render-wrap tbody tr td:hover { background-color: color-mix(in srgb, var(--body-bg) 25%, transparent); }
+.csv-render-wrap tbody td:hover { background-color: color-mix(in srgb, var(--body-bg) 25%, transparent); }
 
-.csv-render-wrap tbody tr td:first-child::before {
+.csv-render-wrap tbody td:first-child::before {
   content: counter(row) ". ";
-  margin-right: 6px;
-  opacity: 0.7;
+  margin-right: 5px;
+  font-size: 8px;
 }
 
-.csv-render-wrap table tfoot td {
+.csv-render-wrap table tfoot {
   padding: 8px 10px;
-  font-weight: 600;
-  background: rgba(127, 127, 127, 0.06);
-  border-top: 1px solid var(--border-color);
-  font-size: 12px;
-  color: var(--text-color);
+  border-top: 3px solid var(--border-color);
 }
-
-.csv-render-wrap table td:first-child { opacity: 0.9; }
