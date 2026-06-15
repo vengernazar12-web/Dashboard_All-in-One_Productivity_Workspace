@@ -62,6 +62,12 @@
 .weather-info-block * { user-select: text; }
 .weather-info-block > p { margin-bottom: 5px; }
 
+.weather-info-block details img {
+  position: absolute;
+  top: -5px;
+  right: 0;
+}
+
 /* Weather map */
 .weather-wrap > .weather-map {
   position: fixed;

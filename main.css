@@ -470,26 +470,25 @@ header.dashboard-header > img {
 }
 
 /* Details / summaries styles */
-details { padding-top: 5px; }
+details { padding-top: 10px; position: relative; }
 details > :not(summary) { margin-left: 15px; }
 
-summary {
+details summary {
   list-style: none;
   cursor: pointer;
   user-select: none;
   display: flex;
   align-items: center;
   gap: 10px;
-  font-weight: 600;
-  color: inherit;
   width: max-content;
   max-width: 100%;
   text-wrap: wrap;
+  font-size: 13px;
 }
 
-summary::-webkit-details-marker { display: none; }
+details summary::-webkit-details-marker { display: none; }
 
-summary::before {
+details summary::before {
   content: "";
   width: 10px;
   height: 10px;

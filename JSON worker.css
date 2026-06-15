@@ -44,7 +44,8 @@
   border-radius: 10px;
   padding: 5px;
 }
-.json-worker-wrap > div :not(hr) { user-select: text; width: max-content }
+.json-worker-wrap > div,
+.json-worker-wrap > div * { user-select: text; }
 .json-worker-wrap > div > hr {
   margin: 10px 0;
   border-radius: 0;

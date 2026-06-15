@@ -82,12 +82,12 @@
 
 <script src="sign.js" defer></script><!--max-->
 
-<link rel="icon" href="./all-imgs/favicon-32x32.png" type="image/png">
+<link rel="icon" href="./all-imgs/icon.svg" type="image/png">
 </head>
 
 <body>
 <header class="dashboard-header">
-  <img src="./all-imgs/dashboard-favicon-img.svg" alt="Dashboard">
+  <img src="./all-imgs/icon.svg" alt="Dashboard">
   <h1>Dashboard</h1>
   <p>AI tools, search services and utilities in one place</p>
   <small>Open the sidebar to get started</small>
@@ -566,6 +566,26 @@
     <button>Generate</button>
     <p></p>
   </div>
+
+  <div class="generate-password cont">
+    <h3>Generate password</h3>
+    <input type="number" step="1" placeholder="Length..." value="8" min="8" max="32">
+    <div>
+      <label for="ABC">Uppercase letters: </label><input type="checkbox" id="ABC" checked>
+      <label for="abc">lowercase letters: </label><input type="checkbox" id="abc" checked>
+      <label for="numbers">Numbers: </label><input type="checkbox" id="numbers" checked>
+      <label for="symbols">Symbols: </label><input type="checkbox" id="symbols" checked>
+    </div>
+    <button>Generate</button>
+    <p></p>
+  </div>
+
+  <div class="hash-generator cont">
+    <h3>Hash generator</h3>
+    <textarea placeholder="Your text..."></textarea>
+    <button>Generate hash</button>
+    <div>Result...</div>
+  </div>
 </div>
 
 <!-- QRCode generation wrap -->
@@ -948,7 +968,7 @@
 <!-- Preloader window -->
 <div class="preloader-wrap is-wrap">
   <h2>Dashboard</h2>
-  <img src="./all-imgs/dashboard-favicon-img.svg" alt="Smile img" >
+  <img src="./all-imgs/icon.svg" alt="Smile img" >
   <!-- Progress max = all scripts -->
   <progress class="preloader-progress" max="4"></progress>
   <p class="what-is-loading-text"></p>

@@ -234,10 +234,69 @@ textWorkerNumberLinesBtn.addEventListener('click', () => {
 
 // Generate uuid
 const textWorkerGenerateUuidCont = textWorkerServiceWrap.querySelector('div.generate-uuid');
-const textWorkerGenerateUuidTxtP = textWorkerGenerateUuidCont.querySelector('p');
+const textWorkerGenerateUuidResultP = textWorkerGenerateUuidCont.querySelector('p');
 
 const textWorkerGenerateUuidBtn = textWorkerGenerateUuidCont.querySelector('button');
 textWorkerGenerateUuidBtn.addEventListener('click', () => {
   const uuid = crypto.randomUUID();
-  textWorkerGenerateUuidTxtP.innerHTML = `${uuid}<button class='copy-btn' onclick='navigator.clipboard.writeText("${uuid}"); showResponseFn("${uuid} - copied")'><svg><use href='#copy-code'></use></svg></button>`
+  textWorkerGenerateUuidResultP.innerHTML = `${uuid}<button class='copy-btn' onclick='navigator.clipboard.writeText("${uuid}"); showResponseFn("${uuid} - copied")'><svg><use href='#copy-code'></use></svg></button>`
+})
+
+// Generate password
+const textWorkerGeneratePasswordCont = textWorkerServiceWrap.querySelector('div.generate-password');
+const textWorkerGeneratePasswordCountInput = textWorkerGeneratePasswordCont.querySelector('input');
+const textWorkerGeneratePasswordResultP = textWorkerGeneratePasswordCont.querySelector('p');
+
+const textWorkerCheckUppLetters = textWorkerGeneratePasswordCont.querySelector('input#ABC'),
+  textWorkerCheckLowLetters = textWorkerGeneratePasswordCont.querySelector('input#abc'),
+  textWorkerCheckNumber = textWorkerGeneratePasswordCont.querySelector('input#numbers'),
+  textWorkerCheckSymbols = textWorkerGeneratePasswordCont.querySelector('input#symbols');
+
+const textWorkerGeneratePasswordBtn = textWorkerGeneratePasswordCont.querySelector('button');
+textWorkerGeneratePasswordBtn.addEventListener('click', () => {
+  let lng = Number(textWorkerGeneratePasswordCountInput.value);
+  if(lng < 8 || lng > 32) return showResponseFn('Please enter correct password length (8 ≤ length ≤ 32)');
+
+  let charset = '';
+  if(textWorkerCheckUppLetters.checked) charset += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  if(textWorkerCheckLowLetters.checked) charset += "abcdefghijklmnopqrstuvwxyz";
+  if(textWorkerCheckNumber.checked) charset += "0123456789";
+  if(textWorkerCheckSymbols.checked) charset += "!@#$%^&*()-_=+[]{}/\\~;:";
+
+  if(!charset) return showResponseFn('Select at least one character set.');
+
+  let pass = '';
+  while(lng-- > 0) pass += charset[Math.floor(Math.random() * charset.length)];
+
+  textWorkerGeneratePasswordResultP.innerHTML = `${pass}<button class='copy-btn' onclick='navigator.clipboard.writeText("${pass}"); showResponseFn("${pass} - copied")'><svg><use href='#copy-code'></use></svg></button>`;
+})
+
+// Hash generator
+async function generateSHA256(text) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(text);
+
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+
+  return hashArray
+    .map(b => b.toString(16).padStart(2, '0'))
+    .join('');
+}
+const textWorkerHashGeneratorCont = textWorkerServiceWrap.querySelector('div.hash-generator');
+const textWorkerHashGeneratorTextarea = textWorkerHashGeneratorCont.querySelector('textarea');
+
+const textWorkerHashGeneratorResult = textWorkerHashGeneratorCont.querySelector('div');
+textWorkerHashGeneratorResult.addEventListener('click', () => {
+  navigator.clipboard.writeText(textWorkerHashGeneratorResult.textContent);
+  showResponseFn('Copied');
+})
+
+const textWorkerHashGeneratorBtn = textWorkerHashGeneratorCont.querySelector('button');
+textWorkerHashGeneratorBtn.addEventListener('click', async () => {
+  const text = textWorkerHashGeneratorTextarea.value.trim();
+  if(!text) return;
+
+  textWorkerHashGeneratorResult.textContent = await generateSHA256(text);
 })

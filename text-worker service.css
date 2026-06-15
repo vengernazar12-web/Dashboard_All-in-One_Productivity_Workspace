@@ -57,18 +57,16 @@
   border: 1px solid var(--border-color);
   overflow-y: auto;
   text-align: left;
-  contain: content;
-}
-
-.text-worker-service-wrap > .cont div {
   max-height: calc(60vh - 70px);
   font-size: 15px;
   white-space: pre-wrap;
   text-wrap: wrap;
+  word-break: break-all;
   user-select: text;
+  contain: content;
 }
 
-.text-worker-service-wrap > .cont input,
+.text-worker-service-wrap > .cont input:not([type='checkbox']),
 .text-worker-service-wrap > .cont select {
   width: 100%;
   height: 30px;
@@ -81,6 +79,12 @@
 .text-worker-service-wrap > .cont select > option {
   background-color: silver;
   color: black;
+}
+
+.text-worker-service-wrap > .cont input[type='checkbox'] {
+  height: 16px;
+  width: 16px;
+  cursor: pointer;
 }
 
 .text-worker-service-wrap .loader { display: none; }
