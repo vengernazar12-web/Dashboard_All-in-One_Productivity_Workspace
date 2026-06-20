@@ -37,7 +37,6 @@ textWorkerAiSendBtn.addEventListener('click', async () => {
   textWorkerAiSendBtn.disabled = true;
   textWorkerServiceLoader.style.display = 'block';
   textWorkerAiResult.textContent = '';
-  textWorkerAiResult.style.height = '30px';
 
   const resp = await fetch(TEXT_WORKER_API, {
     method: 'POST',
@@ -46,7 +45,6 @@ textWorkerAiSendBtn.addEventListener('click', async () => {
   });
 
   textWorkerAiResult.innerHTML = await resp.text();
-  textWorkerAiResult.style.height = `${textWorkerAiResult.scrollHeight + 3}px`;
 
   textWorkerAiSendBtn.disabled = false;
   textWorkerServiceLoader.style.display = 'none';
@@ -58,7 +56,7 @@ const textWorkerClonerTextarea = textWorkerClonerCont.querySelector('textarea');
 const textWorkerClonerCountInput = textWorkerClonerCont.querySelector('input');
 const textWorkerClonerResult = textWorkerClonerCont.querySelector('div');
 
-const textWorkerClonerBtn = textWorkerClonerCont.querySelector('button');
+const textWorkerClonerBtn = textWorkerClonerCont.querySelector('button.send');
 textWorkerClonerBtn.addEventListener('click', () => {
   const text = textWorkerClonerTextarea.value;
   const countVal = textWorkerClonerCountInput.value;
@@ -81,6 +79,12 @@ textWorkerClonerBtn.addEventListener('click', () => {
   }
 })
 
+const textWorkerClonerCopyBtn = textWorkerClonerCont.querySelector('button.copy');
+textWorkerClonerCopyBtn.addEventListener('click', () => {
+  navigator.clipboard.writeText(textWorkerClonerResult.textContent);
+  showResponseFn('Copied');
+})
+
 // Text info
 const textWorkerInfoCont = textWorkerServiceWrap.querySelector('div.info');
 const textWorkerInfoResult = textWorkerInfoCont.querySelector('div');
@@ -98,7 +102,13 @@ textWorkerInfoTextarea.addEventListener('input', () => {
   const longestWordLng = Math.max(...allWordsLng);
   const shortestWordLng = Math.min(...allWordsLng);
 
-  const uniqueWords = [...new Set(allWords)];
+  const uniqueWordsObj = {};
+  for(const w of allWords) uniqueWordsObj[w] = (uniqueWordsObj[w] || 0) + 1;
+  const uniqueWordsArr = Object.keys(uniqueWordsObj);
+
+  const urls = val.match(/\bhttps?:\/\/?[^\s]+/g);
+  const numbers = val.match(/-?\d+(?:[.,]+\d+)?/g);
+  const emails = val.match(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi);
 
   textWorkerInfoResult.innerHTML = `
 Characters: ${characters}
@@ -120,12 +130,10 @@ Symbols: ${val.match(/[^\p{L}\p{N}\s]/gu)?.length ?? 0}
 Longest word: ${allWords.find(w => w.length === longestWordLng) || 'Nothing...'}
 Shortest word: ${allWords.find(w => w.length === shortestWordLng) || 'Nothing...'}
 
-Unique words (${uniqueWords.length}): ${val.trim() ? `<details>${
-  uniqueWords
-  .map(w => `${w} - ${allWords.filter(fw => fw === w).length}`)
-  .join("\n").trim()}
-  </details>`.trim() : 'Nothing...'
-}
+Unique words (${uniqueWordsArr.length}): ${uniqueWordsArr.length ? `<details>${uniqueWordsArr.map(w => `${w} - ${uniqueWordsObj[w]}`).join('\n')}</details>` : 'Nothing...'}
+URLS (${urls?.length || 0}): ${urls ? `<details>${urls.join('\n').trim()}</details>` : 'Nothing...'}
+Numbers (${numbers?.length || 0}): ${numbers ? `<details>${numbers.join('\n')}</details>` : 'Nothing...'}
+Emails (${emails?.length || 0}): ${emails ? `<details>${emails.join('\n')}</details>` : 'Nothing...'}
 `.trim();
 })
 
@@ -300,3 +308,58 @@ textWorkerHashGeneratorBtn.addEventListener('click', async () => {
 
   textWorkerHashGeneratorResult.textContent = await generateSHA256(text);
 })
+
+// Generate random number
+const textWorkerRandomNumberCont = textWorkerServiceWrap.querySelector('div.random-number');
+const textWorkerRandomNumberInputMin = textWorkerRandomNumberCont.querySelector('input.from');
+const textWorkerRandomNumberInputMax = textWorkerRandomNumberCont.querySelector('input.to');
+const textWorkerRandomNumberResultP = textWorkerRandomNumberCont.querySelector('p');
+
+const textWorkerRandomNumberBtn = textWorkerRandomNumberCont.querySelector('button');
+textWorkerRandomNumberBtn.addEventListener('click', () => {
+  const min = textWorkerRandomNumberInputMin.value.trim();
+  const max = textWorkerRandomNumberInputMax.value.trim();
+
+  if(isNaN(min) || isNaN(max)) return showResponseFn('Min or max is not a number');
+  if(min > max) return showResponseFn('Your min number is greater than the max');
+
+  const randomNum = Math.floor(Math.random() * (max - min + 1)) + +min;
+  textWorkerRandomNumberResultP.innerHTML = `${randomNum}<button class='copy-btn' onclick='navigator.clipboard.writeText("${randomNum}")'><svg><use href='#copy-code'></use></svg></button>`;
+})
+
+// view/render HTML
+const textWorkerViewHtmlCont = textWorkerServiceWrap.querySelector('div.html-view');
+const textWorkerViewHtmlIframe = textWorkerViewHtmlCont.querySelector('iframe');
+
+let textWorkerViewHtmlTimer = null;
+const textWorkerViewHtmlTextarea = textWorkerViewHtmlCont.querySelector('textarea');
+textWorkerViewHtmlTextarea.addEventListener('input', () => {
+  clearTimeout(textWorkerViewHtmlTimer);
+  textWorkerViewHtmlTimer = setTimeout(() => {
+    const html = textWorkerViewHtmlTextarea.value;
+
+    textWorkerViewHtmlIframe.srcdoc = `
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <style>
+      /* reset styles */
+      * {
+        all: unset;
+        display: revert;
+        box-sizing: border-box;
+      }
+  
+      body {
+        margin: 0;
+        font-family: sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+  ${html}
+  </body>
+  </html>
+  `.trim();
+  }, 500);
+});

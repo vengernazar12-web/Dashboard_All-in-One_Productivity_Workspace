@@ -42,6 +42,8 @@
 <link rel="stylesheet" href="text to speech.css">
 <link rel="stylesheet" href="diff text.css">
 <link rel="stylesheet" href="CSV render.css">
+<link rel="stylesheet" href="image compression.css">
+<link rel="stylesheet" href="token counter.css">
 
 <link rel="stylesheet" href="sign.css">
 
@@ -75,6 +77,8 @@
 <script src="text to speech.js" defer></script>
 <script src="diff text.js" defer></script>
 <script src="CSV render.js" defer></script>
+<script src="image compression.js" defer></script>
+<script src="token counter.js" defer></script>
 
 <!-- Assistants -->
 <script src="AI assistant.js" defer></script><!--3-->
@@ -92,7 +96,7 @@
   <p>AI tools, search services and utilities in one place</p>
   <small>Open the sidebar to get started</small>
   <br><br>
-  <small>20 services • AI assistant • todos, notes, urls and more</small>
+  <small>22 services • AI assistant • todos, notes, urls and more</small>
 </header>
 
 <!-- Settings -->
@@ -492,7 +496,8 @@
     <h3>Text cloner</h3>
     <textarea placeholder="Your text..."></textarea>
     <input type="number" placeholder="Count...">
-    <button>Clone</button>
+    <button class="send">Clone</button>
+    <button class="copy">Copy text</button>
     <div>Result...</div>
   </div>
 
@@ -585,6 +590,20 @@
     <textarea placeholder="Your text..."></textarea>
     <button>Generate hash</button>
     <div>Result...</div>
+  </div>
+
+  <div class="random-number cont">
+    <h3>Random number</h3>
+    <input placeholder="Min..." value="1" class="from" type="number" step="1" min="-10000000" max="10000000">
+    <input placeholder="Max..." value="1000" class="to" type="number" step="1" min="-10000000" max="10000000">
+    <button>Generate</button>
+    <p></p>
+  </div>
+
+  <div class="html-view cont">
+    <h3>View/render HTML</h3>
+    <textarea></textarea>
+    <iframe srcdoc="" sandbox="" frameborder="0"></iframe>
   </div>
 </div>
 
@@ -823,6 +842,33 @@
   <div></div>
 </div>
 
+<!-- Image compressor wrap -->
+<div class="image-compressor-wrap is-wrap">
+  <h3>Your images</h3>
+  <input class="imgs" type="file" multiple accept="image/jpeg, image/png, image/webp">
+  <select>
+    <option value="image/webp">WEBP</option>
+    <option value="image/jpeg">JPEG</option>
+    <option value="image/png">PNG</option>
+  </select>
+
+  <button>Compress</button>
+
+  <div class="result"></div>
+
+  <pre class="info"></pre>
+
+  <span class="loader"></span>
+</div>
+
+<!-- Token counter wrap -->
+<div class="token-counter-wrap is-wrap">
+  <textarea placeholder="Text..."></textarea>
+  <select></select>
+  <div></div>
+  <span class="loader"></span>
+</div>
+
 <!-- Assistant wrap -->
 <div class="assistant-wrap is-wrap">
   <!-- assistant answer container -->
@@ -869,6 +915,7 @@
     <button class="open-unit-converter-wrap --opened-btn">Unit converter<p>CONVERT</p></button>
     <button class="open-regexp-checker-wrap --opened-btn">RegExp checker<p>TEXT · REGEXP</p></button>
     <button class="open-diff-text-wrap --opened-btn">Compare different text<p>TEXT</p></button>
+    <button class="open-image-compressor-wrap --opened-btn">Compress image<p>IMAGE</p></button>
   </section>
 
   <section data-group="ai">
@@ -878,6 +925,7 @@
     <button class="open-text-to-speech-wrap --opened-btn">Text to speech<p>AI</p></button>
     <button class="open-generate-img-wrap --opened-btn">Image generation<p>AI · IMAGE</p></button>
     <button class="open-text-worker-service-wrap --opened-btn">Text worker<p>AI · TEXT · UTILS</p></button>
+    <button class="open-token-counter-wrap --opened-btn">AI token counter<p>AI · COUNTER</p></button>
   </section>
 
   <section data-group="search">

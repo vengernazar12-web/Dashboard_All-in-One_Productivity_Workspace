@@ -69,6 +69,8 @@ toggleAllDashboardItemBtn.addEventListener('click', () => {
     else if(textToSpeechWrap.classList.contains('show')) openTextToSpeechBtn.classList.add('active-btn');
     else if(diffTextWrap.classList.contains('show')) openDiffTextBtn.classList.add('active-btn');
     else if(csvRenderWrap.classList.contains('show')) openCsvRenderBtn.classList.add('active-btn');
+    else if(imageCompressWrap.classList.contains('show')) openImageCompressBtn.classList.add('active-btn');
+    else if(tokenCounterWrap.classList.contains('show')) openTokenCounterBtn.classList.add('active-btn');
 
     else if(settingsWrap.classList.contains('show')) openSettingsWrapBtn.classList.add('active-btn');
     else if(commandRunnerWrap.classList.contains('show')) openCommandRunnerWrapBtn.classList.add('active-btn');
@@ -429,8 +431,8 @@ function initSpeakWindow(textarea) {
 // Image compress
 let imgCompressLoaded = false;
 const compressImgOptions = {
-  maxSizeMB: 0.75,
-  maxWidthOrHeight: 1500,
+  maxSizeMB: 1,
+  maxWidthOrHeight: 800,
   fileType: 'image/webp',
   initialQuality: 1,
   useWebWorker: true
@@ -459,12 +461,14 @@ function setInitWindowState() {
     case 'unit-converter': openUnitConverterBtn.click(); break;
     case 'regexp-checker': openRegexpCheckerBtn.click(); break;
     case 'diff-text': openDiffTextBtn.click(); break;
+    case 'compress-image': openImageCompressBtn.click(); break;
 
     case 'reasoning-ai': openReasoningAiBtn.click(); break;
     case 'template-ai': openTempAiBtn.click(); break;
     case 'text-to-speech': openTextToSpeechBtn.click(); break;
     case 'image-generation': opeGenerateImgWrapBtn.click(); break;
     case 'text-worker': openTextWorkerServiceBtn.click(); break;
+    case 'token-counter': openTokenCounterBtn.click(); break;
 
     case 'weather': openWeatherWrapBtn.click(); break;
     case 'github': openGithubWrapBtn.click(); break;

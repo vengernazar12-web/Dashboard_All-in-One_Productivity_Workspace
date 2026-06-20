@@ -229,6 +229,25 @@ header.dashboard-header > img {
 }
 .is-ai-text tr:hover { background: rgba(255, 255, 255, 0.03); }
 
+.is-ai-text .code-block {
+  background-color: rgb(30, 30, 30);
+  border-radius: 15px;
+  border: 1px solid var(--border-color);
+  padding: 7px;
+  color: white;
+  position: relative;
+}
+.is-ai-text .code-block[data-title]:not([data-title=""])::after {
+  content: attr(data-title);
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  font-size: 12px;
+  background: rgba(255,255,255,0.05);
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
 .is-ai-text .frac{
   display:inline-flex;
   flex-direction:column;

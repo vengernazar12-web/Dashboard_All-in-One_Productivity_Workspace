@@ -1,6 +1,6 @@
 .text-worker-service-wrap > .cont {
   height: 50px;
-  max-height: calc(100% - 50px);
+  max-height: 125vh;
   width: calc(100% - 10px);
   overflow: hidden;
   text-align: center;
@@ -11,6 +11,8 @@
   cursor: pointer;
   contain: content;
 }
+
+.text-worker-service-wrap > .cont:not(.open) *:not(h3) { display: none; }
 .text-worker-service-wrap > .cont.open { height: max-content; overflow-y: auto; }
 
 .text-worker-service-wrap > .cont > h3 {
@@ -35,7 +37,7 @@
 .text-worker-service-wrap > .cont > button:hover { background-color: rgba(0, 255, 0, 0.2); }
 
 .text-worker-service-wrap > .cont button.copy-btn { color: var(--text-color); }
-.text-worker-service-wrap > .cont p:has(button.copy-btn) {
+.text-worker-service-wrap > .cont > p:has(button.copy-btn) {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -44,8 +46,6 @@
   justify-content: center;
   align-items: center;
 }
-
-.text-worker-service-wrap > .cont textarea { height: 40vh; }
 
 .text-worker-service-wrap > .cont textarea,
 .text-worker-service-wrap > .cont div {
@@ -57,13 +57,19 @@
   border: 1px solid var(--border-color);
   overflow-y: auto;
   text-align: left;
-  max-height: calc(60vh - 70px);
   font-size: 15px;
   white-space: pre-wrap;
   text-wrap: wrap;
-  word-break: break-all;
   user-select: text;
   contain: content;
+}
+
+.text-worker-service-wrap > .cont div { height: max-content; max-height: 100vh; }
+.text-worker-service-wrap > .cont textarea,
+.text-worker-service-wrap > .cont iframe {
+  height: 55vh;
+  width: 100%;
+  overflow: auto;
 }
 
 .text-worker-service-wrap > .cont input:not([type='checkbox']),
