@@ -94,46 +94,74 @@ textWorkerInfoTextarea.addEventListener('input', () => {
   const val = textWorkerInfoTextarea.value;
 
   const characters = val.length;
-  const spaces = val.match(/[ \t]/g)?.length ?? 0;
+  const lines = val.split(/\n+/);
+  let spaces = 0;
 
-  const allWords = val.trim().replace(/[^\p{L}\p{N}]+/gu, ' ').toLowerCase().split(/\s+/);
+  const allWords = [];
 
-  const allWordsLng = allWords.map(w => w.length);
-  const longestWordLng = Math.max(...allWordsLng);
-  const shortestWordLng = Math.min(...allWordsLng);
+  const allWordsLng = [];
 
   const uniqueWordsObj = {};
-  for(const w of allWords) uniqueWordsObj[w] = (uniqueWordsObj[w] || 0) + 1;
-  const uniqueWordsArr = Object.keys(uniqueWordsObj);
 
-  const urls = val.match(/\bhttps?:\/\/?[^\s]+/g);
-  const numbers = val.match(/-?\d+(?:[.,]+\d+)?/g);
-  const emails = val.match(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi);
+  const urls = [];
+  const numbers = [];
+  const emails = [];
+
+  let letters = 0;
+  let digits = 0;
+  let symbols = 0;
+
+  let shortestWord = '';
+  let longestWord = '';
+
+  for(const line of lines) {
+    // Push words and length and add to unique words count and set longest/shortest words
+    for(const word of line.trim().replace(/[^\p{L}\p{N}]+/gu, ' ').toLowerCase().split(/\s+/)) {
+      allWords.push(word);
+      allWordsLng.push(word.length);
+      uniqueWordsObj[word] = (uniqueWordsObj[word] || 0) + 1;
+
+      if(!shortestWord) shortestWord = word;
+
+      if(word.length > longestWord.length) longestWord = word;
+      else if(word.length < shortestWord.length) shortestWord = word;
+    };
+
+    spaces += line.match(/ /g)?.length ?? 0;
+
+    // Push urls
+    for(const url of line.match(/\bhttps?:\/\/?[^\s]+/g) || []) urls.push(url);
+    // Push numbers
+    for(const num of line.match(/-?\d+(?:[.,]+\d+)?/g) || []) numbers.push(num);
+    // Push emails
+    for(const email of line.match(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi) || []) emails.push(email);
+
+    // Add letters and digits and symbols
+    letters += line.match(/\p{L}/gu)?.length ?? 0;
+    digits += line.match(/\d/g)?.length ?? 0;
+    symbols += line.match(/[^\p{L}\p{N}\s]/gu)?.length ?? 0;
+  }
+
+  const uniqueWordsArr = Object.keys(uniqueWordsObj).filter(Boolean);
 
   textWorkerInfoResult.innerHTML = `
 Characters: ${characters}
 Spaces: ${spaces}
 Characters without spaces: ${characters - spaces}
-Letters: ${val.match(/\p{L}/gu)?.length ?? 0}
-Digits: ${val.match(/\d/g)?.length ?? 0}
-Words: ${val ? val
-      .replace(/[^\p{L}\p{N}]+/gu, ' ')
-      .trim()
-      .split(/\s+/)
-      .filter(Boolean)
-      .length : 0}
-Lines: ${val ? val.split('\n').length : 0}
-Numbers: ${val.match(/\d+/g)?.length ?? 0}
-Newlines: ${val.match(/\n/g)?.length ?? 0}
-Symbols: ${val.match(/[^\p{L}\p{N}\s]/gu)?.length ?? 0}
+Letters: ${letters}
+Digits: ${digits}
+Words: ${allWords.length}
+Average word length: ${allWordsLng.reduce((a,b) => a+b, 0) / allWordsLng.length}
+Lines: ${val ? lines.length : 0}
+Symbols: ${symbols}
 
-Longest word: ${allWords.find(w => w.length === longestWordLng) || 'Nothing...'}
-Shortest word: ${allWords.find(w => w.length === shortestWordLng) || 'Nothing...'}
+Shortest word: ${shortestWord || 'Nothing...'} (${shortestWord.length})
+Longest word: ${longestWord || 'Nothing...'} (${longestWord.length})
 
 Unique words (${uniqueWordsArr.length}): ${uniqueWordsArr.length ? `<details>${uniqueWordsArr.map(w => `${w} - ${uniqueWordsObj[w]}`).join('\n')}</details>` : 'Nothing...'}
-URLS (${urls?.length || 0}): ${urls ? `<details>${urls.join('\n').trim()}</details>` : 'Nothing...'}
-Numbers (${numbers?.length || 0}): ${numbers ? `<details>${numbers.join('\n')}</details>` : 'Nothing...'}
-Emails (${emails?.length || 0}): ${emails ? `<details>${emails.join('\n')}</details>` : 'Nothing...'}
+URLS (${urls?.length || 0}): ${urls.length ? `<details>${urls.join('\n').trim()}</details>` : 'Nothing...'}
+Numbers (${numbers?.length || 0}): ${numbers.length ? `<details>${numbers.join('\n')}</details>` : 'Nothing...'}
+Emails (${emails?.length || 0}): ${emails.length ? `<details>${emails.join('\n')}</details>` : 'Nothing...'}
 `.trim();
 })
 
