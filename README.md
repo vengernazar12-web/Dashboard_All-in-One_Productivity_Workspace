@@ -20,7 +20,8 @@ Manage and store various data structures:
 - **Fetch Service**: Execute HTTP requests with custom URLs, methods, headers, and bodies. Returns full response details (status, final URL, redirection, type, headers, and parsed content).
 - **Unit Converter**: Convert length, mass, time, area, volume, speed, data, energy, pressure, and temperature.
 - **RegExp Checker**: Live text highlighting with support for RegExp and flags.
-- **Text Comparison**: Compare different text strings.
+- **Compare different text**: Compare different text strings.
+- **Compress image**
 
 ### 🤖 AI
 - **Reasoning AI**: Specialized in complex logic processing.
@@ -33,6 +34,7 @@ Manage and store various data structures:
   - **Transformation**: Search & replace, case conversion (UPPERCASE, lowercase, Title Case, iNVERT cASE, camelCase, snake_case, kebab-case), cleanup, and duplicate removal.
   - **Organization**: Line sorting (A-Z, Z-A) and line numbering.
   - **Generators**: UUID, Password (8-32 chars, custom sets), Hash, and Random Numbers.
+  - **AI token counter**: 15+ AI families, letter/tokens counter and display tokens
 
 ### 🔍 Search
 - **Weather**: Live conditions, 3-day forecast, and multi-layer maps.
