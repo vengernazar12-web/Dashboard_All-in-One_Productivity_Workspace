@@ -17,7 +17,6 @@ allDashboardItem.addEventListener('click', e => {
   if(e.target.tagName === 'BUTTON') document.body.style.overflow = 'hidden';
 })
 
-const allOpenBtns = allDashboardItem.querySelectorAll('.--opened-btn');
 // Toggle
 const toggleAllDashboardItemBtn = allDashboardItem.querySelector('.toggle-dashboard-items-btn');
 toggleAllDashboardItemBtn.addEventListener('click', () => {
@@ -37,7 +36,7 @@ toggleAllDashboardItemBtn.addEventListener('click', () => {
     setOpenBtnsTexts();
 
     // Set active wrap (for buttons)
-    for(let b of allOpenBtns) b.classList.remove('active-btn'); // Remove active-btn class
+    allDashboardItem.querySelector('button.active-btn')?.classList.remove('active-btn'); // Remove active-btn class
 
     // Types
     if(todoWrap.classList.contains('show')) openTodoWrapBtn.classList.add('active-btn');
@@ -71,6 +70,7 @@ toggleAllDashboardItemBtn.addEventListener('click', () => {
     else if(csvRenderWrap.classList.contains('show')) openCsvRenderBtn.classList.add('active-btn');
     else if(imageCompressWrap.classList.contains('show')) openImageCompressBtn.classList.add('active-btn');
     else if(tokenCounterWrap.classList.contains('show')) openTokenCounterBtn.classList.add('active-btn');
+    else if(colorWorkerWrap.classList.contains('show')) openColorWorkerBtn.classList.add('active-btn');
 
     else if(settingsWrap.classList.contains('show')) openSettingsWrapBtn.classList.add('active-btn');
     else if(commandRunnerWrap.classList.contains('show')) openCommandRunnerWrapBtn.classList.add('active-btn');
@@ -462,6 +462,7 @@ function setInitWindowState() {
     case 'regexp-checker': openRegexpCheckerBtn.click(); break;
     case 'diff-text': openDiffTextBtn.click(); break;
     case 'compress-image': openImageCompressBtn.click(); break;
+    case 'color-worker': openColorWorkerBtn.click(); break;
 
     case 'reasoning-ai': openReasoningAiBtn.click(); break;
     case 'template-ai': openTempAiBtn.click(); break;

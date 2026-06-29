@@ -93,4 +93,36 @@
   cursor: pointer;
 }
 
+/* Text info */
+.text-worker-service-wrap > .cont.info .progress-info {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+}
+.text-worker-service-wrap > .cont.info .progress-info > progress {
+  flex: 1;
+  height: 15px;
+  border: none;
+  border-radius: 15px;
+  overflow: hidden;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.text-worker-service-wrap > .cont.info .progress-info > progress::-webkit-progress-bar {
+  background: color-mix(in srgb, currentColor 15%, transparent);
+  border-radius: 15px;
+}
+
+.text-worker-service-wrap > .cont.info .progress-info > progress::-webkit-progress-value {
+  background: currentColor;
+  border-radius: 15px;
+}
+
+.text-worker-service-wrap > .cont.info .progress-info > progress::-moz-progress-bar {
+  background: currentColor;
+  border-radius: 15px;
+}
+
 .text-worker-service-wrap .loader { display: none; }

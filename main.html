@@ -44,6 +44,7 @@
 <link rel="stylesheet" href="CSV render.css">
 <link rel="stylesheet" href="image compression.css">
 <link rel="stylesheet" href="token counter.css">
+<link rel="stylesheet" href="color worker.css">
 
 <link rel="stylesheet" href="sign.css">
 
@@ -79,6 +80,7 @@
 <script src="CSV render.js" defer></script>
 <script src="image compression.js" defer></script>
 <script src="token counter.js" defer></script>
+<script src="color worker.js" defer></script>
 
 <!-- Assistants -->
 <script src="AI assistant.js" defer></script><!--3-->
@@ -96,7 +98,7 @@
   <p>AI tools, search services and utilities in one place</p>
   <small>Open the sidebar to get started</small>
   <br><br>
-  <small>22 services • AI assistant • todos, notes, urls and more</small>
+  <small>23 services • AI assistant • todos, notes, urls and more</small>
 </header>
 
 <!-- Settings -->
@@ -535,6 +537,7 @@
   <div class="cleanup cont">
     <h3>Cleanup text</h3>
     <textarea placeholder="Your text for cleanup..."></textarea>
+    <button>Copy</button>
     <div></div>
   </div>
 
@@ -869,6 +872,13 @@
   <span class="loader"></span>
 </div>
 
+<!-- Color worker wrap -->
+<div class="color-worker-wrap is-wrap">
+  <input type="color" value="blue">
+  <input type="range" value='1' min="0" max="1" step="0.01">
+  <div></div>
+</div>
+
 <!-- Assistant wrap -->
 <div class="assistant-wrap is-wrap">
   <!-- assistant answer container -->
@@ -916,6 +926,7 @@
     <button class="open-regexp-checker-wrap --opened-btn">RegExp checker<p>TEXT · REGEXP</p></button>
     <button class="open-diff-text-wrap --opened-btn">Compare different text<p>TEXT</p></button>
     <button class="open-image-compressor-wrap --opened-btn">Compress image<p>IMAGE</p></button>
+    <button class="open-color-worker-wrap --opened-btn">Color worker<p>COLOR</p></button>
   </section>
 
   <section data-group="ai">

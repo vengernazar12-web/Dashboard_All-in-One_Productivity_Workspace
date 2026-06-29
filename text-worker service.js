@@ -106,10 +106,12 @@ textWorkerInfoTextarea.addEventListener('input', () => {
   const urls = [];
   const numbers = [];
   const emails = [];
+  const phones = [];
 
   let letters = 0;
   let digits = 0;
   let symbols = 0;
+  let symbolsForStopInReadingTime = 0;
 
   let shortestWord = '';
   let longestWord = '';
@@ -117,7 +119,7 @@ textWorkerInfoTextarea.addEventListener('input', () => {
   for(const line of lines) {
     // Push words and length and add to unique words count and set longest/shortest words
     for(const word of line.trim().replace(/[^\p{L}\p{N}]+/gu, ' ').toLowerCase().split(/\s+/)) {
-      allWords.push(word);
+      if(word) allWords.push(word);
       allWordsLng.push(word.length);
       uniqueWordsObj[word] = (uniqueWordsObj[word] || 0) + 1;
 
@@ -135,25 +137,39 @@ textWorkerInfoTextarea.addEventListener('input', () => {
     for(const num of line.match(/-?\d+(?:[.,]+\d+)?/g) || []) numbers.push(num);
     // Push emails
     for(const email of line.match(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi) || []) emails.push(email);
+    // Push phones +380 96 604 5963
+    for(const phone of line.match(/\+?[\d \(\)\-.]+/g) || []) {
+      const brackets = phone.replace(/[^\(\)]/g, '');
+      if(brackets.length && brackets.length !== 2) continue;
 
-    // Add letters and digits and symbols
+      if(phone.match(/\- *\-/)) continue;
+
+      const phoneNorm = phone.replace(/[^\d]+/g, '');
+      if(phoneNorm.length <= 15 && phoneNorm.length >= 8) phones.push(phone);
+    }
+
+    // Add letters and digits and symbols and sentence symbols
     letters += line.match(/\p{L}/gu)?.length ?? 0;
     digits += line.match(/\d/g)?.length ?? 0;
     symbols += line.match(/[^\p{L}\p{N}\s]/gu)?.length ?? 0;
+    // .,?!=@+\-\/*%<>$¥€₽₨₴¼⅓½⅔¾⅕⅖⅗⅙⅚⅛⅜⅞⅑⅘⅐⅝⅒∼≃≂≈≅≠≥≤ is reading symbols, people read this symbols
+    symbolsForStopInReadingTime += line.match(/[.,?!=@+\-\/*%<>$¥€₽₨₴¼⅓½⅔¾⅕⅖⅗⅙⅚⅛⅜⅞⅑⅘⅐⅝⅒∼≃≂≈≅≠≥≤]+/g)?.length ?? 0;
   }
 
   const uniqueWordsArr = Object.keys(uniqueWordsObj).filter(Boolean);
 
   textWorkerInfoResult.innerHTML = `
 Characters: ${characters}
-Spaces: ${spaces}
+<div class='progress-info' style='color: #22c55e'>Letters: ${letters}<progress max='${characters}' value='${letters}'></progress></div>
+<div class='progress-info' style='color: #3b82f6'>Digits: ${digits}<progress max='${characters}' value='${digits}'></progress></div>
+<div class='progress-info' style='color: #f59e0b'>Spaces: ${spaces}<progress max='${characters}' value='${spaces}'></progress></div>
+<div class='progress-info' style='color: #ef4444'>Symbols: ${symbols}<progress max='${characters}' value='${symbols}'></progress></div>
 Characters without spaces: ${characters - spaces}
-Letters: ${letters}
-Digits: ${digits}
 Words: ${allWords.length}
 Average word length: ${allWordsLng.reduce((a,b) => a+b, 0) / allWordsLng.length}
 Lines: ${val ? lines.length : 0}
-Symbols: ${symbols}
+
+Reading time ≈ ${val.trim() ? (allWordsLng.reduce((a,b) => a + ( b <= 4 ? 0.35 : b <= 8 ? 0.6 : b <= 12 ? 0.75 : 0.9 ), 0) + symbolsForStopInReadingTime / 3.5).toFixed(2) : 0}s
 
 Shortest word: ${shortestWord || 'Nothing...'} (${shortestWord.length})
 Longest word: ${longestWord || 'Nothing...'} (${longestWord.length})
@@ -162,6 +178,7 @@ Unique words (${uniqueWordsArr.length}): ${uniqueWordsArr.length ? `<details>${u
 URLS (${urls?.length || 0}): ${urls.length ? `<details>${urls.join('\n').trim()}</details>` : 'Nothing...'}
 Numbers (${numbers?.length || 0}): ${numbers.length ? `<details>${numbers.join('\n')}</details>` : 'Nothing...'}
 Emails (${emails?.length || 0}): ${emails.length ? `<details>${emails.join('\n')}</details>` : 'Nothing...'}
+Phones (${phones?.length}): ${phones.length ? `<details>${phones.join('\n')}</details>` : 'Nothing...'}
 `.trim();
 })
 
@@ -213,10 +230,21 @@ const textWorkerCleanupResult = textWorkerCleanupCont.querySelector('div');
 const textWorkerCleanupTextarea = textWorkerCleanupCont.querySelector('textarea');
 textWorkerCleanupTextarea.addEventListener('input', () => {
   const val = textWorkerCleanupTextarea.value.trim();
+
   textWorkerCleanupResult.textContent = val
-    .replace(/,+|\.{4,}|!+|;+|'+|"+| +/g, all => all[0])
-    .replace(/\n{3,}/g, '\n\n');
+    .replace(/\t+/g, ' ')
+    .replace(/\n{3,}/g, '\n\n')
+    .replace(/([,!;'"`?=+ ])\1+/g, '$1')
+    .replace(/\.{4,}/g, '...')
+    .replace(/([a-zа-яіїґ])\1{2,}/gi, '$1$1')
+    .split('\n').map(l => l.trimEnd()).join('\n');
 });
+
+const textWorkerCleanupTextCopyBtn = textWorkerCleanupCont.querySelector('button');
+textWorkerCleanupTextCopyBtn.addEventListener('click', () => {
+  navigator.clipboard.writeText(textWorkerCleanupResult.textContent);
+  showResponseFn('Copied');
+})
 
 // Remove duplicates
 const textWorkerRemoveDuplicatesCont = textWorkerServiceWrap.querySelector('div.remove-duplicates');

@@ -8,8 +8,8 @@
   user-select: none;
 }
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-thumb {
   background-color: var(--scroll-bg);
@@ -246,6 +246,12 @@ header.dashboard-header > img {
   background: rgba(255,255,255,0.05);
   padding: 2px 6px;
   border-radius: 6px;
+}
+.is-ai-text .inline-code {
+  background-color: rgb(30, 30, 30, 0.75);
+  border-radius: 5px;
+  padding: 2px;
+  color: white;
 }
 
 .is-ai-text .frac{

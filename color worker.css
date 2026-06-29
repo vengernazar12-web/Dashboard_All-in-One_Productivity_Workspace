@@ -1,0 +1,29 @@
+.color-worker-wrap { padding: 10px; }
+
+.color-worker-wrap > input {
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.color-worker-wrap > input[type='color'] {
+  height: 200px;
+  border-radius: 0;
+  padding: 5px;
+}
+.color-worker-wrap > input[type='range'] { padding: 0; }
+
+.color-worker-wrap > div {
+  padding: 5px;
+  border-radius: 7px;
+  border: 1px dashed green;
+  width: 100%;
+}
+
+.color-worker-wrap > div > p {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+}
+
+.color-worker-wrap > div button.copy-color { color: currentColor; }
