@@ -145,6 +145,7 @@ header.dashboard-header {
   top: 10px;
   left: 42px;
   padding: 15px;
+  width: calc(100% - 42px);
 }
 header.dashboard-header > img {
   width: 100%;

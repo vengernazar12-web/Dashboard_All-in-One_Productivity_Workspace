@@ -1,6 +1,6 @@
 # DASHBOARD
 
-A comprehensive pet project designed for seamless data management, generation, and transformation through a powerful suite of integrated services.
+All-in-one dashboard for productivity, AI tools, note taking, TODO management, GitHub search, weather, JSON tools, text processing and media search. Built with Cloudflare Workers and Supabase.
 
 ## 🗂 Data Types (TYPES)
 Manage and store various data structures:
