@@ -53,6 +53,6 @@ Utilizes **JSON5** query language to perform actions: `create`, `delete`, `find`
 
 ## 💻 Tech Stack
 - **Frontend**: HTML, CSS, JavaScript
-- **AI Engine**: Cohere AI
-- **Backend & Logic**: Cloudflare Workers, AI, and KV
-- **Database & Storage**: Supabase (Tables & Storage)
+- **AI Engine**: Cohere AI / cloudflare worker AI
+- **Backend & Logic**: Cloudflare Workers and KV
+- **Database & Storage**: Supabase (Tables & Storage) and cloudflare RV
