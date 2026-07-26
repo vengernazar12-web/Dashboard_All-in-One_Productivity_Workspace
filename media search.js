@@ -253,7 +253,7 @@ https://itunes.apple.com/search
         content: d.results.map(obj => `
 <div class='result-info' data-marker='artist'>
   <h3><span>${obj.artistName}</span>${getMediaSearchCopyBtnHtml()}</h3>
-  <a href='${obj.artistLinkUrl}'>Artist</a>
+  <a href='${obj.artistLinkUrl}' target="_blank">Artist</a>
 </div>
 `.trim()).join(''), title: `ARTISTS (${d.resultCount})`
       })),

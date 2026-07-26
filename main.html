@@ -642,7 +642,7 @@
 <div class="wikipedia-wrap is-wrap">
   <input list="wiki-titles" type="text" class="search-value" placeholder="Search value...">
   <datalist id="wiki-titles" class="show-auto-complete"></datalist>
-  <input type="number" class="search-limit" placeholder="Results limit... (default 10)">
+  <input type="number" class="search-limit" placeholder="Results limit... (default 10)" min="1" max="100">
   <button class="search-btn">OK</button>
 
   <div class="search-results"></div>
@@ -907,6 +907,7 @@
     <button class="toggle-dashboard-items-btn" title="ctrl + p"><svg><use href="#close-panel"></use></svg></button>
   </div>
 
+  <h4>Types</h4>
   <button class="open-assistant-wrap --opened-btn">Assistant<p>HELP · AI</p></button>
   <button class="open-todo-wrap --opened-btn">Your todos<p></p></button>
   <button class="open-notes-wrap --opened-btn">Your notes<p></p></button>
