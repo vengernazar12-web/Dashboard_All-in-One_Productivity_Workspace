@@ -158,6 +158,8 @@ textWorkerInfoTextarea.addEventListener('input', () => {
 
   const uniqueWordsArr = Object.keys(uniqueWordsObj).filter(Boolean);
 
+  const bytes = new Blob([val]).size, kb = bytes / 1024, mb = bytes / (1024 * 1024);
+
   textWorkerInfoResult.innerHTML = `
 Characters: ${characters}
 <div class='progress-info' style='color: #22c55e'>Letters: ${letters}<progress max='${characters}' value='${letters}'></progress></div>
@@ -179,6 +181,8 @@ URLS (${urls?.length || 0}): ${urls.length ? `<details>${urls.join('\n').trim()}
 Numbers (${numbers?.length || 0}): ${numbers.length ? `<details>${numbers.join('\n')}</details>` : 'Nothing...'}
 Emails (${emails?.length || 0}): ${emails.length ? `<details>${emails.join('\n')}</details>` : 'Nothing...'}
 Phones (${phones?.length}): ${phones.length ? `<details>${phones.join('\n')}</details>` : 'Nothing...'}
+
+Size: ${bytes < 1024 ? `${bytes.toFixed(2)} B` : kb < 1024 ? `${kb.toFixed(2)} KB` : `${mb.toFixe(2)} MB`}
 `.trim();
 })
 
@@ -405,7 +409,7 @@ textWorkerViewHtmlTextarea.addEventListener('input', () => {
         display: revert;
         box-sizing: border-box;
       }
-  
+
       body {
         margin: 0;
         font-family: sans-serif;

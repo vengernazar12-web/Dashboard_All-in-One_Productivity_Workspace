@@ -1,6 +1,6 @@
 .text-worker-service-wrap > .cont {
   height: 50px;
-  max-height: 125vh;
+  max-height: 150vh;
   width: calc(100% - 10px);
   overflow: hidden;
   text-align: center;
