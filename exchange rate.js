@@ -69,7 +69,8 @@ exchangeRateSelectCurrency.addEventListener('change', () => {
 
 const exchangeRateCurrencyInput = exchangeRateWrap.querySelector('input.count');
 exchangeRateCurrencyInput.addEventListener('input', () => {
-  const count = +exchangeRateCurrencyInput.value ?? 0;
+  exchangeRateSearchInput.value = '';
+  const count = +exchangeRateCurrencyInput.value || 0;
 
   for(const currResultBlock of exchangeRateResultCont.children) {
     const curr = currResultBlock.dataset.curr;
@@ -125,10 +126,13 @@ async function renderExchangeRateState() {
 }
 
 function renderExchangeRateResults() {
+  exchangeRateSearchInput.value = '';
   const favoritesCurrencies = JSON.parse(localStorage.getItem('fav-currencies') || "[]");
 
   exchangeRateResultCont.textContent = '';
   const fragResult = document.createDocumentFragment();
+
+  const count = +exchangeRateCurrencyInput.value || 0;
 
   // Render favorites
   for(const curr in rates) {
@@ -143,7 +147,7 @@ function renderExchangeRateResults() {
     div.classList.add('curr-block');
     div.classList.add('is-fav'); // Add fov class
 
-    pre.textContent = `${curr} - ${rates[curr].toFixed(3)}\n${currencyMetadata[curr] || ''}`.trim();
+    pre.textContent = `${curr} - ${(rates[curr] * count).toFixed(3)}\n${currencyMetadata[curr] || ''}`.trim();
     imgDiv.className = `currency-flag currency-flag-${curr.toLowerCase()}`;
     fragResult.appendChild(div);
   }
@@ -160,7 +164,7 @@ function renderExchangeRateResults() {
     div.append(pre, imgDiv);
     div.classList.add('curr-block');
 
-    pre.textContent = `${curr} - ${rates[curr].toFixed(3)}\n${currencyMetadata[curr] || ''}`.trim();
+    pre.textContent = `${curr} - ${(rates[curr] * count).toFixed(3)}\n${currencyMetadata[curr] || ''}`.trim();
     imgDiv.className = `currency-flag currency-flag-${curr.toLowerCase()}`;
     fragResult.appendChild(div);
   }

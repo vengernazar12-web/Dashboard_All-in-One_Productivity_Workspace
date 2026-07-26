@@ -7,6 +7,8 @@ openIpSearchBtn.addEventListener('click', () => {
   closeAllWraps();
   if(needPushState) history.pushState({}, null, '#ip-search');
   ipSearchWrap.classList.add('show');
+
+  if(userIpInput.value === 'my_ip') searchIpBtn.click();
 })
 
 const searchIpLoader = ipSearchWrap.querySelector('.loader');
