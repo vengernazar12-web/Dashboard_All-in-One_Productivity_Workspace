@@ -11,14 +11,40 @@
   width: calc(25% - 10px);
 }
 
+.regexp-checker-wrap button {
+  position: absolute;
+  left: 10px;
+  height: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  color: var(--text-color);
+  font-size: 16px;
+}
+
+.regexp-checker-wrap button.copy-arr {
+  top: 45px;
+}
+.regexp-checker-wrap button.copy-list {
+  top: 70px;
+}
+
+.regexp-checker-wrap svg {
+  color: var(--text-color);
+  width: 16px;
+  height: 16px;
+}
+
 .regexp-checker-wrap > div {
   position: absolute;
-  top: 50px;
+  top: 100px;
   left: 5px;
   width: calc(100% - 10px);
   min-height: 100px;
   height: max-content;
-  max-height: calc(100% - 60px);
+  max-height: calc(100% - 110px);
   background-color: var(--block-bg);
   border-radius: 5px;
   border: 1px solid var(--border-color);

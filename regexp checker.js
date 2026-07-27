@@ -23,6 +23,20 @@ userRegexpFlagsForCheckText.addEventListener('input', () => {
   regexpCheckTextTime = setTimeout(() => renderRegexpTextMarks(), 500);
 })
 
+const regexpCopyArrBtn = regexpCheckerWrap.querySelector('button.copy-arr');
+regexpCopyArrBtn.addEventListener('click', () => {
+  const marks = [...blockForRegexpCheckText.querySelectorAll('mark')].map(m => `\"${m.textContent}\"`).join(', ');
+  navigator.clipboard.writeText(`[ ${marks} ]`);
+  showResponseFn('Copied');
+})
+
+const regexpCopyListBtn = regexpCheckerWrap.querySelector('button.copy-list');
+regexpCopyListBtn.addEventListener('click', () => {
+  const marks = [...blockForRegexpCheckText.querySelectorAll('mark')].map(m => m.textContent).join(', ');
+  navigator.clipboard.writeText(marks);
+  showResponseFn('Copied');
+})
+
 function renderRegexpTextMarks() {
   let value = userRegexpForCheckText.value;
   const text = blockForRegexpCheckText.innerText;
