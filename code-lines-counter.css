@@ -1,0 +1,61 @@
+.files-info-wrap {
+  padding: 10px;
+}
+
+.files-info-wrap > input,
+.files-info-wrap > table {
+  width: 100%;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  background-color: var(--block-bg);
+  color: var(--text-color);
+}
+
+.files-info-wrap > input {
+  padding-left: 0;
+  height: 50px;
+  border: 1px dashed var(--border-color);
+}
+
+/* Table */
+.files-info-wrap > table {
+  border-collapse: collapse;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  font-size: 16px;
+}
+
+.files-info-wrap > table * { user-select: text; }
+
+.files-info-wrap > table th,
+.files-info-wrap > table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border-color);
+  text-align: left;
+}
+
+.files-info-wrap > table thead {
+  background: color-mix(in srgb, var(--block-bg) 90%, white);
+}
+
+.files-info-wrap > table thead th {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.files-info-wrap > table tbody tr:last-child td {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.files-info-wrap > table tbody tr:hover {
+  background-color: var(--block-bg);
+}
+
+.files-info-wrap > table tfoot {
+  font-weight: 600;
+}
+
+.files-info-wrap > table tfoot td {
+  padding-block: 12px;
+  border-bottom: 0;
+}

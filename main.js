@@ -71,6 +71,7 @@ toggleAllDashboardItemBtn.addEventListener('click', () => {
     else if(imageCompressWrap.classList.contains('show')) openImageCompressBtn.classList.add('active-btn');
     else if(tokenCounterWrap.classList.contains('show')) openTokenCounterBtn.classList.add('active-btn');
     else if(colorWorkerWrap.classList.contains('show')) openColorWorkerBtn.classList.add('active-btn');
+    else if(filesInfoWrap.classList.contains('show')) openFilesInfoBtn.classList.add('active-btn');
 
     else if(settingsWrap.classList.contains('show')) openSettingsWrapBtn.classList.add('active-btn');
     else if(commandRunnerWrap.classList.contains('show')) openCommandRunnerWrapBtn.classList.add('active-btn');
@@ -463,6 +464,7 @@ function setInitWindowState() {
     case 'diff-text': openDiffTextBtn.click(); break;
     case 'compress-image': openImageCompressBtn.click(); break;
     case 'color-worker': openColorWorkerBtn.click(); break;
+    case 'file-lines-counter': openFilesInfoBtn.click(); break;
 
     case 'reasoning-ai': openReasoningAiBtn.click(); break;
     case 'template-ai': openTempAiBtn.click(); break;

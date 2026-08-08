@@ -45,6 +45,7 @@
 <link rel="stylesheet" href="image compression.css">
 <link rel="stylesheet" href="token counter.css">
 <link rel="stylesheet" href="color worker.css">
+<link rel="stylesheet" href="code-lines-counter.css">
 
 <link rel="stylesheet" href="sign.css">
 
@@ -81,6 +82,7 @@
 <script src="image compression.js" defer></script>
 <script src="token counter.js" defer></script>
 <script src="color worker.js" defer></script>
+<script src="code-lines-counter.js" defer></script>
 
 <!-- Assistants -->
 <script src="AI assistant.js" defer></script><!--3-->
@@ -883,6 +885,11 @@
   <div></div>
 </div>
 
+<div class="files-info-wrap is-wrap">
+  <input type="file" multiple accept=".html,.css,.scss,.sass,.js,.jsx,.ts,.tsx" />
+  <table></table>
+</div>
+
 <!-- Assistant wrap -->
 <div class="assistant-wrap is-wrap">
   <!-- assistant answer container -->
@@ -932,6 +939,7 @@
     <button class="open-diff-text-wrap --opened-btn">Compare different text<p>TEXT</p></button>
     <button class="open-image-compressor-wrap --opened-btn">Compress image<p>IMAGE</p></button>
     <button class="open-color-worker-wrap --opened-btn">Color worker<p>COLOR</p></button>
+    <button class="open-files-info-wrap --opened-btn">Files info<p>TEXT</p></button>
   </section>
 
   <section data-group="ai">
