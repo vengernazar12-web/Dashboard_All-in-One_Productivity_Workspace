@@ -12,7 +12,7 @@ Manage and store various data structures:
   - *Markup Support:* `@r...r@` (red), `@b...b@` (blue), `@y...y@` (yellow), `@g...g@` (green), `@mark...mark@` (highlight), ` ```...``` ` (code block)
 - **Music**: `name`, `musicUrl`
 
-## 🛠 Services (UI Only)
+## 🛠 Services
 
 ### 🔧 Tools
 - **Timezones**
@@ -24,6 +24,8 @@ Manage and store various data structures:
 - **Compare different text**: Compare different text strings.
 - **Compress image**
 - **Color worker**
+- **Files info**
+- **Substrings search**
 
 ### 🤖 AI
 - **Reasoning AI**: Specialized in complex logic processing.

@@ -1,0 +1,94 @@
+.substrings-search-wrap > textarea {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: calc(100% - 20px);
+  height: 50%;
+  border-radius: 7px;
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  background-color: var(--block-bg);
+  padding: 7px;
+}
+
+.substrings-search-wrap > button {
+  position: absolute;
+  height: 30px;
+  font-size: 16px;
+  color: white;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+}
+
+.substrings-search-wrap > button.start {
+  top: calc(50% + 20px);
+  left: 10px;
+  width: calc(100% - 20px);
+  background-color: blue;
+}
+
+.substrings-search-wrap > button.stop {
+  top: calc(50% + 60px);
+  left: 10px;
+  width: calc(50% - 15px);
+  background-color: red;
+}
+
+.substrings-search-wrap > progress {
+  position: absolute;
+  top: calc(50% + 60px);
+  right: 10px;
+  width: calc(50% - 15px);
+  height: 15px;
+
+  appearance: none;
+  -webkit-appearance: none;
+
+  border: none;
+  border-radius: 8px;
+  overflow: hidden;
+
+  background-color: var(--block-bg);
+}
+
+.substrings-search-wrap > progress::-webkit-progress-bar {
+  background-color: var(--block-bg);
+  border-radius: 8px;
+}
+
+.substrings-search-wrap > progress::-webkit-progress-value {
+  background: color-mix(var(--border-color) 50%, black);
+  border-radius: 8px;
+
+  transition: width 0.15s ease;
+}
+
+.substrings-search-wrap > progress::-moz-progress-bar {
+  background: color-mix(var(--border-color) 50%, black);
+  border-radius: 8px;
+
+  transition: width 0.15s ease;
+}
+
+.substrings-search-wrap > div.result-container {
+  position: absolute;
+  top: calc(50% + 100px);
+  left: 10px;
+  width: calc(100% - 20px);
+  padding: 10px;
+  background-color: var(--block-bg);
+  color: var(--border-color);
+  border: 1px dashed green;
+  border-radius: 7px;
+  white-space: pre-wrap;
+  user-select: text;
+}
+
+.substrings-search-wrap > div.result-container::after {
+  content: attr(data-info);
+  font-size: 15px;
+  color: var(--text-color);
+  position: absolute;
+  top: -20px;
+  right: 0;
+}
