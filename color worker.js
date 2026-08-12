@@ -90,3 +90,5 @@ colorWorkerColorInput.addEventListener('input', () => initColorWorkerResult());
 
 const colorWorkerAlfaRangeInput = colorWorkerWrap.querySelector('input[type="range"]');
 colorWorkerAlfaRangeInput.addEventListener('input', () => initColorWorkerResult());
+
+initColorWorkerResult();

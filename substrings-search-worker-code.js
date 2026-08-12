@@ -21,6 +21,8 @@ self.onmessage = ({ data }) => {
   const lastAddedSubstrings = Object.create(null); // substring: j
 
   for (let i = 0; i < textLng; i++) {
+    for(const lastAddedSubstr in lastAddedSubstrings) if(lastAddedSubstrings[lastAddedSubstr] <= i) delete lastAddedSubstrings[lastAddedSubstr];
+
     self.postMessage({
       type: 'progress',
       value: i+1,

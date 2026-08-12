@@ -137,12 +137,12 @@ textWorkerInfoTextarea.addEventListener('input', () => {
     for(const num of line.match(/-?\d+(?:[.,]+\d+)?/g) || []) numbers.push(num);
     // Push emails
     for(const email of line.match(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi) || []) emails.push(email);
-    // Push phones +380 96 604 5963
+    // Push phones
     for(const phone of line.match(/\+?[\d \(\)\-.]+/g) || []) {
       const brackets = phone.replace(/[^\(\)]/g, '');
       if(brackets.length && brackets.length !== 2) continue;
 
-      if(phone.match(/\- *\-/)) continue;
+      if(phone.match(/\- *\-/) || phone.indexOf('-') !== phone.lastIndexOf('-')) continue;
 
       const phoneNorm = phone.replace(/[^\d]+/g, '');
       if(phoneNorm.length <= 15 && phoneNorm.length >= 8) phones.push(phone);

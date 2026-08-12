@@ -44,8 +44,7 @@
   left: 5px;
   width: calc(100% - 10px);
   height: max-content;
-  max-height: 300%;
-  overflow-y: auto;
+  overflow-x: auto;
   white-space: pre-wrap;
   text-wrap: wrap;
   background-color: var(--block-bg);
@@ -54,9 +53,11 @@
   border-radius: 10px;
   padding: 5px;
   font-size: 15px;
+  text-wrap: nowrap;
 }
 .template-ai-wrap > div,
 .template-ai-wrap > div * { user-select: text; }
+
 .template-ai-wrap > div span {
   display: inline-block;
   min-width: 25px;
