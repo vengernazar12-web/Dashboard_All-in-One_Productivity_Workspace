@@ -248,9 +248,21 @@ codeAiSendPromptBtn.addEventListener('click', async () => {
   const userTxt = codeAiTskTextarea.value.trim();
   if (userTxt.length > 25_000) return showResponseFn(`Your message is too long (${userTxt.length}/25_000)`);
 
-  if(codeAiProposedCodesInfo.length && codeAiChatContainer.querySelector('code.proposed-code > button:not(.download)')) return showResponseFn("You still have changes that haven't been reviewed");
+  if (codeAiProposedCodesInfo.length && codeAiChatContainer.querySelector('code.proposed-code > button:not(.download)')) return showResponseFn("You still have changes that haven't been reviewed");
   else {
-    for(const btn of codeAiChatContainer.querySelectorAll('code.proposed-code > button')) btn.remove();
+    for (const downloadBtn of codeAiChatContainer.querySelectorAll('code.proposed-code > button.download')) {
+      codeAiHistory.push({
+        role: 'tool',
+        tool_call_id: downloadBtn.dataset.id,
+        content: [{
+          type: 'document',
+          document: { data: `${downloadBtn.dataset.name} not downloaded` }
+        }]
+      });
+
+      downloadBtn.remove();
+    }
+
     codeAiProposedCodesInfo.length = 0;
   }
 
