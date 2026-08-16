@@ -73,6 +73,7 @@ toggleAllDashboardItemBtn.addEventListener('click', () => {
     else if(colorWorkerWrap.classList.contains('show')) openColorWorkerBtn.classList.add('active-btn');
     else if(filesInfoWrap.classList.contains('show')) openFilesInfoBtn.classList.add('active-btn');
     else if(substringsSearchWrap.classList.contains('show')) openSubstringsSearchBtn.classList.add('active-btn');
+    else if(codeAiWrap.classList.contains('show')) openCodeAiBtn.classList.add('active-btn');
 
     else if(settingsWrap.classList.contains('show')) openSettingsWrapBtn.classList.add('active-btn');
     else if(commandRunnerWrap.classList.contains('show')) openCommandRunnerWrapBtn.classList.add('active-btn');
@@ -474,6 +475,7 @@ function setInitWindowState() {
     case 'image-generation': opeGenerateImgWrapBtn.click(); break;
     case 'text-worker': openTextWorkerServiceBtn.click(); break;
     case 'token-counter': openTokenCounterBtn.click(); break;
+    case 'code-ai': openCodeAiBtn.click(); break;
 
     case 'weather': openWeatherWrapBtn.click(); break;
     case 'github': openGithubWrapBtn.click(); break;

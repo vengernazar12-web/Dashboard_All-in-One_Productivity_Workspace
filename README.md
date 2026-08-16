@@ -34,6 +34,7 @@ Manage and store various data structures:
 - **Image Generation**
 - **Text Worker**
 - **AI token counter**: 15+ AI families, letter/tokens counter and display tokens
+- **Code AI**
 
 ### 🔍 Search
 - **Weather**: Live conditions, 3-day forecast, and multi-layer maps.

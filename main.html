@@ -47,6 +47,7 @@
 <link rel="stylesheet" href="color worker.css">
 <link rel="stylesheet" href="code-lines-counter.css">
 <link rel="stylesheet" href="substrings-search.css">
+<link rel="stylesheet" href="code-ai.css">
 
 <link rel="stylesheet" href="sign.css">
 
@@ -85,8 +86,9 @@
 <script src="color worker.js" defer></script>
 <script src="code-lines-counter.js" defer></script>
 <script src="substrings-search.js" defer></script>
+<script src="code-ai.js" defer></script>
 
-<!-- Assistants -->
+<!-- Assistant -->
 <script src="AI assistant.js" defer></script><!--3-->
 <script src="ai response.js" defer></script>
 
@@ -102,7 +104,7 @@
   <p>AI tools, search services and utilities in one place</p>
   <small>Open the sidebar to get started</small>
   <br><br>
-  <small>25 services • AI assistant • todos, notes, urls and more</small>
+  <small>26 services • AI assistant • todos, notes, urls and more</small>
 </header>
 
 <!-- Settings -->
@@ -902,6 +904,30 @@
   <div class="result-container"></div>
 </div>
 
+<!-- Code AI wrap -->
+<div class="code-ai-wrap is-wrap">
+  <div class="chat"></div>
+  <div class="user-area">
+    <textarea placeholder="Your task..."></textarea>
+
+    <div class="uploads">
+      <button class="open-files-window" aria-label="Upload files">+</button>
+      <p></p>
+
+      <div class="files-window">
+        <h3>Select files</h3>
+        <button class="upload-files-btn">Add files</button>
+        <input type="file" hidden multiple aria-label="Select files" accept=".html,.css,.scss,.sass,.js,.jsx,.ts,.tsx,.json,.json5,.xml,.yaml,.yml,.toml,.md,.sql,.sh,.bash,.zsh,.ps1,.py,.java,.c,.h,.cpp,.cc,.cxx,.hpp,.cs,.go,.rs,.rb,.php,.swift,.kt,.kts,.dart,.lua,.r,.scala,.ex,.exs,.erl,.fs,.fsx,.hs,.clj">
+
+        <ul></ul>
+      </div>
+    </div>
+    <button class="send">=&gt;</button>
+  </div>
+
+  <span class="loader"></span>
+</div>
+
 <!-- Assistant wrap -->
 <div class="assistant-wrap is-wrap">
   <!-- assistant answer container -->
@@ -963,6 +989,7 @@
     <button class="open-generate-img-wrap --opened-btn">Image generation<p>AI · IMAGE</p></button>
     <button class="open-text-worker-service-wrap --opened-btn">Text worker<p>AI · TEXT · UTILS</p></button>
     <button class="open-token-counter-wrap --opened-btn">AI token counter<p>AI · COUNTER</p></button>
+    <button class="open-code-ai-wrap --opened-btn">Code AI<p>AI · CODE</p></button>
   </section>
 
   <section data-group="search">
