@@ -1,3 +1,25 @@
+async function mediaSearchLoadCountries() {
+  const [names, phones, positions] = await Promise.all([
+    fetch("https://countriesnow.space/api/v0.1/countries/info?returns=all").then(r => r.json()),
+    fetch("https://countriesnow.space/api/v0.1/countries/codes").then(r => r.json()),
+    fetch("https://countriesnow.space/api/v0.1/countries/positions").then(r => r.json())
+  ]);
+
+  const merged = names.data.map(country => {
+    const name = country.name.toLowerCase();
+
+    return {
+      name,
+      phone: phones.data.find(x => x.name.toLowerCase() === name)?.dial_code || null,
+      region: positions.data.find(x => x.name.toLowerCase() === name)?.region || null,
+      iso2: positions.data.find(x => x.name.toLowerCase() === name)?.iso2 || null,
+      iso3: positions.data.find(x => x.name.toLowerCase() === name)?.iso3 || null
+    };
+  });
+
+  return merged;
+}
+
 async function setSavedMedia() {
   const savedMediaSearchMedia = localStorage.getItem('media-search_media');
   if (savedMediaSearchMedia) {
@@ -10,13 +32,14 @@ async function setSavedMedia() {
       preloaderProgress.value = 0;
       whatIsLoadingText.textContent = 'Loading countries...';
 
-      allCountriesForShowMedia = await fetch('https://restcountries.com/v3.1/all?fields=flags,name,capital,currencies').then(r => r.json());
+      allCountriesForShowMedia = await mediaSearchLoadCountries();
 
       preloaderProgress.value = 1;
       setTimeout(() => showPreloader(false), 500);
     }
   };
 };
+
 let savedMediaBeenSet = false;
 const mediaSearchWrap = document.querySelector('.media-search-wrap');
 // Open
@@ -69,7 +92,7 @@ mediaSearchSelectMedia.addEventListener('change', async () => {
     preloaderProgress.value = 0;
     whatIsLoadingText.textContent = 'Loading countries...';
 
-    allCountriesForShowMedia = await fetch('https://restcountries.com/v3.1/all?fields=flags,name,capital,currencies').then(r => r.json());
+    allCountriesForShowMedia = await mediaSearchLoadCountries();
 
     preloaderProgress.value = 1;
     setTimeout(() => showPreloader(false), 500);
@@ -78,6 +101,7 @@ mediaSearchSelectMedia.addEventListener('change', async () => {
 
 const mediaSearchValuesCont = mediaSearchWrap.querySelector('datalist#search-values');
 
+// Search input
 let mediaSearchShowChemDatalistTimer = null;
 const searchMediaInput = mediaSearchWrap.querySelector('.search');
 searchMediaInput.addEventListener('input', () => {
@@ -88,19 +112,15 @@ searchMediaInput.addEventListener('input', () => {
     const frag = document.createDocumentFragment();
 
     for(const obj of allCountriesForShowMedia) {
-      const currencyName = Object.keys(obj.currencies)[0] || 'N/A';
-      const currencyInfo = obj.currencies[currencyName];
-
       if(
-        obj.capital.some(c => c.toLowerCase().includes(value))
-        || currencyName.toLowerCase().includes(value)
-        || currencyInfo?.symbol.includes(value)
-        || currencyInfo?.name.toLowerCase().includes(value)
-        || obj.name.official.toLowerCase().includes(value)
+        obj.name.toLowerCase().includes(value)
+        || ( obj.iso2 && obj.iso2.toLowerCase().includes(value) )
+        || ( obj.iso3 && obj.iso3.toLowerVase().includes(value) )
+        || ( obj.phone && obj.phone.includes(value) )
       ) {
         const option = document.createElement('option');
-        option.textContent = `${obj.name.official} | ${obj.capital.join(',')} | ${currencyName} (${currencyInfo?.symbol || 'N/A'})`;
-        option.value = obj.name.official;
+        option.textContent = `${obj.name} | ${obj.iso2 || obj.iso3 || 'No iso2 or iso3'} | ${obj.phone || 'Phone: unknown'}`;
+        option.value = obj.name;
         frag.appendChild(option);
       }
     }
@@ -128,6 +148,7 @@ searchMediaInput.addEventListener('input', () => {
   }
 })
 
+// Cache
 const mediaSearchCache = [];
 
 const searchMusicResult = mediaSearchWrap.querySelector('.result');
@@ -168,7 +189,7 @@ searchMusicResult.addEventListener('click', async e => {
 
 const searchMediaBtn = mediaSearchWrap.querySelector('.send');
 searchMediaBtn.addEventListener('click', async () => {
-  const value = searchMediaInput.value.trim();
+  const value = searchMediaInput.value.trim().toLowerCase();
   if (mediaSearchSelectMedia.value !== 'nasa' && !value) return;
   if (value.length > 200) return showResponseFn('Your search value is too long (>200 symbols)');
 
@@ -201,6 +222,7 @@ searchMediaBtn.addEventListener('click', async () => {
 })
 
 function getMediaSearchCopyBtnHtml() { return "<span><button class='copy-btn'><svg><use href='#copy-code'></use></svg></button></span>"; }
+
 const mediaSearchFetchRenderMap = {
   music: async (country, value) => {
     await Promise.all([
@@ -678,115 +700,73 @@ https://itunes.apple.com/search
   },
 
   emoji: async (_, value) => {
-    fetch(`https://emojihub.yurace.pro/api/search?q=${encodeURIComponent(value)}`)
+    await fetch(`https://emojihub.yurace.pro/api/search?q=${encodeURIComponent(value)}`)
       .then(r => r.json())
       .then(d => mediaSearchCache.push({
         content: d.map(obj => `
-  <div class="result-info" data-marker="EMOJI">
-    <h3><span>${obj.htmlCode[0]}</span>${getMediaSearchCopyBtnHtml()}</h3>
-    <h3><span>${obj.name}</span>${getMediaSearchCopyBtnHtml()}</h3>
-    <p>${obj.category} • ${obj.group}</p>
-    <div>${obj.unicode.map(u => `<span>${u}</span>`).join(' • ')}</div>
-  </div>
+<div class="result-info" data-marker="EMOJI">
+  <h3><span>${obj.htmlCode[0]}</span>${getMediaSearchCopyBtnHtml()}</h3>
+  <h3><span>${obj.name}</span>${getMediaSearchCopyBtnHtml()}</h3>
+  <p>${obj.category} • ${obj.group}</p>
+  <div>${obj.unicode.map(u => `<span>${u}</span>`).join(' • ')}</div>
+</div>
   `.trim()).join(''), title: 'EMOJI'
       }));
   },
 
   country: async (_, value) => {
     try {
-      await fetch(`https://restcountries.com/v3.1/name/${encodeURIComponent(value.trim())}`)
+      await fetch(`https://countries.dev/name/${encodeURIComponent(value)}`)
         .then(r => r.json())
         .then(d => mediaSearchCache.push({
           content: d.map(obj => `
 <div class="result-info" data-marker="COUNTRY">
-  <img
-    src="${obj.flags.png}"
-    alt="${obj.flags.alt || obj.name.official}"
-    loading="lazy"
-  >
-
-  <img
-    src="${obj.coatOfArms?.png}"
-    alt="Coat of Arms"
-    loading="lazy"
-  >
-
-  <h3>
-    <span>${obj.flag} ${obj.name.official}</span>
-    ${getMediaSearchCopyBtnHtml()}
-  </h3>
-
-  <p>
-    <strong>${obj.name.common}</strong>
-    ${obj.altSpellings?.length ? ` • ${obj.altSpellings.join(', ')}` : ''}
-  </p>
-
-  <div>
-    <span>🏛️ ${obj.capital?.join(', ') || 'N/A'}</span>
-    <span> • 🌍 ${obj.region}</span>
-    ${obj.subregion ? `<span> • ${obj.subregion}</span>` : ''}
+  <div class="country-header">
+    <span class="country-flag">${obj.flag}</span>
+    <div class="country-title">
+      <h2>${obj.name}</h2>
+      <small>${obj.region} · ${obj.subregion}</small>
+    </div>
   </div>
 
-  <div>
-    <span>👥 ${obj.population.toLocaleString()}</span>
-    <span> • 📐 ${obj.area.toLocaleString()} km²</span>
+  <img class="country-flag-img" src="${obj.flags?.png || obj.flags?.svg}" alt="${obj.name} flag">
+
+  <div class="country-basic">
+    <p><strong>Capital:</strong> ${obj.capital}</p>
+    <p><strong>Population:</strong> ${obj.population.toLocaleString()}</p>
+    <p><strong>Area:</strong> ${obj.area} km²</p>
+    <p><strong>Density:</strong> ${obj.populationDensity} /km²</p>
+    <p><strong>Location:</strong> ${obj.latlng[0]}, ${obj.latlng[1]}</p>
   </div>
 
-  <div>
-    <span>
-      💰 ${Object.entries(obj.currencies || {})
-              .map(([code, cur]) => `${code} (${cur.symbol || '?'})`)
-              .join(', ')
-            }
-    </span>
+  <div class="country-codes">
+    <p><strong>Alpha2:</strong> ${obj.alpha2Code}</p>
+    <p><strong>Alpha3:</strong> ${obj.alpha3Code}</p>
+    <p><strong>Numeric:</strong> ${obj.numericCode}</p>
+    <p><strong>CIOC:</strong> ${obj.cioc}</p>
   </div>
 
-  <div>
-    <span>🗣️ ${Object.values(obj.languages || {}).join(', ')}</span>
+  <div class="country-extra">
+    <p><strong>Native name:</strong> ${obj.nativeName}</p>
+    <p><strong>Demonym:</strong> ${obj.demonym}</p>
+    <p><strong>Independent:</strong> ${obj.independent ? "Yes" : "No"}</p>
   </div>
 
-  <div>
-    <span>
-      🕒 ${obj.timezones?.join(', ') || 'N/A'}
-    </span>
-    <span> • 📅 ${obj.startOfWeek}</span>
+  <div class="country-lists">
+    <p><strong>Currencies:</strong> ${obj.currencies.map(c => `${c.name} (${c.code})`).join(", ")}</p>
+    <p><strong>Languages:</strong> ${obj.languages.map(l => l.name).join(", ")}</p>
+    <p><strong>Calling codes:</strong> ${obj.callingCodes.map(c => `+${c}`).join(", ")}</p>
+    <p><strong>Timezones:</strong> ${obj.timezones.join(", ")}</p>
+    <p><strong>Domains:</strong> ${obj.topLevelDomain.join(", ")}</p>
   </div>
 
-  <div>
-    <span>🚗 Driving: ${obj.car?.side || 'N/A'}</span>
-    ${obj.car?.signs?.length
-              ? `<span> • ${obj.car.signs.join(', ')}</span>`
-              : ''
-            }
-  </div>
-
-  ${obj.borders?.length ? `
-      <details>
-        <summary>Borders (${obj.borders.length})</summary>
-        <p>${obj.borders.join(', ')}</p>
-      </details>` : ''
-            }
-
-  ${Object.keys(obj.translations || {}).length ? `
-    <details>
-      <summary>translations</summary>
-      ${Object.keys(obj.translations).map(c => `<p>${c}: ${obj.translations[c].official}</p>`).join('')}
-    </details>
-  ` : ''}
-
-  <div>
-    <p>
-      <a href="${obj.maps.googleMaps}" target="_blank">Google Maps</a>
-    </p>
-
-    <p>
-      <a href="${obj.maps.openStreetMaps}" target="_blank">OpenStreetMap</a>
-    </p>
+  <div class="country-footer">
+    <a href="${obj.flags?.svg}" target="_blank">Open SVG flag</a>
   </div>
 </div>
-`.trim()).join(''), title: `COUNTRIES (${d.length})`
-        }));
-    } catch(e) { showResponseFn(`Error: please try enter country name!`); }
+`.trim()).join('') || 'Nothing...', title: `COUNTRIES (${d.length})`
+        }))
+    } catch (e) { showResponseFn(`Error: please try enter country name!`); }
   },
 
   word: async (_, value) => {
