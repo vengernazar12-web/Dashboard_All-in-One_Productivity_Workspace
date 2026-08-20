@@ -283,7 +283,9 @@ document.addEventListener('keydown', e => {
 
   // Global enter
   else if(e.key === 'Enter') {
-    if(assistantWrap.classList.contains('show') && !e.shiftKey) {
+    if(aiRouterWindow.classList.contains('open')) aiRouterSendTaskBtn.click();
+
+    else if(assistantWrap.classList.contains('show') && !e.shiftKey) {
       e.preventDefault();
       sendPromptBtn.click();
     }
@@ -294,9 +296,6 @@ document.addEventListener('keydown', e => {
     else if(addCodeBlockForm.classList.contains('show')) addCodeBlockBtn.click();
     else if(editNoteBlock.classList.contains('show')) confNoteEditChangeBtn.click();
     else if(addMusicForm.classList.contains('show')) addMusicBtn.click();
-
-    // Router
-    else if(aiRouterWindow.classList.contains('open')) aiRouterSendTaskBtn.click();
 
     // Services
     else if(githubWrap.classList.contains('show')) searchGithubUserBtn.click();

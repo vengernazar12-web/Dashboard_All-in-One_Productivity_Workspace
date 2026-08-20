@@ -41,7 +41,7 @@ Manage and store various data structures:
 - **GitHub**: Search users, events, followers, starred, orgs, repos, commits, and file diffs.
 - **Wikipedia**: Search titles, descriptions, excerpts, and images.
 - **IP Search**: IPv4/IPv6 lookup.
-- **Media Search**: Interactive cards for music, podcasts, audiobooks, videos, apps, ebooks, literature, visual media (photos, GIFs), emoji, country, words, recipes, chemical elements, and NASA (with statistics and images).
+- **Media Search**: music, podcasts, audiobooks, music videos, apps, ebooks, literature, visual (photos, gif, gif-stickers), emoji, country, words, recipes, chem (chemical elements), NASA (statistics + images when available), AI models
 
 ### 👁 View
 - **Browser Worker**: Iframe-based viewer with auto-embed for video/audio.

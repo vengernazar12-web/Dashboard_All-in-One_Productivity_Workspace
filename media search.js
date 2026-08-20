@@ -73,7 +73,7 @@ mediaSearchSelectCountry.addEventListener('change', () => {
 const savedMediaSearchCountry = localStorage.getItem('media-search_country');
 if(savedMediaSearchCountry) mediaSearchSelectCountry.value = savedMediaSearchCountry;
 
-const mediaForNotWorkCountrySelect = ['literature', 'visual', 'emoji', 'country', 'word', 'recipes', 'chem', 'nasa'];
+const mediaForNotWorkCountrySelect = ['literature', 'visual', 'emoji', 'country', 'word', 'recipes', 'chem', 'nasa', 'aiModels'];
 
 let allCountriesForShowMedia = null;
 
@@ -842,50 +842,46 @@ https://itunes.apple.com/search
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ value, need: 'search-list' })
     })
-    .then(r => r.json())
-    .then(d => d.error ? mediaSearchCache.push({ content: `Error: ${e.message}`, title: 'ERROR' }) : mediaSearchCache.push(d));
+      .then(r => r.json())
+      .then(d => d.error ? mediaSearchCache.push({ content: `Error: ${e.message}`, title: 'ERROR' }) : mediaSearchCache.push(d));
   },
 
   chem: async (_, value) => {
     await fetch(`https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/${encodeURIComponent(value)}/JSON`)
-    .then(r => r.json())
-    .then(d => mediaSearchCache.push({
-      content: d.PC_Compounds?.map(obj => `
+      .then(r => r.json())
+      .then(d => mediaSearchCache.push({
+        content: d.PC_Compounds?.map(obj => `
 <div class="result-info" data-marker="CHEM">
   <h2>
     ${obj.props?.find(p => p.urn?.label === "IUPAC Name" && p.urn?.name === "Preferred")?.value?.sval
-      || obj.props?.find(p => p.urn?.label === "IUPAC Name")?.value?.sval
-      || "Unknown"}
+          || obj.props?.find(p => p.urn?.label === "IUPAC Name")?.value?.sval
+          || "Unknown"}
   </h2>
 
   <p><strong>CID:</strong> ${obj.id?.id?.cid ?? "—"}</p>
 
-  <p><strong>Formula:</strong> ${
-    obj.props?.find(p => p.urn?.label === "Molecular Formula")?.value?.sval ?? "—"
-  }</p>
+  <p><strong>Formula:</strong> ${obj.props?.find(p => p.urn?.label === "Molecular Formula")?.value?.sval ?? "—"
+          }</p>
 
   <hr>
 
   <h3>⚡ Key Properties</h3>
 
   <p>⚖️ Molecular weight:
-    <strong>${
-      obj.props?.find(p => p.urn?.label === "Molecular Weight")?.value?.sval ?? "—"
-    } g/mol</strong>
+    <strong>${obj.props?.find(p => p.urn?.label === "Molecular Weight")?.value?.sval ?? "—"
+          } g/mol</strong>
   </p>
 
   <p>🧪 LogP:
-    <strong>${
-      obj.props?.find(p => p.urn?.label === "Log P")?.value?.fval ??
-      obj.props?.find(p => p.urn?.label === "Log P")?.value?.sval ??
-      "—"
-    }</strong>
+    <strong>${obj.props?.find(p => p.urn?.label === "Log P")?.value?.fval ??
+          obj.props?.find(p => p.urn?.label === "Log P")?.value?.sval ??
+          "—"
+          }</strong>
   </p>
 
   <p>📐 TPSA:
-    <strong>${
-      obj.props?.find(p => p.urn?.label === "Topological")?.value?.fval ?? "—"
-    }</strong>
+    <strong>${obj.props?.find(p => p.urn?.label === "Topological")?.value?.fval ?? "—"
+          }</strong>
   </p>
 
   <p>⚡ Charge:
@@ -897,21 +893,18 @@ https://itunes.apple.com/search
   <h3>🧬 Structure</h3>
 
   <p>SMILES:
-    <code>${
-      obj.props?.find(p => p.urn?.label === "SMILES")?.value?.sval ?? "—"
-    }</code>
+    <code>${obj.props?.find(p => p.urn?.label === "SMILES")?.value?.sval ?? "—"
+          }</code>
   </p>
 
   <p>InChIKey:
-    <code>${
-      obj.props?.find(p => p.urn?.label === "InChIKey")?.value?.sval ?? "—"
-    }</code>
+    <code>${obj.props?.find(p => p.urn?.label === "InChIKey")?.value?.sval ?? "—"
+          }</code>
   </p>
 
   <p>InChI:
-    <code>${
-      obj.props?.find(p => p.urn?.label === "InChI")?.value?.sval ?? "—"
-    }</code>
+    <code>${obj.props?.find(p => p.urn?.label === "InChI")?.value?.sval ?? "—"
+          }</code>
   </p>
 
   <hr>
@@ -919,21 +912,18 @@ https://itunes.apple.com/search
   <h3>🔬 Bio / Interaction</h3>
 
   <p>H-bond donors:
-    <strong>${
-      obj.props?.find(p => p.urn?.label === "Count" && p.urn?.name === "Hydrogen Bond Donor")?.value?.ival ?? "—"
-    }</strong>
+    <strong>${obj.props?.find(p => p.urn?.label === "Count" && p.urn?.name === "Hydrogen Bond Donor")?.value?.ival ?? "—"
+          }</strong>
   </p>
 
   <p>H-bond acceptors:
-    <strong>${
-      obj.props?.find(p => p.urn?.label === "Count" && p.urn?.name === "Hydrogen Bond Acceptor")?.value?.ival ?? "—"
-    }</strong>
+    <strong>${obj.props?.find(p => p.urn?.label === "Count" && p.urn?.name === "Hydrogen Bond Acceptor")?.value?.ival ?? "—"
+          }</strong>
   </p>
 
   <p>Rotatable bonds:
-    <strong>${
-      obj.props?.find(p => p.urn?.label === "Count" && p.urn?.name === "Rotatable Bond")?.value?.ival ?? "—"
-    }</strong>
+    <strong>${obj.props?.find(p => p.urn?.label === "Count" && p.urn?.name === "Rotatable Bond")?.value?.ival ?? "—"
+          }</strong>
   </p>
 
   <hr>
@@ -941,9 +931,8 @@ https://itunes.apple.com/search
   <h3>📊 Extra</h3>
 
   <p>Complexity:
-    <strong>${
-      obj.props?.find(p => p.urn?.label === "Compound Complexity")?.value?.fval ?? "—"
-    }</strong>
+    <strong>${obj.props?.find(p => p.urn?.label === "Compound Complexity")?.value?.fval ?? "—"
+          }</strong>
   </p>
 
   <p>Source:
@@ -953,7 +942,7 @@ https://itunes.apple.com/search
   </p>
 </div>
 `.trim()).join(''), title: `CHEM (${d.PC_Compounds?.length || 0})`
-    }))
+      }))
   },
 
   nasa: async (_, value) => {
@@ -962,5 +951,69 @@ https://itunes.apple.com/search
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ value })
     }).then(r => r.json()).then(d => d.error ? showResponseFn(`Error: ${d.error}`) : d.forEach(obj => mediaSearchCache.push(obj)));
+  },
+
+  aiModels: async (_, value) => {
+    await fetch(`https://huggingface.co/api/models?search=${encodeURIComponent(value)}`)
+      .then(r => r.json())
+      .then(d => {
+        const models1 = d.slice(0, 500);
+
+        mediaSearchCache.push({
+          content: models1.map(data => `
+<div class="result-info" data-marker="AI MODEL">
+  <div>
+    <h3>${data.id}</h3>
+    <p>${data.pipeline_tag || 'Unknown'}</p>
+  </div>
+
+  <div>
+    <p>Downloads: ${data.downloads.toLocaleString()}</p>
+    <p>Likes: ${data.likes.toLocaleString()}</p>
+    <p>Trending: ${data.trendingScore ?? 0}</p>
+  </div>
+
+  <div>
+    <p>Library: ${data.library_name || 'Unknown'}</p>
+    <p>Created: ${new Date(data.createdAt).toLocaleDateString()}</p>
+  </div>
+
+  <div>${(data.tags || []).map(tag => `<span>${tag}</span>`).join(', ')}</div>
+
+  <a href="https://huggingface.co/${data.id}" target="_blank" rel="noopener noreferrer">Open on Hugging Face</a>
+</div>
+`).join(''), title: `AI MODELS (${models1.length})`
+        })
+
+        if (d.length > 500) {
+          const models2 = d.slice(500);
+
+          mediaSearchCache.push({
+            content: models2.map(data => `
+<div class="result-info" data-marker="AI MODEL">
+  <div>
+    <h3>${data.id}</h3>
+    <p>${data.pipeline_tag || 'Unknown'}</p>
+  </div>
+
+  <div>
+    <p>Downloads: ${data.downloads.toLocaleString()}</p>
+    <p>Likes: ${data.likes.toLocaleString()}</p>
+    <p>Trending: ${data.trendingScore ?? 0}</p>
+  </div>
+
+  <div>
+    <p>Library: ${data.library_name || 'Unknown'}</p>
+    <p>Created: ${new Date(data.createdAt).toLocaleDateString()}</p>
+  </div>
+
+  <div>${(data.tags || []).map(tag => `<span>${tag}</span>`).join(', ')}</div>
+
+  <a href="https://huggingface.co/${data.id}" target="_blank" rel="noopener noreferrer">Open on Hugging Face</a>
+</div>
+`).join(''), title: `AI MODELS (${models2.length})`
+          })
+        }
+      })
   }
 }
