@@ -133,7 +133,7 @@ let isTokenCounterLoaded = false;
 const openTokenCounterBtn = allDashboardItem.querySelector('.open-token-counter-wrap')
 openTokenCounterBtn.addEventListener('click', async () => {
   closeAllWraps();
-  history.pushState({}, null, '#token-counter');
+  history.pushState({}, null, '#aiTokenCounter');
 
   if (!isTokenCounterLoaded) {
     try {

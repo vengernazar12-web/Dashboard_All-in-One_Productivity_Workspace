@@ -48,6 +48,7 @@
 <link rel="stylesheet" href="code-lines-counter.css">
 <link rel="stylesheet" href="substrings-search.css">
 <link rel="stylesheet" href="code-ai.css">
+<link rel="stylesheet" href="ai-router.css">
 
 <link rel="stylesheet" href="sign.css">
 
@@ -91,6 +92,10 @@
 <!-- Assistant -->
 <script src="AI assistant.js" defer></script><!--3-->
 <script src="ai response.js" defer></script>
+
+<script src="ai-router.js" defer></script>
+
+<script src="dashboard buttons.js" defer></script>
 
 <script src="sign.js" defer></script><!--max-->
 
@@ -906,7 +911,8 @@
 
 <!-- Code AI wrap -->
 <div class="code-ai-wrap is-wrap">
-  <div class="chat"></div>
+  <div class="chat"><h4>Hi! I'm Code AI, how can I help you?</h4></div>
+
   <div class="user-area">
     <textarea placeholder="Your task..."></textarea>
 
@@ -1022,6 +1028,14 @@
 <div class="undo-last-action-block">
   <h4>Undo your last action</h4>
   <button>Undo</button>
+</div>
+
+<!-- Router AI -->
+<button class="open-router-ai" aria-label="Open AI router"></button>
+<div class="ai-router-window">
+  <div class="chat"><h4>Hi! I'm router AI, how can I help you?</h4></div>
+  <input type="text" placeholder="Open...">
+  <button>OK</button>
 </div>
 
 <!-- Sign-in window -->

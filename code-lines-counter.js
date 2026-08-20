@@ -16,7 +16,7 @@ openFilesInfoBtn.addEventListener('click', () => {
   closeAllWraps();
   filesInfoWrap.classList.add('show');
 
-  history.pushState(null, {}, '#file-lines-counter');
+  history.pushState(null, {}, '#filesInfo');
 });
 
 const filesInfoInput = filesInfoWrap.querySelector('input[type="file"]');

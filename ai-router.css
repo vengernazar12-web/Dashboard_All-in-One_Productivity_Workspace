@@ -1,0 +1,86 @@
+.ai-router-window {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: max(60%, 300px);
+  height: max(60%, 400px);
+  display: none;
+  background-color: var(--block-bg);
+  color: var(--text-color);
+  border-radius: 10px 0 0 0;
+  border-top: 2px solid var(--border-color);
+  border-left: 2px solid var(--border-color);
+}
+.ai-router-window.open { display: block; }
+
+.ai-router-window > .chat {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  height: calc(100% - 45px);
+  width: calc(100% - 10px);
+  overflow-y: auto;
+}
+
+.ai-router-window > .chat > h4 { text-align: center; font-size: 14px; width: 100%; }
+
+.ai-router-window > .chat pre.user {
+  border: 1px solid var(--border-color);
+  padding: 5px;
+  border-radius: 6px;
+  margin-block: 7px;
+}
+
+.ai-router-window > .chat > pre {
+  white-space: pre-wrap;
+  text-wrap: wrap;
+}
+
+.ai-router-window > input {
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  height: 30px;
+  width: calc(100% - 55px);
+}
+
+.ai-router-window > button {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  width: 40px;
+  height: 30px;
+  font-size: 15px;
+  background-color: black;
+  color: white;
+  border-radius: 7px;
+  border: 1px solid var(--border-color);
+  transition: background-color .2s, color .2s;
+}
+.ai-router-window > button:hover {
+  background-color: white;
+  color: black;
+}
+
+.open-router-ai {
+  position: fixed;
+  right: 10%;
+  bottom: 10%;
+  z-index: 1000;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  border: 1px solid var(--border-color);
+  background-image: url('./all-imgs/route-ai-img.webp');
+  background-position: center;
+  background-size: cover;
+  background-color: #000;
+  animation: open-route-ai-btn-pulse 1s infinite alternate ease-in-out;
+  transition: transform .2s;
+}
+.open-router-ai:hover { transform: scale(1.05); }
+
+@keyframes open-route-ai-btn-pulse {
+  from { background-size: 150% 150%; }
+  to { background-size: 100% 100%; }
+}

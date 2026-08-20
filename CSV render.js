@@ -3,7 +3,7 @@ const csvRenderWrap = document.querySelector('.csv-render-wrap');
 const openCsvRenderBtn = allDashboardItem.querySelector('.open-csv-render-wrap');
 openCsvRenderBtn.addEventListener('click', () => {
   closeAllWraps();
-  history.pushState({}, null, '#csv');
+  history.pushState({}, null, '#csvRender');
   csvRenderWrap.classList.add('show');
 })
 

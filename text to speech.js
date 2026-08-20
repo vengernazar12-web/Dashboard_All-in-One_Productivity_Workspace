@@ -5,7 +5,7 @@ const textToSpeechWrap = document.querySelector('.text-to-speech-wrap');
 const openTextToSpeechBtn = allDashboardItem.querySelector('.open-text-to-speech-wrap');
 openTextToSpeechBtn.addEventListener('click', async () => {
   closeAllWraps();
-  if(needPushState) history.pushState({}, null, '#text-to-speech');
+  history.pushState({}, null, '#textToSpeech');
 
   if(!textToSpeechSelectVoice.childElementCount) {
     showPreloader();
@@ -48,7 +48,7 @@ textToSpeechBtn.addEventListener('click', async () => {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
-        need: 'text-to-speech',
+        need: 'textToSpeech',
         text, voiceId, speed: textToSpeechSpeedInput.value || 0.5
       })
     }).then(r => r.ok ? r.text() : r.json())

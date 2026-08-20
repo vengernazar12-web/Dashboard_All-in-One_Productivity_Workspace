@@ -23,7 +23,7 @@ githubWrap.addEventListener('click', e => {
 const openGithubWrapBtn = allDashboardItem.querySelector('.open-github-wrap');
 openGithubWrapBtn.addEventListener('click', () => {
   closeAllWraps();
-  if(needPushState) history.pushState({}, null, '#github');
+  history.pushState({}, null, '#githubSearch');
   githubWrap.classList.toggle('show');
 });
 

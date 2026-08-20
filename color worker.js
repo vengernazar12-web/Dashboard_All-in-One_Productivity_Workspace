@@ -3,7 +3,7 @@ const colorWorkerWrap = document.querySelector('.color-worker-wrap');
 const openColorWorkerBtn = allDashboardItem.querySelector('.open-color-worker-wrap');
 openColorWorkerBtn.addEventListener('click', () => {
   closeAllWraps();
-  history.pushState({}, null, '#color-worker');
+  history.pushState({}, null, '#colorWorker');
   colorWorkerWrap.classList.add('show');
 })
 

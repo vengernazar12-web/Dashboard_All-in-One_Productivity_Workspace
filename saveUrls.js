@@ -16,7 +16,7 @@ const allUrlsContainer = urlsWrap.querySelector('.all-urls-container');
 const openUrlWrapBtn = allDashboardItem.querySelector('.open-save-urls-wrap');
 openUrlWrapBtn.addEventListener('click', async () => {
   closeAllWraps();
-  if(needPushState) history.pushState({}, null, '#urls');
+  history.pushState({}, null, '#url');
 
   if(!imgCompressLoaded || !allUrlsObj) {
     preloaderProgress.max = 1;
@@ -26,7 +26,7 @@ openUrlWrapBtn.addEventListener('click', async () => {
   }
 
   // Load content
-  if(!allUrlsObj) allUrlsObj = await getContent('urls') || {};
+  if(!allUrlsObj) allUrlsObj = await getContent('url') || {};
   // Load image compression
   if(!imgCompressLoaded) {
     await loadScript('https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js');
@@ -172,7 +172,7 @@ addUrlBtn.addEventListener('click', async () => {
     localImgUrls[name] = URL.createObjectURL(userUploadImg);
   }
 
-  initUndoActionBlock('urls', allUrlsObj);
+  initUndoActionBlock('url', allUrlsObj);
 
   allUrlsObj[name] = {url, imgUrl, imgPath};
   renderAllUrls();
@@ -247,7 +247,7 @@ confirmEditUrlBtn.addEventListener('click', async () => {
 
   if(!editChange) return showResponseFn('Please enter your change');
 
-  initUndoActionBlock('urls', allUrlsObj);
+  initUndoActionBlock('url', allUrlsObj);
 
   if(editItem === 'name') {
     if(editChange in allUrlsObj) return showResponseFn('You already used this name');
@@ -308,7 +308,7 @@ allUrlsContainer.addEventListener('click', e => {
     const initImgPath = allUrlsObj[delUrlName].imgPath;
     if(initImgPath) filesToRemove.push(initImgPath);
 
-    initUndoActionBlock('urls', allUrlsObj);
+    initUndoActionBlock('url', allUrlsObj);
 
     delete allUrlsObj[delUrlName];
 

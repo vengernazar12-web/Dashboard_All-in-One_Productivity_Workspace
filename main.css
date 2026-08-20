@@ -596,6 +596,7 @@ html .del-anim { animation: del-anim var(--del-animation-time) forwards; }
   width: 100vw;
   height: 100vh;
   overflow-y: auto;
+  z-index: 10000;
 }
 
 .preloader-wrap > .dashboard-preloader-p {

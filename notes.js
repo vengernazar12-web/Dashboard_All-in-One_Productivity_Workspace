@@ -9,7 +9,7 @@ const notesContentWrap = document.querySelector('.notes-content-wrap');
 const openNoteWrapBtn = allDashboardItem.querySelector('.open-notes-wrap');
 openNoteWrapBtn.addEventListener('click', async () => {
   closeAllWraps();
-  if(needPushState) history.pushState({}, null, '#notes');
+  history.pushState({}, null, '#note');
 
   if(!allNotesObj) {
     showPreloader();
@@ -17,7 +17,7 @@ openNoteWrapBtn.addEventListener('click', async () => {
     preloaderProgress.value = 0;
     whatIsLoadingText.textContent = 'Take content...';
 
-    allNotesObj = await getContent('notes');
+    allNotesObj = await getContent('note');
     if(!allNotesObj) return;
 
     preloaderProgress.value = 1;
@@ -80,7 +80,7 @@ addNotesButton.addEventListener('click', () => {
   addNoteInputDescription.value = '';
   addNotesForm.classList.remove('show');
 
-  initUndoActionBlock('notes', allNotesObj);
+  initUndoActionBlock('note', allNotesObj);
 
   allNotesObj[name] = { description: desc, txt: '' };
 
@@ -121,7 +121,7 @@ confNoteEditChangeBtn.addEventListener('click', () => {
   if(newName === initEditingNoteName && descBeforeEdit === newDesc) return;
   if(!newName || !newDesc) return showResponseFn(`You don't have a note ${!newName ? 'name' : 'description'}`);
 
-  initUndoActionBlock('notes', allNotesObj);
+  initUndoActionBlock('note', allNotesObj);
 
   allNotesObj[initEditingNoteName].description = newDesc;
 
@@ -145,7 +145,7 @@ allUserNotesCont.addEventListener('click', e => {
     const noteBlock = e.target.closest('.note-block');
     const noteName = noteBlock.firstElementChild.textContent;
 
-    initUndoActionBlock('notes', allNotesObj);
+    initUndoActionBlock('note', allNotesObj);
 
     delete allNotesObj[noteName];
     noteSaveBtn.classList.add('unsaved');

@@ -4,7 +4,7 @@ let isDiffTextScriptLoaded = false;
 const openDiffTextBtn = allDashboardItem.querySelector('.open-diff-text-wrap');
 openDiffTextBtn.addEventListener('click', async () => {
   closeAllWraps();
-  history.pushState({}, null, '#diff-text');
+  history.pushState({}, null, '#compareDifferentText');
 
   if(!isDiffTextScriptLoaded) {
     showPreloader();

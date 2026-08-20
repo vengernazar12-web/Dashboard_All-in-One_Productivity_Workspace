@@ -2,10 +2,10 @@ const GENERATE_IMAGE_API = 'https://image-generation.vengernazar0.workers.dev?';
 
 const generateImageWrap = document.querySelector('.image-ai-generator-wrap');
 // Open
-const opeGenerateImgWrapBtn = allDashboardItem.querySelector('.open-generate-img-wrap');
-opeGenerateImgWrapBtn.addEventListener('click', () => {
+const openGenerateImgWrapBtn = allDashboardItem.querySelector('.open-generate-img-wrap');
+openGenerateImgWrapBtn.addEventListener('click', () => {
   closeAllWraps();
-  if(needPushState) history.pushState({}, null, '#image-generation');
+  history.pushState({}, null, '#imageGeneration');
   generateImageWrap.classList.add('show');
 });
 

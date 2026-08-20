@@ -7,7 +7,7 @@ textsSnippetsWrap.addEventListener('click', e => {
 const openTextsSnippetsWrap = allDashboardItem.querySelector('.open-texts-snippets-wrap');
 openTextsSnippetsWrap.addEventListener('click', async () => {
   closeAllWraps();
-  if(needPushState) history.pushState({}, null, '#texts');
+  history.pushState({}, null, '#text');
 
   if(!allTextsSnippetsObj) {
     showPreloader();
@@ -15,7 +15,7 @@ openTextsSnippetsWrap.addEventListener('click', async () => {
     preloaderProgress.value = 0;
     whatIsLoadingText.textContent = 'Take content...';
 
-    allTextsSnippetsObj = await getContent('texts');
+    allTextsSnippetsObj = await getContent('text');
     if(!allTextsSnippetsObj) return;
 
     preloaderProgress.value = 1;
@@ -124,7 +124,7 @@ allTextsSnippetsContainer.addEventListener('click', e => {
     const snippetBlock = target.closest('.text-block');
     const snippetName = snippetBlock.dataset.name;
 
-    initUndoActionBlock('texts', allTextsSnippetsObj);
+    initUndoActionBlock('text', allTextsSnippetsObj);
 
     delete allTextsSnippetsObj[snippetName];
     textSaveBtn.classList.add('unsaved');
@@ -204,7 +204,7 @@ addTextSnippetBtn.addEventListener('click', () => {
   addTextSnippetContentTextarea.value = '';
   addTextSnippetForm.classList.remove('show');
 
-  initUndoActionBlock('texts', allTextsSnippetsObj);
+  initUndoActionBlock('text', allTextsSnippetsObj);
 
   allTextsSnippetsObj[name] = {txt: content,}
   renderTextsSnippets();
@@ -246,7 +246,7 @@ confirmTextSnippetEditChangeBtn.addEventListener('click', () => {
 
   if(nameBeforeEdit === name && contentBeforeEdit === content) return;
 
-  initUndoActionBlock('texts', allTextsSnippetsObj);
+  initUndoActionBlock('text', allTextsSnippetsObj);
 
   allTextsSnippetsObj[nameBeforeEdit].txt = content;
   const objForEdit = allTextsSnippetsObj[nameBeforeEdit];

@@ -6,7 +6,7 @@ todoWrap.addEventListener('click', e => {
 const openTodoWrapBtn = allDashboardItem.querySelector('.open-todo-wrap');
 openTodoWrapBtn.addEventListener('click', async () => {
   closeAllWraps();
-  if(needPushState) history.pushState({}, null, '#todos');
+  history.pushState({}, null, '#todo');
 
   if(!allTodosObj) {
     showPreloader();

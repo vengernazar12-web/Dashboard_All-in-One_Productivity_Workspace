@@ -46,7 +46,7 @@ const mediaSearchWrap = document.querySelector('.media-search-wrap');
 const openMediaSearchBtn = allDashboardItem.querySelector('.open-media-search-wrap');
 openMediaSearchBtn.addEventListener('click', () => {
   closeAllWraps();
-  if(needPushState) history.pushState({}, null, '#media-search');
+  history.pushState({}, null, '#mediaSearch');
   if(!savedMediaBeenSet) setSavedMedia();
   mediaSearchWrap.classList.add('show');
 });
@@ -721,17 +721,17 @@ https://itunes.apple.com/search
         .then(d => mediaSearchCache.push({
           content: d.map(obj => `
 <div class="result-info" data-marker="COUNTRY">
-  <div class="country-header">
-    <span class="country-flag">${obj.flag}</span>
-    <div class="country-title">
+  <div>
+    <span>${obj.flag}</span>
+    <div>
       <h2>${obj.name}</h2>
       <small>${obj.region} · ${obj.subregion}</small>
     </div>
   </div>
 
-  <img class="country-flag-img" src="${obj.flags?.png || obj.flags?.svg}" alt="${obj.name} flag">
+  <img src="${obj.flags?.png || obj.flags?.svg}" alt="${obj.name} flag">
 
-  <div class="country-basic">
+  <div>
     <p><strong>Capital:</strong> ${obj.capital}</p>
     <p><strong>Population:</strong> ${obj.population.toLocaleString()}</p>
     <p><strong>Area:</strong> ${obj.area} km²</p>
@@ -739,20 +739,20 @@ https://itunes.apple.com/search
     <p><strong>Location:</strong> ${obj.latlng[0]}, ${obj.latlng[1]}</p>
   </div>
 
-  <div class="country-codes">
+  <div>
     <p><strong>Alpha2:</strong> ${obj.alpha2Code}</p>
     <p><strong>Alpha3:</strong> ${obj.alpha3Code}</p>
     <p><strong>Numeric:</strong> ${obj.numericCode}</p>
     <p><strong>CIOC:</strong> ${obj.cioc}</p>
   </div>
 
-  <div class="country-extra">
+  <div>
     <p><strong>Native name:</strong> ${obj.nativeName}</p>
     <p><strong>Demonym:</strong> ${obj.demonym}</p>
     <p><strong>Independent:</strong> ${obj.independent ? "Yes" : "No"}</p>
   </div>
 
-  <div class="country-lists">
+  <div>
     <p><strong>Currencies:</strong> ${obj.currencies.map(c => `${c.name} (${c.code})`).join(", ")}</p>
     <p><strong>Languages:</strong> ${obj.languages.map(l => l.name).join(", ")}</p>
     <p><strong>Calling codes:</strong> ${obj.callingCodes.map(c => `+${c}`).join(", ")}</p>
@@ -760,7 +760,7 @@ https://itunes.apple.com/search
     <p><strong>Domains:</strong> ${obj.topLevelDomain.join(", ")}</p>
   </div>
 
-  <div class="country-footer">
+  <div>
     <a href="${obj.flags?.svg}" target="_blank">Open SVG flag</a>
   </div>
 </div>

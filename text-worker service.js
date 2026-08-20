@@ -11,7 +11,7 @@ textWorkerServiceWrap.addEventListener('click', e => {
 const openTextWorkerServiceBtn = allDashboardItem.querySelector('.open-text-worker-service-wrap');
 openTextWorkerServiceBtn.addEventListener('click', () => {
   closeAllWraps();
-  if(needPushState) history.pushState({}, null, '#text-worker');
+  history.pushState({}, null, '#textWorker');
   textWorkerServiceWrap.classList.add('show');
 })
 

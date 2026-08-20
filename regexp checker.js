@@ -3,7 +3,7 @@ const regexpCheckerWrap = document.querySelector('.regexp-checker-wrap');
 const openRegexpCheckerBtn = allDashboardItem.querySelector('.open-regexp-checker-wrap');
 openRegexpCheckerBtn.addEventListener('click', () => {
   closeAllWraps();
-  if(needPushState) history.pushState({}, null, '#regexp-checker');
+  history.pushState({}, null, '#regexpChecker');
   regexpCheckerWrap.classList.add('show');
 })
 

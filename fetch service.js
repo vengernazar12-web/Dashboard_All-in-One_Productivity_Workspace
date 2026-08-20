@@ -8,7 +8,7 @@ fetchServiceWrap.addEventListener('click', e => {
 const openFetchServiceBtn = allDashboardItem.querySelector('.open-fetch-service-wrap');
 openFetchServiceBtn.addEventListener('click', () => {
   closeAllWraps();
-  if(needPushState) history.pushState({}, null, '#fetch-service');
+  history.pushState({}, null, '#fetchService');
   fetchServiceWrap.classList.add('show');
 })
 

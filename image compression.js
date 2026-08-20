@@ -3,7 +3,7 @@ const imageCompressWrap = document.querySelector('.image-compressor-wrap');
 const openImageCompressBtn = allDashboardItem.querySelector('.open-image-compressor-wrap');
 openImageCompressBtn.addEventListener('click', async () => {
   closeAllWraps();
-  history.pushState({}, null, '#compress-image');
+  history.pushState({}, null, '#compressImage');
 
   if (!imgCompressLoaded) {
     showPreloader();

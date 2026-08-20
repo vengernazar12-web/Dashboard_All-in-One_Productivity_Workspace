@@ -5,7 +5,7 @@ openCodeAiBtn.addEventListener('click', () => {
   closeAllWraps();
   codeAiWrap.classList.add('show');
 
-  history.pushState(null, {}, '#code-ai');
+  history.pushState(null, {}, '#codeAi');
 })
 
 const codeAiLoader = codeAiWrap.querySelector('span.loader');
@@ -218,7 +218,7 @@ const codeAiOpenUploadFilesWindow = codeAiUploadsContainer.querySelector('button
 codeAiOpenUploadFilesWindow.addEventListener('click', async () => {
   if (!allUserCodesObj) {
     codeAiLoader.style.display = 'block';
-    allUserCodesObj = await getContent('codes') || {};
+    allUserCodesObj = await getContent('code') || {};
     codeAiLoader.style.display = 'none';
   }
 
@@ -383,6 +383,7 @@ function createCodeAiPreInChat(message, role) {
   }
 
   else if (role === 'assistant') {
+    pre.classList.add('is-ai-text');
     codeAiRespAnimationData.pre = pre;
     codeAiRespAnimationData.text = message;
 

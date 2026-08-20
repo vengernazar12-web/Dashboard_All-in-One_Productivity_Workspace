@@ -3,7 +3,7 @@ const commandRunnerWrap = document.querySelector('.commands-runner-wrap');
 const openCommandRunnerWrapBtn = allDashboardItem.querySelector('.open-commands-runner-wrap');
 openCommandRunnerWrapBtn.addEventListener('click', async () => {
   closeAllWraps();
-  if(needPushState) history.pushState({}, null, '#runner');
+  history.pushState({}, null, '#runner');
 
   if(!codeMirrorLoaded) {
     showPreloader();
@@ -105,27 +105,27 @@ async function goRunner(command) {
 
     // Get all obj data
     for (let type of allTypes) {
-      if (type === 'todos') {
+      if (type === 'todo') {
         if (!allTodosObj) allTodosObj = await getContent(type);
         if (!allTodosObj) throw new Error('Server error... Please try again later...');
         allData[type] = allTodosObj;
       }
-      else if (type === 'notes') {
+      else if (type === 'note') {
         if (!allNotesObj) allNotesObj = await getContent(type);
         if (!allNotesObj) throw new Error('Server error... Please try again later...');
         allData[type] = allNotesObj;
       }
-      else if (type === 'urls') {
+      else if (type === 'url') {
         if (!allUrlsObj) allUrlsObj = await getContent(type);
         if (!allUrlsObj) throw new Error('Server error... Please try again later...');
         allData[type] = allUrlsObj;
       }
-      else if (type === 'codes') {
+      else if (type === 'code') {
         if (!allUserCodesObj) allUserCodesObj = await getContent(type);
         if (!allUserCodesObj) throw new Error('Server error... Please try again later...');
         allData[type] = allUserCodesObj;
       }
-      else if (type === 'texts') {
+      else if (type === 'text') {
         if (!allTextsSnippetsObj) allTextsSnippetsObj = await getContent(type);
         if (!allTextsSnippetsObj) throw new Error('Server error... Please try again later...');
         allData[type] = allTextsSnippetsObj;
@@ -159,8 +159,8 @@ async function goRunner(command) {
 
 // Do runner actions fn
 function doRunnerActions(doActions) {
-  const contentObjs = { 'todos': allTodosObj, 'notes': allNotesObj, 'urls': allUrlsObj, 'codes': allUserCodesObj, 'texts': allTextsSnippetsObj, 'music': allMusicObj, }
-  const contentSaveBns = { 'todos': todoSaveBtn, 'notes': noteSaveBtn, 'urls': urlSaveBtn, 'codes': codeSaveBtn, 'texts': textSaveBtn, 'music': musicSaveBtn, }
+  const contentObjs = { 'todo': allTodosObj, 'note': allNotesObj, 'url': allUrlsObj, 'code': allUserCodesObj, 'text': allTextsSnippetsObj, 'music': allMusicObj, }
+  const contentSaveBns = { 'todo': todoSaveBtn, 'note': noteSaveBtn, 'url': urlSaveBtn, 'code': codeSaveBtn, 'text': textSaveBtn, 'music': musicSaveBtn, }
 
   for (let actionObj of doActions) {
       const target = actionObj.target;

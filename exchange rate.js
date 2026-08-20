@@ -34,7 +34,7 @@ openExchangeRateWrapBtn.addEventListener('click', async () => {
   }
 
   closeAllWraps();
-  if(needPushState) history.pushState({}, null, '#exchange-rate');
+  history.pushState({}, null, '#exchangeRates');
   preloaderProgress.max = 1;
   preloaderProgress.value = 0;
   whatIsLoadingText.textContent = 'Loading exchange rate...';

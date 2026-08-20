@@ -52,7 +52,7 @@ toggleAllDashboardItemBtn.addEventListener('click', () => {
     else if(timezoneWrap.classList.contains('show')) openTimezoneWrapBtn.classList.add('active-btn');
     else if(assistantWrap.classList.contains('show')) openAssistantWrapBtn.classList.add('active-btn');
     else if(githubWrap.classList.contains('show')) openGithubWrapBtn.classList.add('active-btn');
-    else if(generateImageWrap.classList.contains('show')) opeGenerateImgWrapBtn.classList.add('active-btn');
+    else if(generateImageWrap.classList.contains('show')) openGenerateImgWrapBtn.classList.add('active-btn');
     else if(textWorkerServiceWrap.classList.contains('show')) openTextWorkerServiceBtn.classList.add('active-btn');
     else if(qrCodeGenerationWrap.classList.contains('show')) openQrCodeGenerationBtn.classList.add('active-btn');
     else if(browserWorkerWrap.classList.contains('show')) openBrowserWorkerBtn.classList.add('active-btn');
@@ -295,6 +295,9 @@ document.addEventListener('keydown', e => {
     else if(editNoteBlock.classList.contains('show')) confNoteEditChangeBtn.click();
     else if(addMusicForm.classList.contains('show')) addMusicBtn.click();
 
+    // Router
+    else if(aiRouterWindow.classList.contains('open')) aiRouterSendTaskBtn.click();
+
     // Services
     else if(githubWrap.classList.contains('show')) searchGithubUserBtn.click();
     else if(generateImageWrap.classList.contains('show')) sendPromptForGenerateImgBtn.click();
@@ -344,27 +347,27 @@ undoLastActionBtn.addEventListener('click', () => {
   if(!lastDataForUndoAction || !type) return;
   undoLastActionBlock.classList.remove('show');
 
-  if(type === 'todos') {
+  if(type === 'todo') {
     allTodosObj = lastDataForUndoAction.content;
     todoSaveBtn.classList.toggle('unsaved', lastDataForUndoAction.isSaved);
     renderTodos();
   }
-  else if(type === 'notes') {
+  else if(type === 'note') {
     allNotesObj = lastDataForUndoAction.content;
     noteSaveBtn.classList.toggle('unsaved', lastDataForUndoAction.isSaved);
     renderNotesBlocks();
   }
-  else if(type === 'urls') {
+  else if(type === 'url') {
     allUrlsObj = lastDataForUndoAction.content;
     urlSaveBtn.classList.toggle('unsaved', lastDataForUndoAction.isSaved);
     renderAllUrls();
   }
-  else if(type === 'codes') {
+  else if(type === 'code') {
     allUserCodesObj = lastDataForUndoAction.content;
     codeSaveBtn.classList.toggle('unsaved', lastDataForUndoAction.isSaved);
     renderUserCodesBlocks();
   }
-  else if(type === 'texts') {
+  else if(type === 'text') {
     allTextsSnippetsObj = lastDataForUndoAction.content;
     textSaveBtn.classList.toggle('unsaved', lastDataForUndoAction.isSaved);
     renderTextsSnippets();
@@ -389,7 +392,7 @@ function initUndoActionBlock(type, content) {
   }, 15000);
 
   lastDataForUndoAction = {type, content: JSON.parse(JSON.stringify(content))};
-  let saveBtn = type === 'todos' ? todoSaveBtn : type === 'notes' ? noteSaveBtn : type === 'urls' ? urlSaveBtn : type === 'codes' ? codeSaveBtn : type === 'texts' ? textSaveBtn : musicSaveBtn;
+  let saveBtn = type === 'todo' ? todoSaveBtn : type === 'note' ? noteSaveBtn : type === 'url' ? urlSaveBtn : type === 'code' ? codeSaveBtn : type === 'text' ? textSaveBtn : musicSaveBtn;
   lastDataForUndoAction.isSaved = saveBtn.classList.contains('unsaved');
 
   undoLastActionBlock.classList.add('show');
@@ -442,58 +445,9 @@ const compressImgOptions = {
 };
 
 // Init window state
-let needPushState = true;
 function setInitWindowState() {
   const hash = location.hash?.slice(1);
-
-  needPushState = false;
-  switch(hash) {
-    case 'assistant': openAssistantWrapBtn.click(); break;
-
-    case 'todos': openTodoWrapBtn.click(); break;
-    case 'notes': openNoteWrapBtn.click(); break;
-    case 'urls': openUrlWrapBtn.click(); break;
-    case 'codes': openCodeWrapBtn.click(); break;
-    case 'texts': openTextsSnippetsWrap.click(); break;
-    case 'music': openMusicWrapBtn.click(); break;
-
-    case 'exchange-rate': openExchangeRateWrapBtn.click(); break;
-    case 'timezones': openTimezoneWrapBtn.click(); break;
-    case 'qr-codes': openQrCodeGenerationBtn.click(); break;
-    case 'fetch-service': openFetchServiceBtn.click(); break;
-    case 'unit-converter': openUnitConverterBtn.click(); break;
-    case 'regexp-checker': openRegexpCheckerBtn.click(); break;
-    case 'diff-text': openDiffTextBtn.click(); break;
-    case 'compress-image': openImageCompressBtn.click(); break;
-    case 'color-worker': openColorWorkerBtn.click(); break;
-    case 'file-lines-counter': openFilesInfoBtn.click(); break;
-    case 'substrings-search': openSubstringsSearchBtn.click(); break;
-
-    case 'reasoning-ai': openReasoningAiBtn.click(); break;
-    case 'template-ai': openTempAiBtn.click(); break;
-    case 'text-to-speech': openTextToSpeechBtn.click(); break;
-    case 'image-generation': opeGenerateImgWrapBtn.click(); break;
-    case 'text-worker': openTextWorkerServiceBtn.click(); break;
-    case 'token-counter': openTokenCounterBtn.click(); break;
-    case 'code-ai': openCodeAiBtn.click(); break;
-
-    case 'weather': openWeatherWrapBtn.click(); break;
-    case 'github': openGithubWrapBtn.click(); break;
-    case 'wikipedia': openWikipediaBtn.click(); break;
-    case 'ip-search': openIpSearchBtn.click(); break;
-    case 'media-search': openMediaSearchBtn.click(); break;
-
-    case 'browser-worker': openBrowserWorkerBtn.click(); break;
-    case 'json-worker': openJsonWorkerBtn.click(); break;
-    case 'csv': openCsvRenderBtn.click(); break;
-
-    case 'settings': openSettingsWrapBtn.click(); break;
-    case 'runner': openCommandRunnerWrapBtn.click(); break;
-
-    default: break;
-  }
-
-  needPushState = true;
+  if(dashboardWindowsBtnsFromNames[hash]) dashboardWindowsBtnsFromNames[hash].click();
 }
 window.addEventListener('popstate', () => setInitWindowState());
 

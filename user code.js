@@ -6,7 +6,7 @@ userCodeWrap.addEventListener('click', e => {
 const openCodeWrapBtn = allDashboardItem.querySelector('.open-user-code-wrap');
 openCodeWrapBtn.addEventListener('click', async () => {
   closeAllWraps();
-  if(needPushState) history.pushState({}, null, '#codes');
+  history.pushState({}, null, '#code');
 
   if(!codeMirrorLoaded || !allUserCodesObj) {
     preloaderProgress.max = 1;
@@ -38,7 +38,7 @@ openCodeWrapBtn.addEventListener('click', async () => {
     })
   };
 
-  if(!allUserCodesObj) allUserCodesObj = await getContent('codes') || {};
+  if(!allUserCodesObj) allUserCodesObj = await getContent('code') || {};
 
   renderUserCodesBlocks();
 
@@ -194,7 +194,7 @@ addCodeBlockBtn.addEventListener('click', () => {
   const lang = codeBlockLang.value;
   if(!lang) return showResponseFn('Please set your code language');
 
-  initUndoActionBlock('codes', allUserCodesObj);
+  initUndoActionBlock('code', allUserCodesObj);
 
   allUserCodesObj[name] = { code: '', lang };
 
@@ -308,7 +308,7 @@ allUserCodesContainer.addEventListener('click', e => {
     const name = targetBlock.firstElementChild.textContent;
     if(localStorage.getItem('conf-before-delete') == 'true' && !confirm('Delete?')) return;
 
-    initUndoActionBlock('codes', allUserCodesObj);
+    initUndoActionBlock('code', allUserCodesObj);
 
     delete allUserCodesObj[name];
     codeSaveBtn.classList.add('unsaved');

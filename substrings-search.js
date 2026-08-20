@@ -7,7 +7,7 @@ openSubstringsSearchBtn.addEventListener('click', () => {
 
   showResponseFn('WARNING: This service processes all substrings, so it might be slow with large texts!');
 
-  history.pushState(null, {}, '#substrings-search');
+  history.pushState(null, {}, '#substringsSearch');
 })
 
 // Textarea
