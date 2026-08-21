@@ -1,4 +1,4 @@
-const WORKER_WEATHER_API = 'https://weather-fetch.vengernazar0.workers.dev/';
+const WORKER_WEATHER_API = 'https://weather-fetch.dark-backend.workers.dev/';
 
 const weatherWrap = document.querySelector('.weather-wrap');
 weatherWrap.addEventListener('click', e => {

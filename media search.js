@@ -179,7 +179,7 @@ searchMusicResult.addEventListener('click', async e => {
     const recipeId = target.closest('.show-recipe').dataset.id;
 
     mediaSearchShowInfoWindow.classList.add('open');
-    mediaSearchShowInfoWindow.innerHTML = await fetch('https://search-recipes.vengernazar0.workers.dev', {
+    mediaSearchShowInfoWindow.innerHTML = await fetch('https://search-recipes.dark-backend.workers.dev', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ id: recipeId, need: 'get-recipe' })
@@ -692,7 +692,7 @@ https://itunes.apple.com/search
   },
 
   visual: async (_, value) => {
-    await fetch('https://media-search-visual-data.vengernazar0.workers.dev/', {
+    await fetch('https://media-search-visual-data.dark-backend.workers.dev/', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ value })
@@ -837,7 +837,7 @@ https://itunes.apple.com/search
   },
 
   recipes: async (_, value) => {
-    await fetch(`https://search-recipes.vengernazar0.workers.dev`, {
+    await fetch(`https://search-recipes.dark-backend.workers.dev`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ value, need: 'search-list' })
@@ -946,7 +946,7 @@ https://itunes.apple.com/search
   },
 
   nasa: async (_, value) => {
-    await fetch('https://nasa-search.vengernazar0.workers.dev', {
+    await fetch('https://nasa-search.dark-backend.workers.dev', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ value })

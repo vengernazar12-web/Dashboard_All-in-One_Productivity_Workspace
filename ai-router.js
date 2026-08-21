@@ -83,7 +83,7 @@ aiRouterSendTaskBtn.addEventListener('click', async () => {
   const openedWindow = location.hash?.slice(1) || 'No window has been opened yet';
 
   try {
-    const aiMessage = await fetch('https://dashboard-router-ai.vengernazar0.workers.dev/', {
+    const aiMessage = await fetch('https://dashboard-router-ai.dark-backend.workers.dev/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ history: aiRouterHistory, initWindow: openedWindow })

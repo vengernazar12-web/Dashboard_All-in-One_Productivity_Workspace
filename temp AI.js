@@ -1,4 +1,4 @@
-const TEMP_AI_WORKER_API = 'https://templater-ai.vengernazar0.workers.dev';
+const TEMP_AI_WORKER_API = 'https://templater-ai.dark-backend.workers.dev';
 
 const tempAiWrap = document.querySelector('.template-ai-wrap');
 // Open

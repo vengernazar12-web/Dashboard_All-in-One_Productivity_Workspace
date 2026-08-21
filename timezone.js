@@ -1,4 +1,4 @@
-const WORKER_TIMEZONE_API = 'https://timezone-fetch.vengernazar0.workers.dev';
+const WORKER_TIMEZONE_API = 'https://timezone-fetch.dark-backend.workers.dev';
 
 async function initAllTimezones() {
   try {

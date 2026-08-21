@@ -1,4 +1,4 @@
-const GENERATE_IMAGE_API = 'https://image-generation.vengernazar0.workers.dev?';
+const GENERATE_IMAGE_API = 'https://image-generation.dark-backend.workers.dev?';
 
 const generateImageWrap = document.querySelector('.image-ai-generator-wrap');
 // Open

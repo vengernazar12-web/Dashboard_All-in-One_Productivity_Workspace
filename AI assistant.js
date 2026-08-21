@@ -1,7 +1,7 @@
 // Set preloader text
 whatIsLoadingText.textContent = 'Loading assistant logic...';
 
-const HISTORY_WORKER_API = 'https://assistant-history.vengernazar0.workers.dev';
+const HISTORY_WORKER_API = 'https://assistant-history.dark-backend.workers.dev';
 
 // User actions
 const userActionsForAi = [];
@@ -42,12 +42,6 @@ async function renderHistoryChat() {
     assistantResponseContainer.textContent = '';
     assistantResponseContainer.appendChild(frag);
 
-    if (!isJson5Loaded) {
-      whatIsLoadingText.textContent = 'Loading JSON5...';
-      await loadScript("https://unpkg.com/json5/dist/index.min.js");
-      isJson5Loaded = true;
-    }
-
     preloaderProgress.value = 1;
     setTimeout(() => {
       assistantResponseContainer.scrollTop = assistantResponseContainer.scrollHeight;
@@ -78,6 +72,7 @@ let isRunGeneratedCommand = false;
 const assistantResponseContainer = assistantWrap.querySelector('.assistant-answer-container');
 assistantResponseContainer.addEventListener('click', async e => {
   const target = e.target;
+
   if(target.classList.contains('runner-command-btn')) {
     if(isRunGeneratedCommand) return;
     isRunGeneratedCommand = true;
@@ -98,9 +93,9 @@ assistantResponseContainer.addEventListener('click', async e => {
     delete commandResult.result.do_action;
 
     historyForAiPrompt.push({
-      type: "function_call_output",
-      call_id: tool_id,
-      output: unhashHtmlSymbols(JSON.stringify(commandResult.result).replace(/<\/?span>/g, ''))
+      role: "tool",
+      tool_call_id: tool_id,
+      content: unhashHtmlSymbols(JSON.stringify(commandResult.result).replace(/<\/?span>/g, ''))
     });
     target.remove();
     cancelBtn.remove();
@@ -128,9 +123,9 @@ assistantResponseContainer.addEventListener('click', async e => {
     const tool_id = target.dataset.toolId;
 
     historyForAiPrompt.push({
-      type: "function_call_output",
-      call_id: tool_id,
-      output: JSON.stringify({ success: ["Command run...", "Cancelled: the user rejected the given command"] })
+      role: "tool",
+      tool_call_id: tool_id,
+      content: JSON.stringify({ success: [ 'Cancelled: the user rejected the given command' ] })
     });
 
     generatedCommandsCount--;

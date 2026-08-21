@@ -10,7 +10,7 @@ openCodeAiBtn.addEventListener('click', () => {
 
 const codeAiLoader = codeAiWrap.querySelector('span.loader');
 
-const CODE_AI_API = 'https://code-ai.vengernazar0.workers.dev';
+const CODE_AI_API = 'https://code-ai.dark-backend.workers.dev';
 const codeAiHistory = [];
 
 // Chat

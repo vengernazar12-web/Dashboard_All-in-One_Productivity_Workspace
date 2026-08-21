@@ -1,4 +1,4 @@
-const TEXT_TO_SPEECH_API = 'https://text-to-speach.vengernazar0.workers.dev';
+const TEXT_TO_SPEECH_API = 'https://text-to-speach.dark-backend.workers.dev';
 
 const textToSpeechWrap = document.querySelector('.text-to-speech-wrap');
 // Open

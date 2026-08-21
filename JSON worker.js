@@ -1,4 +1,4 @@
-const JSON_WORKER_API = 'https://json-worker.vengernazar0.workers.dev';
+const JSON_WORKER_API = 'https://json-worker.dark-backend.workers.dev';
 
 const jsonWorkerWrap = document.querySelector('.json-worker-wrap');
 // Open

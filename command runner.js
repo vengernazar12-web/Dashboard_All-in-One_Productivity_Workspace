@@ -105,27 +105,27 @@ async function goRunner(command) {
 
     // Get all obj data
     for (let type of allTypes) {
-      if (type === 'todo') {
+      if (type === 'todos') {
         if (!allTodosObj) allTodosObj = await getContent(type);
         if (!allTodosObj) throw new Error('Server error... Please try again later...');
         allData[type] = allTodosObj;
       }
-      else if (type === 'note') {
+      else if (type === 'notes') {
         if (!allNotesObj) allNotesObj = await getContent(type);
         if (!allNotesObj) throw new Error('Server error... Please try again later...');
         allData[type] = allNotesObj;
       }
-      else if (type === 'url') {
+      else if (type === 'urls') {
         if (!allUrlsObj) allUrlsObj = await getContent(type);
         if (!allUrlsObj) throw new Error('Server error... Please try again later...');
         allData[type] = allUrlsObj;
       }
-      else if (type === 'code') {
+      else if (type === 'codes') {
         if (!allUserCodesObj) allUserCodesObj = await getContent(type);
         if (!allUserCodesObj) throw new Error('Server error... Please try again later...');
         allData[type] = allUserCodesObj;
       }
-      else if (type === 'text') {
+      else if (type === 'texts') {
         if (!allTextsSnippetsObj) allTextsSnippetsObj = await getContent(type);
         if (!allTextsSnippetsObj) throw new Error('Server error... Please try again later...');
         allData[type] = allTextsSnippetsObj;
@@ -138,7 +138,7 @@ async function goRunner(command) {
     }
 
     // Fetch commands result
-    const serverCommandValidationResponse = await fetch('https://run-command-validation.vengernazar0.workers.dev', {
+    const serverCommandValidationResponse = await fetch('https://run-command-validation.dark-backend.workers.dev', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', },
       body: JSON.stringify({
@@ -159,8 +159,8 @@ async function goRunner(command) {
 
 // Do runner actions fn
 function doRunnerActions(doActions) {
-  const contentObjs = { 'todo': allTodosObj, 'note': allNotesObj, 'url': allUrlsObj, 'code': allUserCodesObj, 'text': allTextsSnippetsObj, 'music': allMusicObj, }
-  const contentSaveBns = { 'todo': todoSaveBtn, 'note': noteSaveBtn, 'url': urlSaveBtn, 'code': codeSaveBtn, 'text': textSaveBtn, 'music': musicSaveBtn, }
+  const contentObjs = { 'todos': allTodosObj, 'notes': allNotesObj, 'urls': allUrlsObj, 'codes': allUserCodesObj, 'texts': allTextsSnippetsObj, 'music': allMusicObj, }
+  const contentSaveBns = { 'todos': todoSaveBtn, 'notes': noteSaveBtn, 'urls': urlSaveBtn, 'codes': codeSaveBtn, 'texts': textSaveBtn, 'music': musicSaveBtn, }
 
   for (let actionObj of doActions) {
       const target = actionObj.target;

@@ -1,4 +1,4 @@
-const AI_REASONING_WORKER_API = 'https://resoning-ai-worker.vengernazar0.workers.dev';
+const AI_REASONING_WORKER_API = 'https://resoning-ai-worker.dark-backend.workers.dev';
 
 const reasoningAiHistory = [];
 

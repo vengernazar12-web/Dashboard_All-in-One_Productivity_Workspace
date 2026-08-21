@@ -12,7 +12,7 @@ async function getAiResponse() {
     assistantLoader.style.display = 'block';
     sendPromptBtn.disabled = true;
 
-    const resp = await fetch('https://throbbing-night-c338.vengernazar0.workers.dev', {
+    const resp = await fetch('https://throbbing-night-c338.dark-backend.workers.dev', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', "Authorization": userId},
       body: JSON.stringify({
@@ -27,11 +27,16 @@ async function getAiResponse() {
     // If ai do tool_calls
     if ('tool_calls' in data) {
       let generatedCommands = [];
-      for (let tool of data.tool_calls) {
-        historyForAiPrompt.push({type: "function_call", call_id: tool.call_id, name: tool.name, arguments: tool.arguments});
+      historyForAiPrompt.push({role: "assistant", content: '', tool_calls: data.tool_calls});
 
-        if (tool.name === 'go_runner') {
-          let command = JSON.parse(tool.arguments).command;
+      for (let tool of data.tool_calls) {
+        const func = tool.function;
+        const name = func.name;
+        const args = JSON.parse(func.arguments);
+        const id = tool.id;
+
+        if (name === 'go_runner') {
+          let command = args.command;
 
           let count = 0;
           const matched = command?.match(/{|}/g);
@@ -43,11 +48,11 @@ async function getAiResponse() {
             for_show: `
 <div class="runner-command-block">
   <div class="command">${hashHtmlSymbols(command)}</div>
-  <button class="cancel-command-btn" data-tool-id="${tool.call_id}">NO</button>
-  <button class="runner-command-btn" data-tool-id="${tool.call_id}" data-command='${hashHtmlSymbols(command)}'>RUN</button>
+  <button class="cancel-command-btn" data-tool-id="${id}">NO</button>
+  <button class="runner-command-btn" data-tool-id="${id}" data-command='${hashHtmlSymbols(command)}'>RUN</button>
 </div>
 `,          for_runner: command,
-            tool_id: tool.call_id
+            tool_id: id
 }
           );
         }
@@ -58,16 +63,22 @@ async function getAiResponse() {
 
         const checkCommands = [];
         for(let commandObj of generatedCommands) {
+          if(!isJson5Loaded) {
+            await loadScript("https://unpkg.com/json5/dist/index.min.js");
+            isJson5Loaded = true;
+          }
+
           const serverValidate = await goRunner(commandObj.for_runner);
           checkCommands.push({validate: serverValidate, tool_id: commandObj.tool_id});
         }
 
         // Is found error
-        if(checkCommands.find(obj => obj.validate.result.errors.length)) {
+        if(checkCommands.find(obj => obj.validate.result?.errors?.length)) {
           for(let command of checkCommands) {
             command.validate.success = [];
-            historyForAiPrompt.push({type: "function_call_output", call_id: command.tool_id, output: JSON.stringify(command.validate)});
+            historyForAiPrompt.push({ role: 'tool', tool_call_id: command.tool_id, content: JSON.stringify(command.validate)});
           }
+
           return runnerCallCounter <= 3 ? getAiResponse() : 'Runner error...';
         }
 

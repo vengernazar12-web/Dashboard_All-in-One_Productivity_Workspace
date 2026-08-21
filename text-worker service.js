@@ -16,7 +16,7 @@ openTextWorkerServiceBtn.addEventListener('click', () => {
 })
 
 // AI text worker
-const TEXT_WORKER_API = 'https://text-worker.vengernazar0.workers.dev';
+const TEXT_WORKER_API = 'https://text-worker.dark-backend.workers.dev';
 
 const textWorkerAiCount = textWorkerServiceWrap.querySelector('div.ai');
 const textWorkerServiceLoader = textWorkerAiCount.querySelector('.loader');

@@ -1,4 +1,4 @@
-const IP_SEARCH_API = 'https://ip-service.vengernazar0.workers.dev/';
+const IP_SEARCH_API = 'https://ip-service.dark-backend.workers.dev/';
 
 const ipSearchWrap = document.querySelector('.ip-search-wrap');
 // Open
