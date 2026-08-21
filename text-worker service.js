@@ -123,10 +123,10 @@ textWorkerInfoTextarea.addEventListener('input', () => {
       allWordsLng.push(word.length);
       uniqueWordsObj[word] = (uniqueWordsObj[word] || 0) + 1;
 
-      if(!shortestWord) shortestWord = word;
+      if(!shortestWord && word) shortestWord = word;
 
-      if(word.length > longestWord.length) longestWord = word;
-      else if(word.length < shortestWord.length) shortestWord = word;
+      if(word && word.length > longestWord.length) longestWord = word;
+      else if(word && word.length < shortestWord.length) shortestWord = word;
     };
 
     spaces += line.match(/ /g)?.length ?? 0;
