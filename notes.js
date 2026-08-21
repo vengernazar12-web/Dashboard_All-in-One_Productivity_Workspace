@@ -17,7 +17,7 @@ openNoteWrapBtn.addEventListener('click', async () => {
     preloaderProgress.value = 0;
     whatIsLoadingText.textContent = 'Take content...';
 
-    allNotesObj = await getContent('note');
+    allNotesObj = await getContent('notes');
     if(!allNotesObj) return;
 
     preloaderProgress.value = 1;

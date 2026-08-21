@@ -86,16 +86,16 @@ assistantResponseContainer.addEventListener('click', async e => {
     cancelBtn.disabled = true;
 
     const commandResult = await goRunner(command);
-    if(!commandResult.result.errors.length) delete commandResult.result.errors;
+    if(!commandResult.errors?.length) delete commandResult.errors;
 
-    const doActions = commandResult.result.do_action;
+    const doActions = commandResult.do_action;
     if(doActions) doRunnerActions(doActions);
-    delete commandResult.result.do_action;
+    delete commandResult.do_action;
 
     historyForAiPrompt.push({
       role: "tool",
       tool_call_id: tool_id,
-      content: unhashHtmlSymbols(JSON.stringify(commandResult.result).replace(/<\/?span>/g, ''))
+      content: unhashHtmlSymbols(JSON.stringify(commandResult).replace(/<\/?span>/g, ''))
     });
     target.remove();
     cancelBtn.remove();

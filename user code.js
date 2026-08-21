@@ -38,7 +38,7 @@ openCodeWrapBtn.addEventListener('click', async () => {
     })
   };
 
-  if(!allUserCodesObj) allUserCodesObj = await getContent('code') || {};
+  if(!allUserCodesObj) allUserCodesObj = await getContent('codes') || {};
 
   renderUserCodesBlocks();
 

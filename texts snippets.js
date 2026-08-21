@@ -15,7 +15,7 @@ openTextsSnippetsWrap.addEventListener('click', async () => {
     preloaderProgress.value = 0;
     whatIsLoadingText.textContent = 'Take content...';
 
-    allTextsSnippetsObj = await getContent('text');
+    allTextsSnippetsObj = await getContent('texts');
     if(!allTextsSnippetsObj) return;
 
     preloaderProgress.value = 1;

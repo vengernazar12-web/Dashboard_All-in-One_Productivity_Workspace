@@ -218,7 +218,7 @@ const codeAiOpenUploadFilesWindow = codeAiUploadsContainer.querySelector('button
 codeAiOpenUploadFilesWindow.addEventListener('click', async () => {
   if (!allUserCodesObj) {
     codeAiLoader.style.display = 'block';
-    allUserCodesObj = await getContent('code') || {};
+    allUserCodesObj = await getContent('codes') || {};
     codeAiLoader.style.display = 'none';
   }
 

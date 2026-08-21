@@ -77,15 +77,15 @@ runCommandBtn.addEventListener('click', async () => {
 
     let resultTxt = '';
 
-    const success = serverCommandValidationData.result.success;
+    const success = serverCommandValidationData.success;
     resultTxt = `${success?.length ? '→ ' : ''}${success?.join('\n→ ')}`;
-    const errors = serverCommandValidationData.result.errors;
+    const errors = serverCommandValidationData.errors;
     if (errors?.length) resultTxt += `\n\n<span>Errors</span>\n✕ ${errors?.map(obj => `${obj.error}: ${obj.need}`).join('\n✕ ')}`;
 
     runCommandResultBlock.innerHTML = resultTxt;
 
     // Do actions (create/delete)
-    const doActions = serverCommandValidationData.result.do_action || [];
+    const doActions = serverCommandValidationData.do_action || [];
 
     doRunnerActions(doActions);
 
@@ -146,9 +146,8 @@ async function goRunner(command) {
         allData: allData,
       })
     });
-    const serverCommandValidationData = await serverCommandValidationResponse.json();
 
-    return serverCommandValidationData;
+    return await serverCommandValidationResponse.json();
   } catch (e) {
     console.error(e);
     runCommandBtn.disabled = false;

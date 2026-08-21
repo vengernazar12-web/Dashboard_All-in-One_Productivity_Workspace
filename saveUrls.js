@@ -26,7 +26,7 @@ openUrlWrapBtn.addEventListener('click', async () => {
   }
 
   // Load content
-  if(!allUrlsObj) allUrlsObj = await getContent('url') || {};
+  if(!allUrlsObj) allUrlsObj = await getContent('urls') || {};
   // Load image compression
   if(!imgCompressLoaded) {
     await loadScript('https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js');
