@@ -77,6 +77,8 @@
   background-color: #000;
   animation: open-route-ai-btn-pulse 1s infinite alternate ease-in-out;
   transition: transform .2s;
+  touch-action: none;
+  user-select: none;
 }
 .open-router-ai:hover { transform: scale(1.05); }
 
