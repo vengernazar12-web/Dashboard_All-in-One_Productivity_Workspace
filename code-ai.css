@@ -41,6 +41,10 @@
   position: relative;
 }
 
+.code-ai-wrap > .chat code.proposed-code {
+  display: block;
+}
+
 .code-ai-wrap > .chat code.proposed-code > pre {
   height: max-content;
   max-height: 250px;

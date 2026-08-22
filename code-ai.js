@@ -314,8 +314,10 @@ codeAiSendPromptBtn.addEventListener('click', async () => {
 
     const editsArr = AI_answer.edits || [];
 
-    createCodeAiPreInChat(
-      `${usedTools.length
+    createCodeAiPreInChat(`
+      <small>&gt; ${AI_answer.model || 'Unknown'}</small>
+
+      ${usedTools.length
         ? `<details><summary>Used tools</summary>${usedTools.map(tool => `<p>${tool}</p>`).join('')}</details>`
         : ''
         }
@@ -324,7 +326,7 @@ codeAiSendPromptBtn.addEventListener('click', async () => {
       ${
         editsArr
           .map(newCodeObj => `
-              <code class='proposed-code'>
+              <code class='proposed-code code-block'>
                 <h3>${newCodeObj.name}</h3>
                 <pre>${hashHtmlSymbols(newCodeObj.newContent)}</pre>
                 ${newCodeObj.isSaved ? `
