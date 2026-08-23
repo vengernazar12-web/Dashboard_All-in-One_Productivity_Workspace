@@ -230,7 +230,7 @@ function createAssistantResponse(txt, isThinking = false) {
 
   let c = 0;
   typingInterval = setInterval(() => {
-    c += Math.floor(Math.random() * 10 + 1);
+    c += Math.floor(Math.random() * 15 + 1);
     initTypingElement.textContent = initTypingText.slice(0, c);
     if(c > txtLng) {
       clearInterval(typingInterval);

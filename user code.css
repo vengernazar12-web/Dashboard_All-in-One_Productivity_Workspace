@@ -38,6 +38,19 @@
   padding: 5px;
   display: none;
 }
+.add-new-block-code-form > select {
+  background-color: transparent;
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 7px;
+  padding: 3px;
+  width: 75%;
+}
+.add-new-block-code-form > select > option {
+  background-color: var(--block-bg);
+  color: var(--text-color);
+}
+
 .code-block-name-input {
   width: 95%;
   height: 25px;
@@ -46,6 +59,7 @@
   border: 1px solid black;
   margin-top: 10px;
   margin-bottom: 10px;
+  border: 1px solid var(--border-color);
 }
 .add-code-block-btn {
   position: absolute;
