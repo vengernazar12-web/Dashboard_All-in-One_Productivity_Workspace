@@ -81,7 +81,6 @@
   border: 1px solid var(--border-color);
   color: black;
 }
-.media-search-wrap > .result > button.show-info:hover { opacity: 0.85; }
 
 .media-search-wrap > .result p,
 .media-search-wrap > .result span,
@@ -135,12 +134,6 @@
   width: 15px;
   height: 15px;
   margin-left: 5px;
-  opacity: 0.6;
-  transition: opacity .15s, transform .15s;
-}
-.media-search-wrap > .result .result-info h3 .copy-btn:hover svg {
-  opacity: 1;
-  transform: scale(1.1);
 }
 
 .media-search-wrap > .result .result-info * { letter-spacing: 1.5px; }

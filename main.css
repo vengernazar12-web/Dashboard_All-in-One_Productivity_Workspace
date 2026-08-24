@@ -31,14 +31,20 @@ input {
   padding-left: 5px;
 }
 textarea { resize: none; }
+
+input:focus, textarea:focus, div[contenteditable]:focus { outline: 1px solid blueviolet; }
 input::placeholder, textarea::placeholder { color: var(--text-color); opacity: 0.75 }
 
 html button {
   cursor: pointer;
-  background-color: transparent;
   padding: 1px;
+  transition: filter .2s;
 }
-html button:disabled {
+html button:hover {
+  filter: invert(1);
+}
+
+button:disabled {
   background: rgb(79, 70, 70) !important;
   background-color: rgb(79, 70, 70) !important;
   color: white !important;
@@ -270,6 +276,8 @@ header.dashboard-header > img {
 /* All dashboard items */
 .toggle-dashboard-items-btn {
   color: var(--text-color);
+  background-color: var(--block-bg);
+  border-radius: 7px;
   width: 30px;
   height: 30px;
 }
@@ -312,7 +320,6 @@ header.dashboard-header > img {
 
 .all-dashboard-items > section {
   display: flex;
-  justify-content: space-around;
   flex-direction: column;
   gap: 10px;
   padding: 7px 0 7px 4px;
@@ -323,7 +330,7 @@ header.dashboard-header > img {
 .all-dashboard-items > section[data-group='tools'] > h4.group-title { border-bottom: 2px solid red; }
 
 .all-dashboard-items > section[data-group='ai'] { border-left: 3px dashed blue; }
-.all-dashboard-items > section[data-group='ai'] > h4.group-title { border-bottom: 2px solid blue; } 
+.all-dashboard-items > section[data-group='ai'] > h4.group-title { border-bottom: 2px solid blue; }
 
 .all-dashboard-items > section[data-group='search'] { border-left: 3px dashed green; }
 .all-dashboard-items > section[data-group='search'] > h4.group-title { border-bottom: 2px solid green; }
@@ -376,6 +383,7 @@ header.dashboard-header > img {
 .--opened-btn {
   position: relative;
   font-size: 15px;
+  background-color: var(--block-bg);
   color: var(--text-color);
   border-bottom: 1px solid var(--border-color);
   box-shadow: 1px 1px 3px var(--border-color);
@@ -387,17 +395,12 @@ header.dashboard-header > img {
   justify-content: space-between;
   align-items: center;
   border-left-width: 0;
-  transition: background-color .2s, border-left-width .1s;
-}
-.--opened-btn:not(.open-assistant-wrap):hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  border-left: 2px solid var(--border-color);
 }
 
 .--opened-btn > p { font-size: 9px; }
 
-.active-btn:not(.open-assistant-wrap) {
-  background-color: rgba(0, 255, 0, 0.1);
+.all-dashboard-items .active-btn:not(.open-assistant-wrap) {
+  background-color: green;
   border-left: 2px solid rgb(0, 255, 0);
 }
 
@@ -447,10 +450,6 @@ header.dashboard-header > img {
   border: 1px solid var(--border-color);
   border-radius: 5px;
   font-size: 10px;
-}
-.undo-last-action-block > button:hover {
-  background-color: black;
-  color: white;
 }
 
 /* Speak window */

@@ -32,9 +32,7 @@
   border-radius: 5px;
   border: 1px solid var(--border-color);
   color: white;
-  transition: background-color .1s;
 }
-.text-worker-service-wrap > .cont > button:hover { background-color: rgba(0, 255, 0, 0.2); }
 
 .text-worker-service-wrap > .cont button.copy-btn { color: var(--text-color); }
 .text-worker-service-wrap > .cont > p:has(button.copy-btn) {

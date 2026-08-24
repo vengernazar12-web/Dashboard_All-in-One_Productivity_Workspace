@@ -40,6 +40,7 @@
 
 .qr-code-generation-wrap button {
   background-color: green;
+  color: white;
   border-radius: 5px;
   border: 1px solid var(--border-color);
 }

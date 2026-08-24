@@ -60,10 +60,6 @@
   padding: 3px;
   border-radius: 5px;
 }
-.add-text-snippet-btn:hover {
-  background-color: black;
-  color: white;
-}
 
 .add-text-snippet-form > .content-limit-txt {
   position: absolute;
@@ -97,9 +93,9 @@
 .text-block * { user-select: text; }
 .text-block > h4 {
   position: absolute;
-  top: -17px;
-  left: 5px;
-  font-size: 15px;
+  top: 0px;
+  left: 15px;
+  font-size: 10px;
 }
 .text-block > div {
   width: 100%;
@@ -122,6 +118,9 @@
   font-size: 14px;
   color: #eafff1;
 }
+
+.text-block button { background-color: transparent; }
+.text-block button:hover { filter: invert(0); }
 
 /* Edit text snippet */
 .edit-text-snippet-block {
@@ -156,14 +155,12 @@
 
 .edit-text-snippet-block > button {
   border: 1px solid var(--border-color);
+  color: var(--text-color);
+  background-color: var(--block-bg);
   border-radius: 5px;
-  padding: 2px;
+  padding: 3px 5px;
+  font-size: 15px;
 }
-.edit-text-snippet-block > button:hover {
-  background-color: black;
-  color: white;
-}
-
 .edit-text-snippet-block > .content-limit-txt {
   position: absolute;
   bottom: 5px;

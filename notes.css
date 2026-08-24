@@ -41,7 +41,6 @@
   border: 1px solid var(--border-color);
   color: white;
 }
-.note-block-btns-cont > button:hover { background-color: rgb(10, 25, 60); }
 
 /* Search note blocks/text */
 .search-note-blocks-input { width: 90%; }
@@ -51,6 +50,7 @@
   width: 90%;
   left: 5%;
 }
+
 /* Note save btn */
 .note-save-btn {
   position: absolute;
@@ -109,8 +109,10 @@
   bottom: 5px;
   right: 5px;
   font-size: 1.3rem;
+  background-color: var(--block-bg);
+  color: var(--text-color);
+  border-radius: 7px;
 }
-.add-note-button:hover { color: rgb(92, 92, 92); }
 
 /* Limits texts */
 .notes-blocks-limit {
@@ -132,12 +134,14 @@
   top: 5px;
   right: 5px;
   font-size: 1.5rem;
+  background-color: var(--block-bg);
+  border-radius: 7px;
 }
 
 /* Edit note */
 .edit-note-block {
   width: calc(75% - 32px);
-  min-min-height: 100px;
+  min-height: 100px;
   height: 50%;;
   position: fixed;
   top: 10%;
@@ -161,5 +165,5 @@
   padding: 5px;
   font-size: 1.2rem;
   border: 1px solid var(--border-color);
-  border-radius: 8px;
+  border-radius: 7px;
 }

@@ -26,4 +26,12 @@
   align-items: center;
 }
 
-.color-worker-wrap > div button.copy-color { color: currentColor; }
+.color-worker-wrap>div button.copy-color {
+  color: currentColor;
+  background-color: var(--block-bg);
+  border-radius: 5px;
+  padding: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

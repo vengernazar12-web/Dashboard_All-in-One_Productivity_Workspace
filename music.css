@@ -22,10 +22,7 @@
   border: 1px solid var(--border-color);
   border-radius: 5px;
   margin-top: 5px;
-}
-.add-music-btn:hover {
-  background-color: black;
-  color: white;
+  background-color: var(--block-bg);
 }
 
 .search-music-input {
@@ -80,6 +77,9 @@
   transition: transform .2s;
 }
 .music-block:hover { transform: translateX(10px); }
+
+.all-music-container .music-block button { background-color: transparent; }
+.all-music-container .music-block button:hover { filter: invert(0); }
 
 .music-block.is-playing::after {
   content: '🎶';
@@ -137,10 +137,7 @@
   border-radius: 5px;
   padding: 2px;
   color: var(--text-color);
-}
-.edit-music-block > .confirm:hover {
-  background-color: black;
-  color: white;
+  background-color: var(--block-bg);
 }
 
 /* Music progress txt */
@@ -164,7 +161,11 @@
   top: 2px;
   left: 2px;
   color: var(--text-color);
+  background-color: transparent;
 }
+
+.play-music:hover { filter: invert(0); }
+
 .play-music::after {
   content: '▶';
   font-size: 22px;
@@ -241,13 +242,4 @@
 .select-music-play-mode > option {
   background-color: black;
   color: white;
-}
-
-/* Toggle music assistant */
-.toggle-music-assistant-window {
-  position: absolute;
-  top: 40px;
-  right: 40px;
-  width: 30px;
-  height: 30px;
 }

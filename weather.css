@@ -8,7 +8,6 @@
   font-size: 17px;
   border-radius: 7px;
 }
-.open-search-city-window:hover { box-shadow: 0 0 10px rgba(0, 120, 255, 0.6); }
 
 .search-city-window {
   height: 100vh;
@@ -94,4 +93,3 @@
   background-color: orange;
   color: black;
 }
-.weather-wrap > .open-map:hover { box-shadow: 0 0 10px rgba(255, 198, 92, 0.6); }

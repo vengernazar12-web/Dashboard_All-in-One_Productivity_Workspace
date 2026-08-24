@@ -67,8 +67,9 @@
   right: 5px;
   font-size: 1.3rem;
   color: var(--text-color);
+  background-color: var(--block-bg);
+  border-radius: 5px;
 }
-.add-code-block-btn:hover { color: rgb(92, 92, 92); }
 
 /* User code blocks */
 .user-code-block {
@@ -92,6 +93,10 @@
   text-wrap: wrap;
   font-size: 1.1rem;
 }
+
+.user-code-block > button { background-color: transparent; }
+.user-code-block > button:hover { filter: invert(0); }
+
 .user-code-block svg { color: white; }
 .code-lang-text {
   position: absolute;
@@ -107,12 +112,8 @@
   color: black;
   z-index: 10;
 }
+
 /* Code editor styles */
-html .is-wrap {
-  min-height: 50px;
-  border: 1px solid #444;
-  border-radius: 6px;
-}
 html .is-wrap .CodeMirror-scroll { overflow-y: auto; }
 html .is-wrap .CodeMirror-hscrollbar { height: 0 !important; }
 html .is-wrap .CodeMirror {
@@ -186,6 +187,10 @@ html .is-wrap .CodeMirror .CodeMirror-selected { background-color: rgba(0, 120, 
   top: 5%;
   right: 3px;
 }
+
+.focus-code-wrap > .all-focus-btns > button { background-color: transparent; }
+.focus-code-wrap > .all-focus-btns > button:hover { filter: invert(0); }
+
 .focus-code-wrap > .all-focus-btns > button { margin-bottom: 15px; }
 .focus-code-wrap > .all-focus-btns > button > svg { color: white; }
 

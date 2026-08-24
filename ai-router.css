@@ -55,11 +55,6 @@
   color: white;
   border-radius: 7px;
   border: 1px solid var(--border-color);
-  transition: background-color .2s, color .2s;
-}
-.ai-router-window > button:hover {
-  background-color: white;
-  color: black;
 }
 
 .open-router-ai {
@@ -76,11 +71,9 @@
   background-size: cover;
   background-color: #000;
   animation: open-route-ai-btn-pulse 1s infinite alternate ease-in-out;
-  transition: transform .2s;
   touch-action: none;
   user-select: none;
 }
-.open-router-ai:hover { transform: scale(1.05); }
 
 @keyframes open-route-ai-btn-pulse {
   from { background-size: 150% 150%; }

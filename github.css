@@ -145,10 +145,4 @@
   border-radius: 7px;
   font-size: 14px;
   box-shadow: 1px 1px var(--border-color);
-  transform: translate(0);
-  transition: box-shadow .2s, transform .2s;
-}
-.github-wrap .user-actions > button:hover {
-  box-shadow: 0 0 var(--border-color);
-  transform: translateY(2px);
 }

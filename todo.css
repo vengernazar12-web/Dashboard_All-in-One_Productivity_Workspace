@@ -35,7 +35,7 @@
   box-shadow: 2px 2px 5px rgba(200, 60, 60, 0.5);
 }
 .todo-block:has(.todo-input-completed:checked) {
-  outline: 6px solid rgb(0, 255, 0);
+  outline: 3px solid rgb(0, 255, 0);
   color: black;
   transition: var(--is-comp-anim-transition);
 }
@@ -43,6 +43,13 @@
   text-decoration: line-through;
   text-decoration-color: #4caf50;
   text-decoration-thickness: 3px;
+}
+
+.todo-block > button {
+  background-color: transparent;
+}
+.todo-block > button:hover {
+  filter: invert(0);
 }
 
 .todo-mark {
@@ -154,6 +161,7 @@
   width: 12.5%;
   font-size: 0.8rem;
   background-color: #fff;
+  color: black;
 }
 
 /* Todo save btn */
@@ -166,7 +174,7 @@
 /* Edit todos */
 .edit-todo-block {
   width: calc(75% - 32px);
-  min-min-height: 100px;
+  min-height: 100px;
   height: 50%;;
   background-color: var(--body-bg);
   color: var(--text-color);
@@ -186,6 +194,8 @@
   position: absolute;
   top: 15%;
   left: 5px;
+  display: flex;
+  padding-left: 0;
 }
 .edit-todo-block > button {
   color: black;
@@ -195,7 +205,7 @@
   height: 25px;
   border: 1px solid var(--border-color);
 }
-.edit-todo-block > button:hover { outline: 1px solid rgb(116, 3, 3); }
+
 .edit-todo-block > .reset-todo-color {
   position: absolute;
   top: 2px;
@@ -262,6 +272,10 @@
   left: 2.5%;
   font-size: 20px;
   color: var(--text-color);
+  background-color: var(--block-bg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .todo-progresses-block {

@@ -56,6 +56,7 @@ html .fetch-service-wrap {
   border-radius: 7px;
   padding: 3px;
   color: var(--text-color);
+  background-color: var(--block-bg);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -72,12 +73,10 @@ html .fetch-service-wrap {
 .fetch-service-wrap button.add {
   padding: 6px 10px;
   border: 1px dashed var(--border-color);
+  background-color: var(--block-bg);
   color: var(--text-color);
   border-radius: 6px;
-  transition: background 0.15s;
 }
-
-.fetch-service-wrap button.add:hover { background: rgba(255, 255, 255, 0.05); }
 
 /* Fetch button */
 .fetch-service-wrap > .fetch_abort-buttons > button {
@@ -87,9 +86,7 @@ html .fetch-service-wrap {
   color: white;
   border-radius: 10px;
   margin: 10px 0;
-  transition: opacity 0.15s;
 }
-.fetch-service-wrap > .fetch_abort-buttons > button:hover { opacity: 0.8; }
 
 .fetch-service-wrap > .fetch_abort-buttons > button.abort { background-color: red; }
 
