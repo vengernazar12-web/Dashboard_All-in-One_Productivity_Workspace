@@ -423,3 +423,28 @@ textWorkerViewHtmlTextarea.addEventListener('input', () => {
   `.trim();
   }, 500);
 });
+
+// URL Parser
+const textWorkerUrlParserCont = textWorkerServiceWrap.querySelector('div.url-parser');
+
+const textWorkerUrlParserInput = textWorkerUrlParserCont.querySelector('input');
+textWorkerUrlParserInput.addEventListener('input', () => {
+  try {
+    const url = new URL(textWorkerUrlParserInput.value.trim());
+
+    textWorkerUrlParserResultCont.innerHTML = `
+      <p>Protocol: <strong>${url.protocol}</strong></p>
+      <p>Host name: <strong>${url.hostname}</strong></p>
+      <p>Host: <strong>${url.host}</strong></p>
+      <p>Port: <strong>${url.port || 'None...'}</strong></p>
+      <p>Path: <strong>${url.pathname}</strong></p>
+      <p>Search: <strong>${url.search || 'None...'}</strong></p>
+      <p>Hash: <strong>${url.hash || 'None...'}</strong></p>
+      <p>Origin: <strong>${url.origin}</strong></p>
+    `;
+  } catch {
+    textWorkerUrlParserResultCont.innerHTML = '<p>Invalid URL</p>';
+  }
+});
+
+const textWorkerUrlParserResultCont = textWorkerUrlParserCont.querySelector('div');

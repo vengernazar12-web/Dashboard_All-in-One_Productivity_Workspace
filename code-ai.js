@@ -315,28 +315,27 @@ codeAiSendPromptBtn.addEventListener('click', async () => {
     const editsArr = AI_answer.edits || [];
 
     createCodeAiPreInChat(`
-      <small>&gt; ${AI_answer.model || 'Unknown'}</small>
+<small>&gt; ${AI_answer.model || 'Unknown'}</small>
 
-      ${usedTools.length
+${usedTools.length
         ? `<details><summary>Used tools</summary>${usedTools.map(tool => `<p>${tool}</p>`).join('')}</details>`
         : ''
-        }
-      ${message.for_show}
+      }
+${message.for_show}
 
-      ${
-        editsArr
-          .map(newCodeObj => `
-              <code class='proposed-code code-block'>
-                <h3>${newCodeObj.name}</h3>
-                <pre>${hashHtmlSymbols(newCodeObj.newContent)}</pre>
-                ${newCodeObj.isSaved ? `
-                  <button class='ok' data-name='${newCodeObj.name}' data-id="${newCodeObj.id}" type='button'>Accept</button>
-                  <button class='no' data-name='${newCodeObj.name}' data-id="${newCodeObj.id}" type='button'>Cancel</button>
-                ` : `<button class='download' data-name='${newCodeObj.name}' data-id="${newCodeObj.id}" type='button'>Download</button>`
-            }
-              </code>
-            `).join('')
-        }
+${editsArr
+        .map(newCodeObj => `
+        <code class='proposed-code code-block'>
+          <h3>${newCodeObj.name}</h3>
+          <pre>${hashHtmlSymbols(newCodeObj.newContent)}</pre>
+          ${newCodeObj.isSaved ? `
+            <button class='ok' data-name='${newCodeObj.name}' data-id="${newCodeObj.id}" type='button'>Accept</button>
+            <button class='no' data-name='${newCodeObj.name}' data-id="${newCodeObj.id}" type='button'>Cancel</button>
+          ` : `<button class='download' data-name='${newCodeObj.name}' data-id="${newCodeObj.id}" type='button'>Download</button>`
+          }
+        </code>
+      `).join('')
+      }
     `.trim(),
 
       'assistant'
