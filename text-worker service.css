@@ -34,7 +34,15 @@
   color: white;
 }
 
-.text-worker-service-wrap > .cont button.copy-btn { color: var(--text-color); }
+.text-worker-service-wrap>.cont button.copy-btn {
+  color: var(--text-color);
+  background-color: var(--block-bg);
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2px;
+}
 .text-worker-service-wrap > .cont > p:has(button.copy-btn) {
   width: 100%;
   display: flex;
