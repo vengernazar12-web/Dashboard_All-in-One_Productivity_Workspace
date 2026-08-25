@@ -30,6 +30,7 @@ const dashboardWindowsBtnsFromNames = {
   textWorker: openTextWorkerServiceBtn,
   aiTokenCounter: openTokenCounterBtn,
   codeAi: openCodeAiBtn,
+  ideaGenerator: openIdeaGeneratorBtn,
 
   // SEARCH
   weather: openWeatherWrapBtn,

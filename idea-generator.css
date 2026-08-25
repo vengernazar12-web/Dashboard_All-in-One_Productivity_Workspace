@@ -1,0 +1,42 @@
+.idea-generator-wrap > textarea {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  height: 60%;
+  width: calc(100% - 20px);
+  background-color: var(--block-bg);
+  color: var(--text-color);
+  border-radius: 7px;
+  border: 1px solid var(--border-color);
+  padding: 7px;
+}
+
+.idea-generator-wrap > button.send {
+  position: absolute;
+  top: calc(60% + 20px);
+  left: 10px;
+  width: calc(100% - 20px);
+  height: 30px;
+  font-size: 15px;
+  background-color: blue;
+  color: white;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+}
+
+.idea-generator-wrap > div {
+  position: absolute;
+  top: calc(60% + 60px);
+  left: 10px;
+  width: calc(100% - 20px);
+  height: max-content;
+  max-height: 450%;
+  overflow-y: auto;
+  border: 1px dashed green;
+  padding: 5px;
+  white-space: pre-wrap;
+  text-wrap: wrap;
+  border-radius: 7px;
+}
+
+.idea-generator-wrap > .loader { display: none; }

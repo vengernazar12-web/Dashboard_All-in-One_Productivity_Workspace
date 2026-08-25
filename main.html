@@ -49,6 +49,7 @@
 <link rel="stylesheet" href="substrings-search.css">
 <link rel="stylesheet" href="code-ai.css">
 <link rel="stylesheet" href="ai-router.css">
+<link rel="stylesheet" href="idea-generator.css">
 
 <link rel="stylesheet" href="sign.css">
 
@@ -88,6 +89,7 @@
 <script src="code-lines-counter.js" defer></script>
 <script src="substrings-search.js" defer></script>
 <script src="code-ai.js" defer></script>
+<script src="idea-generator.js" defer></script>
 
 <!-- Assistant -->
 <script src="AI assistant.js" defer></script><!--3-->
@@ -109,7 +111,7 @@
   <p>AI tools, search services and utilities in one place</p>
   <small>Open the sidebar to get started</small>
   <br><br>
-  <small>26 services • AI assistant • todos, notes, urls and more</small>
+  <small>27 services • AI assistant • todos, notes, urls and more</small>
 </header>
 
 <!-- Settings -->
@@ -941,6 +943,14 @@
   <span class="loader"></span>
 </div>
 
+<!-- Idea generator wrap -->
+<div class="idea-generator-wrap is-wrap">
+  <textarea placeholder="Your thoughts..."></textarea>
+  <button class="send">SEND</button>
+  <div></div>
+  <span class="loader"></span>
+</div>
+
 <!-- Assistant wrap -->
 <div class="assistant-wrap is-wrap">
   <!-- assistant answer container -->
@@ -996,29 +1006,30 @@
 
   <section data-group="ai">
     <h4 class="group-title">AI<svg><use href="#ai"></use></svg></h4>
-    <button class="open-reasoning-ai-wrap --opened-btn">Reasoning AI<p>AI</p></button>
-    <button class="open-template-ai-wrap --opened-btn">Template AI<p>AI</p></button>
-    <button class="open-text-to-speech-wrap --opened-btn">Text to speech<p>AI</p></button>
-    <button class="open-generate-img-wrap --opened-btn">Image generation<p>AI · IMAGE</p></button>
-    <button class="open-text-worker-service-wrap --opened-btn">Text worker<p>AI · TEXT · UTILS</p></button>
-    <button class="open-token-counter-wrap --opened-btn">AI token counter<p>AI · COUNTER</p></button>
-    <button class="open-code-ai-wrap --opened-btn">Code AI<p>AI · CODE</p></button>
+    <button class="open-reasoning-ai-wrap --opened-btn">Reasoning AI</button>
+    <button class="open-template-ai-wrap --opened-btn">Template AI</button>
+    <button class="open-text-to-speech-wrap --opened-btn">Text to speech</button>
+    <button class="open-generate-img-wrap --opened-btn">Image generation<p>IMAGE</p></button>
+    <button class="open-text-worker-service-wrap --opened-btn">Text worker<p>TEXT · UTILS</p></button>
+    <button class="open-token-counter-wrap --opened-btn">AI token counter<p>COUNTER</p></button>
+    <button class="open-code-ai-wrap --opened-btn">Code AI<p>CODE</p></button>
+    <button class="open-idea-generator-wrap --opened-btn">Idea generator</button>
   </section>
 
   <section data-group="search">
     <h4 class="group-title">SEARCH<svg><use href="#search"></use></svg></h4>
-    <button class="open-weather-wrap --opened-btn">Weather<p>SEARCH</p></button>
-    <button class="open-github-wrap --opened-btn">Github search<p>SEARCH</p></button>
-    <button class="open-wikipedia-wrap --opened-btn">Wikipedia<p>SEARCH</p></button>
-    <button class="open-ip-search-wrap --opened-btn">IP search<p>IPv4, IPv6 · SEARCH</p></button>
-    <button class="open-media-search-wrap --opened-btn">Media search<p>SEARCH</p></button>
+    <button class="open-weather-wrap --opened-btn">Weather</button>
+    <button class="open-github-wrap --opened-btn">Github search</button>
+    <button class="open-wikipedia-wrap --opened-btn">Wikipedia</button>
+    <button class="open-ip-search-wrap --opened-btn">IP search<p>IPv4, IPv6</p></button>
+    <button class="open-media-search-wrap --opened-btn">Media search</button>
   </section>
 
   <section data-group="view">
     <h4 class="group-title">VIEW<svg><use href="#view"></use></svg></h4>
-    <button class="open-browser-worker-wrap --opened-btn">Browser worker<p>VIEW</p></button>
-    <button class="open-json-worker-wrap --opened-btn">JSON worker<p>JSON · VIEW</p></button>
-    <button class="open-csv-render-wrap --opened-btn">CSV render<p>CSV · VIEW</p></button>
+    <button class="open-browser-worker-wrap --opened-btn">Browser worker</button>
+    <button class="open-json-worker-wrap --opened-btn">JSON worker<p>JSON</p></button>
+    <button class="open-csv-render-wrap --opened-btn">CSV render<p>CSV</p></button>
   </section>
 
   <h4>Settings</h4>
