@@ -37,6 +37,8 @@
   white-space: pre-wrap;
   text-wrap: wrap;
   border-radius: 7px;
+  user-select: text;
 }
+.idea-generator-wrap > div * { user-select: text }
 
 .idea-generator-wrap > .loader { display: none; }
