@@ -39,3 +39,12 @@ ideaGeneratorSendBtn.addEventListener('click', async () => {
     ideaGeneratorLoader.style.display = 'none';
   }
 })
+
+// Copy
+ideaGeneratorWrap.querySelector('button.copy')
+.addEventListener('click', () => {
+  const txt = ideaGeneratorResultWrap.textContent.trim();
+  if(!txt) return showResponseFn('No results...');
+  navigator.clipboard.writeText(txt);
+  showResponseFn('Copied');
+});

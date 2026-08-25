@@ -11,17 +11,26 @@
   padding: 7px;
 }
 
-.idea-generator-wrap > button.send {
+.idea-generator-wrap > button {
   position: absolute;
   top: calc(60% + 20px);
-  left: 10px;
-  width: calc(100% - 20px);
   height: 30px;
   font-size: 15px;
-  background-color: blue;
-  color: white;
-  border: 1px solid var(--border-color);
   border-radius: 5px;
+  border: 1px solid var(--border-color);
+  color: white;
+}
+
+.idea-generator-wrap > button.send {
+  left: 10px;
+  width: calc(100% - 75px);
+  background-color: blue;
+}
+
+.idea-generator-wrap > button.copy {
+  right: 10px;
+  width: 45px;
+  background-color: green;
 }
 
 .idea-generator-wrap > div {
