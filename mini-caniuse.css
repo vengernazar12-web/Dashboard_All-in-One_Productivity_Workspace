@@ -1,0 +1,158 @@
+.mini-caniuse-wrap > input {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: calc(100% - 20px);
+  height: 30px;
+  font-size: 14px;
+}
+
+.mini-caniuse-wrap > div {
+  position: absolute;
+  top: 50px;
+  left: 10px;
+  width: calc(100% - 20px);
+  height: max-content;
+  padding: 5px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background-color: var(--block-bg);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  contain: content;
+}
+
+.mini-caniuse-wrap .card {
+  border: 2px solid var(--border-color);
+  border-radius: 7px;
+  padding: 5px;
+  padding-bottom: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.mini-caniuse-wrap .card span.percent {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 12px;
+  color: var(--text-color);
+  padding-bottom: 1px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.mini-caniuse-wrap .card > *,
+.mini-caniuse-wrap .card span { user-select: text; }
+
+.mini-caniuse-wrap .card h3 {
+  border-bottom: 2px solid var(--border-color);
+  padding: 2px;
+  font-size: 16px;
+  letter-spacing: 1px;
+  max-width: calc(100% - 200px);
+}
+
+.mini-caniuse-wrap .card p {
+  letter-spacing: 2.5%;
+  font-size: 15px;
+}
+
+.mini-caniuse-wrap .card .inline-code {
+  background-color: rgb(30, 30, 30);
+  color: white;
+  border: 1px solid var(--border-color);
+  padding-inline: 3px;
+  border-radius: 3px;
+}
+
+.mini-caniuse-wrap .card small {
+  display: block;
+  opacity: 0.8;
+  font-size: 13px;
+}
+
+.mini-caniuse-wrap .links {
+  display: flex;
+  flex-direction: row;
+  overflow-y: visible;
+  overflow-x: auto;
+  gap: 10px;
+  border: 1px solid var(--border-color);
+  padding: 7px 5px;
+  border-radius: 5px;
+  position: relative;
+}
+
+.mini-caniuse-wrap .card a {
+  text-wrap: nowrap;
+  white-space: nowrap;
+  color: var(--text-color);
+}
+
+.mini-caniuse-wrap .links a { font-size: 15px; }
+.mini-caniuse-wrap .links a:not(:last-child) { border-right: 1px solid var(--border-color); padding-right: 10px; }
+
+.mini-caniuse-wrap .browsers {
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  width: max-content;
+  max-width: 100%;
+  border-top: 1px solid var(--border-color);
+  column-gap: 2px;
+}
+
+.mini-caniuse-wrap .browser {
+  min-width: 100px;
+  width: max-content;
+  height: max-content;
+  max-height: 250px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  row-gap: 3px;
+}
+
+.mini-caniuse-wrap .browser-title {
+  padding: 5px;
+  text-align: center;
+  font-weight: 500;
+  width: 100%;
+}
+
+.mini-caniuse-wrap .browser-state {
+  padding: 5px;
+  text-align: center;
+  font-size: 13px;
+  width: 100%;
+  border: 1px solid var(--border-color);
+}
+
+.mini-caniuse-wrap .browser-state.y {
+  background: green;
+  color: white;
+}
+
+.mini-caniuse-wrap .browser-state.n {
+  background: #c44;
+  color: white;
+}
+
+.mini-caniuse-wrap .browser-state.a {
+  background: #c98a00;
+  color: white;
+}
+
+.mini-caniuse-wrap .browser-state.p {
+  background-color: blue;
+  color: white;
+}
+
+.mini-caniuse-wrap .browser-state.u {
+  background-color: silver;
+  color: black;
+}

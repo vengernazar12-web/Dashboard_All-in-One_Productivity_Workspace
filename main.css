@@ -8,8 +8,8 @@
   user-select: none;
 }
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 4px;
+  height: 4px;
 }
 ::-webkit-scrollbar-thumb {
   background-color: var(--scroll-bg);

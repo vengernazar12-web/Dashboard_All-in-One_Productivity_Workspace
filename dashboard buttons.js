@@ -38,6 +38,7 @@ const dashboardWindowsBtnsFromNames = {
   wikipediaSearch: openWikipediaBtn,
   ipSearch: openIpSearchBtn,
   mediaSearch: openMediaSearchBtn,
+  browserSupport: openMiniCaniuseBtn,
 
   // VIEW
   browserWorker: openBrowserWorkerBtn,

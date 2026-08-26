@@ -50,6 +50,7 @@
 <link rel="stylesheet" href="code-ai.css">
 <link rel="stylesheet" href="ai-router.css">
 <link rel="stylesheet" href="idea-generator.css">
+<link rel="stylesheet" href="mini-caniuse.css">
 
 <link rel="stylesheet" href="sign.css">
 
@@ -90,6 +91,7 @@
 <script src="substrings-search.js" defer></script>
 <script src="code-ai.js" defer></script>
 <script src="idea-generator.js" defer></script>
+<script src="mini-caniuse.js" defer></script>
 
 <!-- Assistant -->
 <script src="AI assistant.js" defer></script><!--3-->
@@ -952,6 +954,12 @@
   <span class="loader"></span>
 </div>
 
+<!-- Mini caniuse wrap -->
+<div class="mini-caniuse-wrap is-wrap">
+  <input type="text" placeholder="Flex..." maxlength="50">
+  <div></div>
+</div>
+
 <!-- Assistant wrap -->
 <div class="assistant-wrap is-wrap">
   <!-- assistant answer container -->
@@ -1024,6 +1032,7 @@
     <button class="open-wikipedia-wrap --opened-btn">Wikipedia</button>
     <button class="open-ip-search-wrap --opened-btn">IP search<p>IPv4, IPv6</p></button>
     <button class="open-media-search-wrap --opened-btn">Media search</button>
+    <button class="open-mini-caniuse-wrap --opened-btn">Browser Support</button>
   </section>
 
   <section data-group="view">
