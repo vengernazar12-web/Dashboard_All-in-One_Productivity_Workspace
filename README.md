@@ -43,6 +43,7 @@ Manage and store various data structures:
 - **Wikipedia**: Search titles, descriptions, excerpts, and images.
 - **IP Search**: IPv4/IPv6 lookup.
 - **Media Search**
+- **Browser support**
 
 ### 👁 View
 - **Browser Worker**: Iframe-based viewer with auto-embed for video/audio.
