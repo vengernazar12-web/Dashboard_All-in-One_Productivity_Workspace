@@ -74,7 +74,7 @@ miniCaniuseSearchInput.addEventListener('input', () => {
         card.append(title, desc, initObj.notes?.trim() ? notes : '', percent, links, browsers);
         frag.appendChild(card);
 
-        title.textContent = dataKey;
+        title.textContent = initObj.title;
         desc.innerHTML = hashHtmlSymbols(initObj.description || '')
           .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
           .replace(/\[([^\]]+)\]\(([^\s)]+)\)/g, '<a href="https://caniuse.com$2" target="_blank">$1</a>')
