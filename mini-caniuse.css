@@ -117,6 +117,19 @@
   row-gap: 3px;
 }
 
+.mini-caniuse-wrap .browser-state.info {
+  position: relative;
+  cursor: pointer;
+}
+.mini-caniuse-wrap .browser-state.info::after {
+  content: '📖';
+  font-size: 12px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0;
+}
+
 .mini-caniuse-wrap .browser-title {
   padding: 5px;
   text-align: center;

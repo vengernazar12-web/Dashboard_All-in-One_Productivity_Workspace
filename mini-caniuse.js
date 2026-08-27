@@ -24,6 +24,14 @@ openMiniCaniuseBtn.addEventListener('click', async () => {
 });
 
 const miniCaniuseResultCont = miniCaniuseWrap.querySelector('div');
+miniCaniuseResultCont.addEventListener('click', e => {
+  const target = e.target;
+
+  if(target.classList.contains('browser-state') && target.classList.contains('info')) {
+    const info = target.dataset.info;
+    showResponseFn(info);
+  }
+});
 
 let caniuseDebounceTimer = null;
 const miniCaniuseSearchInput = miniCaniuseWrap.querySelector('input');
@@ -88,6 +96,8 @@ ${initObj.links.map(({ url, title }) => `<a href="${url}" target="_blank">${titl
 
         browsers.classList.add('browsers');
 
+        const notesByNum = initObj.notes_by_num || {};
+
         for(const brId in initObj.stats) {
           const browser = document.createElement('div');
           browser.classList.add('browser');
@@ -103,17 +113,29 @@ ${initObj.links.map(({ url, title }) => `<a href="${url}" target="_blank">${titl
 
           browser.appendChild(browserTitleBlock);
 
-          for (const version in initObj.stats[brId]) {
+          for (const version of Object.keys(initObj.stats[brId]).sort((a, b) => {
+            const aNum = /^[\d.]+$/.test(a);
+            const bNum = /^[\d.]+$/.test(b);
+
+            if (aNum && bNum) return Number(a) - Number(b);
+            return 0;
+          })) {
             const initState = initObj.stats[brId][version];
 
-            if(state === null) {
+            if (state === null) {
               min = version;
               state = initState;
-            } else if (initState === state) max = version;
+            }
+            else if (initState === state) max = version;
             else {
               const browserStateBlock = document.createElement('div');
               browserStateBlock.className = `browser-state ${state}`;
-              browserStateBlock.textContent = `${min} ${max && max !== min ? `– ${max}` : ''}`.trim();
+              browserStateBlock.textContent = `${min.includes('-') ? min.split('-')[1] : min} ${max && max !== min ? `– ${max.includes('-') ? max.split('-')[1] : max}` : ''}`.trim();
+
+              if(/#\d+$/.test(state)) {
+                browserStateBlock.classList.add('info');
+                browserStateBlock.dataset.info = notesByNum[state.match(/\d+$/)?.[0]];
+              };
 
               browser.appendChild(browserStateBlock);
 
@@ -126,7 +148,12 @@ ${initObj.links.map(({ url, title }) => `<a href="${url}" target="_blank">${titl
           if (state !== null) {
             const browserStateBlock = document.createElement('div');
             browserStateBlock.className = `browser-state ${state}`;
-            browserStateBlock.textContent = `${min}${max && max !== min ? ` – ${max}` : ''}`;
+            browserStateBlock.textContent = `${min.includes('-') ? min.split('-')[1] : min} ${max && max !== min ? `– ${max.includes('-') ? max.split('-')[1] : max}` : ''}`.trim();
+
+            if (/#\d+$/.test(state)) {
+              browserStateBlock.classList.add('info');
+              browserStateBlock.dataset.info = notesByNum[state.match(/\d+$/)?.[0]];
+            };
 
             browser.appendChild(browserStateBlock);
           }
