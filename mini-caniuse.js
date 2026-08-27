@@ -114,8 +114,8 @@ ${initObj.links.map(({ url, title }) => `<a href="${url}" target="_blank">${titl
           browser.appendChild(browserTitleBlock);
 
           for (const version of Object.keys(initObj.stats[brId]).sort((a, b) => {
-            const aNum = /^[\d.]+$/.test(a);
-            const bNum = /^[\d.]+$/.test(b);
+            const aNum = /^[\d.]+$/.test(a.includes('-') ? a.split('-')[1] : a);
+            const bNum = /^[\d.]+$/.test(b.includes('-') ? b.split('-')[1] : b);
 
             if (aNum && bNum) return Number(a) - Number(b);
             return 0;
@@ -123,14 +123,14 @@ ${initObj.links.map(({ url, title }) => `<a href="${url}" target="_blank">${titl
             const initState = initObj.stats[brId][version];
 
             if (state === null) {
-              min = version;
+              min = version.includes('-') ? version.split('-')[1] : version;
               state = initState;
             }
-            else if (initState === state) max = version;
+            else if (initState === state) max = version.includes('-') ? version.split('-')[1] : version;
             else {
               const browserStateBlock = document.createElement('div');
               browserStateBlock.className = `browser-state ${state}`;
-              browserStateBlock.textContent = `${min.includes('-') ? min.split('-')[1] : min} ${max && max !== min ? `– ${max.includes('-') ? max.split('-')[1] : max}` : ''}`.trim();
+              browserStateBlock.textContent = `${min} ${max && max !== min ? `– ${max}` : ''}`.trim();
 
               if(/#\d+$/.test(state)) {
                 browserStateBlock.classList.add('info');
@@ -148,7 +148,7 @@ ${initObj.links.map(({ url, title }) => `<a href="${url}" target="_blank">${titl
           if (state !== null) {
             const browserStateBlock = document.createElement('div');
             browserStateBlock.className = `browser-state ${state}`;
-            browserStateBlock.textContent = `${min.includes('-') ? min.split('-')[1] : min} ${max && max !== min ? `– ${max.includes('-') ? max.split('-')[1] : max}` : ''}`.trim();
+            browserStateBlock.textContent = `${min} ${max && max !== min ? `– ${max}` : ''}`.trim();
 
             if (/#\d+$/.test(state)) {
               browserStateBlock.classList.add('info');
