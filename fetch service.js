@@ -114,12 +114,8 @@ Time: ${time}s
     }
 
     let text = await resp.text();
-    try {
-      const parsed = JSON.parse(text);
-      if(typeof parsed === 'object') text = JSON.stringify(parsed, null, 2);
-    } catch {};
 
-    fetchServiceResultCont.textContent = `${responseMetaTxt}${text}`;
+    fetchServiceResultCont.innerHTML = `${responseMetaTxt}${hashHtmlSymbols(text)}`;
   } catch (e) { fetchServiceResultCont.textContent = `Error: ${e.name}: ${e.message}` }
   finally {
     fetchServiceLoader.style.display = 'none';

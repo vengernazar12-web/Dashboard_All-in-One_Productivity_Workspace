@@ -82,6 +82,17 @@
   color: black;
 }
 
+.media-search-wrap > .result button.copy-btn {
+  background-color: var(--block-bg);
+  color: var(--text-color);
+  border-radius: 3px;
+  text-align: center;
+}
+
+.media-search-wrap > .result pre {
+  text-wrap: wrap;
+}
+
 .media-search-wrap > .result p,
 .media-search-wrap > .result span,
 .media-search-wrap > .result a,
@@ -182,6 +193,4 @@
 .media-search-wrap > .show-info-popup a { color: var(--text-color); }
 
 .media-search-wrap > .show-info-popup * { user-select: text; }
-
-
 .media-search-wrap > .loader { display: none; }

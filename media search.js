@@ -73,7 +73,7 @@ mediaSearchSelectCountry.addEventListener('change', () => {
 const savedMediaSearchCountry = localStorage.getItem('media-search_country');
 if(savedMediaSearchCountry) mediaSearchSelectCountry.value = savedMediaSearchCountry;
 
-const mediaForNotWorkCountrySelect = ['literature', 'visual', 'emoji', 'country', 'word', 'recipes', 'chem', 'nasa', 'aiModels'];
+const mediaForNotWorkCountrySelect = ['literature', 'visual', 'emoji', 'country', 'word', 'recipes', 'chem', 'nasa', 'aiModels', 'video'];
 
 let allCountriesForShowMedia = null;
 
@@ -430,7 +430,7 @@ https://itunes.apple.com/search
 
   <details>
     <summary>Description</summary>
-    <p>${obj.description.replace(/<[^>]+>/g, '')}</p>
+    <pre>${obj.description.replace(/<[^>]+>/g, '')}</pre>
   </details>
 
   <audio
@@ -484,7 +484,7 @@ https://itunes.apple.com/search
     poster="${obj.artworkUrl100.replace('100x100bb', '1000x1000bb')}"
   ></video>
 </div>
-`.trim()).join(''), title: `MUSIC VIDEOS (${d.resultCount})`
+`.trim()).join(''), title: `MUSIC VIDEO (${d.resultCount})`
     }))
   },
 
@@ -557,7 +557,7 @@ https://itunes.apple.com/search
 
   <details>
     <summary>Description</summary>
-    <p>${obj.description}</p>
+    <pre>${obj.description}</pre>
   </details>
 </div>
 `.trim()).join(''), title: `SOFTWARE (${d.resultCount})`
@@ -606,7 +606,7 @@ https://itunes.apple.com/search
 
   <details>
     <summary>Description</summary>
-    <p>${(obj.description ?? '').replaceAll('<br/>', ' ').replaceAll('<br />', ' ')}</p>
+    <pre>${(obj.description ?? '').replaceAll('<br/>', ' ').replaceAll('<br />', ' ')}</pre>
   </details>
 </div>
 `.trim()).join(''), title: `EBooks (${d.resultCount})`
@@ -1015,5 +1015,39 @@ https://itunes.apple.com/search
           })
         }
       })
+  },
+
+  video: async (_, value) => {
+    await fetch(`https://youtube-search.dark-backend.workers.dev`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ searchQ: value.trim() })
+    }).then(r => r.json())
+    .then(d => mediaSearchCache.push({
+      content: d.items.map(item => `
+<div class="result-info" data-marker="VIDEO">
+  <img src="${item.snippet.thumbnails.standard.url}" alt="${item.snippet.title}">
+
+  <h3>${item.snippet.title}</h3>
+
+  <pre>${item.snippet.description?.trim().replace(/\n{2,}/g, '\n\n') || 'No description...'}</pre>
+
+  <div>
+    <p>Channel: ${item.snippet.channelTitle}</p>
+    <p>Published: ${new Date(item.snippet.publishedAt).toLocaleString()}</p>
+    <p>Duration: ${item.contentDetails.duration}</p>
+    <p>Quality: ${item.contentDetails.definition.toUpperCase()}</p>
+  </div>
+
+  <div>
+    <p>Views: ${Number(item.statistics.viewCount).toLocaleString()}</p>
+    <p>Likes: ${Number(item.statistics.likeCount).toLocaleString()}</p>
+    <p>Comments: ${Number(item.statistics.commentCount).toLocaleString()}</p>
+  </div>
+
+  <a href="https://www.youtube.com/watch?v=${item.id}" target="_blank">Watch on YouTube</a>
+</div>
+`.trim()).join(''), title: `VIDEO (${d.items.length})`
+    }));
   }
 }

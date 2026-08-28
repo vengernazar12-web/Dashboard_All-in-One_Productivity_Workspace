@@ -99,14 +99,14 @@ html .fetch-service-wrap {
 
 /* Result */
 .fetch-service-wrap > .result {
-  padding: 10px;
-  border: 1px dotted green;
+  padding: 7px;
+  border: 1px solid green;
   background-color: var(--block-bg);
   border-radius: 10px;
   white-space: pre-wrap;
   height: max-content;
-  max-height: 300%;
-  overflow-y: auto;
+  contain: content;
+  font-size: 14px;
 }
 
 .fetch-service-wrap > .result a[download] {
