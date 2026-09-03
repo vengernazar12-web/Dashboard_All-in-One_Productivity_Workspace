@@ -325,7 +325,7 @@ https://itunes.apple.com/search
 &country=${country}
 `).then(r => r.json()).then(d => mediaSearchCache.push({
         content: d.results.map(obj => `
-<div class="result-info" data-marker="PODCAST">
+<div class="result-info" data-marker="podcast">
   <img
     src="${obj.artworkUrl600}"
     alt="${obj.collectionName}"
@@ -360,7 +360,7 @@ https://itunes.apple.com/search
 &country=${country}
 `).then(r => r.json()).then(d => mediaSearchCache.push({
         content: d.results.map(obj => `
-<div class="result-info" data-marker="EPISODE">
+<div class="result-info" data-marker="episode">
   <img
     src="${obj.artworkUrl600}"
     alt="${obj.trackName}"
@@ -407,7 +407,7 @@ https://itunes.apple.com/search
 &country=${country}
 `).then(r => r.json()).then(d => mediaSearchCache.push({
       content: d.results.map(obj => `
-<div class="result-info" data-marker="AUDIOBOOK">
+<div class="result-info" data-marker="audiobook">
   <img
     src="${obj.artworkUrl100.replace('100x100bb', '250x250bb')}"
     alt="${obj.collectionName}"
@@ -454,7 +454,7 @@ https://itunes.apple.com/search
 &country=${country}
 `).then(r => r.json()).then(d => mediaSearchCache.push({
       content: d.results.map(obj => `
-<div class="result-info" data-marker="VIDEO">
+<div class="result-info" data-marker="video">
   <img
     src="${obj.artworkUrl100.replace('100x100bb', '400x400bb')}"
     alt="${obj.trackName}"
@@ -498,7 +498,7 @@ https://itunes.apple.com/search
 &country=${country}
 `).then(r => r.json()).then(d => mediaSearchCache.push({
       content: d.results.map(obj => `
-<div class="result-info" data-marker="APP">
+<div class="result-info" data-marker="app">
   <img
     src="${obj.artworkUrl512 || obj.artworkUrl100}"
     alt="${obj.trackName}"
@@ -574,7 +574,7 @@ https://itunes.apple.com/search
 &country=${country}
 `).then(r => r.json()).then(d => mediaSearchCache.push({
   content: d.results.map(obj => `
-<div class="result-info" data-marker="EBOOK">
+<div class="result-info" data-marker="eBook">
   <img
     src="${obj.artworkUrl100?.replace('100x100bb', '250x250bb')}"
     alt="${obj.trackName}"
@@ -617,7 +617,7 @@ https://itunes.apple.com/search
     await fetch(`https://openlibrary.org/search.json?q=${encodeURIComponent(value)}`)
     .then(r => r.json()).then(d => mediaSearchCache.push({
       content: d.docs.map(obj => `
-<div class="result-info" data-marker="BOOK">
+<div class="result-info" data-marker="book">
   ${
     obj.cover_i
       ? `<img
@@ -704,7 +704,7 @@ https://itunes.apple.com/search
       .then(r => r.json())
       .then(d => mediaSearchCache.push({
         content: d.map(obj => `
-<div class="result-info" data-marker="EMOJI">
+<div class="result-info" data-marker="emoji">
   <h3><span>${obj.htmlCode[0]}</span>${getMediaSearchCopyBtnHtml()}</h3>
   <h3><span>${obj.name}</span>${getMediaSearchCopyBtnHtml()}</h3>
   <p>${obj.category} • ${obj.group}</p>
@@ -720,7 +720,7 @@ https://itunes.apple.com/search
         .then(r => r.json())
         .then(d => mediaSearchCache.push({
           content: d.map(obj => `
-<div class="result-info" data-marker="COUNTRY">
+<div class="result-info" data-marker="country">
   <div>
     <span>${obj.flag}</span>
     <div>
@@ -774,7 +774,7 @@ https://itunes.apple.com/search
     .then(r => r.json())
     .then(d => mediaSearchCache.push({
       content: Array.isArray(d) ? d.map(obj => `
-<div class="result-info" data-marker="WORD">
+<div class="result-info" data-marker="word">
   <h2>${obj.word}</h2>
 
   ${obj.phonetic ? `<div>/${obj.phonetic}/</div>` : ""}
@@ -851,7 +851,7 @@ https://itunes.apple.com/search
       .then(r => r.json())
       .then(d => mediaSearchCache.push({
         content: d.PC_Compounds?.map(obj => `
-<div class="result-info" data-marker="CHEM">
+<div class="result-info" data-marker="chem">
   <h2>
     ${obj.props?.find(p => p.urn?.label === "IUPAC Name" && p.urn?.name === "Preferred")?.value?.sval
           || obj.props?.find(p => p.urn?.label === "IUPAC Name")?.value?.sval
@@ -990,7 +990,7 @@ https://itunes.apple.com/search
 
           mediaSearchCache.push({
             content: models2.map(data => `
-<div class="result-info" data-marker="AI MODEL">
+<div class="result-info" data-marker="AI model">
   <div>
     <h3>${data.id}</h3>
     <p>${data.pipeline_tag || 'Unknown'}</p>
@@ -1025,7 +1025,7 @@ https://itunes.apple.com/search
     }).then(r => r.json())
     .then(d => mediaSearchCache.push({
       content: d.items.map(item => `
-<div class="result-info" data-marker="VIDEO">
+<div class="result-info" data-marker="video">
   <img src="${item.snippet.thumbnails.standard.url}" alt="${item.snippet.title}">
 
   <h3>${item.snippet.title}</h3>
