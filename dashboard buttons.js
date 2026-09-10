@@ -39,6 +39,7 @@ const dashboardWindowsBtnsFromNames = {
   ipSearch: openIpSearchBtn,
   mediaSearch: openMediaSearchBtn,
   browserSupport: openMiniCaniuseBtn,
+  distanceBetweenPlaces: openDistanceServiceBtn,
 
   // VIEW
   browserWorker: openBrowserWorkerBtn,

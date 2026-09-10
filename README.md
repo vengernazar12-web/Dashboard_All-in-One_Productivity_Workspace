@@ -44,6 +44,7 @@ Manage and store various data structures:
 - **IP Search**: IPv4/IPv6 lookup.
 - **Media Search**
 - **Browser support**
+- **Distance between places**
 
 ### 👁 View
 - **Browser Worker**: Iframe-based viewer with auto-embed for video/audio.

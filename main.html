@@ -51,6 +51,7 @@
 <link rel="stylesheet" href="ai-router.css">
 <link rel="stylesheet" href="idea-generator.css">
 <link rel="stylesheet" href="mini-caniuse.css">
+<link rel="stylesheet" href="distance service.css">
 
 <link rel="stylesheet" href="sign.css">
 
@@ -92,6 +93,7 @@
 <script src="code-ai.js" defer></script>
 <script src="idea-generator.js" defer></script>
 <script src="mini-caniuse.js" defer></script>
+<script src="distance service.js" defer></script>
 
 <!-- Assistant -->
 <script src="AI assistant.js" defer></script><!--3-->
@@ -113,7 +115,7 @@
   <p>AI tools, search services and utilities in one place</p>
   <small>Open the sidebar to get started</small>
   <br><br>
-  <small>28 services • AI assistant • todos, notes, urls and more</small>
+  <small>29 services • AI assistant • todos, notes, urls and more</small>
 </header>
 
 <!-- Settings -->
@@ -967,6 +969,17 @@
   <div></div>
 </div>
 
+<!-- Distance service wrap -->
+<div class="distance-service-wrap is-wrap">
+  <input type="text" list="first" class="first" placeholder="First point...">
+  <input type="text" list="second" class="second" placeholder="Second point...">
+  <button class="send">OK</button>
+  <div></div>
+  <datalist id="first"></datalist>
+  <datalist id="second"></datalist>
+  <span class="loader"></span>
+</div>
+
 <!-- Assistant wrap -->
 <div class="assistant-wrap is-wrap">
   <!-- assistant answer container -->
@@ -1040,6 +1053,7 @@
     <button class="open-ip-search-wrap --opened-btn">IP search<p>IPv4, IPv6</p></button>
     <button class="open-media-search-wrap --opened-btn">Media search</button>
     <button class="open-mini-caniuse-wrap --opened-btn">Browser Support</button>
+    <button class="open-distance-service-wrap --opened-btn">Distance between places</button>
   </section>
 
   <section data-group="view">
