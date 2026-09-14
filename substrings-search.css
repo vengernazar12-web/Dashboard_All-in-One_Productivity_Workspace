@@ -82,7 +82,6 @@
   border-radius: 7px;
   white-space: pre-wrap;
   user-select: text;
-  contain: content;
 }
 
 .substrings-search-wrap > div.result-container::after {
