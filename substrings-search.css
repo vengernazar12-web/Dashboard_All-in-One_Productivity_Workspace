@@ -77,11 +77,12 @@
   width: calc(100% - 20px);
   padding: 10px;
   background-color: var(--block-bg);
-  color: var(--border-color);
+  color: var(--text-color);
   border: 1px dashed green;
   border-radius: 7px;
   white-space: pre-wrap;
   user-select: text;
+  contain: content;
 }
 
 .substrings-search-wrap > div.result-container::after {
