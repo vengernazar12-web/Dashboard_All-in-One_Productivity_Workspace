@@ -45,6 +45,7 @@ Manage and store various data structures:
 - **Media Search**
 - **Browser support**
 - **Distance between places**
+- **ASCII worker**
 
 ### 👁 View
 - **Browser Worker**: Iframe-based viewer with auto-embed for video/audio.

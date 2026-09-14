@@ -52,6 +52,7 @@
 <link rel="stylesheet" href="idea-generator.css">
 <link rel="stylesheet" href="mini-caniuse.css">
 <link rel="stylesheet" href="distance service.css">
+<link rel="stylesheet" href="ascii worker.css">
 
 <link rel="stylesheet" href="sign.css">
 
@@ -94,6 +95,7 @@
 <script src="idea-generator.js" defer></script>
 <script src="mini-caniuse.js" defer></script>
 <script src="distance service.js" defer></script>
+<script src="ascii worker.js" defer></script>
 
 <!-- Assistant -->
 <script src="AI assistant.js" defer></script><!--3-->
@@ -115,7 +117,7 @@
   <p>AI tools, search services and utilities in one place</p>
   <small>Open the sidebar to get started</small>
   <br><br>
-  <small>29 services • AI assistant • todos, notes, urls and more</small>
+  <small>30 services • AI assistant • todos, notes, urls and more</small>
 </header>
 
 <!-- Settings -->
@@ -430,9 +432,7 @@
   <input type="text" class="search" placeholder="Search">
   <div></div>
   <span class="loader"></span>
-</div>
-
-<!-- Weather wrap -->
+</div><!-- Weather wrap -->
 <div class="weather-wrap is-wrap">
   <!-- Weather info block -->
   <div class="weather-info-block">
@@ -490,13 +490,14 @@
   <span class="loader"></span>
 </div>
 
-<!-- Image ia-generator wrap -->
-<div class="image-ai-generator-wrap is-wrap">
-  <img src="./all-imgs/Classic-dashboard-img.webp" alt="Generated image" class="image-preview" loading="lazy">
-
-  <a class="download-generated-image-a" download="Generated-dashboard-image.jpeg">Download</a>
+<!-- Image generator wrap -->
+<div class="image-generator-wrap is-wrap">
   <input type="text" class="prompt-for-generate-image-input" placeholder="Image description...">
   <button class="send-prompt-for-generate-image-btn">SEND</button>
+
+  <a class="download-generated-image-a" download="Generated-dashboard-image">Download generated image</a>
+
+  <img src="./all-imgs/Classic-dashboard-img.webp" alt="Generated image" class="image-preview" loading="lazy">
 
   <span class="loader"></span>
 </div>
@@ -635,6 +636,12 @@
   <div class="http-status-info cont">
     <h3>HTTP status info</h3>
     <select></select>
+    <div></div>
+  </div>
+
+  <div class="svg-preview cont">
+    <h3>SVG preview</h3>
+    <textarea placeholder="SVG code..."></textarea>
     <div></div>
   </div>
 </div>
@@ -980,6 +987,128 @@
   <span class="loader"></span>
 </div>
 
+<div class="ascii-worker-wrap is-wrap">
+  <h3 style="
+    white-space: pre;
+    font-size: 6px;
+    font-family: monospace, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-wrap: nowrap;
+    word-break: keep-all;
+    "> ________  ________  ________  ___  ___          ___       __   ________  ________  ___  __    _______   ________     
+|\   __  \|\   ____\|\   ____\|\  \|\  \        |\  \     |\  \|\   __  \|\   __  \|\  \|\  \ |\  ___ \ |\   __  \    
+\ \  \|\  \ \  \___|\ \  \___|\ \  \ \  \       \ \  \    \ \  \ \  \|\  \ \  \|\  \ \  \/  /|\ \   __/|\ \  \|\  \   
+ \ \   __  \ \_____  \ \  \    \ \  \ \  \       \ \  \  __\ \  \ \  \\\  \ \   _  _\ \   ___  \ \  \_|/_\ \   _  _\  
+  \ \  \ \  \|____|\  \ \  \____\ \  \ \  \       \ \  \|\__\_\  \ \  \\\  \ \  \\  \\ \  \\ \  \ \  \_|\ \ \  \\  \| 
+   \ \__\ \__\____\_\  \ \_______\ \__\ \__\       \ \____________\ \_______\ \__\\ _\\ \__\\ \__\ \_______\ \__\\ _\ 
+    \|__|\|__|\_________\|_______|\|__|\|__|        \|____________|\|_______|\|__|\|__|\|__| \|__|\|_______|\|__|\|__|
+             \|_________|                                                                                             </h3>
+
+  <button class="open-window" data-window="textToAscii">TEXT ⇒ ASCII</button>
+  <div class="text-to-art-window window">
+    <button class="close" style="
+    white-space: pre;
+    font-size: 6px;
+    font-family: monospace, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-wrap: nowrap;
+    word-break: keep-all;
+    ">  _     _   __  _          ___       _   _         
+ /  |  / \ (_  |_    \    / |  |\ | | \ / \ \    / 
+ \_ |_ \_/ __) |_     \/\/ _|_ | \| |_/ \_/  \/\/  </button>
+
+    <h3 style="
+    white-space: pre;
+    font-size: 7px;
+    font-family: monospace, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-wrap: nowrap;
+    word-break: keep-all;
+    ">  _____ _______  _______   _____ ___       _    ____   ____ ___ ___      _    ____ _____ 
+ |_   _| ____\ \/ /_   _| |_   _/ _ \     / \  / ___| / ___|_ _|_ _|    / \  |  _ \_   _|
+   | | |  _|  \  /  | |     | || | | |   / _ \ \___ \| |    | | | |    / _ \ | |_) || |  
+   | | | |___ /  \  | |     | || |_| |  / ___ \ ___) | |___ | | | |   / ___ \|  _ < | |  
+   |_| |_____/_/\_\ |_|     |_| \___/  /_/   \_\____/ \____|___|___| /_/   \_\_| \_\|_|  </h3>
+
+    <textarea type="text" placeholder="Your text..."></textarea>
+    <select></select>
+    <button class="send">OK</button>
+    <button class="copy">Copy</button>
+    <label for="replace-space">Replace white space</label>
+    <input type="text" placeholder="" id="replace-space" maxlength="1" minlength="0">
+    <div class="result"></div>
+  </div>
+
+  <button class="open-window" data-window="imageToAscii">IMAGE ⇒ ASCII</button>
+  <div class="image-to-art-window window">
+    <button class="close" style="
+    white-space: pre;
+    font-size: 6px;
+    font-family: monospace, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-wrap: nowrap;
+    word-break: keep-all;
+    ">  _     _   __  _          ___       _   _         
+ /  |  / \ (_  |_    \    / |  |\ | | \ / \ \    / 
+ \_ |_ \_/ __) |_     \/\/ _|_ | \| |_/ \_/  \/\/  </button>
+
+    <h3 style="
+    white-space: pre;
+    font-size: 7px;
+    font-family: monospace, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-wrap: nowrap;
+    word-break: keep-all;
+    ">  ___ __  __    _    ____ _____   _____ ___       _    ____   ____ ___ ___      _    ____ _____ 
+ |_ _|  \/  |  / \  / ___| ____| |_   _/ _ \     / \  / ___| / ___|_ _|_ _|    / \  |  _ \_   _|
+  | || |\/| | / _ \| |  _|  _|     | || | | |   / _ \ \___ \| |    | | | |    / _ \ | |_) || |  
+  | || |  | |/ ___ \ |_| | |___    | || |_| |  / ___ \ ___) | |___ | | | |   / ___ \|  _ < | |  
+ |___|_|  |_/_/   \_\____|_____|   |_| \___/  /_/   \_\____/ \____|___|___| /_/   \_\_| \_\|_|  </h3>
+
+    <input type="file" accept="image/png,image/jpeg,image/webp,image/gif">
+    <button class="send">OK</button>
+    <button class="copy">Copy</button>
+    <div class="result"></div>
+  </div>
+
+  <button class="open-window" data-window="oneLineArtsSearch">One-Line art search</button>
+  <div class="one-line-arts-search-window window">
+    <button class="close" style="
+    white-space: pre;
+    font-size: 6px;
+    font-family: monospace, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-wrap: nowrap;
+    word-break: keep-all;
+    ">  _     _   __  _          ___       _   _         
+ /  |  / \ (_  |_    \    / |  |\ | | \ / \ \    / 
+ \_ |_ \_/ __) |_     \/\/ _|_ | \| |_/ \_/  \/\/  </button>
+
+    <h3 style="
+    white-space: pre;
+    font-size: 7px;
+    font-family: monospace, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-wrap: nowrap;
+    word-break: keep-all;
+    ">   ___  _   _ _____      _     ___ _   _ _____      _    ____ _____ ____  
+  / _ \| \ | | ____|    | |   |_ _| \ | | ____|    / \  |  _ \_   _/ ___| 
+ | | | |  \| |  _| _____| |    | ||  \| |  _|     / _ \ | |_) || | \___ \ 
+ | |_| | |\  | |__|_____| |___ | || |\  | |___   / ___ \|  _ < | |  ___) |
+  \___/|_| \_|_____|    |_____|___|_| \_|_____| /_/   \_\_| \_\|_| |____/ </h3>
+
+  <input type="text" maxlength="50" placeholder="Search...">
+  <button class="send">OK</button>
+  <div class="result"></div>
+  </div>
+
+  <button class="open-window open-library" data-window="oneLineArtsLibrary">One-Line art library</button>
+  <div class="one-line-arts-library-window window">
+    <button class="close" style="
+    white-space: pre;
+    font-size: 6px;
+    font-family: monospace, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-wrap: nowrap;
+    word-break: keep-all;
+    ">  _     _   __  _          ___       _   _         
+ /  |  / \ (_  |_    \    / |  |\ | | \ / \ \    / 
+ \_ |_ \_/ __) |_     \/\/ _|_ | \| |_/ \_/  \/\/  </button>
+  </div>
+</div>
+
 <!-- Assistant wrap -->
 <div class="assistant-wrap is-wrap">
   <!-- assistant answer container -->
@@ -1031,6 +1160,7 @@
     <button class="open-color-worker-wrap --opened-btn">Color worker<p>COLOR</p></button>
     <button class="open-files-info-wrap --opened-btn">Files info<p>TEXT</p></button>
     <button class="open-substrings-search-wrap --opened-btn">Substrings search<p>‼️ | TEXT</p></button>
+    <button class="open-ascii-worker-wrap --opened-btn">ASCII worker</button>
   </section>
 
   <section data-group="ai">

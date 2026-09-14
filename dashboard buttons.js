@@ -40,6 +40,7 @@ const dashboardWindowsBtnsFromNames = {
   mediaSearch: openMediaSearchBtn,
   browserSupport: openMiniCaniuseBtn,
   distanceBetweenPlaces: openDistanceServiceBtn,
+  asciiWorker: openAsciiWorkerBtn,
 
   // VIEW
   browserWorker: openBrowserWorkerBtn,

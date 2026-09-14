@@ -1,4 +1,4 @@
-.image-ai-generator-wrap > .image-preview {
+.image-generator-wrap > .image-preview {
   position: absolute;
   top: 90px;
   left: 15px;
@@ -50,4 +50,4 @@
   pointer-events: none;
 }
 
-.image-ai-generator-wrap > .loader { display: none }
+.image-generator-wrap > .loader { display: none }

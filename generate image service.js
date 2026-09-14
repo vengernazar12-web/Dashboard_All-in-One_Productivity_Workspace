@@ -1,6 +1,6 @@
 const GENERATE_IMAGE_API = 'https://image-generation.dark-backend.workers.dev?';
 
-const generateImageWrap = document.querySelector('.image-ai-generator-wrap');
+const generateImageWrap = document.querySelector('.image-generator-wrap');
 // Open
 const openGenerateImgWrapBtn = allDashboardItem.querySelector('.open-generate-img-wrap');
 openGenerateImgWrapBtn.addEventListener('click', () => {

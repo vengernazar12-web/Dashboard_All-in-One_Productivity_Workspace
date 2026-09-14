@@ -640,3 +640,21 @@ textWorkerHttpStatusInfoSelect.addEventListener('change', () => {
 <p>${info.description}</p>
 `.trim();
 })
+
+// SVG preview
+const textWorkerSvgPreviewCont = textWorkerServiceWrap.querySelector('div.svg-preview');
+const textWorkerSvgPreviewResultCont = textWorkerSvgPreviewCont.querySelector('div');
+
+const textWorkerSvgPreviewTextarea = textWorkerSvgPreviewCont.querySelector('textarea');
+textWorkerSvgPreviewTextarea.addEventListener('input', () => {
+    const value = textWorkerSvgPreviewTextarea.value.trim();
+    if (!value) return textWorkerSvgPreviewResultCont.textContent = '';
+
+    const iframe = document.createElement('iframe');
+
+    iframe.sandbox = '';
+    iframe.srcdoc = value;
+
+    textWorkerSvgPreviewResultCont.textContent = '';
+    textWorkerSvgPreviewResultCont.appendChild(iframe);
+});

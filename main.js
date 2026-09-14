@@ -76,6 +76,8 @@ toggleAllDashboardItemBtn.addEventListener('click', () => {
     else if(codeAiWrap.classList.contains('show')) openCodeAiBtn.classList.add('active-btn');
     else if(ideaGeneratorWrap.classList.contains('show')) openIdeaGeneratorBtn.classList.add('active-btn');
     else if(miniCaniuseWrap.classList.contains('show')) openMiniCaniuseBtn.classList.add('active-btn');
+    else if(distanceServiceWrap.classList.contains('show')) openDistanceServiceBtn.classList.add('active-btn');
+    else if(asciiWorkerWrap.classList.contains('show')) openAsciiWorkerBtn.classList.add('active-btn');
 
     else if(settingsWrap.classList.contains('show')) openSettingsWrapBtn.classList.add('active-btn');
     else if(commandRunnerWrap.classList.contains('show')) openCommandRunnerWrapBtn.classList.add('active-btn');

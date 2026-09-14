@@ -1,0 +1,186 @@
+.ascii-worker-wrap {
+  text-align: center;
+  padding: 10px;
+}
+
+.ascii-worker-wrap > h3 {
+  padding-bottom: 10px;
+}
+
+.ascii-worker-wrap > button {
+  width: 100%;
+  height: 30px;
+  font-size: 16px;
+  margin-bottom: 7px;
+  background-color: var(--block-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  box-shadow: 0 0 2px 1px var(--border-color);
+}
+
+.ascii-worker-wrap > div * { user-select: text; }
+
+.ascii-worker-wrap > div {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 7px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 0 3px 1px var(--border-color);
+  background-color: var(--block-bg);
+  overflow-y: auto;
+  padding: 7px;
+  text-align: start;
+}
+.ascii-worker-wrap > div.open { display: block; }
+
+.ascii-worker-wrap > div > *:not(button.close) {
+  width: 100%;
+  min-height: 30px;
+  margin-bottom: 7px;
+}
+
+.ascii-worker-wrap > div > button.close {
+  margin-bottom: 7px;
+  background-color: rgb(80, 0, 0);
+  color: white;
+  border-radius: 5px;
+  border: 1px solid var(--border-color);
+  font-size: 18px;
+  font-weight: 900;
+  padding: 3px;
+  font-family: monospace, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.ascii-worker-wrap > div > button {
+  border-radius: 7px;
+  border: 1px solid var(--border-color);
+  background-color: blueviolet;
+  color: white;
+}
+
+.ascii-worker-wrap > div > textarea,
+.ascii-worker-wrap > div > input[type='file'] {
+  height: 125px;
+  border-radius: 7px;
+  padding: 5px;
+  background-color: var(--block-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+
+.ascii-worker-wrap > div > select {
+  border-radius: 7px;
+  padding: 5px;
+  border: 1px solid var(--border-color);
+  background-color: var(--block-bg);
+  color: var(--text-color);
+}
+
+.ascii-worker-wrap > div > div.result {
+  border-radius: 7px;
+  border: 1px dashed var(--border-color);
+  background-color: var(--block-bg);
+  padding: 5px;
+  overflow: auto;
+  white-space: pre;
+  font-family: monospace, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 14px;
+  contain: content;
+  text-wrap: nowrap;
+  word-break: keep-all;
+}
+
+.ascii-worker-wrap > div.image-to-art-window > div.result {
+  font-size: 5px;
+  font-weight: bold;
+}
+
+.ascii-worker-wrap > div > input#replace-space {
+  width: 40px;
+}
+
+/* One line arts */
+.ascii-worker-wrap > div.one-line-arts-search-window > div,
+.ascii-worker-wrap > div.one-line-arts-library-window > .result {
+  white-space: nowrap;
+  text-wrap: wrap;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ascii-worker-wrap > div.one-line-arts-search-window .result-card,
+.ascii-worker-wrap > div.one-line-arts-library-window > div.category,
+.ascii-worker-wrap > div.one-line-arts-library-window > .result > div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  border: 1px solid var(--border-color);
+  padding: 3px;
+  border-radius: 5px;
+}
+
+.ascii-worker-wrap > div.one-line-arts-library-window > div.category {
+  cursor: pointer;
+}
+
+/* Open category list result container */
+.ascii-worker-wrap > div.one-line-arts-library-window > .result {
+  position: fixed;
+  bottom: -100vh;
+  left: 42px;
+  width: calc(100vw - 42px);
+  height: 80%;
+  border-radius: 10px 10px 0 0;
+  border: 2px solid var(--border-color);
+  box-shadow: 0 -1px 7px var(--border-color);
+  margin-bottom: 0;
+  contain: none;
+  transition: bottom .3s;
+}
+.ascii-worker-wrap > div.one-line-arts-library-window > .result.open {
+  bottom: 0;
+}
+
+.ascii-worker-wrap > div.one-line-arts-search-window h4,
+.ascii-worker-wrap > div.one-line-arts-library-window h4 {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  border-bottom: 1px dotted var(--border-color);
+  width: max-content;
+  padding-bottom: 1px;
+}
+
+.ascii-worker-wrap > div.one-line-arts-search-window h4 > button,
+.ascii-worker-wrap > div.one-line-arts-library-window h4 > button {
+  border-radius: 3px;
+  background-color: vaR(--block-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  font-size: 12px;
+}
+
+.ascii-worker-wrap > div.one-line-arts-search-window small,
+.ascii-worker-wrap > div.one-line-arts-library-window small {
+  opacity: 0.8;
+}
+
+.ascii-worker-wrap > div.one-line-arts-library-window > div.category a {
+  color: var(--text-color);
+  width: max-content;
+}
+
+.ascii-worker-wrap > div.one-line-arts-library-window .loader {
+  position: fixed;
+  left: calc((100% - 56px - 42px) / 2);
+  bottom: 10vh;
+  width: 56px;
+  height: 56px;
+}
