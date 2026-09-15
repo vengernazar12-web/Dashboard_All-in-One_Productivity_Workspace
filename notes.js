@@ -241,7 +241,7 @@ function createNoteBlock( name, desc, isFavorite, searchVal ) {
 }
 let noteTxt = null;
 function renderNotesText(name) {
-  userNotesText.innerHTML = allNotesObj[name].txt.replaceAll('\n', '<br>');
+  userNotesText.innerHTML = allNotesObj[name].txt?.replaceAll('\n', '<br>') || '';
   noteTxt = userNotesText.textContent.trim();
   notesContentTitle.textContent = name;
   userNotesText.style.fontSize = `${localStorage.getItem('notes-font-size') || 1.2}rem`;

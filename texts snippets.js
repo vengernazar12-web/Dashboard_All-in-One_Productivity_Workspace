@@ -93,14 +93,14 @@ function renderTextTags(text, isCopy = false) {
   .replace(/@y(.+?)y@/gs, '<span class="text-yellow">$1</span>')
   .replace(/@g(.+?)g@/gs, '<span class="text-green">$1</span>')
   .replace(/@mark(.+?)mark@/gs, '<span class="text-mark">$1</span>')
-  .replace(/```(.+?)```/gs, '<pre class="text-code">$1</pre>')
+  .replace(/`(.+?)`/gs, '<span class="text-code">$1</span>')
   : text
   .replace(/@r(.+?)r@/gs, '$1')
   .replace(/@b(.+?)b@/gs, '$1')
   .replace(/@y(.+?)y@/gs, '$1')
   .replace(/@g(.+?)g@/gs, '$1')
   .replace(/@mark(.+?)mark@/gs, '$1')
-  .replace(/```(.+?)```/gs, '$1');
+  .replace(/`(.+?)`/gs, '$1');
 }
 
 // All texts container
