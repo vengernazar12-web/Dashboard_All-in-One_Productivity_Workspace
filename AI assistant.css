@@ -8,19 +8,6 @@
   color: white;
   padding: 5px 3px;
 }
-.open-assistant-wrap.active-btn::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  right: -17px;
-  color: var(--text-color);
-  background-color: var(--text-color);
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  box-shadow: 0 0 2px 2px var(--border-color);
-}
 
 /* Assistant answer container */
 .assistant-answer-container {
@@ -41,6 +28,7 @@
   gap: 7px;
   contain: content;
 }
+
 .assistant-answer-container pre {
   white-space: pre-wrap;
   text-wrap: wrap;

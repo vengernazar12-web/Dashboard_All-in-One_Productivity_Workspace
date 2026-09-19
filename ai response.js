@@ -26,8 +26,8 @@ async function getAiResponse() {
 
     // If ai do tool_calls
     if ('tool_calls' in data) {
+      historyForAiPrompt.push({role: "assistant", tool_calls: data.tool_calls});
       let generatedCommands = [];
-      historyForAiPrompt.push({role: "assistant", content: '', tool_calls: data.tool_calls});
 
       for (let tool of data.tool_calls) {
         const func = tool.function;
@@ -35,7 +35,7 @@ async function getAiResponse() {
         const args = JSON.parse(func.arguments);
         const id = tool.id;
 
-        if (name === 'go_runner') {
+        if (name === 'go_runner_command') {
           let command = args.command;
 
           let count = 0;
@@ -105,7 +105,7 @@ async function getAiResponse() {
     assistantLoader.style.display = 'none';
     sendPromptBtn.disabled = false;
 
-    return data.txt;
+    return data.for_show;
   } catch (e) {
     clearTimeout(isSlowAnswerTimer);
     console.error(e);

@@ -152,7 +152,7 @@ async function goRunner(command) {
     console.error(e);
     runCommandBtn.disabled = false;
     runCommandLoader.style.display = 'none';
-    return {result: {error: e.message, need: "Use JSON syntax"}};
+    return {result: {errors: [{error: e.message, need: "Use JSON syntax"} ] } };
   }
 }
 
