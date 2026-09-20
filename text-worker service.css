@@ -3,8 +3,8 @@
   width: calc(100% - 10px);
   overflow: hidden;
   text-align: center;
-  border: 1px solid var(--border-color);
-  margin: 10px 5px;
+  border: 2px solid var(--border-color);
+  margin: 12px 5px;
   padding: 0 5px 5px 5px;
   border-radius: 5px;
   cursor: pointer;
