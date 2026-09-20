@@ -182,7 +182,7 @@ Numbers (${numbers?.length || 0}): ${numbers.length ? `<details>${numbers.join('
 Emails (${emails?.length || 0}): ${emails.length ? `<details>${emails.join('\n')}</details>` : 'Nothing...'}
 Phones (${phones?.length}): ${phones.length ? `<details>${phones.join('\n')}</details>` : 'Nothing...'}
 
-Size: ${bytes < 1024 ? `${bytes.toFixed(2)} B` : kb < 1024 ? `${kb.toFixed(2)} KB` : `${mb.toFixe(2)} MB`}
+Size: ${bytes < 1024 ? `${bytes.toFixed(2)} B` : kb < 1024 ? `${kb.toFixed(2)} KB` : `${mb.toFixed(2)} MB`}
 `.trim();
 })
 
