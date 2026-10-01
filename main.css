@@ -338,6 +338,9 @@ header.dashboard-header > img {
 .all-dashboard-items > section[data-group='view'] { border-left: 3px dashed orange; }
 .all-dashboard-items > section[data-group='view'] > h4.group-title { border-bottom: 2px solid orange; }
 
+.all-dashboard-items > section[data-group='games'] { border-left: 3px dashed blueviolet; }
+.all-dashboard-items > section[data-group='games'] > h4.group-title { border-bottom: 2px solid blueviolet; }
+
 .all-dashboard-items h4.group-title {
   position: sticky;
   top: 0;
@@ -359,6 +362,8 @@ header.dashboard-header > img {
 .all-dashboard-items h4.group-title > svg {
   opacity: 0.5;
   transform: rotate(-25deg);
+  color: var(--text-color);
+  fill: var(--text-color);
   transition: transform .2s, opacity .2s;
 }
 .all-dashboard-items h4.group-title:hover > svg {

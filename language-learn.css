@@ -1,0 +1,91 @@
+/* Game settings */
+.language-learn-ai-wrap > .learn-settings {
+  z-index: 1;
+}
+
+.language-learn-ai-wrap > .learn-settings > div {
+  width: calc(100% - 20px);
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  margin: 10px;
+  background-color: var(--body-bg);
+}
+
+.language-learn-ai-wrap > .learn-settings label {
+  width: max-content;
+  font-size: 14px;
+}
+.language-learn-ai-wrap > .learn-settings select {
+  flex: 1;
+  border: 1px solid var(--border-color);
+  background-color: var(--block-bg);
+  color: var(--text-color);
+  border-radius: 5px;
+  height: 100%;
+}
+
+/* Game interface */
+.language-learn-ai-wrap > p {
+  position: absolute;
+  top: 5px;
+  font-size: 11px;
+}
+
+.language-learn-ai-wrap > p.level-preview {
+  left: 5px;
+}
+.language-learn-ai-wrap > p.languages-preview {
+  right: 5px;
+}
+
+.language-learn-ai-wrap h3 {
+  margin-inline: auto;
+  margin-block: 10px;
+  width: max-content;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 17px;
+}
+
+.language-learn-ai-wrap button.ok,
+.language-learn-ai-wrap button.send {
+  width: calc(100% - 10px);
+  margin: 5px;
+  height: 30px;
+  font-size: 14px;
+  border: 1px solid var(--block-bg);
+  background-color: blueviolet;
+  color: white;
+  border-radius: 7px;
+}
+
+.language-learn-ai-wrap div.ai-text {
+  width: calc(100% - 10px);
+  height: calc(100% - 205px);
+  background-color: var(--block-bg);
+  color: var(--text-color);
+  border: 2px solid var(--border-color);
+  border-radius: 7px;
+  margin: 5px;
+  padding: 7px;
+  white-space: pre-wrap;
+  overflow-y: auto;
+  font-size: 14px;
+}
+
+.language-learn-ai-wrap textarea {
+  width: calc(100% - 10px);
+  margin: 5px;
+  border-radius: 10px;
+  padding: 7px;
+  border: 1px solid var(--border-color);
+  background-color: var(--block-bg);
+  color: var(--text-color);
+  height: 100px;
+}
+
+.language-learn-ai-wrap > span.loader {
+  display: none;
+}

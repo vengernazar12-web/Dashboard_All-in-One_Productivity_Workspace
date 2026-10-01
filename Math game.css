@@ -1,0 +1,126 @@
+.math-game-wrap > h2 {
+  width: max-content;
+  margin-inline: auto;
+  margin-block: 10px;
+}
+
+.math-game-wrap > button.difficulty {
+  width: calc(100% - 20px);
+  margin: 10px;
+  height: 30px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  color: white;
+  font-size: 15px;
+  transition: box-shadow .2s;
+}
+.math-game-wrap > button.difficulty:hover { box-shadow: 0 0 3px 2px currentColor inset; }
+
+.math-game-wrap > button.difficulty.easy {
+  background-color: green;
+}
+.math-game-wrap > button.difficulty.medium {
+  background-color: rgb(100, 100, 0);
+}
+.math-game-wrap > button.difficulty.hard {
+  background-color: orange;
+}
+.math-game-wrap > button.difficulty.expert {
+  background-color: red;
+}
+
+/* Game window */
+.math-game-wrap > .game-window > button.close {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 25px;
+  background-color: transparent;
+}
+
+.math-game-wrap > .game-window p.for_show_math {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: calc(100% - 60px);
+  border: 1px solid var(--border-color);
+  padding: 5px;
+  border-radius: 10px;
+  background-color: var(--block-bg);
+  color: var(--text-color);
+  font-size: 15px;
+  height: calc(100% - 200px);
+  text-align: center;
+}
+
+.math-game-wrap > .game-window textarea {
+  position: absolute;
+  top: calc(100% - 180px);
+  left: 10px;
+  height: 130px;
+  width: calc(100% - 60px);
+  background-color: var(--block-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 7px;
+  font-size: 12px;
+}
+
+.math-game-wrap > .game-window input.answer-input {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  width: calc(100% - 110px);
+  font-size: 13px;
+}
+
+.math-game-wrap > .game-window button.send {
+  position: absolute;
+  right: 50px;
+  bottom: 10px;
+  width: 45px;
+  height: 30px;
+  font-size: 15px;
+  border-radius: 7px;
+  background-color: green;
+  color: white;
+  border: 1px solid var(--border-color);
+}
+
+/* INFO */
+.math-game-wrap > div.info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  background-color: var(--block-bg);
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  padding: 10px;
+  margin: 10px;
+  width: calc(100% - 20px);
+}
+
+.math-game-wrap > div.info > h3 {
+  text-align: center;
+  border-bottom: 1px dashed var(--border-color);
+  border-radius: 0 0 7px 7px;
+  padding-bottom: 3px;
+}
+
+.math-game-wrap > div.info p,
+.math-game-wrap > div.info pre {
+  border-radius: 7px;
+  border: 2px solid var(--border-color);
+  padding: 3px;
+  font-size: 15px;
+  font-weight: 400;
+  white-space: pre;
+  text-wrap: wrap;
+}
+
+.math-game-wrap > div.info span {
+  background: color-mix(in srgb, var(--text-color) 11%, transparent);
+  border-radius: 5px;
+  padding-inline: 2px;
+}

@@ -52,6 +52,10 @@ Manage and store various data structures:
 - **JSON Worker**: JSON tree view, type counting, minification, and CSV/Path export.
 - **CSV Render**: Table rendering, HTML export, metadata (columns/rows/cells), and field sorting.
 
+### GAMES
+- **Language learning**: learning with AI
+- **Math game**
+
 ## ⚡ Runner
 Utilizes **JSON5** query language to perform actions: `create`, `delete`, `find`, `check`, and `list`.
 

@@ -47,6 +47,10 @@ const dashboardWindowsBtnsFromNames = {
   jsonWorker: openJsonWorkerBtn,
   csvRender: openCsvRenderBtn,
 
+  // GAMES
+  languageLearning: openLanguageLearnBtn,
+  mathGame: openMathGameBtn,
+
   // OTHER
   runner: openCommandRunnerWrapBtn,
   settings: openSettingsWrapBtn
