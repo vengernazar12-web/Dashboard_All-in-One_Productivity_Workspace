@@ -55,6 +55,7 @@ Manage and store various data structures:
 ### GAMES
 - **Language learning**: learning with AI
 - **Math game**
+- **Debate**: with AI
 
 ## ⚡ Runner
 Utilizes **JSON5** query language to perform actions: `create`, `delete`, `find`, `check`, and `list`.

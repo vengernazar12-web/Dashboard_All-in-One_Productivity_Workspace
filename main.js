@@ -79,6 +79,8 @@ toggleAllDashboardItemBtn.addEventListener('click', () => {
     else if(distanceServiceWrap.classList.contains('show')) openDistanceServiceBtn.classList.add('active-btn');
     else if(asciiWorkerWrap.classList.contains('show')) openAsciiWorkerBtn.classList.add('active-btn');
     else if(languageLearnWrap.classList.contains('show')) openLanguageLearnBtn.classList.add('active-btn');
+    else if(mathGameWrap.classList.contains('show')) openMathGameBtn.classList.add('active-btn');
+    else if(debateWithAiWrap.classList.contains('show')) openDebateWithAiBtn.classList.add('active-btn');
 
     else if(settingsWrap.classList.contains('show')) openSettingsWrapBtn.classList.add('active-btn');
     else if(commandRunnerWrap.classList.contains('show')) openCommandRunnerWrapBtn.classList.add('active-btn');

@@ -55,6 +55,7 @@
 <link rel="stylesheet" href="ascii worker.css">
 <link rel="stylesheet" href="language-learn.css">
 <link rel="stylesheet" href="Math game.css">
+<link rel="stylesheet" href="debate-with-ai.css">
 
 <link rel="stylesheet" href="sign.css">
 
@@ -100,6 +101,7 @@
 <script src="ascii worker.js" defer></script>
 <script src="language-learn.js" defer></script>
 <script src="Math game.js" defer></script>
+<script src="debate-with-ai.js" defer></script>
 
 <!-- Assistant -->
 <script src="AI assistant.js" defer></script><!--3-->
@@ -121,7 +123,7 @@
   <p>AI tools, search services and utilities in one place</p>
   <small>Open the sidebar to get started</small>
   <br><br>
-  <small>32 services • AI assistant • todos, notes, urls and more</small>
+  <small>33 services • AI assistant • todos, notes, urls and more</small>
 </header>
 
 <!-- Settings -->
@@ -1151,6 +1153,24 @@
   </div>
 </div>
 
+<!-- Debate with AI -->
+<div class="debate-with-ai-wrap is-wrap">
+  <div class="generate-topic-wrap open">
+    <p>Debate Topic...</p>
+    <button class="select-topic" data-pos="first" disabled>FIRST (1)</button>
+    <button class="select-topic" data-pos="second" disabled>SECOND (2)</button>
+  </div>
+
+  <p class="info"></p>
+  <div class="history"><h3 style="width: 100%; text-align: center;">START OF THE DEBATE</h3></div>
+  <input type="text" placeholder="Your argument..." disabled>
+  <button class="send" disabled>SEND</button>
+
+  <span class="loader"></span>
+
+  <p class="win-or-loss-show"></p>
+</div>
+
 <!-- Assistant wrap -->
 <div class="assistant-wrap is-wrap">
   <!-- assistant answer container -->
@@ -1239,6 +1259,7 @@
     <h4 class="group-title">GAMES<svg><use href="#games"></use></svg></h4>
     <button class="open-language-learn-ai-wrap --opened-btn">Language learning<p>AI</p></button>
     <button class="open-math-game-wrap --opened-btn">Math game</button>
+    <button class="open-debate-with-ai-wrap --opened-btn">Debate<p>AI</p></button>
   </section>
 
   <h4>Settings & Runner</h4>

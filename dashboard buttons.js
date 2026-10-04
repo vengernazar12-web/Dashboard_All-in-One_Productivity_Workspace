@@ -50,6 +50,7 @@ const dashboardWindowsBtnsFromNames = {
   // GAMES
   languageLearning: openLanguageLearnBtn,
   mathGame: openMathGameBtn,
+  debate: openDebateWithAiBtn,
 
   // OTHER
   runner: openCommandRunnerWrapBtn,

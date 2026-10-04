@@ -36,8 +36,6 @@
   left: 5px;
   width: calc(100% - 10px);
   height: auto;
-  max-height: 300%;
-  overflow: auto;
   background-color: var(--block-bg);
   color: var(--text-color);
   border: 1px dotted green;

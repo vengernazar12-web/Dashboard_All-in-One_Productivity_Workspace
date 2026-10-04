@@ -1,0 +1,126 @@
+.debate-with-ai-wrap * {
+  user-select: text;
+}
+
+.debate-with-ai-wrap > .generate-topic-wrap {
+  position: absolute;
+  top: calc(100% / 2 - 100px);
+  left: 20px;
+  height: 200px;
+  width: calc(100% - 40px);
+  overflow: auto;
+  padding: 10px;
+  background-color: var(--block-bg);
+  color: var(--text-color);
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  z-index: 10000;
+  display: none;
+}
+.debate-with-ai-wrap > .generate-topic-wrap.open { display: block; }
+
+.debate-with-ai-wrap > .generate-topic-wrap > p {
+  position: absolute;
+  top: 5px;
+  left: 0;
+  width: 100%;
+  padding: 3px;
+  text-align: center;
+  font-size: 16px;
+}
+
+.debate-with-ai-wrap > .generate-topic-wrap > button {
+  position: absolute;
+  top: 35px;
+  width: calc(50% - 25px);
+  background-color: blue;
+  color: white;
+  border: 1px solid var(--border-color);
+  border-radius: 7px;
+  font-size: 14px;
+  padding: 3px;
+}
+.debate-with-ai-wrap > .generate-topic-wrap > button:first-of-type { left: 20px; }
+.debate-with-ai-wrap > .generate-topic-wrap > button:last-of-type { right: 20px; }
+
+/* Game UI */
+.debate-with-ai-wrap > p.info {
+  position: absolute;
+  top: 5px;
+  left: 0;
+  padding: 3px;
+  font-size: 13px;
+  width: 100%;
+  text-align: center;
+}
+
+.debate-with-ai-wrap > div.history {
+  position: absolute;
+  top: 30px;
+  left: 10px;
+  width: calc(100% - 20px);
+  height: calc(100% - 80px);
+  background-color: var(--block-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  border-radius: 10px;
+  padding: 10px;
+  overflow: auto;
+}
+
+.debate-with-ai-wrap > div.history > pre.user {
+  border: 1px solid var(--border-color);
+  margin-block: 10px;
+  padding: 3px;
+  border-radius: 5px;
+  white-space: pre-wrap;
+}
+
+.debate-with-ai-wrap pre > button {
+  width: 100%;
+  height: 30px;
+  background-color: rgb(100, 75, 0);
+  color: white;
+  border-radius: 7px;
+  border: 1px solid var(--border-color);
+}
+
+.debate-with-ai-wrap > input {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  width: calc(100% - 75px);
+}
+.debate-with-ai-wrap > button.send {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 45px;
+  height: 30px;
+  font-size: 14px;
+  background-color: green;
+  color: white;
+  border-radius: 7px;
+  border: 1px solid var(--border-color);
+}
+
+/* win or loss show */
+.debate-with-ai-wrap > p.win-or-loss-show {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  font-size: 30px;
+  font-weight: 1000;
+  z-index: 100000;
+  display: none;
+}
+.debate-with-ai-wrap > p.win-or-loss-show.open {
+  display: block;
+  animation: win-or-loss-show 3s;
+}
+
+@keyframes win-or-loss-show {
+  from { transform: scale(0.3); opacity: 0 }
+  to { transform: scale(1); opacity: 1 }
+}

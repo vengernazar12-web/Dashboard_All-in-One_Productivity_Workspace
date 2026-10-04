@@ -184,7 +184,7 @@ const notesContentTitle = notesContentWrap.querySelector('h3');
 
 const userNotesText = notesContentWrap.querySelector('.notes-user-content');
 userNotesText.addEventListener('input', () => {
-  const lng = userNotesText.innerText.replaceAll('\n', '').length;
+  const lng = userNotesText.innerText.length;
   notesSymbolsLimitText.style.color = lng > allValuesLimit.notesContent ? 'red' : 'var(--text-color)';
   notesSymbolsLimitText.textContent = `${lng}/${allValuesLimit.notesContent}`;
 })
@@ -246,7 +246,7 @@ function renderNotesText(name) {
   notesContentTitle.textContent = name;
   userNotesText.style.fontSize = `${localStorage.getItem('notes-font-size') || 1.2}rem`;
   notesContentWrap.classList.add('show');
-  notesSymbolsLimitText.textContent = `${allNotesObj[name].txt.replaceAll('\n', '').length}/${allValuesLimit.notesContent}`;
+  notesSymbolsLimitText.textContent = `${allNotesObj[name].txt.length}/${allValuesLimit.notesContent}`;
 }
 function renderNotesBlocks() {
   const arr = Object.keys(allNotesObj);
