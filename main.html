@@ -48,7 +48,6 @@
 <link rel="stylesheet" href="code-lines-counter.css">
 <link rel="stylesheet" href="substrings-search.css">
 <link rel="stylesheet" href="code-ai.css">
-<link rel="stylesheet" href="ai-router.css">
 <link rel="stylesheet" href="idea-generator.css">
 <link rel="stylesheet" href="mini-caniuse.css">
 <link rel="stylesheet" href="distance service.css">
@@ -56,6 +55,7 @@
 <link rel="stylesheet" href="language-learn.css">
 <link rel="stylesheet" href="Math game.css">
 <link rel="stylesheet" href="debate-with-ai.css">
+<link rel="stylesheet" href="guessing.css">
 
 <link rel="stylesheet" href="sign.css">
 
@@ -102,14 +102,13 @@
 <script src="language-learn.js" defer></script>
 <script src="Math game.js" defer></script>
 <script src="debate-with-ai.js" defer></script>
+<script src="guessing.js" defer></script>
 
 <!-- Assistant -->
 <script src="AI assistant.js" defer></script><!--3-->
 <script src="ai response.js" defer></script>
 
-<script src="ai-router.js" defer></script>
-
-<script src="dashboard buttons.js" defer></script>
+<script src="dashboard windows.js" defer></script>
 
 <script src="sign.js" defer></script><!--max-->
 
@@ -1171,6 +1170,17 @@
   <p class="win-or-loss-show"></p>
 </div>
 
+<!-- Guessing game wrap -->
+<div class="guessing-game-wrap is-wrap">
+  <h2>GUESSING</h2>
+  <button class="restart" disabled>RESTART</button>
+
+  <div class="history"></div>
+  <input type="text" placeholder="Is that black?..." disabled>
+  <button class="send" disabled>SEND</button>
+  <span class="loader"></span>
+</div>
+
 <!-- Assistant wrap -->
 <div class="assistant-wrap is-wrap">
   <!-- assistant answer container -->
@@ -1260,6 +1270,7 @@
     <button class="open-language-learn-ai-wrap --opened-btn">Language learning<p>AI</p></button>
     <button class="open-math-game-wrap --opened-btn">Math game</button>
     <button class="open-debate-with-ai-wrap --opened-btn">Debate<p>AI</p></button>
+    <button class="open-guessing-game-wrap --opened-btn">Guessing<p>AI</p></button>
   </section>
 
   <h4>Settings & Runner</h4>
@@ -1274,14 +1285,6 @@
 <div class="undo-last-action-block">
   <h4>Undo your last action</h4>
   <button>Undo</button>
-</div>
-
-<!-- Router AI -->
-<button class="open-router-ai" aria-label="Open AI router"></button>
-<div class="ai-router-window">
-  <div class="chat"><h4>Hi! I'm router AI, how can I help you?</h4></div>
-  <input type="text" placeholder="Open...">
-  <button>OK</button>
 </div>
 
 <!-- Sign-in window -->

@@ -416,7 +416,7 @@ document.addEventListener('keydown', e => {
     else if(textsSnippetsWrap.classList.contains('show')) toggleAddTextSnippetForm.click();
     else if(musicWrap.classList.contains('show')) toggleAddMusicFormBtn.click();
   }
-  // OPen side panel
+  // Open side panel
   else if(e.ctrlKey && e.code === 'KeyP') {
     e.preventDefault();
     toggleAllDashboardItemBtn.click();
@@ -466,9 +466,7 @@ document.addEventListener('keydown', e => {
 
   // Global enter
   else if(e.key === 'Enter') {
-    if(aiRouterWindow.classList.contains('open')) aiRouterSendTaskBtn.click();
-
-    else if(assistantWrap.classList.contains('show') && !e.shiftKey) {
+    if(assistantWrap.classList.contains('show') && !e.shiftKey) {
       e.preventDefault();
       sendPromptBtn.click();
     }
@@ -486,6 +484,7 @@ document.addEventListener('keydown', e => {
     else if(browserWorkerWrap.classList.contains('show')) setBrowserWorkerBtn.click();
     else if(ipSearchWrap.classList.contains('show')) searchIpBtn.click();
     else if(mediaSearchWrap.classList.contains('show')) searchMediaBtn.click();
+    else if(guessingWrap.classList.contains('show')) guessingSendBtn.click();
   }
 })
 
