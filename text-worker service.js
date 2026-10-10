@@ -171,7 +171,7 @@ Words: ${allWords.length}
 Average word length: ${allWordsLng.reduce((a,b) => a+b, 0) / allWordsLng.length}
 Lines: ${val ? lines.length : 0}
 
-Reading time ≈ ${val.trim() ? (allWordsLng.reduce((a,b) => a + ( b <= 4 ? 0.35 : b <= 8 ? 0.6 : b <= 12 ? 0.75 : 0.9 ), 0) + symbolsForStopInReadingTime / 3.5).toFixed(2) : 0}s
+Reading time ≈ ${val.trim() ? (allWordsLng.reduce((a,b) => a + ( b <= 4 ? 0.35 : b <= 8 ? 0.65 : b <= 12 ? 0.8 : 1 ), 0) + symbolsForStopInReadingTime / 3.5).toFixed(2) : 0}s
 
 Shortest word: ${shortestWord || 'Nothing...'} (${shortestWord.length})
 Longest word: ${longestWord || 'Nothing...'} (${longestWord.length})
