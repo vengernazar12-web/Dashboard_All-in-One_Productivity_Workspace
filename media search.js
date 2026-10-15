@@ -73,7 +73,7 @@ mediaSearchSelectCountry.addEventListener('change', () => {
 const savedMediaSearchCountry = localStorage.getItem('media-search_country');
 if(savedMediaSearchCountry) mediaSearchSelectCountry.value = savedMediaSearchCountry;
 
-const mediaForNotWorkCountrySelect = ['literature', 'visual', 'emoji', 'country', 'word', 'recipes', 'chem', 'nasa', 'aiModels', 'video'];
+const mediaForNotWorkCountrySelect = ['literature', 'visual', 'emoji', 'country', 'recipes', 'chem', 'nasa', 'aiModels', 'video'];
 
 let allCountriesForShowMedia = null;
 
@@ -766,74 +766,7 @@ https://itunes.apple.com/search
 </div>
 `.trim()).join('') || 'Nothing...', title: `COUNTRIES (${d.length})`
         }))
-    } catch (e) { showResponseFn(`Error: please try enter country name!`); }
-  },
-
-  word: async (_, value) => {
-    await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(value)}`)
-    .then(r => r.json())
-    .then(d => mediaSearchCache.push({
-      content: Array.isArray(d) ? d.map(obj => `
-<div class="result-info" data-marker="word">
-  <h2>${obj.word}</h2>
-
-  ${obj.phonetic ? `<div>/${obj.phonetic}/</div>` : ""}
-
-  ${
-    obj.phonetics?.find(p => p.audio)?.audio ? `
-      <div>
-        <button data-audio="${obj.phonetics.find(p => p.audio).audio}">Pronunciation</button>
-      </div>` : ""
-  }
-
-  ${
-    obj.origin ? `
-      <hr>
-      <div><b>Origin:</b> ${obj.origin}</div>
-      ` : ""
-  }
-
-  <hr>
-
-  ${obj.meanings.map(meaning => `
-    <div>
-      <h3>${meaning.partOfSpeech}</h3>
-
-      <ol>
-        ${meaning.definitions.map(def => `
-          <li>
-            ${def.definition}
-
-            ${def.example
-              ? `<div><i>"${def.example}"</i></div>`
-              : ""}
-
-            ${def.synonyms?.length
-              ? `
-              <div>
-                <b>Synonyms:</b>
-                ${def.synonyms.join(", ")}
-              </div>
-              `
-              : ""}
-
-            ${def.antonyms?.length
-              ? `
-              <div>
-                <b>Antonyms:</b>
-                ${def.antonyms.join(", ")}
-              </div>
-              `
-              : ""}
-
-          </li>
-        `).join("")}
-      </ol>
-    </div>
-  `).join("")}
-</div>
-`.trim()).join('') : `<h3>${d.title}</h3><p>${d.message}</p>`, title: `WORDS (${d.length || 0})`
-    }))
+    } catch (e) { console.log(e); showResponseFn(`Error: please try enter country name!`); }
   },
 
   recipes: async (_, value) => {

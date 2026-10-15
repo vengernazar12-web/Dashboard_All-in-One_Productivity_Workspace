@@ -25,6 +25,7 @@ Manage and store various data structures:
 - **Compress image**
 - **Color worker**
 - **Files info**
+- **ASCII worker**
 - **Substrings search**
 
 ### 🤖 AI
@@ -45,7 +46,6 @@ Manage and store various data structures:
 - **Media Search**
 - **Browser support**
 - **Distance between places**
-- **ASCII worker**
 
 ### 👁 View
 - **Browser Worker**: Iframe-based viewer with auto-embed for video/audio.
