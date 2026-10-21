@@ -1,1 +1,1503 @@
-<!DOCTYPE html><html lang="en"><script>window.location.replace('main.html')</script><meta charset="UTF-8"><title>Dashboard</title></html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+
+  <title>Dashboard</title>
+  <meta charset="UTF-8">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@600&family=Roboto:wght@500&display=swap"
+    rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="ALL MAINS/main.css">
+  <link rel="stylesheet" href="TYPES/todos type/todo.css">
+  <link rel="stylesheet" href="TYPES/notes type/notes.css">
+  <link rel="stylesheet" href="TYPES/urls type/saveUrls.css">
+  <link rel="stylesheet" href="TYPES/user codes type/user code.css">
+  <link rel="stylesheet" href="TYPES/text snippets type/texts snippets.css">
+  <link rel="stylesheet" href="TYPES/music type/music.css">
+
+  <link rel="stylesheet" href="SERVICES/exchange rates/exchange rate.css">
+  <link rel="stylesheet" href="SERVICES/weather/weather.css">
+  <link rel="stylesheet" href="SERVICES/timezones/timezone.css">
+  <link rel="stylesheet" href="ALL MAINS/settings.css">
+  <link rel="stylesheet" href="AI assistant/AI assistant.css">
+  <link rel="stylesheet" href="SERVICES/github search/github.css">
+  <link rel="stylesheet" href="command runner/command runner.css">
+  <link rel="stylesheet" href="SERVICES/generate image/generate image service.css">
+  <link rel="stylesheet" href="SERVICES/text worker/text-worker service.css">
+  <link rel="stylesheet" href="SERVICES/qr-code generator/qr-code generation.css">
+  <link rel="stylesheet" href="SERVICES/browser worker/browser worker.css">
+  <link rel="stylesheet" href="SERVICES/regexp checker/regexp checker.css">
+  <link rel="stylesheet" href="SERVICES/wikipedia search/wikipedia.css">
+  <link rel="stylesheet" href="SERVICES/IP search/IP search.css">
+  <link rel="stylesheet" href="SERVICES/JSON worker/JSON worker.css">
+  <link rel="stylesheet" href="SERVICES/ai reasoning/ai-reasoning worker.css">
+  <link rel="stylesheet" href="SERVICES/template AI/Temp AI.css">
+  <link rel="stylesheet" href="SERVICES/fetch service/fetch service.css">
+  <link rel="stylesheet" href="SERVICES/media search/media search.css">
+  <link rel="stylesheet" href="SERVICES/unit converter/unit converter.css">
+  <link rel="stylesheet" href="SERVICES/TTS service/text to speech.css">
+  <link rel="stylesheet" href="SERVICES/diff texts/diff text.css">
+  <link rel="stylesheet" href="SERVICES/CSV render/CSV render.css">
+  <link rel="stylesheet" href="SERVICES/image comressor/image compression.css">
+  <link rel="stylesheet" href="SERVICES/token counter/token counter.css">
+  <link rel="stylesheet" href="SERVICES/color worker/color worker.css">
+  <link rel="stylesheet" href="SERVICES/files info/code-lines-counter.css">
+  <link rel="stylesheet" href="SERVICES/substring search/substrings-search.css">
+  <link rel="stylesheet" href="SERVICES/code AI/code-ai.css">
+  <link rel="stylesheet" href="SERVICES/idea generator/idea-generator.css">
+  <link rel="stylesheet" href="SERVICES/mini caniuse/mini-caniuse.css">
+  <link rel="stylesheet" href="SERVICES/distance service/distance service.css">
+  <link rel="stylesheet" href="SERVICES/ascii worker/ascii worker.css">
+  <link rel="stylesheet" href="SERVICES/language learn/language-learn.css">
+  <link rel="stylesheet" href="SERVICES/math game/Math game.css">
+  <link rel="stylesheet" href="SERVICES/debate with ai/debate-with-ai.css">
+  <link rel="stylesheet" href="SERVICES/guessing with AI/guessing.css">
+
+  <link rel="stylesheet" href="ALL MAINS/sign.css">
+
+  <script src="ALL MAINS/main.js" defer></script>
+
+  <!--1 Types-->
+  <script src="TYPES/todos type/todo.js" defer></script>
+  <script src="TYPES/notes type/notes.js" defer></script>
+  <script src="TYPES/urls type/saveUrls.js" defer></script>
+  <script src="TYPES/user codes type/user code.js" defer></script>
+  <script src="TYPES/text snippets type/texts snippets.js" defer></script>
+  <script src="TYPES/music type/music.js" defer></script>
+
+  <script src="SERVICES/exchange rates/exchange rate.js" defer></script><!--2 Services-->
+  <script src="SERVICES/weather/weather.js" defer></script>
+  <script src="SERVICES/timezones/timezone.js" defer></script>
+  <script src="ALL MAINS/settings.js" defer></script>
+  <script src="SERVICES/github search/github.js" defer></script>
+  <script src="command runner/command runner.js" defer></script>
+  <script src="SERVICES/generate image/generate image service.js" defer></script>
+  <script src="SERVICES/text worker/text-worker service.js" defer></script>
+  <script src="SERVICES/qr-code generator/qr-code generation.js" defer></script>
+  <script src="SERVICES/browser worker/browser worker.js" defer></script>
+  <script src="SERVICES/regexp checker/regexp checker.js" defer></script>
+  <script src="SERVICES/wikipedia search/wikipedia.js" defer></script>
+  <script src="SERVICES/IP search/IP search.js" defer></script>
+  <script src="SERVICES/JSON worker/JSON worker.js" defer></script>
+  <script src="SERVICES/ai reasoning/ai-reasoning worker.js" defer></script>
+  <script src="SERVICES/template AI/temp AI.js" defer></script>
+  <script src="SERVICES/fetch service/fetch service.js" defer></script>
+  <script src="SERVICES/media search/media search.js" defer></script>
+  <script src="SERVICES/unit converter/unit converter.js" defer></script>
+  <script src="SERVICES/TTS service/text to speech.js" defer></script>
+  <script src="SERVICES/diff texts/diff text.js" defer></script>
+  <script src="SERVICES/CSV render/CSV render.js" defer></script>
+  <script src="SERVICES/image comressor/image compression.js" defer></script>
+  <script src="SERVICES/token counter/token counter.js" defer></script>
+  <script src="SERVICES/color worker/color worker.js" defer></script>
+  <script src="SERVICES/files info/code-lines-counter.js" defer></script>
+  <script src="SERVICES/substring search/substrings-search.js" defer></script>
+  <script src="SERVICES/code AI/code-ai.js" defer></script>
+  <script src="SERVICES/idea generator/idea-generator.js" defer></script>
+  <script src="SERVICES/mini caniuse/mini-caniuse.js" defer></script>
+  <script src="SERVICES/distance service/distance service.js" defer></script>
+  <script src="SERVICES/ascii worker/ascii worker.js" defer></script>
+  <script src="SERVICES/language learn/language-learn.js" defer></script>
+  <script src="SERVICES/math game/Math game.js" defer></script>
+  <script src="SERVICES/debate with ai/debate-with-ai.js" defer></script>
+  <script src="SERVICES/guessing with AI/guessing.js" defer></script>
+
+  <!-- Assistant -->
+  <script src="AI assistant/AI assistant.js" defer></script><!--3-->
+  <script src="AI assistant/ai response.js" defer></script>
+
+  <script src="ALL MAINS/dashboard windows.js" defer></script>
+
+  <script src="ALL MAINS/sign.js" defer></script><!--max-->
+
+  <link rel="icon" href="./all-imgs/icon.svg" type="image/png">
+</head>
+
+<body>
+  <header class="dashboard-header">
+    <img src="./all-imgs/icon.svg" alt="Dashboard">
+    <h1>Dashboard</h1>
+    <p>AI tools, search services and utilities in one place</p>
+    <small>Open the sidebar to get started</small>
+    <br><br>
+    <small>33 services • AI assistant • todos, notes, urls and more</small>
+  </header>
+
+  <!-- Settings -->
+  <div class="settings-wrap is-wrap">
+    <h1>Your settings</h1>
+
+    <div class="settings-block">
+      <p>Theme</p>
+      <button data-theme-switcher></button>
+    </div>
+
+    <div class="settings-block">
+      <p>Delete animation time</p>
+      <select class="animation-time-select">
+        <option value="0.5s">0.5s</option>
+        <option value="1s">1s</option>
+        <option value="1.5s" selected>1.5s</option>
+        <option value="2s">2s</option>
+        <option value="2.5s">2.5s</option>
+        <option value="3s">3s</option>
+      </select>
+    </div>
+
+    <div class="settings-block">
+      <p>Notes font size</p>
+      <input type="number" class="notes-font-size-sett" placeholder="1.2" value="1.2" step="0.1">
+    </div>
+
+    <div class="settings-block">
+      <p>Disabled delete animation</p>
+      <button class="disabled-animation-sett">✖️</button>
+    </div>
+
+    <div class="settings-block">
+      <p>Confirm before delete</p>
+      <button class="conf-before-del-sett">✖️</button>
+    </div>
+
+    <div class="settings-block">
+      <p>Microphone language</p>
+      <select class="select-mic-lang">
+        <option value="en-US">EN</option>
+        <option value="uk-UA">UA</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Todos -->
+  <div class="todo-wrap is-wrap">
+    <h2>Todos</h2>
+    <hr>
+
+    <button class="todo-save-btn --saved-btn" title="Save content"><svg>
+        <use href="#save"></use>
+      </svg></button>
+
+    <input type="text" class='todo-search' placeholder="Search todo...">
+
+    <div class='todos-container'></div>
+
+    <button class="toggle-add-todo-form --toggle-form-btn" title="ctrl + h">✚</button>
+    <button class="toggle-todo-progresses-block">i</button>
+
+    <!-- Todo progresses -->
+    <div class="todo-progresses-block">
+      <progress></progress>
+      <p class="completed">Completed</p>
+      <p class="not-completed">Pending</p>
+      <progress></progress>
+    </div>
+
+    <!-- Add todo block -->
+    <div class="add-todo-form">
+      <input type="text" class='todo-name-input' placeholder="Todo name...">
+      <input type="text" class="todo-mark-input" placeholder="Todo mark...">
+      <input type="text" class="todo-tag-input" placeholder="Todo tag...">
+      <button class='add-todo' title="Add todo">Add</button>
+      <p class='todo-symbols-length'></p>
+    </div>
+
+    <div class="edit-todo-block">
+      <h3></h3>
+      <input type="color" class="todo-bgc-input">
+      <button class="reset-todo-color" title="Reset color">Reset color</button>
+      <button class="confirm-todo-edit-color" title="Confirm color">Confirm color</button>
+      <label for="mark" class="edit-mark-label"></label>
+      <input type="text" class="edit-todo-mark" id="mark" placeholder="Todo mark...">
+      <div class="preview-todo-mark" title="Mark preview"></div>
+      <button class="confirm-todo-edit-mark" title="Confirm mark">Confirm</button>
+    </div>
+
+    <progress class="todo-progress"></progress>
+    <p class='todos-number'></p>
+  </div>
+
+  <!-- Notes -->
+  <div class="notes-wrap is-wrap">
+    <h2>Notes</h2>
+    <p class="notes-blocks-limit"></p>
+    <hr>
+
+    <button class="note-save-btn --saved-btn" title="Save content"><svg>
+        <use href="#save"></use>
+      </svg></button>
+
+    <!-- Search note blocks -->
+    <input type="text" class="search-note-blocks-input" placeholder="Search note blocks...">
+
+    <div class="all-user-notes-container"></div>
+
+    <button class="toggle-add-note-form --toggle-form-btn" title="Ctrl + h">✚</button>
+    <div class="add-notes-inputs">
+      <input type="text" class="note-name-input" placeholder="Note name...">
+      <input type="text" class="note-description-input" placeholder="Note description...">
+      <button class="add-note-button">Add</button>
+    </div>
+
+    <!-- Edit note block -->
+    <div class="edit-note-block">
+      <input type="text" class="edit-note-name-input" placeholder="New name...">
+      <input type="text" class="edit-note-desc-input" placeholder="New description...">
+      <button class="conf-note-edit-change-btn">OK</button>
+    </div>
+
+    <progress class="note-progress"></progress>
+  </div>
+
+  <div class="notes-content-wrap is-wrap">
+    <button class="close-notes-content-wrap">❌</button>
+    <h3></h3>
+    <input type="text" class="search-note-text-input" placeholder="Search text...">
+
+    <p class="notes-symbols-limit-text">_/2000</p>
+    <div class="notes-user-content" contenteditable="true" spellcheck="false"></div>
+  </div>
+
+  <!-- Urls -->
+  <div class="save-urls-wrap is-wrap">
+    <h2>Urls</h2>
+    <hr>
+
+    <button class="url-save-btn --saved-btn" title="Save content">
+      <svg>
+        <use href="#save"></use>
+      </svg>
+    </button>
+    <button class="toggle-add-url-form --toggle-form-btn" title="Add new url(ctrl + h)">✚</button>
+
+    <input type="text" class="search-url" placeholder="Search your urls...">
+
+    <div class="all-urls-container"></div>
+
+    <div class="add-url-form">
+      <h3>Add new url</h3>
+      <input type="text" class="add-opened-url-input" placeholder="Url...">
+      <input type="text" class="add-url-name-input" placeholder="Url name...">
+      <input type="file" class="add-url-img-input" accept="
+    image/png,
+    image/jpeg,
+    image/jpg,
+    image/webp,
+    image/svg+xml,
+    image/bmp,
+    image/tiff
+    ">
+      <button class="add-url-btn">Add</button>
+    </div>
+
+    <div class="edit-url-form">
+      <h4>Edit your url card</h4>
+      <p>Select item</p>
+      <select id="select-item">
+        <option value="name">Name</option>
+        <option value="url">Url</option>
+        <option value="image">Image</option>
+      </select>
+      <input type="text" placeholder="Enter your changes..." accept="
+    image/png,
+    image/jpeg,
+    image/jpg,
+    image/webp,
+    image/svg+xml,
+    image/bmp,
+    image/tiff
+    ">
+      <button class="confirm-edit-url-btn">OK</button>
+    </div>
+
+    <progress class="ulr-progress"></progress>
+    <p class="url-blocks-limit"></p>
+  </div>
+
+  <!-- User code wrap -->
+  <div class="user-code-wrap is-wrap">
+    <h2>Codes</h2>
+    <p class="code-blocks-limit"></p>
+    <button class="code-save-btn --saved-btn" title="Save content"><svg>
+        <use href="#save"></use>
+      </svg></button>
+    <hr>
+    <input type="text" class="search-code-input" placeholder="Search name/length...">
+
+    <div class="all-user-codes-container"></div>
+
+    <button class="toggle-add-new-block-code-form --toggle-form-btn" title="Ctrl + h">✚</button>
+
+    <div class="add-new-block-code-form">
+      <h3>Add your code</h3>
+      <input type="text" class="code-block-name-input" placeholder="Code title...">
+      <select class="user-code-lang">
+        <option value="HTML">HTML</option>
+        <option value="CSS">CSS</option>
+        <option value="JavaScript">JavaScript</option>
+      </select>
+      <button class="add-code-block-btn">Add</button>
+    </div>
+
+    <!-- Focus code -->
+    <div class="focus-code-wrap is-wrap">
+      <h3 class="focus-code-title"></h3>
+      <p class="focus-code-symbols">_/1500</p>
+      <textarea class="focus-textarea"></textarea>
+
+      <div class="all-focus-btns">
+        <!-- Toggle codes content assistant -->
+        <button class="unfocus-btn"><svg>
+            <use href="#unfocus"></use>
+          </svg></button>
+        <button class="copy"><svg>
+            <use href="#copy-code"></use>
+          </svg></button>
+        <button class="delete"><svg>
+            <use href="#delete-code"></use>
+          </svg></button>
+      </div>
+    </div>
+
+    <progress class="code-progress"></progress>
+  </div>
+
+  <!-- Text snippets wrap -->
+  <div class="texts-snippets-wrap is-wrap">
+    <h2>Texts</h2>
+    <hr>
+
+    <input type="text" class="search-texts-snippets-input" placeholder="Search blocks...">
+    <button class="save-texts-snippets --saved-btn"><svg>
+        <use href="#save"></use>
+      </svg></button>
+
+    <div class="all-texts-snippets-container"></div>
+
+    <!-- Add text snippet -->
+    <button class="toggle-add-text-snippet-btn --toggle-form-btn" title="Ctrl + h">✚</button>
+    <div class="add-text-snippet-form">
+      <input type="text" class="add-text-snippet-name-input" placeholder="Name...">
+      <textarea class="add-text-snippet-content-textarea" placeholder="Text..."></textarea>
+      <p class="content-limit-txt"></p>
+      <button class="add-text-snippet-btn">ADD</button>
+    </div>
+
+    <!-- Edit text snippet block -->
+    <div class="edit-text-snippet-block">
+      <input class="edit-name-input" type="text" placeholder="New name...">
+      <textarea class="edit-content-textarea" type="text" placeholder="New content..."></textarea>
+      <p class="content-limit-txt"></p>
+      <button class="confirm-edit-change">OK</button>
+    </div>
+
+    <progress class="texts-progress"></progress>
+    <p class="text-progress-txt"></p>
+  </div>
+
+  <!-- Music wrap -->
+  <div class="music-wrap is-wrap">
+    <input type="text" class="search-music-input" placeholder="Search music...">
+    <button class="save-music-btn --saved-btn"><svg>
+        <use href="#save"></use>
+      </svg></button>
+
+    <!-- Show init music -->
+    <div class="show-init-music-block">
+      <p class="show-init-music-name">Music</p>
+
+      <button class="play-music"></button>
+      <progress class="play-music-progress"></progress>
+      <p class="play-music-progress-txt"></p>
+
+      <audio preload="none"></audio>
+    </div>
+
+    <div class="all-music-container"></div>
+
+    <button class="toggle-add-music-form --toggle-form-btn" title="Ctrl + h">✚</button>
+    <div class="add-music-form">
+      <input class="name" type="text" placeholder="Music name...">
+      <input class="music-url" type="text" placeholder="Music URL...">
+      <button class="add-music-btn">OK</button>
+    </div>
+
+    <!-- Edit music block -->
+    <div class="edit-music-block">
+      <input type="text" class="name" placeholder="New name...">
+      <input type="text" class="music-url" placeholder="New music URL...">
+      <button class="confirm">OK</button>
+    </div>
+
+    <!-- Set music mode -->
+    <select class="select-music-play-mode">
+      <option value="" selected>▶ Normal</option>
+      <option value="loop">🔁 Loop</option>
+      <option value="random-loop">🔁🔀 Random Loop</option>
+    </select>
+
+    <progress class="music-progress"></progress>
+    <p class="music-progress-txt"></p>
+  </div>
+
+  <!-- Exchange rate wrap -->
+  <div class="exchange-rate-wrap is-wrap">
+    <select></select>
+    <input type="number" placeholder="How..." value="1" class="count">
+    <p>Last update...</p>
+    <input type="text" class="search" placeholder="Search">
+    <div></div>
+    <span class="loader"></span>
+  </div><!-- Weather wrap -->
+  <div class="weather-wrap is-wrap">
+    <!-- Weather info block -->
+    <div class="weather-info-block">
+      <h3>Country, City</h3>
+      <p>Last update</p>
+      <hr>
+      <p>Info...</p>
+    </div>
+
+    <!-- Search city -->
+    <button class="open-search-city-window">Search city</button>
+    <div class="search-city-window">
+      <input type="text" class="search-city-input" placeholder="Search city/country">
+      <hr>
+      <div class="all-found-cities-cont">
+        <h2>City/country...</h2>
+      </div>
+    </div>
+
+    <!-- weather map -->
+    <button class="open-map">MAP</button>
+    <div class="weather-map">
+      <iframe src="" width="100%" height="100%"></iframe>
+    </div>
+  </div>
+
+  <!-- Timezone wrap -->
+  <div class="timezone-wrap is-wrap">
+    <!-- Search timezone input -->
+    <input type="text" class="search-timezone-input" placeholder="Search timezone...">
+
+    <!-- Select time zone -->
+    <select class="select-timezone"></select>
+
+    <!-- All timezones container -->
+    <div class="all-timezones-container"></div>
+
+    <!-- Time zone info block -->
+    <div class="time-zone-info-block">
+      <pre></pre>
+      <hr>
+      <pre></pre>
+    </div>
+  </div>
+
+  <!-- Github user search wrap -->
+  <div class="github-wrap is-wrap">
+    <input type="text" class="search-github-user-input" placeholder="Search github user...">
+    <button class="search-github-user-btn">Search</button>
+
+    <div class="found-user-info-container"></div>
+
+    <div class="show-user-infos"></div>
+
+    <span class="loader"></span>
+  </div>
+
+  <!-- Image generator wrap -->
+  <div class="image-generator-wrap is-wrap">
+    <input type="text" class="prompt-for-generate-image-input" placeholder="Image description...">
+    <button class="send-prompt-for-generate-image-btn">SEND</button>
+
+    <a class="download-generated-image-a" download="Generated-dashboard-image">Download generated image</a>
+
+    <img src="./all-imgs/Classic-dashboard-img.webp" alt="Generated image" class="image-preview" loading="lazy">
+
+    <span class="loader"></span>
+  </div>
+
+  <!-- Text-worker wrap -->
+  <div class="text-worker-service-wrap is-wrap">
+    <div class="ai cont">
+      <h3>AI worker</h3>
+      <textarea placeholder="Your text..."></textarea>
+      <button>SEND FOR TEXT WORKER</button>
+      <div class="is-ai-text" readonly>Result...</div>
+      <span class="loader"></span>
+    </div>
+
+    <div class="cloner cont">
+      <h3>Text cloner</h3>
+      <textarea placeholder="Your text..."></textarea>
+      <input type="number" placeholder="Count...">
+      <button class="send">Clone</button>
+      <button class="copy">Copy text</button>
+      <div>Result...</div>
+    </div>
+
+    <div class="replacer cont">
+      <h3>Replace worker</h3>
+      <textarea placeholder="Your text for replace..."></textarea>
+      <input type="text" class="from" placeholder="Replace all from...">
+      <input type="text" class="to" placeholder="Replace all to...">
+      <button>Replace all</button>
+      <div>Result...</div>
+    </div>
+
+    <div class="cleanup cont">
+      <h3>Cleanup text</h3>
+      <textarea placeholder="Your text for cleanup..."></textarea>
+      <button>Copy</button>
+      <div></div>
+    </div>
+
+    <div class="remove-duplicates cont">
+      <h3>Remove duplicates</h3>
+      <textarea placeholder="Your text for remove duplicates..."></textarea>
+      <div>Result...</div>
+    </div>
+
+    <div class="info cont">
+      <h3>Text info</h3>
+      <textarea placeholder="Your text..."></textarea>
+      <div>Result...</div>
+    </div>
+
+    <div class="case-converter cont">
+      <h3>Case converter</h3>
+      <textarea placeholder="Your text..."></textarea>
+      <select>
+        <option value="UPPERCASE">UPPERCASE</option>
+        <option value="lowercase">lowercase</option>
+        <option value="Title Case">Title Case</option>
+        <option value="iNVERT cASE">iNVERT cASE</option>
+        <option value="camelCase">camelCase</option>
+        <option value="snake_case">snake_case</option>
+        <option value="kebab-case">kebab-case</option>
+      </select>
+      <button>Convert</button>
+      <div>Result...</div>
+    </div>
+
+    <div class="sort-lines cont">
+      <h3>Sort lines</h3>
+      <textarea placeholder="Your text for sort lines..."></textarea>
+      <select>
+        <option value="az">A → Z</option>
+        <option value="za">Z → A</option>
+      </select>
+      <button>Sort</button>
+      <div>Result...</div>
+    </div>
+
+    <div class="number-lines cont">
+      <h3>Number lines</h3>
+      <textarea placeholder="Your text for number lines..."></textarea>
+      <select>
+        <option value="add">Add numbers</option>
+        <option value="remove">Remove numbers</option>
+      </select>
+      <button>OK</button>
+      <div>Result...</div>
+    </div>
+
+    <div class="generate-uuid cont">
+      <h3>Generate UUID</h3>
+      <button>Generate</button>
+      <p></p>
+    </div>
+
+    <div class="generate-password cont">
+      <h3>Generate password</h3>
+      <input type="number" step="1" placeholder="Length..." value="8" min="8" max="32">
+      <div>
+        <label for="ABC">Uppercase letters: </label><input type="checkbox" id="ABC" checked>
+        <label for="abc">lowercase letters: </label><input type="checkbox" id="abc" checked>
+        <label for="numbers">Numbers: </label><input type="checkbox" id="numbers" checked>
+        <label for="symbols">Symbols: </label><input type="checkbox" id="symbols" checked>
+      </div>
+      <button>Generate</button>
+      <p></p>
+    </div>
+
+    <div class="hash-generator cont">
+      <h3>Hash generator</h3>
+      <textarea placeholder="Your text..."></textarea>
+      <button>Generate hash</button>
+      <div>Result...</div>
+    </div>
+
+    <div class="random-number cont">
+      <h3>Random number</h3>
+      <input placeholder="Min..." value="1" class="from" type="number" step="1" min="-10000000" max="10000000">
+      <input placeholder="Max..." value="1000" class="to" type="number" step="1" min="-10000000" max="10000000">
+      <button>Generate</button>
+      <p></p>
+    </div>
+
+    <div class="html-view cont">
+      <h3>View/render HTML</h3>
+      <textarea></textarea>
+      <iframe srcdoc="" sandbox="" frameborder="0"></iframe>
+    </div>
+
+    <div class="url-parser cont">
+      <h3>URL Parser</h3>
+      <input type="text">
+      <div></div>
+    </div>
+
+    <div class="http-status-info cont">
+      <h3>HTTP status info</h3>
+      <select></select>
+      <div></div>
+    </div>
+
+    <div class="svg-preview cont">
+      <h3>SVG preview</h3>
+      <textarea placeholder="SVG code..."></textarea>
+      <div></div>
+    </div>
+  </div>
+
+  <!-- QRCode generation wrap -->
+  <div class="qr-code-generation-wrap is-wrap">
+    <textarea placeholder="Text or URL..."></textarea>
+    <div class="buttons">
+      <button>Get QR-Code</button>
+      <a download="QR-CODE.png">DOWNLOAD</a>
+    </div>
+
+    <img src="./all-imgs/Classic-dashboard-img.webp" alt="Generated QR-Code">
+    <span class="loader"></span>
+  </div>
+
+  <!-- Browser worker wrap -->
+  <div class="browser-worker-wrap is-wrap">
+    <input type="text" placeholder="URL : website, music, video, ...">
+    <button class="set-content">SET</button>
+    <iframe src="" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+    <audio src="" controls></audio>
+    <video src="" controls></video>
+  </div>
+
+  <!-- RegExp checker wrap -->
+  <div class="regexp-checker-wrap is-wrap">
+    <input class="regexp" type="text" placeholder="Your regexp: /.../">
+    <input class="flags" type="text" placeholder="Flags...">
+
+    <button class="copy-arr">Copy array<svg>
+        <use href="#copy-code"></use>
+      </svg></button>
+    <button class="copy-list">Copy list<svg>
+        <use href="#copy-code"></use>
+      </svg></button>
+
+    <div contenteditable="true"></div>
+  </div>
+
+  <!-- Wikipedia wrap -->
+  <div class="wikipedia-wrap is-wrap">
+    <input list="wiki-titles" type="text" class="search-value" placeholder="Search value...">
+    <datalist id="wiki-titles" class="show-auto-complete"></datalist>
+    <input type="number" class="search-limit" placeholder="Results limit... (default 10)" min="1" max="100">
+    <button class="search-btn">OK</button>
+
+    <div class="search-results"></div>
+    <div class="origin-wikipedia-html"></div>
+
+    <span class="loader"></span>
+  </div>
+
+  <!-- IP search wrap -->
+  <div class="ip-search-wrap is-wrap">
+    <input type="text" placeholder="IP..." value="my_ip">
+    <button>SEARCH</button>
+    <div></div>
+    <span class="loader"></span>
+  </div>
+
+  <!-- JSON worker wrap -->
+  <div class="json-worker-wrap is-wrap">
+    <textarea placeholder="Write your JSON5 / JSON object / array..."></textarea>
+    <button>WORK JSON</button>
+    <input type="text" placeholder="Search JSON tree...">
+    <div></div>
+    <span class="loader"></span>
+  </div>
+
+  <!-- Reasoning ai wrap -->
+  <div class="reasoning-ai-wrap is-wrap">
+    <textarea placeholder="Your task..."></textarea>
+    <button class="send">SEND TASK</button>
+    <button class="history">History</button>
+    <div class="ai-resp is-ai-text"></div>
+    <div class="history is-ai-text"></div>
+    <span class="loader"></span>
+  </div>
+
+  <!-- Template AI -->
+  <div class="template-ai-wrap is-wrap">
+    <textarea placeholder="Which template do you need?"></textarea>
+    <button class="send">SEND FOR TEMPLATE</button>
+    <button class="copy"><svg>
+        <use href="#copy-code"></use>
+      </svg></button>
+    <div></div>
+    <span class="loader"></span>
+  </div>
+
+  <!-- Fetch service wrap -->
+  <div class="fetch-service-wrap is-wrap">
+    <input type="text" placeholder="URL..." class="url">
+
+    <select class="method">
+      <option value="GET">GET</option>
+      <option value="POST">POST</option>
+      <option value="PUT">PUT</option>
+      <option value="PATCH">PATCH</option>
+      <option value="DELETE">DELETE</option>
+      <option value="HEAD">HEAD</option>
+      <option value="OPTIONS">OPTIONS</option>
+      <option value="CONNECT">CONNECT</option>
+      <option value="TRACE">TRACE</option>
+    </select>
+
+    <h3>Headers</h3>
+    <div class="headers">
+      <button class="add">ADD</button>
+    </div>
+
+    <h3>Body</h3>
+    <div class="body">
+      <button class="add">ADD</button>
+    </div>
+
+    <div class="fetch_abort-buttons">
+      <button class="abort">ABORT</button>
+      <button class="fetch">FETCH</button>
+    </div>
+    <div class="result"></div>
+
+    <span class="loader"></span>
+  </div>
+
+  <!-- Media search -->
+  <div class="media-search-wrap is-wrap">
+    <select class="country">
+      <option value="UA">Ukraine</option>
+      <option value="US">United States</option>
+      <option value="GB">United Kingdom</option>
+      <option value="CZ">Czechia</option>
+      <option value="DE">Germany</option>
+      <option value="FR">France</option>
+      <option value="IT">Italy</option>
+      <option value="ES">Spain</option>
+      <option value="PL">Poland</option>
+      <option value="NL">Netherlands</option>
+      <option value="SE">Sweden</option>
+      <option value="NO">Norway</option>
+      <option value="FI">Finland</option>
+      <option value="DK">Denmark</option>
+      <option value="CA">Canada</option>
+      <option value="AU">Australia</option>
+      <option value="JP">Japan</option>
+      <option value="KR">South Korea</option>
+      <option value="BR">Brazil</option>
+      <option value="MX">Mexico</option>
+      <option value="IN">India</option>
+      <option value="TR">Turkey</option>
+    </select>
+
+    <select class="media">
+      <option value="music">Music</option>
+      <option value="podcast">Podcasts</option>
+      <option value="audiobook">Audiobooks</option>
+      <option value="video">Video</option>
+      <option value="musicVideo">Music Video</option>
+      <option value="software">Software / Apps</option>
+      <option value="ebook">eBooks</option>
+      <option value="literature">Literature</option>
+      <option value="visual">Visual</option>
+      <option value="emoji">Emoji</option>
+      <option value="country">Country</option>
+      <option value="recipes">Recipes</option>
+      <option value="chem">Chem</option>
+      <option value="nasa">NASA</option>
+      <option value="aiModels">AI models</option>
+    </select>
+
+    <input list="search-values" type="text" class="search" placeholder="Search">
+    <datalist id="search-values"></datalist>
+    <button class="send">OK</button>
+    <div class="result"></div>
+
+    <div class="show-info-popup"></div>
+    <span class="loader"></span>
+  </div>
+
+  <!-- Unit converter wrap -->
+  <div class="unit-converter-wrap is-wrap">
+    <input value="1" type="number" placeholder="Number...">
+    <div class="selects">
+      <select class="from-type"></select>
+      <select class="from-item"></select>
+      <select class="to"></select>
+    </div>
+    <p class="result"></p>
+
+    <svg>
+      <use href="#convert-units"></use>
+    </svg>
+  </div>
+
+  <!-- Text to speech wrap -->
+  <div class="text-to-speech-wrap is-wrap">
+    <select></select>
+    <textarea placeholder="Your text..."></textarea>
+    <button>TTS</button>
+    <input type="number" step="0.1" value="1" class="speed" placeholder="Speed 0.5 - 2.0">
+    <audio src="" controls></audio>
+    <span class="loader"></span>
+  </div>
+
+  <!-- Diff text wrap -->
+  <div class="diff-text-wrap is-wrap">
+    <div contenteditable="true" class="text text1"></div>
+    <div contenteditable="true" class="text text2"></div>
+    <button>Compare</button>
+    <div class="result"></div>
+  </div>
+
+  <!-- CSV render wrap -->
+  <div class="csv-render-wrap is-wrap">
+    <textarea placeholder="Your CSV..."></textarea>
+    <select class="separator">
+      <option value="auto" selected>Auto</option>
+      <option value=",">,</option>
+      <option value=";">;</option>
+      <option value="|">|</option>
+      <option value="||">||</option>
+      <option value=":">:</option>
+      <option value="::">::</option>
+      <option value="/">/</option>
+      <option value="\\">\</option>
+      <option value=".">.</option>
+      <option value="-">-</option>
+      <option value="_">_</option>
+      <option value="=">=</option>
+      <option value="+">+</option>
+      <option value="!">!</option>
+      <option value="?">?</option>
+      <option value="#">#</option>
+      <option value="@">@</option>
+      <option value="$">$</option>
+      <option value="^">^</option>
+      <option value="*">*</option>
+      <option value="&">&</option>
+    </select>
+
+    <select class="sort-type">
+      <option value="original">Original</option>
+      <option value="A → Z | 0 → 9">A → Z | 0 → 9</option>
+      <option value="Z → A | 9 → 0">Z → A | 9 → 0</option>
+    </select>
+
+    <button class="render">Render and view</button>
+    <button class="copy"><svg>
+        <use href="#copy-code"></use>
+      </svg></button>
+    <div></div>
+  </div>
+
+  <!-- Image compressor wrap -->
+  <div class="image-compressor-wrap is-wrap">
+    <h3>Your images</h3>
+    <input class="imgs" type="file" multiple accept="image/jpeg, image/png, image/webp">
+    <select>
+      <option value="image/webp">WEBP</option>
+      <option value="image/jpeg">JPEG</option>
+      <option value="image/png">PNG</option>
+    </select>
+
+    <button>Compress</button>
+
+    <div class="result"></div>
+
+    <pre class="info"></pre>
+
+    <span class="loader"></span>
+  </div>
+
+  <!-- Token counter wrap -->
+  <div class="token-counter-wrap is-wrap">
+    <textarea placeholder="Text..."></textarea>
+    <select></select>
+    <div></div>
+    <span class="loader"></span>
+  </div>
+
+  <!-- Color worker wrap -->
+  <div class="color-worker-wrap is-wrap">
+    <input type="color" value="blue">
+    <input type="range" value='1' min="0" max="1" step="0.01">
+    <div></div>
+  </div>
+
+  <!-- Files info wrap -->
+  <div class="files-info-wrap is-wrap">
+    <input type="file" multiple accept=".html,.css,.scss,.sass,.js,.jsx,.ts,.tsx" />
+    <table></table>
+  </div>
+
+  <!-- Substrings search wrap -->
+  <div class="substrings-search-wrap is-wrap">
+    <textarea placeholder="Your text..."></textarea>
+    <button class="start">Start process</button>
+    <button class="stop" disabled>STOP</button>
+    <progress value="0"></progress>
+    <div class="result-container"></div>
+  </div>
+
+  <!-- Code AI wrap -->
+  <div class="code-ai-wrap is-wrap">
+    <div class="chat">
+      <h4>Hi! I'm Code AI, how can I help you?</h4>
+    </div>
+
+    <div class="user-area">
+      <textarea placeholder="Your task..."></textarea>
+
+      <div class="uploads">
+        <button class="open-files-window" aria-label="Upload files">+</button>
+        <p></p>
+
+        <div class="files-window">
+          <h3>Select files</h3>
+          <button class="upload-files-btn">Add files</button>
+          <input type="file" hidden multiple aria-label="Select files"
+            accept=".html,.css,.scss,.sass,.js,.jsx,.ts,.tsx,.json,.json5,.xml,.yaml,.yml,.toml,.md,.sql,.sh,.bash,.zsh,.ps1,.py,.java,.c,.h,.cpp,.cc,.cxx,.hpp,.cs,.go,.rs,.rb,.php,.swift,.kt,.kts,.dart,.lua,.r,.scala,.ex,.exs,.erl,.fs,.fsx,.hs,.clj">
+
+          <ul></ul>
+        </div>
+      </div>
+      <button class="send">=&gt;</button>
+    </div>
+
+    <span class="loader"></span>
+  </div>
+
+  <!-- Idea generator wrap -->
+  <div class="idea-generator-wrap is-wrap">
+    <textarea placeholder="Your thoughts..."></textarea>
+    <button class="send">SEND</button>
+    <button class="copy"><svg>
+        <use href="#copy-code"></use>
+      </svg></button>
+    <div class="is-ai-text"></div>
+    <span class="loader"></span>
+  </div>
+
+  <!-- Mini caniuse wrap -->
+  <div class="mini-caniuse-wrap is-wrap">
+    <input type="text" placeholder="Flex..." maxlength="50">
+    <div></div>
+  </div>
+
+  <!-- Distance service wrap -->
+  <div class="distance-service-wrap is-wrap">
+    <input type="text" list="first" class="first" placeholder="First point...">
+    <input type="text" list="second" class="second" placeholder="Second point...">
+    <button class="send">OK</button>
+    <div></div>
+    <datalist id="first"></datalist>
+    <datalist id="second"></datalist>
+    <span class="loader"></span>
+  </div>
+
+  <!-- ASCII Worker wrap -->
+  <div class="ascii-worker-wrap is-wrap">
+    <h3 style="
+    white-space: pre;
+    font-size: 6px;
+    font-family: monospace, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-wrap: nowrap;
+    word-break: keep-all;
+    "> ________ ________ ________ ___ ___ ___ __ ________ ________ ___ __ _______ ________
+      |\ __ \|\ ____\|\ ____\|\ \|\ \ |\ \ |\ \|\ __ \|\ __ \|\ \|\ \ |\ ___ \ |\ __ \
+      \ \ \|\ \ \ \___|\ \ \___|\ \ \ \ \ \ \ \ \ \ \ \ \|\ \ \ \|\ \ \ \/ /|\ \ __/|\ \ \|\ \
+      \ \ __ \ \_____ \ \ \ \ \ \ \ \ \ \ \ __\ \ \ \ \\\ \ \ _ _\ \ ___ \ \ \_|/_\ \ _ _\
+      \ \ \ \ \|____|\ \ \ \____\ \ \ \ \ \ \ \|\__\_\ \ \ \\\ \ \ \\ \\ \ \\ \ \ \ \_|\ \ \ \\ \|
+      \ \__\ \__\____\_\ \ \_______\ \__\ \__\ \ \____________\ \_______\ \__\\ _\\ \__\\ \__\ \_______\ \__\\ _\
+      \|__|\|__|\_________\|_______|\|__|\|__| \|____________|\|_______|\|__|\|__|\|__| \|__|\|_______|\|__|\|__|
+      \|_________| </h3>
+
+    <button class="open-window" data-window="textToAscii">TEXT ⇒ ASCII</button>
+    <div class="text-to-art-window window">
+      <button class="close" style="
+    white-space: pre;
+    font-size: 6px;
+    font-family: monospace, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-wrap: nowrap;
+    word-break: keep-all;
+    "> _ _ __ _ ___ _ _
+        / | / \ (_ |_ \ / | |\ | | \ / \ \ /
+        \_ |_ \_/ __) |_ \/\/ _|_ | \| |_/ \_/ \/\/ </button>
+
+      <h3 style="
+    white-space: pre;
+    font-size: 7px;
+    font-family: monospace, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-wrap: nowrap;
+    word-break: keep-all;
+    "> _____ _______ _______ _____ ___ _ ____ ____ ___ ___ _ ____ _____
+        |_ _| ____\ \/ /_ _| |_ _/ _ \ / \ / ___| / ___|_ _|_ _| / \ | _ \_ _|
+        | | | _| \ / | | | || | | | / _ \ \___ \| | | | | | / _ \ | |_) || |
+        | | | |___ / \ | | | || |_| | / ___ \ ___) | |___ | | | | / ___ \| _ < | | |_| |_____/_/\_\ |_| |_| \___/ /_/
+          \_\____/ \____|___|___| /_/ \_\_| \_\|_| </h3>
+
+          <textarea type="text" placeholder="Your text..."></textarea>
+          <select></select>
+          <button class="send">OK</button>
+          <button class="copy">Copy</button>
+          <label for="replace-space">Replace white space</label>
+          <input type="text" placeholder="" id="replace-space" maxlength="1" minlength="0">
+          <div class="result"></div>
+    </div>
+
+    <button class="open-window" data-window="imageToAscii">IMAGE ⇒ ASCII</button>
+    <div class="image-to-art-window window">
+      <button class="close" style="
+    white-space: pre;
+    font-size: 6px;
+    font-family: monospace, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-wrap: nowrap;
+    word-break: keep-all;
+    "> _ _ __ _ ___ _ _
+        / | / \ (_ |_ \ / | |\ | | \ / \ \ /
+        \_ |_ \_/ __) |_ \/\/ _|_ | \| |_/ \_/ \/\/ </button>
+
+      <h3 style="
+    white-space: pre;
+    font-size: 7px;
+    font-family: monospace, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-wrap: nowrap;
+    word-break: keep-all;
+    "> ___ __ __ _ ____ _____ _____ ___ _ ____ ____ ___ ___ _ ____ _____
+        |_ _| \/ | / \ / ___| ____| |_ _/ _ \ / \ / ___| / ___|_ _|_ _| / \ | _ \_ _|
+        | || |\/| | / _ \| | _| _| | || | | | / _ \ \___ \| | | | | | / _ \ | |_) || |
+        | || | | |/ ___ \ |_| | |___ | || |_| | / ___ \ ___) | |___ | | | | / ___ \| _ < | | |___|_| |_/_/
+          \_\____|_____| |_| \___/ /_/ \_\____/ \____|___|___| /_/ \_\_| \_\|_| </h3>
+
+          <input type="file" accept="image/png,image/jpeg,image/webp,image/gif">
+          <button class="send">OK</button>
+          <button class="copy">Copy</button>
+          <div class="result"></div>
+    </div>
+  </div>
+
+  <!-- Language learning wrap -->
+  <div class="language-learn-ai-wrap is-wrap">
+    <div class="learn-settings show is-wrap">
+      <h3>Settings for game</h3>
+      <div class="native-language"><label for="native">Native language</label><select id="native"></select></div>
+      <div class="target-language"><label for="native">Target language</label><select id="target"></select></div>
+      <button class="ok">GO LEARNING</button>
+    </div>
+
+    <p class="level-preview">Level</p>
+    <p class="languages-preview">Languages</p>
+
+    <h3>Language learning game</h3>
+    <div class="is-ai-text ai-text">
+      <h4>AI...</h4>
+    </div>
+    <textarea placeholder="I understood/didn't understand..."></textarea>
+    <button class="send">SEND</button>
+    <span class="loader"></span>
+  </div>
+
+  <!-- Math game wrap -->
+  <div class="math-game-wrap is-wrap">
+    <h2>Math menu</h2>
+    <button class="difficulty easy" data-dif="easy">+ Easy -</button>
+    <button class="difficulty medium" data-dif="medium">× Medium ÷</button>
+    <button class="difficulty hard" data-dif="hard">% ( Hard ) %</button>
+    <button class="difficulty expert" data-dif="expert">^ Expert ^</button>
+    <div class="info"></div>
+
+    <div class="game-window is-wrap">
+      <button class="close">❌</button>
+      <p class="for_show_math"></p>
+      <textarea placeholder="Solutions to math problems..."></textarea>
+      <input type="number" placeholder="Your answer..." class="answer-input">
+      <button class="send">OK</button>
+    </div>
+  </div>
+
+  <!-- Debate with AI -->
+  <div class="debate-with-ai-wrap is-wrap">
+    <div class="generate-topic-wrap open">
+      <p>Debate Topic...</p>
+      <button class="select-topic" data-pos="first" disabled>FIRST (1)</button>
+      <button class="select-topic" data-pos="second" disabled>SECOND (2)</button>
+    </div>
+
+    <p class="info"></p>
+    <div class="history">
+      <h3 style="width: 100%; text-align: center;">START OF THE DEBATE</h3>
+    </div>
+    <input type="text" placeholder="Your argument..." disabled>
+    <button class="send" disabled>SEND</button>
+
+    <span class="loader"></span>
+
+    <p class="win-or-loss-show"></p>
+  </div>
+
+  <!-- Guessing game wrap -->
+  <div class="guessing-game-wrap is-wrap">
+    <h2>GUESSING</h2>
+    <button class="restart" disabled>RESTART</button>
+
+    <div class="history"></div>
+    <input type="text" placeholder="Is that black?..." disabled>
+    <button class="send" disabled>SEND</button>
+    <span class="loader"></span>
+  </div>
+
+  <!-- Assistant wrap -->
+  <div class="assistant-wrap is-wrap">
+    <!-- assistant answer container -->
+    <div class="assistant-answer-container is-ai-text"></div>
+
+    <!-- User prompt -->
+    <textarea type="text" class="user-prompt-textarea" placeholder="How can I help?..."></textarea>
+    <button class="send-prompt-btn">🗣</button>
+
+    <!-- Loader for AI -->
+    <span class="loader assistant-loader"></span>
+  </div>
+
+  <!-- Runner wrap -->
+  <div class="commands-runner-wrap is-wrap">
+    <textarea class="user-run-command-textarea" placeholder="Write you command..." spellcheck="false"></textarea>
+    <div class="run-command-result-block"></div>
+    <button class="run-command-btn">Run</button>
+    <span class="loader run-command-loader"></span>
+  </div>
+
+  <!-- SIDE BAR -->
+  <article class="all-dashboard-items open">
+    <div class="title">
+      <h3>DASHBOARD</h3>
+      <button class="toggle-dashboard-items-btn" title="ctrl + p"><svg>
+          <use href="#close-panel"></use>
+        </svg></button>
+    </div>
+
+    <h4>Types</h4>
+    <button class="open-assistant-wrap --opened-btn">Assistant<p>HELP · AI · DOCS</p></button>
+    <button class="open-todo-wrap --opened-btn">Your todos<p></p></button>
+    <button class="open-notes-wrap --opened-btn">Your notes<p></p></button>
+    <button class="open-save-urls-wrap --opened-btn">Your urls<p></p></button>
+    <button class="open-user-code-wrap --opened-btn">Your code<p></p></button>
+    <button class="open-texts-snippets-wrap --opened-btn">Your texts<p></p></button>
+    <button class="open-music-wrap --opened-btn">Your music<p></p></button>
+
+    <h4>Services</h4>
+    <section data-group="tools">
+      <h4 class="group-title">TOOLS<svg>
+          <use href="#tools"></use>
+        </svg></h4>
+      <button class="open-exchange-rate-wrap --opened-btn">Exchange rate<p>CURRENCY</p></button>
+      <button class="open-timezone-wrap --opened-btn">Timezones<p>TIME</p></button>
+      <button class="open-qr-code-generation-wrap --opened-btn">QR-Code generator<p>TEXT</p></button>
+      <button class="open-fetch-service-wrap --opened-btn">Fetch service<p>FETCH</p></button>
+      <button class="open-unit-converter-wrap --opened-btn">Unit converter<p>CONVERT</p></button>
+      <button class="open-regexp-checker-wrap --opened-btn">RegExp checker<p>TEXT · REGEXP</p></button>
+      <button class="open-diff-text-wrap --opened-btn">Compare different text<p>TEXT</p></button>
+      <button class="open-image-compressor-wrap --opened-btn">Compress image<p>IMAGE</p></button>
+      <button class="open-color-worker-wrap --opened-btn">Color worker<p>COLOR</p></button>
+      <button class="open-files-info-wrap --opened-btn">Files info<p>TEXT</p></button>
+      <button class="open-substrings-search-wrap --opened-btn">Substrings search<p>‼️ | TEXT</p></button>
+      <button class="open-ascii-worker-wrap --opened-btn">ASCII worker</button>
+      <button class="open-token-counter-wrap --opened-btn">AI token counter<p>COUNTER</p></button>
+    </section>
+
+    <section data-group="ai">
+      <h4 class="group-title">AI<svg>
+          <use href="#ai"></use>
+        </svg></h4>
+      <button class="open-reasoning-ai-wrap --opened-btn">Reasoning AI</button>
+      <button class="open-template-ai-wrap --opened-btn">Template AI</button>
+      <button class="open-text-to-speech-wrap --opened-btn">Text to speech</button>
+      <button class="open-generate-img-wrap --opened-btn">Image generation<p>IMAGE</p></button>
+      <button class="open-text-worker-service-wrap --opened-btn">Text worker<p>TEXT · UTILS</p></button>
+      <button class="open-code-ai-wrap --opened-btn">Code AI<p>CODE</p></button>
+      <button class="open-idea-generator-wrap --opened-btn">Idea generator</button>
+    </section>
+
+    <section data-group="search">
+      <h4 class="group-title">SEARCH<svg>
+          <use href="#search"></use>
+        </svg></h4>
+      <button class="open-weather-wrap --opened-btn">Weather</button>
+      <button class="open-github-wrap --opened-btn">Github search</button>
+      <button class="open-wikipedia-wrap --opened-btn">Wikipedia</button>
+      <button class="open-ip-search-wrap --opened-btn">IP search<p>IPv4, IPv6</p></button>
+      <button class="open-media-search-wrap --opened-btn">Media search</button>
+      <button class="open-mini-caniuse-wrap --opened-btn">Browser Support</button>
+      <button class="open-distance-service-wrap --opened-btn">Distance between places</button>
+    </section>
+
+    <section data-group="view">
+      <h4 class="group-title">VIEW<svg>
+          <use href="#view"></use>
+        </svg></h4>
+      <button class="open-browser-worker-wrap --opened-btn">Browser worker</button>
+      <button class="open-json-worker-wrap --opened-btn">JSON worker<p>JSON</p></button>
+      <button class="open-csv-render-wrap --opened-btn">CSV render<p>CSV</p></button>
+    </section>
+
+    <section data-group="games">
+      <h4 class="group-title">GAMES<svg>
+          <use href="#games"></use>
+        </svg></h4>
+      <button class="open-language-learn-ai-wrap --opened-btn">Language learning<p>AI</p></button>
+      <button class="open-math-game-wrap --opened-btn">Math game</button>
+      <button class="open-debate-with-ai-wrap --opened-btn">Debate<p>AI</p></button>
+      <button class="open-guessing-game-wrap --opened-btn">Guessing<p>AI</p></button>
+    </section>
+
+    <h4>Settings & Runner</h4>
+    <button class="open-settings-wrap --opened-btn">Settings</button>
+    <button class="open-commands-runner-wrap --opened-btn">Runner</button>
+  </article>
+
+  <!-- Show fields block -->
+  <div class="show-fields-block"></div>
+
+  <!-- Cancel last action -->
+  <div class="undo-last-action-block">
+    <h4>Undo your last action</h4>
+    <button>Undo</button>
+  </div>
+
+  <!-- Sign-in window -->
+  <div class="sign-window">
+    <div class="sign-forms-container">
+      <form class="sign-up-form">
+        <h3>You don't have account? Sign up</h3>
+        <label for="sign-up-email">Email</label>
+        <input type="email" name="user-email" id="sign-up-email" placeholder="Your email..." autocomplete="false"
+          minlength="10" required>
+        <label for="sign-up-password">Password</label>
+        <input type="password" name="user-password" id="sign-up-password" placeholder="Your password..."
+          autocomplete="false" minlength="8" maxlength="16" required>
+        <button class="sign-up-btn">Sign up</button>
+      </form>
+
+      <form class="sign-in-form">
+        <h3>You have account? Sign in</h3>
+        <label for="sign-in-email">Email</label>
+        <input type="email" name="user-email" id="sign-in-email" placeholder="Your email..." autocomplete="false"
+          minlength="10" required>
+        <label for="sign-in-password">Password</label>
+        <input type="password" name="user-password" id="sign-in-password" placeholder="Your password..."
+          autocomplete="false" minlength="8" maxlength="16" required>
+        <button class="sign-in-btn">Sign in</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Preloader window -->
+  <div class="preloader-wrap is-wrap">
+    <h2>Dashboard</h2>
+    <img src="./all-imgs/icon.svg" alt="Smile img">
+    <!-- Progress max = all scripts -->
+    <progress class="preloader-progress" max="4"></progress>
+    <p class="what-is-loading-text"></p>
+
+    <span class="loader"></span>
+  </div>
+
+  <!-- Speak window -->
+  <div class="speak-window"><svg>
+      <use href="#mic"></use>
+    </svg></div>
+
+  <!-- Show response text -->
+  <p class="show-response"></p>
+
+  <script> // Initialization preloader
+    const preloaderWrap = document.querySelector('.preloader-wrap');
+    function showPreloader(show = true) {
+      if (show) preloaderWrap.classList.add('show');
+      else preloaderWrap.classList.remove('show');
+    }
+    showPreloader();
+    const preloaderProgress = preloaderWrap.querySelector('.preloader-progress');
+    const whatIsLoadingText = preloaderWrap.querySelector('.what-is-loading-text');
+  </script>
+
+  <!-- Svg icons -->
+  <svg xmlns="http://www.w3.org/2000/svg" display='none'>
+    <symbol id='copy-code' viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+      stroke-linejoin="round">
+      <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+      <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+    </symbol>
+
+    <symbol id='delete-code' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+      <path d="M3 6h18" />
+      <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+    </symbol>
+
+    <symbol id='save' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" />
+      <path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7" />
+      <path d="M7 3v4a1 1 0 0 0 1 1h7" />
+    </symbol>
+
+    <symbol id="edit" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m18.226 5.226-2.52-2.52A2.4 2.4 0 0 0 14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-.351" />
+      <path
+        d="M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z" />
+      <path d="M8 18h1" />
+    </symbol>
+
+    <symbol id="favorite-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 5h6" />
+      <path d="M3 12h13" />
+      <path d="M3 19h13" />
+      <path d="m16 8-3-3 3-3" />
+      <path d="M21 19V7a2 2 0 0 0-2-2h-6" />
+    </symbol>
+
+    <symbol id="focus" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="3" />
+      <path d="M3 7V5a2 2 0 0 1 2-2h2" />
+      <path d="M17 3h2a2 2 0 0 1 2 2v2" />
+      <path d="M21 17v2a2 2 0 0 1-2 2h-2" />
+      <path d="M7 21H5a2 2 0 0 1-2-2v-2" />
+    </symbol>
+
+    <symbol id="unfocus" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M8 3v3a2 2 0 0 1-2 2H3" />
+      <path d="M21 8h-3a2 2 0 0 1-2-2V3" />
+      <path d="M3 16h3a2 2 0 0 1 2 2v3" />
+      <path d="M16 21v-3a2 2 0 0 1 2-2h3" />
+    </symbol>
+
+    <symbol id="eye" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
+      <circle cx="12" cy="12" r="3" />
+    </symbol>
+
+    <symbol id="open-panel" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="18" height="18" x="3" y="3" rx="2" />
+      <path d="M9 3v18" />
+      <path d="m14 9 3 3-3 3" />
+    </symbol>
+
+    <symbol id="close-panel" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect width="18" height="18" x="3" y="3" rx="2" />
+      <path d="M9 3v18" />
+      <path d="m16 15-3-3 3-3" />
+    </symbol>
+
+    <symbol id="mic" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 19v3" />
+      <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+      <rect x="9" y="2" width="6" height="13" rx="3" />
+    </symbol>
+
+    <symbol id="settings" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path
+        d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" />
+      <circle cx="12" cy="12" r="3" />
+    </symbol>
+
+    <symbol id="convert-units" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+      aria-hidden="true" role="img" viewBox="0 0 23.3 25.7" style="color: var(--border-color)">
+      <path fill="currentColor"
+        d="M0 17.5v8.2h23.3v-8.2zm22.3 7.2H1v-6.2h1V20h1v-1.6h1v3.1h1v-3.1h1.5V20h1v-1.6h1.2v3.1h1v-3.1h1.4V20h1v-1.6h1.4v3.1h1v-3.1h1.2V20h1v-1.6h1.5v3.1h1v-3.1h1.1V20h1v-1.6h1zm-3-22.1H13V0h-2.7v2.6H4L1.4 15.9H22zm-8-1.6h.7v1.6h-.7zM4.8 3.6h13.7l2.2 11.3H2.6z">
+      </path>
+      <path fill="currentColor"
+        d="M11 6.9h-1L8.6 8.6c-.2.1-.3.3-.5.5V4.7h-.8v7h.9V9.9l.4-.5l1.7 2.3h1.1L9.2 8.9zm4.2.7c-.2-.4-.7-.8-1.5-.8c-1.1 0-2.2.9-2.2 2.5c0 1.3.9 2.3 2 2.3c.7 0 1.3-.4 1.5-.8v.5c0 1.2-.7 1.7-1.5 1.7c-.6 0-1.1-.2-1.4-.4l-.1.8c.4.3 1 .4 1.6.4s1.3-.1 1.7-.6c.5-.4.7-1.1.7-2.2V6.9h-.8zm-.1 2c0 .1 0 .3-.1.5c-.2.6-.7.9-1.2.9c-.9 0-1.4-.8-1.4-1.7c0-1.1.6-1.8 1.4-1.8c.6 0 1.1.4 1.2.9v1.2z">
+      </path>
+    </symbol>
+
+    <symbol id="tools" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
+      role="img" viewBox="0 0 15 15">
+      <path fill="currentColor"
+        d="M5.55 1.67c.25.32.44.66.56 1.03s.16 1.11.16 1.11s-.1.74-.24 1.09c-.15.35-.37.67-.65.95c-.19.19-.88.65-1.38.65v7c0 1.5-2 1.5-2 0v-7c-.5 0-.89-.5-1.07-.67c-.3-.3-.53-.65-.69-1.04C.08 4.39 0 4 0 3.6c0-.39.07-.78.22-1.17c.15-.38.37-.72.67-1.02c.29-.29.62-.51 1-.67C2.27.59 2.67.5 3.07.5L1.8 3.28l.9 1.3l1.55-.14zM15 .5h-1.5c0 .5-.5 1-1 1H10C8.5 1.5 7 3.55 7 5c1-.95 1.39-1 3-1v9.5c0 1.5 2 1.5 2 0V4h.5c.5 0 1 .5 1 1H15z">
+      </path>
+    </symbol>
+
+    <symbol id="ai" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
+      role="img" viewBox="0 0 24 24">
+      <path fill="currentColor"
+        d="m14.04 9.137l-.886-3.099c-.332-1.16-1.976-1.16-2.308 0l-.885 3.099a1.2 1.2 0 0 1-.824.824l-3.099.885c-1.16.332-1.16 1.976 0 2.308l3.099.885a1.2 1.2 0 0 1 .824.824l.885 3.099c.332 1.16 1.976 1.16 2.308 0l.885-3.099a1.2 1.2 0 0 1 .824-.824l3.099-.885c1.16-.332 1.16-1.976 0-2.308l-3.099-.885a1.2 1.2 0 0 1-.824-.824m-8.143 7.37c-.289-.844-1.504-.844-1.792 0l-.025.087l-.297 1.188l-1.188.296c-.959.24-.96 1.603 0 1.843l1.188.297l.297 1.188c.24.959 1.602.959 1.842 0l.297-1.188l1.188-.297c.96-.24.96-1.603 0-1.843l-1.188-.296l-.297-1.188zM5 18.797a1 1 0 0 0 .204.202a1 1 0 0 0-.204.204a1 1 0 0 0-.203-.204A1 1 0 0 0 5 18.796m14.896-16.29c-.298-.871-1.585-.842-1.817.087l-.297 1.188l-1.188.297c-.959.24-.96 1.602 0 1.842l1.188.297l.297 1.188c.24.959 1.602.959 1.842 0l.297-1.188l1.188-.297c.96-.24.96-1.603 0-1.842l-1.188-.297l-.297-1.188zM19 4.797a1 1 0 0 0 .204.202a1 1 0 0 0-.204.204a1 1 0 0 0-.203-.204A1 1 0 0 0 19 4.796">
+      </path>
+    </symbol>
+
+    <symbol id="search" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
+      role="img" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+        <circle cx="10" cy="10" r="7"></circle>
+        <path d="m15 15l6 6"></path>
+      </g>
+    </symbol>
+
+    <symbol id="view" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
+      role="img" viewBox="0 0 795 614">
+      <path fill="currentColor"
+        d="M397.25 278c38 0 69 31 69 69s-31 68-69 68s-68-30-68-68s30-69 68-69m0-170c226 0 389 212 389 212c11 14 11 39 0 53c0 0-163 212-389 212s-389-212-389-212c-11-14-11-39 0-53c0 0 163-212 389-212m0 410c94 0 171-77 171-171s-77-171-171-171s-171 77-171 171s77 171 171 171">
+      </path>
+    </symbol>
+
+    <symbol fill="currentColor" stroke="currentColor" id="games" version="1.1" id="_x32_"
+      xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"
+      xml:space="preserve" fill="#000000">
+      <g stroke-linecap="round" stroke-linejoin="round" fill="none" stroke="currentColor"></g>
+      <g>
+        <g>
+          <path class="st0"
+            d="M512,19.25c0-10.1-8.195-18.279-18.287-18.279H308.866v73.652c4.586-2.558,9.865-4.008,15.481-4.008 c17.623,0,31.919,14.287,31.919,31.923c0,17.619-14.288,31.914-31.919,31.914c-5.616,0-10.895-1.458-15.481-3.999v73.644h73.652 c-2.549,4.586-4.008,9.864-4.008,15.476c0,17.635,14.288,31.923,31.923,31.923c17.627,0,31.914-14.288,31.914-31.923 c0-5.612-1.458-10.89-3.999-15.476H512V19.25z">
+          </path>
+          <path class="st0"
+            d="M429.616,275.37h-92.794c-3.25,0-6.256,1.718-7.901,4.504l0.09-0.154l-0.106,0.171 c-0.839,1.426-1.263,3.038-1.263,4.643c0,1.531,0.391,3.078,1.157,4.464l5.849,10.532c1.311,2.37,1.954,4.863,1.963,7.583 c-0.008,4.203-1.621,8.08-4.586,11.062c-2.981,2.965-6.866,4.578-11.062,4.594c-4.203-0.017-8.088-1.629-11.078-4.594l0.012,0.017 c-2.974-2.998-4.582-6.883-4.59-11.078c0.008-2.713,0.651-5.213,1.958-7.591l5.853-10.524c0.77-1.386,1.157-2.924,1.157-4.464 c0-1.605-0.424-3.217-1.276-4.66c-1.649-2.793-4.655-4.504-7.9-4.504h-69.432v-37.184c12.548-0.196,24.4-5.14,33.278-14.035 c9.09-9.066,14.125-21.227,14.116-34.072c0.008-12.862-5.03-25.023-14.116-34.081c-8.871-8.896-20.726-13.832-33.278-14.027V81.416 c-0.004-5.066-4.11-9.172-9.176-9.172H34.548c-9.204-0.007-17.94,3.601-24.432,10.109C3.669,88.805,0.008,97.659,0,106.798v369.686 c-0.008,9.196,3.608,17.928,10.116,24.428c6.452,6.443,15.293,10.108,24.432,10.117h369.726 c9.115-0.008,17.961-3.674,24.404-10.117c6.509-6.5,10.117-15.224,10.109-24.428V284.542 C438.788,279.476,434.682,275.37,429.616,275.37z M28.37,106.798c0-2.118,0.986-3.559,1.792-4.366 c0.835-0.831,2.272-1.825,4.386-1.825h172.747v73.603c0,1.776,0.941,3.413,2.468,4.317c0.782,0.456,1.657,0.685,2.537,0.685 c0.839,0,1.674-0.204,2.432-0.627l10.528-5.849c2.969-1.646,6.203-2.485,9.608-2.485c5.29,0,10.271,2.061,14.014,5.8 c3.747,3.755,5.808,8.74,5.808,14.027c0,5.286-2.061,10.264-5.8,14.01c-3.751,3.747-8.732,5.808-14.022,5.808 c-3.409,0-6.639-0.839-9.604-2.485l-10.536-5.849c-0.753-0.423-1.592-0.627-2.427-0.627c-0.88,0-1.756,0.228-2.537,0.693 c-1.527,0.896-2.468,2.533-2.468,4.309v73.603h-45.575c0.09-1.133,0.134-2.264,0.134-3.38c0-11.77-4.582-22.824-12.894-31.124 c-8.304-8.317-19.358-12.894-31.128-12.894c-11.766,0-22.819,4.578-31.12,12.886c-8.32,8.3-12.902,19.362-12.898,31.124 c0,1.124,0.044,2.249,0.134,3.389H28.37V106.798z M207.296,482.666H34.548c-2.114,0-3.551-0.994-4.366-1.8 c-0.826-0.831-1.812-2.273-1.812-4.382V303.725h73.599c1.772,0,3.413-0.937,4.313-2.46c0.9-1.532,0.925-3.422,0.062-4.969 l-5.844-10.532c-1.65-2.974-2.485-6.207-2.489-9.604c0.004-5.287,2.07-10.271,5.8-14.019c3.758-3.738,8.74-5.808,14.022-5.808 c5.282,0,10.264,2.07,14.01,5.8c3.743,3.755,5.808,8.74,5.812,14.018c-0.004,3.413-0.844,6.647-2.477,9.604l-5.857,10.532 c-0.864,1.556-0.838,3.446,0.062,4.969c0.9,1.531,2.542,2.468,4.313,2.468h73.599v45.59c-1.133-0.089-2.26-0.13-3.376-0.13 c-11.774,0-22.828,4.578-31.12,12.886c-8.324,8.308-12.902,19.362-12.894,31.124c-0.008,11.762,4.57,22.824,12.887,31.124 c8.3,8.317,19.354,12.894,31.128,12.894c1.124,0,2.252-0.041,3.376-0.13V482.666z M410.424,476.484 c0,2.109-0.993,3.543-1.808,4.366c-0.831,0.823-2.265,1.817-4.374,1.817H231.496v-73.603c0-1.776-0.936-3.413-2.468-4.309 c-0.782-0.465-1.658-0.692-2.537-0.692c-0.835,0-1.674,0.204-2.428,0.627l-10.544,5.849c-2.961,1.645-6.191,2.484-9.6,2.484 c-5.282,0-10.264-2.068-14.01-5.8c-3.743-3.747-5.808-8.732-5.812-14.019c0.004-5.294,2.07-10.271,5.808-14.018 c3.744-3.739,8.724-5.808,14.015-5.816c3.385,0,6.618,0.839,9.6,2.484l10.54,5.857c0.758,0.424,1.592,0.628,2.432,0.628 c0.879,0,1.755-0.229,2.537-0.684c1.527-0.904,2.468-2.542,2.468-4.318v-73.611h45.578c-0.089,1.132-0.134,2.265-0.134,3.388 c-0.004,11.754,4.574,22.808,12.886,31.116c8.308,8.325,19.366,12.903,31.132,12.903c11.766,0,22.82-4.578,31.129-12.894 c8.316-8.3,12.886-19.354,12.886-31.124c0-1.124-0.041-2.248-0.13-3.388h45.582V476.484z">
+          </path>
+        </g>
+      </g>
+    </symbol>
+  </svg>
+
+  <!-- ExchangeRate  -->
+  <a href="https://www.exchangerate-api.com" style="display: none">Rates By Exchange</a>
+</body>
+
+</html>

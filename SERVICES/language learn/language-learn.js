@@ -124,7 +124,7 @@ async function goLanguageLearnGameRound(userFeedback = null) {
   try {
     if(userFeedback) languageLearnContextHistory.push({ role: 'user', content: userFeedback });
 
-    languageLearnContextHistory = languageLearnContextHistory.slice(-22);
+    languageLearnContextHistory = languageLearnContextHistory.slice(-20);
 
     const AIAnswer = await fetch('https://language-learning-game.dark-backend.workers.dev', {
       method: 'POST',

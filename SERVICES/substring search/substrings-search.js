@@ -13,7 +13,12 @@ openSubstringsSearchBtn.addEventListener('click', () => {
 // Textarea
 const substringProcessTextarea = substringsSearchWrap.querySelector('textarea');
 
-let substringsSearchWorker = new Worker('./substrings-search-worker-code.js');
+const substringsSearchWorkerUrl = new URL(
+  './substrings-search-worker-code.js',
+  document.currentScript.src
+);
+
+let substringsSearchWorker = new Worker(substringsSearchWorkerUrl);
 
 // Start
 const substringsSearchStartBtn = substringsSearchWrap.querySelector('button.start');
@@ -68,7 +73,7 @@ substringsSearchStartBtn.addEventListener('click', async () => {
 const substringsSearchStopBtn = substringsSearchWrap.querySelector('button.stop');
 substringsSearchStopBtn.addEventListener('click', () => {
   substringsSearchWorker.terminate();
-  substringsSearchWorker = new Worker('./substrings-search-worker-code.js');
+  substringsSearchWorker = new Worker(substringsSearchWorkerUrl);
 
   substringsSearchStopBtn.disabled = true;
   substringsSearchStartBtn.disabled = false;

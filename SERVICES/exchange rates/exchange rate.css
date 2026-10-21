@@ -78,5 +78,7 @@
   text-wrap: wrap;
 }
 
+@media(max-width: 725px) { .exchange-rate-nav-block > .currency-flag { width: 30%; } }
+
 /* Loader */
 .exchange-rate-wrap > .loader { display: none; }

@@ -409,6 +409,8 @@ header.dashboard-header > img {
   border-left: 2px solid rgb(0, 255, 0);
 }
 
+@media(max-width: 725px) { .all-dashboard-items { width: 75vw; } }
+
 /* Show fields block */
 .show-fields-block {
   background-color: var(--block-bg);
