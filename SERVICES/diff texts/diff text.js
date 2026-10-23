@@ -42,8 +42,14 @@ diffTextCompareBtn.addEventListener('click', () => {
     const div = document.createElement('div');
     div.textContent = part.value;
 
-    if(part.added) div.style.border = '1px solid #00ff00';
-    else if(part.removed) div.style.border = '1px solid #f00';
+    if(part.added) {
+      div.style.border = '1px solid #00ff00';
+      div.classList.add('added');
+    }
+    else if(part.removed) {
+      div.style.border = '1px solid #f00';
+      div.classList.add('removed');
+    }
 
     frag.appendChild(div);
   }

@@ -14,7 +14,6 @@
 .regexp-checker-wrap button {
   position: absolute;
   left: 10px;
-  height: 20px;
   display: flex;
   flex-direction: row;
   gap: 10px;
@@ -24,6 +23,8 @@
   background-color: var(--block-bg);
   border-radius: 3px;
   font-size: 16px;
+  padding: 2px 5px;
+  border: 1px dashed var(--border-color);
 }
 
 .regexp-checker-wrap button.copy-arr {

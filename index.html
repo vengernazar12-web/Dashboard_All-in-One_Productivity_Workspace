@@ -44,7 +44,7 @@
 <link rel="stylesheet" href="SERVICES/image comressor/image compression.css">
 <link rel="stylesheet" href="SERVICES/token counter/token counter.css">
 <link rel="stylesheet" href="SERVICES/color worker/color worker.css">
-<link rel="stylesheet" href="SERVICES/files info/code-lines-counter.css">
+<link rel="stylesheet" href="SERVICES/files info/files-info.css">
 <link rel="stylesheet" href="SERVICES/substring search/substrings-search.css">
 <link rel="stylesheet" href="SERVICES/code AI/code-ai.css">
 <link rel="stylesheet" href="SERVICES/idea generator/idea-generator.css">
@@ -93,7 +93,7 @@
 <script src="SERVICES/image comressor/image compression.js" defer></script>
 <script src="SERVICES/token counter/token counter.js" defer></script>
 <script src="SERVICES/color worker/color worker.js" defer></script>
-<script src="SERVICES/files info/code-lines-counter.js" defer></script>
+<script src="SERVICES/files info/files-info.js" defer></script>
 <script src="SERVICES/substring search/substrings-search.js" defer></script>
 <script src="SERVICES/code AI/code-ai.js" defer></script>
 <script src="SERVICES/idea generator/idea-generator.js" defer></script>
@@ -438,7 +438,9 @@
   <input type="text" class="search" placeholder="Search">
   <div></div>
   <span class="loader"></span>
-</div><!-- Weather wrap -->
+</div>
+
+<!-- Weather wrap -->
 <div class="weather-wrap is-wrap">
   <!-- Weather info block -->
   <div class="weather-info-block">
@@ -676,7 +678,7 @@
 <!-- RegExp checker wrap -->
 <div class="regexp-checker-wrap is-wrap">
   <input class="regexp" type="text" placeholder="Your regexp: /.../">
-  <input class="flags" type="text" placeholder="Flags...">
+  <input class="flags" type="text" placeholder="Flags..." value="gi">
 
   <button class="copy-arr">Copy array<svg><use href="#copy-code"></use></svg></button>
   <button class="copy-list">Copy list<svg><use href="#copy-code"></use></svg></button>
@@ -950,7 +952,7 @@
 
     <div class="uploads">
       <button class="open-files-window" aria-label="Upload files">+</button>
-      <p></p>
+      <p>0</p>
 
       <div class="files-window">
         <h3>Select files</h3>
