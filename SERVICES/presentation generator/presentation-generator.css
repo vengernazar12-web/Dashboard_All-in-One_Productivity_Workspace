@@ -1,0 +1,41 @@
+.presentation-generator-wrap > input.topic {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: calc(100% - 10px);
+}
+
+.presentation-generator-wrap > textarea {
+  position: absolute;
+  top: 40px;
+  left: 5px;
+  width: calc(100% - 10px);
+  height: 200px;
+  background-color: var(--block-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 7px;
+  padding: 7px;
+}
+
+.presentation-generator-wrap > input.slides-number {
+  position: absolute;
+  top: 245px;
+  left: 10px;
+  width: calc(100% - 75px);
+}
+
+.presentation-generator-wrap > button.send {
+  position: absolute;
+  top: 245px;
+  right: 10px;
+  width: 50px;
+  height: 30px;
+  border-radius: 7px;
+  border: 1px solid var(--border-color);
+  background-color: blue;
+  color: white;
+  font-size: 15px;
+}
+
+.presentation-generator-wrap > span.loader { display: none; }

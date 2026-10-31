@@ -1,0 +1,140 @@
+/* Select style container */
+.presentation-generator-wrap > div.styles-select {
+  position: absolute;
+  top: 285px;
+  left: 10px;
+  border: 1px dashed green;
+  border-radius: 7px;
+  width: calc(100% - 20px);
+  padding: 5px;
+  background-color: var(--body-bg);
+  color: var(--text-color);
+}
+
+.presentation-generator-wrap > div.styles-select .styles-list {
+  width: 100%;
+  padding: 15px;
+  height: max-content;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+}
+
+.presentation-generator-wrap .styles-list label.style {
+  width: max-content;
+  height: max-content;
+  border-radius: 5px;
+  border: 1px solid var(--border-color);
+  padding: 8px;
+  background-color: var(--block-bg);
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.presentation-generator-wrap .styles-list label.style:hover {
+  border-color: var(--text-color);
+}
+
+.presentation-generator-wrap .styles-list label.style:has(input[type="radio"]:checked) {
+  border-color: orangered;
+  box-shadow: 0 0 4px 1px orangered;
+}
+
+.presentation-generator-wrap .styles-list .preview {
+  position: relative;
+  isolation: isolate;
+  border: 1px solid var(--border-color);
+  width: 400px;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  box-sizing: border-box;
+  container-type: inline-size;
+  font-family: Arial, sans-serif;
+}
+
+.presentation-generator-wrap .styles-list .style-option {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  font-size: 15px;
+}
+
+.presentation-generator-wrap .styles-list .preview h3,
+.presentation-generator-wrap .styles-list .preview p.description {
+  position: absolute;
+  z-index: 1;
+  box-sizing: border-box;
+  width: 84%;
+  margin: 0;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  font-family: Arial, sans-serif;
+}
+
+.presentation-generator-wrap .styles-list .preview h3 {
+  font-size: 2.8cqw;
+}
+
+.presentation-generator-wrap .styles-list .preview p.description {
+  line-height: 1.4;
+  font-size: 1.6cqw;
+}
+
+/* ==================== Notes cont ==================== */
+.presentation-generator-wrap .styles-list .preview div.notes {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  gap: 3.75cqw;
+  overflow: hidden;
+  border: 1px solid var(--notes-border);
+  font-style: italic;
+}
+
+.presentation-generator-wrap .styles-list .preview div.notes > .note {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  padding: 1.5cqw;
+  overflow: hidden;
+}
+
+.presentation-generator-wrap .styles-list .preview div.notes > .note:not(:last-child) {
+  border-right: 1px solid var(--notes-border);
+}
+
+.presentation-generator-wrap .styles-list .preview div.notes h4 {
+  margin: 0 0 1cqw;
+  font-size: 1.7cqw;
+  line-height: 1.2;
+}
+
+.presentation-generator-wrap .styles-list .preview div.notes p {
+  font-size: 1.3cqw;
+  line-height: 1.25;
+}
+
+/* Download button */
+.presentation-generator-wrap .styles-select button.download-btn {
+  display: block;
+  width: calc(100% - 20px);
+  margin: 10px auto;
+  padding-block: 10px;
+  border: none;
+  border-radius: 7px;
+  background: #4338CA;
+  color: white;
+  font-size: 15px;
+  border: 1px solid var(--border-color);
+}

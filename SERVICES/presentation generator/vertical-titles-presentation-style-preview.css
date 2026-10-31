@@ -1,0 +1,60 @@
+/* 5. VERTICAL TITLE */
+.presentation-generator-wrap .styles-list .preview.vertical-title {
+  background-color: #FFFFFF;
+  color: #334155;
+}
+
+.presentation-generator-wrap .styles-list .preview.vertical-title::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  left: 0;
+  width: 35%;
+  height: 100%;
+  background-color: #172554;
+}
+
+.presentation-generator-wrap .styles-list .preview.vertical-title h3 {
+  top: 50%;
+  left: 17.5%;
+  width: 225px;
+  color: #FFFFFF;
+  text-align: center;
+  transform: translate(-50%, -50%) rotate(-90deg);
+}
+
+.presentation-generator-wrap .styles-list .preview.vertical-title p.description {
+  top: 50%;
+  left: 67.5%;
+  width: 55%;
+  color: #15263e;
+  text-align: center;
+  transform: translate(-50%, -50%);
+}
+
+.presentation-generator-wrap .preview.vertical-title:has(div.notes) p.description {
+  top: 16%;
+}
+
+.presentation-generator-wrap .styles-list .preview.vertical-title div.notes {
+  left: 39%;
+  top: 69%;
+  width: 56%;
+  height: 22%;
+  color: #15263e;
+  --notes-border: #ffffff;
+}
+
+.presentation-generator-wrap .styles-list .preview.vertical-title div.notes h4 {
+  color: #172554;
+}
+
+.presentation-generator-wrap .styles-list .preview.vertical-title div.notes p {
+  color: #15263e;
+}
+
+.presentation-generator-wrap .styles-list .preview.vertical-title > :not(h3) {
+  background-color: rgba(255,255,255,.7);
+  padding: 2px;
+}

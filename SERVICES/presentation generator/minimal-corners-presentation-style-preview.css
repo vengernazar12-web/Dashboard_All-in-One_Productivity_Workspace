@@ -1,0 +1,71 @@
+/* 2. MINIMAL CORNERS */
+.presentation-generator-wrap .styles-list .preview.minimal-corners {
+  background-color: #262323;
+  color: #334155;
+}
+
+.presentation-generator-wrap .styles-list .preview.minimal-corners::before,
+.presentation-generator-wrap .styles-list .preview.minimal-corners::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.presentation-generator-wrap .styles-list .preview.minimal-corners::before {
+  width: 17%;
+  aspect-ratio: 1;
+  bottom: -7%;
+  left: -4%;
+  background-color: #C7D2FE;
+}
+
+.presentation-generator-wrap .styles-list .preview.minimal-corners::after {
+  width: 12%;
+  aspect-ratio: 1;
+  bottom: -5%;
+  right: -2%;
+  background-color: #818CF8;
+  opacity: 0.6;
+}
+
+.presentation-generator-wrap .styles-list .preview.minimal-corners h3 {
+  top: 4%;
+  left: 4%;
+  width: 92%;
+  color: #f4f4f4;
+}
+
+.presentation-generator-wrap .styles-list .preview.minimal-corners p.description {
+  top: 35%;
+  left: 8%;
+  width: 84%;
+  color: #d9e9ff;
+}
+
+.presentation-generator-wrap .preview.minimal-corners:has(div.notes) p.description {
+  top: 25%;
+}
+
+.presentation-generator-wrap .styles-list .preview.minimal-corners div.notes {
+  left: 8%;
+  top: 62%;
+  width: 84%;
+  height: 21%;
+  color: #d9e9ff;
+  --notes-border: #000000;
+}
+
+.presentation-generator-wrap .styles-list .preview.minimal-corners div.notes h4 {
+  color: #f4f4f4;
+}
+
+.presentation-generator-wrap .styles-list .preview.minimal-corners div.notes p {
+  color: #d9e9ff;
+}
+
+.presentation-generator-wrap .styles-list .preview.minimal-corners.image-bgc > * {
+  background-color: rgba(0,0,0,.7);
+  padding: 2px;
+}

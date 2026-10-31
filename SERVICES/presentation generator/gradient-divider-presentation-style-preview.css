@@ -1,0 +1,67 @@
+/* 4. GRADIENT DIVIDER */
+.presentation-generator-wrap .styles-list .preview.gradient-divider {
+  background-color: #312E81;
+  color: #F8FAFC;
+}
+
+.presentation-generator-wrap .styles-list .preview.gradient-divider::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 25%;
+  background-color: #111827;
+}
+
+.presentation-generator-wrap .preview.gradient-divider h3 {
+  top: 7%;
+  left: 7.5%;
+  width: 85%;
+  color: #F8FAFC;
+}
+
+.presentation-generator-wrap .preview.gradient-divider .split {
+  position: absolute;
+  z-index: 1;
+  top: 25%;
+  left: 0;
+  width: 100%;
+  height: 4%;
+  background: linear-gradient( 90deg, #6366F1 0%, #A78BFA 50%, #6366F1 100% );
+  box-shadow: 0 0 12px #8B5CF6;
+}
+
+.presentation-generator-wrap .styles-list .preview.gradient-divider p.description {
+  top: 37%;
+  left: 7.5%;
+  width: 85%;
+  color: #F1F5F9;
+}
+
+.presentation-generator-wrap .preview.gradient-divider:has(div.notes) p.description {
+  top: 29%;
+}
+
+.presentation-generator-wrap .styles-list .preview.gradient-divider div.notes {
+  left: 7.5%;
+  top: 71%;
+  width: 85%;
+  height: 22%;
+  color: #F1F5F9;
+  --notes-border: #000000;
+}
+
+.presentation-generator-wrap .styles-list .preview.gradient-divider div.notes h4 {
+  color: #FFFFFF;
+}
+
+.presentation-generator-wrap .styles-list .preview.gradient-divider div.notes p {
+  color: #E0E7FF;
+}
+
+.presentation-generator-wrap .preview.image-bgc.gradient-divider > :not(h3):not(.split) {
+  background-color: rgba(0, 0, 0, .7);
+  padding: 2px;
+}

@@ -1,0 +1,55 @@
+/* 3. GHOST TITLES */
+.presentation-generator-wrap .styles-list .preview.ghost-titles {
+  background-color: #111827;
+  color: #F8FAFC;
+}
+
+.presentation-generator-wrap .styles-list .preview.ghost-titles h3:first-child {
+  top: 7%;
+  left: 7%;
+  width: 86%;
+  color: #F8FAFC;
+}
+
+.presentation-generator-wrap .styles-list .preview.ghost-titles p.description {
+  top: 35%;
+  left: 8%;
+  width: 84%;
+  color: #E2E8F0;
+}
+
+.presentation-generator-wrap .preview.ghost-titles:has(div.notes) p.description {
+  top: 22%;
+}
+
+.presentation-generator-wrap .styles-list .preview.ghost-titles h3.ghost {
+  top: auto;
+  bottom: 0;
+  left: 5%;
+  width: 90%;
+  color: #FFFFFF;
+  font-size: 2.5cqw;
+  opacity: 0.4;
+}
+
+.presentation-generator-wrap .styles-list .preview.ghost-titles div.notes {
+  left: 8%;
+  top: 69%;
+  width: 84%;
+  height: 20%;
+  color: #E2E8F0;
+  --notes-border: #000000;
+}
+
+.presentation-generator-wrap .styles-list .preview.ghost-titles div.notes h4 {
+  color: #F8FAFC;
+}
+
+.presentation-generator-wrap .styles-list .preview.ghost-titles div.notes p {
+  color: #CBD5E1;
+}
+
+.presentation-generator-wrap .styles-list .preview.ghost-titles.image-bgc > * {
+  background-color: rgba(0,0,0,.7);
+  padding: 2px;
+}

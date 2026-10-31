@@ -1,0 +1,43 @@
+/* 1. DEFAULT */
+.presentation-generator-wrap .styles-list .preview.default {
+  background-color: #F3F6FA;
+  color: #334155;
+}
+
+.presentation-generator-wrap .styles-list .preview.default h3 {
+  top: 10%;
+  left: 7.5%;
+  color: #172554;
+}
+
+.presentation-generator-wrap .styles-list .preview.default p.description {
+  top: 29%;
+  left: 7.5%;
+  color: #334155;
+}
+
+.presentation-generator-wrap .preview.default:has(div.notes) p.description {
+  top: 22.33%
+}
+
+.presentation-generator-wrap .styles-list .preview.default div.notes {
+  left: 7.5%;
+  top: 70%;
+  width: 85%;
+  height: 21%;
+  color: #334155;
+  --notes-border: #ffffff;
+}
+
+.presentation-generator-wrap .styles-list .preview.default div.notes h4 {
+  color: #172554;
+}
+
+.presentation-generator-wrap .styles-list .preview.default div.notes p {
+  color: #475569;
+}
+
+.presentation-generator-wrap .styles-list .preview.default.image-bgc > * {
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 2px;
+}
