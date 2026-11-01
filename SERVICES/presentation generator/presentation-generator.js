@@ -35,7 +35,16 @@ const presentationGeneratorLoader = presentationGeneratorWrap.querySelector('spa
 const presentationGeneratorTopicInput = presentationGeneratorWrap.querySelector('input.topic');
 const presentationGeneratorContextTextarea = presentationGeneratorWrap.querySelector('textarea');
 const presentationGeneratorSlidesNumberInput = presentationGeneratorWrap.querySelector('input.slides-number');
+
 const presentationGeneratorStylesSelectCont = presentationGeneratorWrap.querySelector('div.styles-select');
+presentationGeneratorStylesSelectCont.addEventListener('click', e => {
+  const target = e.target;
+
+  if(target.tagName === 'BUTTON' && target.classList.contains('download-btn')) {
+    const style = target.dataset.style;
+    if(style && presentationGeneratorSlidesData) presentationGeneratorDownloadStyles(style);
+  }
+})
 
 // --- Send
 const presentationGeneratorSendBtn = presentationGeneratorWrap.querySelector('button.send');
@@ -143,144 +152,124 @@ const renderPresentationDescription = (text, type) => {
   }
 };
 
+let presentationGeneratorSlidesData = null;
 function showPresentationStylesSelect(data) {
+  presentationGeneratorSlidesData = data;
   const firstSlide = data[0];
-  const image = firstSlide.image_url;
 
-  presentationGeneratorStylesSelectCont.innerHTML = `
-    <button type="button" class="download-btn">DOWNLOAD SELECTED STYLE</button>
+  presentationGeneratorStylesSelectCont.innerHTML = createHTMLForSlide(firstSlide);
+}
 
+function createHTMLForSlide(slideData) {
+  const image = slideData.image_url;
+
+  return `
     <div class="styles-list">
       <!-- Default -->
-      <label class="style">
+      <div class="style">
         <div class="preview default ${image ? 'image-bgc' : ''}" style="${image
       ? `background-image: url('${image}'); background-size: cover; background-position: center;`
       : ''
     }">
 
-          <h3>${hashHtmlSymbols(firstSlide.title)}</h3>
-          <p class='description'>${renderPresentationDescription(hashHtmlSymbols(firstSlide.description), 'preview')}</p>
+          <h3>${hashHtmlSymbols(slideData.title)}</h3>
+          <p class='description'>${renderPresentationDescription(hashHtmlSymbols(slideData.description), 'preview')}</p>
 
-          ${firstSlide.notes?.length ? `<div class="notes">${firstSlide.notes.map(obj => `<div class='note'><h4>${obj.key}</h4><p>${obj.value}</p></div>`).join('')}</div>` : ''}
+          ${slideData.notes?.length ? `<div class="notes">${slideData.notes.map(obj => `<div class='note'><h4>${obj.key}</h4><p>${obj.value}</p></div>`).join('')}</div>` : ''}
         </div>
 
         <div class="style-option">
           <span>Default</span>
-          <input
-            type="radio"
-            name="presentation-style"
-            value="default"
-            checked
-          >
+          <button data-style="default" type="button" class="download-btn">DOWNLOAD</button>
         </div>
-      </label>
+      </div>
 
       <!-- Minimal corners -->
-      <label class="style">
+      <div class="style">
         <div class="preview minimal-corners ${image ? 'image-bgc' : ''}" style="${image
       ? `background-image: url('${image}'); background-size: cover; background-position: center;`
       : ''
     }">
 
-          <h3>${hashHtmlSymbols(firstSlide.title)}</h3>
-          <p class='description'>${renderPresentationDescription(hashHtmlSymbols(firstSlide.description), 'preview')}</p>
+          <h3>${hashHtmlSymbols(slideData.title)}</h3>
+          <p class='description'>${renderPresentationDescription(hashHtmlSymbols(slideData.description), 'preview')}</p>
 
-          ${firstSlide.notes?.length ? `<div class="notes">${firstSlide.notes.map(obj => `<div class='note'><h4>${obj.key}</h4><p>${obj.value}</p></div>`).join('')}</div>` : ''}
+          ${slideData.notes?.length ? `<div class="notes">${slideData.notes.map(obj => `<div class='note'><h4>${obj.key}</h4><p>${obj.value}</p></div>`).join('')}</div>` : ''}
         </div>
 
         <div class="style-option">
           <span>Minimal Corners</span>
-          <input
-            type="radio"
-            name="presentation-style"
-            value="minimal-corners"
-          >
+          <button data-style="minimal-corners" type="button" class="download-btn">DOWNLOAD</button>
         </div>
-      </label>
+      </div>
 
       <!-- Ghost titles -->
-      <label class="style">
+      <div class="style">
         <div class="preview ghost-titles ${image ? 'image-bgc' : ''}" style="${image
       ? `background-image: url('${image}'); background-size: cover; background-position: center;`
       : ''
     }">
 
-          <h3>${hashHtmlSymbols(firstSlide.title)}</h3>
-          <p class='description'>${renderPresentationDescription(hashHtmlSymbols(firstSlide.description), 'preview')}</p>
+          <h3>${hashHtmlSymbols(slideData.title)}</h3>
+          <p class='description'>${renderPresentationDescription(hashHtmlSymbols(slideData.description), 'preview')}</p>
 
-          ${firstSlide.notes?.length ? `<div class="notes">${firstSlide.notes.map(obj => `<div class='note'><h4>${obj.key}</h4><p>${obj.value}</p></div>`).join('')}</div>` : ''}
+          ${slideData.notes?.length ? `<div class="notes">${slideData.notes.map(obj => `<div class='note'><h4>${obj.key}</h4><p>${obj.value}</p></div>`).join('')}</div>` : ''}
 
-          <h3 class="ghost">${hashHtmlSymbols(firstSlide.title)}</h3>
+          <h3 class="ghost">${hashHtmlSymbols(slideData.title)}</h3>
         </div>
 
         <div class="style-option">
           <span>Ghost Titles</span>
-          <input
-            type="radio"
-            name="presentation-style"
-            value="ghost-titles"
-          >
+          <button data-style="ghost-titles" type="button" class="download-btn">DOWNLOAD</button>
         </div>
-      </label>
+      </div>
 
       <!-- Gradient divider -->
-      <label class="style">
+      <div class="style">
         <div class="preview gradient-divider ${image ? 'image-bgc' : ''}" style="${image
       ? `background-image: url('${image}'); background-size: 100% 75%; background-position: center 100%;`
       : ''
     }">
 
-          <h3>${hashHtmlSymbols(firstSlide.title)}</h3>
+          <h3>${hashHtmlSymbols(slideData.title)}</h3>
           <div class="split"></div>
-          <p class='description'>${renderPresentationDescription(hashHtmlSymbols(firstSlide.description), 'preview')}</p>
+          <p class='description'>${renderPresentationDescription(hashHtmlSymbols(slideData.description), 'preview')}</p>
 
-          ${firstSlide.notes?.length ? `<div class="notes">${firstSlide.notes.map(obj => `<div class='note'><h4>${obj.key}</h4><p>${obj.value}</p></div>`).join('')}</div>` : ''}
+          ${slideData.notes?.length ? `<div class="notes">${slideData.notes.map(obj => `<div class='note'><h4>${obj.key}</h4><p>${obj.value}</p></div>`).join('')}</div>` : ''}
         </div>
 
         <div class="style-option">
           <span>Gradient Divider</span>
-          <input
-            type="radio"
-            name="presentation-style"
-            value="gradient-divider"
-          >
+          <button data-style="gradient-divider" type="button" class="download-btn">DOWNLOAD</button>
         </div>
-      </label>
+      </div>
 
       <!-- Vertical title -->
-      <label class="style">
+      <div class="style">
         <div class="preview vertical-title ${image ? 'image-bgc' : ''}" style="${image
       ? `background-image: url('${image}'); background-size: 65% 100%; background-position: right center;`
       : ''
     }">
 
-          <h3>${hashHtmlSymbols(firstSlide.title)}</h3>
-          <p class='description'>${renderPresentationDescription(hashHtmlSymbols(firstSlide.description), 'preview')}</p>
+          <h3>${hashHtmlSymbols(slideData.title)}</h3>
+          <p class='description'>${renderPresentationDescription(hashHtmlSymbols(slideData.description), 'preview')}</p>
 
-          ${firstSlide.notes?.length ? `<div class="notes">${firstSlide.notes.map(obj => `<div class='note'><h4>${obj.key}</h4><p>${obj.value}</p></div>`).join('')}</div>` : ''}
+          ${slideData.notes?.length ? `<div class="notes">${slideData.notes.map(obj => `<div class='note'><h4>${obj.key}</h4><p>${obj.value}</p></div>`).join('')}</div>` : ''}
         </div>
 
         <div class="style-option">
           <span>Vertical Title</span>
-          <input
-            type="radio"
-            name="presentation-style"
-            value="vertical-title"
-          >
+          <button data-style="vertical-title" type="button" class="download-btn">DOWNLOAD</button>
         </div>
-      </label>
+      </div>
     </div>
   `;
-
-  presentationGeneratorStylesSelectCont.querySelector('.download-btn')
-    .addEventListener('click', e => {
-      const style = presentationGeneratorStylesSelectCont.querySelector('input[name="presentation-style"]:checked')?.value;
-
-      if (style) presentationGeneratorDownloadStyles(style, data);
-    });
 }
 
-async function presentationGeneratorDownloadStyles(style, data) {
+async function presentationGeneratorDownloadStyles(style) {
+  const data = presentationGeneratorSlidesData;
+  if(!style || !data) return;
+
   const downloadButton = presentationGeneratorStylesSelectCont.querySelector('button.download-btn');
 
   presentationGeneratorLoader.style.display = 'block';

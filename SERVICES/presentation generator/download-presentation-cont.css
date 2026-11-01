@@ -2,58 +2,44 @@
 .presentation-generator-wrap > div.styles-select {
   position: absolute;
   top: 285px;
-  left: 10px;
+  left: 5px;
   border: 1px dashed green;
   border-radius: 7px;
-  width: calc(100% - 20px);
-  padding: 5px;
-  background-color: var(--body-bg);
-  color: var(--text-color);
+  width: calc(100% - 10px);
+  contain: content;
 }
 
 .presentation-generator-wrap > div.styles-select .styles-list {
   width: 100%;
-  padding: 15px;
+  padding: 5px;
   height: max-content;
   display: flex;
   flex-direction: row;
-  gap: 20px;
+  gap: 10px;
   justify-content: space-evenly;
   flex-wrap: wrap;
-  box-sizing: border-box;
 }
 
-.presentation-generator-wrap .styles-list label.style {
+.presentation-generator-wrap .styles-list div.style {
   width: max-content;
   height: max-content;
-  border-radius: 5px;
-  border: 1px solid var(--border-color);
-  padding: 8px;
+  border-radius: 3px;
+  border: 1px dashed var(--border-color);
+  padding: 5px;
   background-color: var(--block-bg);
-  cursor: pointer;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  box-sizing: border-box;
 }
 
-.presentation-generator-wrap .styles-list label.style:hover {
+.presentation-generator-wrap .styles-list div.style:hover {
   border-color: var(--text-color);
-}
-
-.presentation-generator-wrap .styles-list label.style:has(input[type="radio"]:checked) {
-  border-color: orangered;
-  box-shadow: 0 0 4px 1px orangered;
 }
 
 .presentation-generator-wrap .styles-list .preview {
   position: relative;
   isolation: isolate;
-  border: 1px solid var(--border-color);
   width: 400px;
   aspect-ratio: 16 / 9;
   overflow: hidden;
-  box-sizing: border-box;
   container-type: inline-size;
-  font-family: Arial, sans-serif;
 }
 
 .presentation-generator-wrap .styles-list .style-option {
@@ -63,19 +49,16 @@
   gap: 10px;
   justify-content: space-between;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 5px;
   font-size: 15px;
 }
 
 .presentation-generator-wrap .styles-list .preview h3,
 .presentation-generator-wrap .styles-list .preview p.description {
   position: absolute;
-  z-index: 1;
-  box-sizing: border-box;
   width: 84%;
   overflow: hidden;
   overflow-wrap: anywhere;
-  font-family: Arial, sans-serif;
 }
 
 .presentation-generator-wrap .styles-list .preview h3 {
@@ -126,14 +109,11 @@
 
 /* Download button */
 .presentation-generator-wrap .styles-select button.download-btn {
-  display: block;
-  width: calc(100% - 20px);
-  margin: 10px auto;
-  padding-block: 10px;
-  border: none;
+  width: max-content;
+  padding-block: 5px;
+  padding-inline: 10px;
   border-radius: 7px;
-  background: #4338CA;
+  background-color: #4338CA;
   color: white;
   font-size: 15px;
-  border: 1px solid var(--border-color);
 }

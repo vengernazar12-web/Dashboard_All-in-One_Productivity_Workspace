@@ -38,4 +38,4 @@
   font-size: 15px;
 }
 
-.presentation-generator-wrap > span.loader { display: none; }
+.presentation-generator-wrap > span.loader { display: none; position: fixed; }
