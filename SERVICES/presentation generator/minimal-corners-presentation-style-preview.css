@@ -38,14 +38,10 @@
 }
 
 .presentation-generator-wrap .styles-list .preview.minimal-corners p.description {
-  top: 35%;
+  top: 25%;
   left: 8%;
   width: 84%;
   color: #d9e9ff;
-}
-
-.presentation-generator-wrap .preview.minimal-corners:has(div.notes) p.description {
-  top: 25%;
 }
 
 .presentation-generator-wrap .styles-list .preview.minimal-corners div.notes {

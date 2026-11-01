@@ -12,14 +12,10 @@
 }
 
 .presentation-generator-wrap .styles-list .preview.ghost-titles p.description {
-  top: 35%;
+  top: 22%;
   left: 8%;
   width: 84%;
   color: #E2E8F0;
-}
-
-.presentation-generator-wrap .preview.ghost-titles:has(div.notes) p.description {
-  top: 22%;
 }
 
 .presentation-generator-wrap .styles-list .preview.ghost-titles h3.ghost {

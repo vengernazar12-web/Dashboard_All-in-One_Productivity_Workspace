@@ -441,7 +441,7 @@ async function presentationGeneratorDownloadStyles(style, data) {
             } : undefined
           }, description: {
             x: 1,
-            y: hasNotes ? 1.7 : 2.2,
+            y: 1.7,
             w: 11.4,
             fontFace: 'Arial',
             fontSize: descriptionSize,
@@ -530,7 +530,7 @@ async function presentationGeneratorDownloadStyles(style, data) {
             } : undefined
           }, description: {
             x: 1.1,
-            y: hasNotes ? 1.9 : 2.4,
+            y: 1.9,
             w: 11.1,
             fontFace: 'Arial',
             fontSize: descriptionSize,
@@ -602,7 +602,7 @@ async function presentationGeneratorDownloadStyles(style, data) {
             } : undefined
           }, description: {
             x: 1.05,
-            y: hasNotes ? 1.9 : 2.6,
+            y: 1.9,
             w: 11.2,
             fontFace: 'Arial',
             fontSize: descriptionSize,
@@ -707,7 +707,7 @@ async function presentationGeneratorDownloadStyles(style, data) {
             fit: 'shrink',
           }, description: {
             x: 1,
-            y: hasNotes ? 2.25 : 2.75,
+            y: 2.25,
             w: 11.4,
             fontFace: 'Arial',
             fontSize: descriptionSize,
@@ -780,7 +780,7 @@ async function presentationGeneratorDownloadStyles(style, data) {
         const parameters = {
           description: {
             x: 5,
-            y: hasNotes ? 0.8 : 1.5,
+            y: 0.8,
             w: 7.5,
             fontFace: 'Arial',
             fontSize: descriptionSize,

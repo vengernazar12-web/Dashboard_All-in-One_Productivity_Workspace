@@ -34,14 +34,10 @@
 }
 
 .presentation-generator-wrap .styles-list .preview.gradient-divider p.description {
-  top: 37%;
+  top: 29%;
   left: 7.5%;
   width: 85%;
   color: #F1F5F9;
-}
-
-.presentation-generator-wrap .preview.gradient-divider:has(div.notes) p.description {
-  top: 29%;
 }
 
 .presentation-generator-wrap .styles-list .preview.gradient-divider div.notes {

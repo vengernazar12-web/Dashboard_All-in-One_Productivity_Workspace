@@ -25,16 +25,12 @@
 }
 
 .presentation-generator-wrap .styles-list .preview.vertical-title p.description {
-  top: 50%;
+  top: 16%;
   left: 67.5%;
   width: 55%;
   color: #15263e;
   text-align: center;
-  transform: translate(-50%, -50%);
-}
-
-.presentation-generator-wrap .preview.vertical-title:has(div.notes) p.description {
-  top: 16%;
+  transform: translateX(-50%);
 }
 
 .presentation-generator-wrap .styles-list .preview.vertical-title div.notes {

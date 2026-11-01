@@ -11,13 +11,9 @@
 }
 
 .presentation-generator-wrap .styles-list .preview.default p.description {
-  top: 29%;
+  top: 22.33%;
   left: 7.5%;
   color: #334155;
-}
-
-.presentation-generator-wrap .preview.default:has(div.notes) p.description {
-  top: 22.33%
 }
 
 .presentation-generator-wrap .styles-list .preview.default div.notes {
