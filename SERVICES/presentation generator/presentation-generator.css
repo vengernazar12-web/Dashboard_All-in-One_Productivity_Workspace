@@ -22,14 +22,14 @@
   position: absolute;
   top: 245px;
   left: 10px;
-  width: calc(100% - 75px);
+  width: calc(100% - 95px);
 }
 
 .presentation-generator-wrap > button.send {
   position: absolute;
   top: 245px;
   right: 10px;
-  width: 50px;
+  width: 70px;
   height: 30px;
   border-radius: 7px;
   border: 1px solid var(--border-color);

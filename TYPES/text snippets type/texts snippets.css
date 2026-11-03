@@ -48,7 +48,7 @@
   background-color: var(--block-bg);
   color: var(--text-color);
   min-height: 45px;
-  max-height: 75vh;
+  max-height: calc(75vh - 50px);
   overflow-y: auto;
 }
 .add-text-snippet-content-textarea::placeholder { color: var(--text-color); }

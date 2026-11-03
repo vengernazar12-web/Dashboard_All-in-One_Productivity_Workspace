@@ -14,9 +14,7 @@ openPresentationGeneratorBtn.addEventListener('click', async () => {
     preloaderProgress.value = 0;
 
     await loadScript('https://cdn.jsdelivr.net/gh/gitbrent/pptxgenjs/dist/pptxgen.bundle.js');
-    textHeightCalculatorLib = await import(
-      'https://cdn.jsdelivr.net/npm/@neo-ma/pptxgenjs-std@0.4.0/dist/index.mjs'
-    ).then(r => r.measureText);
+    textHeightCalculatorLib = await import('https://cdn.jsdelivr.net/npm/@neo-ma/pptxgenjs-std@0.4.0/dist/index.mjs').then(r => r.measureText);
 
     presentationGenerationLib = true;
 
@@ -162,108 +160,44 @@ function showPresentationStylesSelect(data) {
 
 function createHTMLForSlide(slideData) {
   const image = slideData.image_url;
+  const styles = ['default', 'minimal-corners', 'ghost-titles', 'gradient-divider', 'vertical-title'];
 
-  return `
-    <div class="styles-list">
-      <!-- Default -->
-      <div class="style">
-        <div class="preview default ${image ? 'image-bgc' : ''}" style="${image
-      ? `background-image: url('${image}'); background-size: cover; background-position: center;`
-      : ''
-    }">
+  let resultHTML = '';
 
-          <h3>${hashHtmlSymbols(slideData.title)}</h3>
-          <p class='description'>${renderPresentationDescription(hashHtmlSymbols(slideData.description), 'preview')}</p>
+  for(const style of styles) {
+    resultHTML += `
+<div class="style">
+  <div class="preview ${style} ${image ? 'image-bgc' : ''}" style="${image
+    ? `background-image: url('${image}'); ${
+       style === 'vertical-title'
+        ? "background-size: 65% 100%; background-position: right center"
+        : style === 'gradient-divider'
+        ? "background-size: 100% 75%; background-position: center 100%;"
+        : "background-size: cover; background-position: center;"
+      }`
+    : ''
+  }">
 
-          ${slideData.notes?.length ? `<div class="notes">${slideData.notes.map(obj => `<div class='note'><h4>${obj.key}</h4><p>${obj.value}</p></div>`).join('')}</div>` : ''}
-        </div>
+    <h3>${hashHtmlSymbols(slideData.title)}</h3>
 
-        <div class="style-option">
-          <span>Default</span>
-          <button data-style="default" type="button" class="download-btn">DOWNLOAD</button>
-        </div>
-      </div>
+    ${style === 'gradient-divider' ? '<div class="split"></div>' : ''}
 
-      <!-- Minimal corners -->
-      <div class="style">
-        <div class="preview minimal-corners ${image ? 'image-bgc' : ''}" style="${image
-      ? `background-image: url('${image}'); background-size: cover; background-position: center;`
-      : ''
-    }">
+    <p class='description'>${renderPresentationDescription(hashHtmlSymbols(slideData.description), 'preview')}</p>
 
-          <h3>${hashHtmlSymbols(slideData.title)}</h3>
-          <p class='description'>${renderPresentationDescription(hashHtmlSymbols(slideData.description), 'preview')}</p>
+    ${slideData.notes?.length ? `<div class="notes">${slideData.notes.map(obj => `<div class='note'><h4>${obj.key}</h4><p>${obj.value}</p></div>`).join('')}</div>` : ''}
 
-          ${slideData.notes?.length ? `<div class="notes">${slideData.notes.map(obj => `<div class='note'><h4>${obj.key}</h4><p>${obj.value}</p></div>`).join('')}</div>` : ''}
-        </div>
+    ${style === 'ghost-titles' ? `<h3 class='ghost'>${hashHtmlSymbols(slideData.title)}</h3>` : ''}
+  </div>
 
-        <div class="style-option">
-          <span>Minimal Corners</span>
-          <button data-style="minimal-corners" type="button" class="download-btn">DOWNLOAD</button>
-        </div>
-      </div>
+  <div class="style-option">
+    <span>${style.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join(' ')}</span>
+    <button data-style="${style}" type="button" class="download-btn">DOWNLOAD</button>
+  </div>
+</div>
+`;
+  }
 
-      <!-- Ghost titles -->
-      <div class="style">
-        <div class="preview ghost-titles ${image ? 'image-bgc' : ''}" style="${image
-      ? `background-image: url('${image}'); background-size: cover; background-position: center;`
-      : ''
-    }">
-
-          <h3>${hashHtmlSymbols(slideData.title)}</h3>
-          <p class='description'>${renderPresentationDescription(hashHtmlSymbols(slideData.description), 'preview')}</p>
-
-          ${slideData.notes?.length ? `<div class="notes">${slideData.notes.map(obj => `<div class='note'><h4>${obj.key}</h4><p>${obj.value}</p></div>`).join('')}</div>` : ''}
-
-          <h3 class="ghost">${hashHtmlSymbols(slideData.title)}</h3>
-        </div>
-
-        <div class="style-option">
-          <span>Ghost Titles</span>
-          <button data-style="ghost-titles" type="button" class="download-btn">DOWNLOAD</button>
-        </div>
-      </div>
-
-      <!-- Gradient divider -->
-      <div class="style">
-        <div class="preview gradient-divider ${image ? 'image-bgc' : ''}" style="${image
-      ? `background-image: url('${image}'); background-size: 100% 75%; background-position: center 100%;`
-      : ''
-    }">
-
-          <h3>${hashHtmlSymbols(slideData.title)}</h3>
-          <div class="split"></div>
-          <p class='description'>${renderPresentationDescription(hashHtmlSymbols(slideData.description), 'preview')}</p>
-
-          ${slideData.notes?.length ? `<div class="notes">${slideData.notes.map(obj => `<div class='note'><h4>${obj.key}</h4><p>${obj.value}</p></div>`).join('')}</div>` : ''}
-        </div>
-
-        <div class="style-option">
-          <span>Gradient Divider</span>
-          <button data-style="gradient-divider" type="button" class="download-btn">DOWNLOAD</button>
-        </div>
-      </div>
-
-      <!-- Vertical title -->
-      <div class="style">
-        <div class="preview vertical-title ${image ? 'image-bgc' : ''}" style="${image
-      ? `background-image: url('${image}'); background-size: 65% 100%; background-position: right center;`
-      : ''
-    }">
-
-          <h3>${hashHtmlSymbols(slideData.title)}</h3>
-          <p class='description'>${renderPresentationDescription(hashHtmlSymbols(slideData.description), 'preview')}</p>
-
-          ${slideData.notes?.length ? `<div class="notes">${slideData.notes.map(obj => `<div class='note'><h4>${obj.key}</h4><p>${obj.value}</p></div>`).join('')}</div>` : ''}
-        </div>
-
-        <div class="style-option">
-          <span>Vertical Title</span>
-          <button data-style="vertical-title" type="button" class="download-btn">DOWNLOAD</button>
-        </div>
-      </div>
-    </div>
-  `;
+  return `<div class="styles-list">${resultHTML}</div>`;
 }
 
 async function presentationGeneratorDownloadStyles(style) {
@@ -287,7 +221,6 @@ async function presentationGeneratorDownloadStyles(style) {
 
     const calculateTextHeightFn = (text, data) => {
       const { h } = textHeightCalculatorLib(text, data);
-
       return h;
     }
 
@@ -375,8 +308,8 @@ async function presentationGeneratorDownloadStyles(style) {
     for (const slideData of data) {
       const slide = pptx.addSlide();
 
-      const title = slideData.title;
-      const description = slideData.description;
+      const title = slideData.title.trim();
+      const description = slideData.description.trim();
 
       const titleSize = Math.max(
         20,
@@ -393,8 +326,6 @@ async function presentationGeneratorDownloadStyles(style) {
       const notes = Array.isArray(slideData.notes)
         ? slideData.notes.slice(0, 3)
         : [];
-
-      const hasNotes = notes?.length > 0;
 
       // === Image ===
       const imageUrl = slideData.image_url;
@@ -436,7 +367,6 @@ async function presentationGeneratorDownloadStyles(style) {
             fontSize: descriptionSize,
             color: descriptionColor,
             valign: 'top',
-            breakLine: false,
             fit: 'shrink',
             margin: 1.5,
             fill: imageUrl ? {
@@ -450,10 +380,10 @@ async function presentationGeneratorDownloadStyles(style) {
         slide.addText(title, { ...parameters.title, h: calculateTextHeightFn(title, parameters.title) });
 
         // Description
-        slide.addText(renderPresentationDescription(description, 'slide'), { ...parameters.description, h: calculateTextHeightFn(description, parameters.description) + 0.4 });
+        slide.addText(renderPresentationDescription(description, 'slide'), { ...parameters.description, h: calculateTextHeightFn(description, parameters.description) });
 
         // Notes
-        if (hasNotes) addNotes(slide, notes, {
+        if (notes?.length) addNotes(slide, notes, {
           x: 1,
           y: notesY,
           w: 11.4,
@@ -538,10 +468,10 @@ async function presentationGeneratorDownloadStyles(style) {
         slide.addText(title, { ...parameters.title, h: calculateTextHeightFn(title, parameters.title) });
 
         // Description
-        slide.addText(renderPresentationDescription(description, 'slide'), { ...parameters.description, h: calculateTextHeightFn(description, parameters.description) + 0.4 });
+        slide.addText(renderPresentationDescription(description, 'slide'), { ...parameters.description, h: calculateTextHeightFn(description, parameters.description) });
 
         // Notes
-        if (hasNotes) addNotes(slide, notes, {
+        if (notes?.length) addNotes(slide, notes, {
           x: 1.1,
           y: 5.4,
           w: 11.1,
@@ -610,10 +540,10 @@ async function presentationGeneratorDownloadStyles(style) {
         slide.addText(title, { ...parameters.title, h: calculateTextHeightFn(title, parameters.title) });
 
         // Description
-        slide.addText(renderPresentationDescription(description, 'slide'), { ...parameters.description, h: calculateTextHeightFn(description, parameters.description) + 0.4 });
+        slide.addText(renderPresentationDescription(description, 'slide'), { ...parameters.description, h: calculateTextHeightFn(description, parameters.description) });
 
         // Notes
-        if (hasNotes) addNotes(slide, notes, {
+        if (notes?.length) addNotes(slide, notes, {
           x: 1.05,
           y: 5.3,
           w: 11.2,
@@ -724,9 +654,9 @@ async function presentationGeneratorDownloadStyles(style) {
         slide.addText(title, { ...parameters.title, h: calculateTextHeightFn(title, parameters.title) });
 
         // Description
-        slide.addText(renderPresentationDescription(description, 'slide'), { ...parameters.description, h: calculateTextHeightFn(description, parameters.description) + 0.4 });
+        slide.addText(renderPresentationDescription(description, 'slide'), { ...parameters.description, h: calculateTextHeightFn(description, parameters.description) });
 
-        if (hasNotes) addNotes(slide, notes, {
+        if (notes?.length) addNotes(slide, notes, {
           x: 1,
           y: 5.4,
           w: 11.4,
@@ -777,7 +707,6 @@ async function presentationGeneratorDownloadStyles(style) {
             align: 'center',
             valign: 'mid',
             margin: 0.1,
-            breakLine: false,
             fit: 'shrink',
             margin: 1.5,
             fill: imageUrl ? {
@@ -804,9 +733,9 @@ async function presentationGeneratorDownloadStyles(style) {
         });
 
         // Description
-        slide.addText(renderPresentationDescription(description, 'slide'), { ...parameters.description, h: calculateTextHeightFn(description, parameters.description) + 0.4 });
+        slide.addText(renderPresentationDescription(description, 'slide'), { ...parameters.description, h: calculateTextHeightFn(description, parameters.description) });
 
-        if (hasNotes) addNotes(slide, notes, {
+        if (notes?.length) addNotes(slide, notes, {
           x: 5,
           y: 5.2,
           w: 7.5,
