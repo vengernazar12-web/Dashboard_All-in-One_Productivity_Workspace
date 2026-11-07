@@ -33,6 +33,15 @@
   color: #475569;
 }
 
+.presentation-generator-wrap .styles-list .preview.default table {
+  top: 70%;
+  left: 7.5%;
+  width: 85%;
+  height: 22%;
+  color: #334155;
+  line-height: normal !important;
+}
+
 .presentation-generator-wrap .styles-list .preview.default.image-bgc > * {
   background-color: rgba(255, 255, 255, 0.7);
   padding: 2px;

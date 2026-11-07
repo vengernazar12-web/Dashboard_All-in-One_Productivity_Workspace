@@ -61,6 +61,14 @@
   color: #d9e9ff;
 }
 
+.presentation-generator-wrap .styles-list .preview.minimal-corners table {
+  left: 8%;
+  top: 62%;
+  width: 84%;
+  height: 22%;
+  color: #d9e9ff;
+}
+
 .presentation-generator-wrap .styles-list .preview.minimal-corners.image-bgc > * {
   background-color: rgba(0,0,0,.7);
   padding: 2px;

@@ -56,7 +56,6 @@ Manage and store various data structures:
 ### GAMES
 - **Language learning**: learning with AI
 - **Math game**
-- **Debate**: with AI
 - **Guessing**: with AI
 
 ## ⚡ Runner

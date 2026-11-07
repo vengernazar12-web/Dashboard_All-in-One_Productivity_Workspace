@@ -32,7 +32,7 @@ const presentationGeneratorLoader = presentationGeneratorWrap.querySelector('spa
 // Topic & context & slides number & result elements
 const presentationGeneratorTopicInput = presentationGeneratorWrap.querySelector('input.topic');
 const presentationGeneratorContextTextarea = presentationGeneratorWrap.querySelector('textarea');
-const presentationGeneratorSlidesNumberInput = presentationGeneratorWrap.querySelector('input.slides-number');
+const presentationGeneratorSlidesNumberSelect = presentationGeneratorWrap.querySelector('select.slides-number');
 
 const presentationGeneratorStylesSelectCont = presentationGeneratorWrap.querySelector('div.styles-select');
 presentationGeneratorStylesSelectCont.addEventListener('click', e => {
@@ -49,7 +49,7 @@ const presentationGeneratorSendBtn = presentationGeneratorWrap.querySelector('bu
 presentationGeneratorSendBtn.addEventListener('click', async () => {
   const topic = presentationGeneratorTopicInput.value.trim();
   const context = presentationGeneratorContextTextarea.value.trim();
-  const slidesNumber = +presentationGeneratorSlidesNumberInput.value;
+  const slidesNumber = +presentationGeneratorSlidesNumberSelect.value;
 
   if(!topic) {
     presentationGeneratorTopicInput.focus();
@@ -61,8 +61,7 @@ presentationGeneratorSendBtn.addEventListener('click', async () => {
     presentationGeneratorContextTextarea.focus();
     return showResponseFn('Your context is too long (>500)');
   } else if(slidesNumber < 2 || slidesNumber > 15) {
-    presentationGeneratorSlidesNumberInput.value = slidesNumber < 2 ? '2' : '15';
-    presentationGeneratorSlidesNumberInput.focus();
+    presentationGeneratorSlidesNumberSelect.focus();
     return showResponseFn('Number of slides must be > 1 and < 16');
   }
 
@@ -186,6 +185,19 @@ function createHTMLForSlide(slideData) {
 
     ${slideData.notes?.length ? `<div class="notes">${slideData.notes.map(obj => `<div class='note'><h4>${obj.key}</h4><p>${obj.value}</p></div>`).join('')}</div>` : ''}
 
+    ${slideData.table?.length ? `
+  <table>
+    ${slideData.table.map((row, i) => `
+      <tr>
+        ${row.map(cell => i === 0
+          ? `<th>${cell}</th>`
+          : `<td>${cell}</td>`
+        ).join('')}
+      </tr>
+    `).join('')}
+  </table>
+` : ''}
+
     ${style === 'ghost-titles' ? `<h3 class='ghost'>${hashHtmlSymbols(slideData.title)}</h3>` : ''}
   </div>
 
@@ -228,7 +240,7 @@ async function presentationGeneratorDownloadStyles(style) {
     const notesY = 6;
     const notesH = 1.3;
 
-    const addNotes = (slide, notes, {
+    const addNotesOrTable = (slide, obj, {
       x, y, w, h,
       color = 'f4f4f4',
       borderColor = '000000',
@@ -236,7 +248,59 @@ async function presentationGeneratorDownloadStyles(style) {
       valueFontSize = 11,
       fill
     } = {}) => {
-      if (!notes?.length) return;
+      if (!obj?.data?.length) return;
+
+      // TABLE
+      if (obj.type === 'table') {
+        const rows = obj.data;
+
+        // Basic validation
+        if (
+          !Array.isArray(rows) ||
+          rows.length > 4 ||
+          rows.some(row =>
+            !Array.isArray(row) ||
+            row.length > 5 ||
+            row.some(cell => typeof cell !== 'string')
+          )
+        ) return;
+
+        const tableRows = rows.map((row, rowIndex) =>
+          row.map(cell => ({
+            text: cell,
+            options: rowIndex === 0
+              ? {
+                bold: true,
+                color: 'FFFFFF',
+                fill: {color: '444444'},
+                align: 'left',
+                valign: 'middle'
+              }
+              : {
+                color,
+                fill,
+                align: 'left',
+                valign: 'middle'
+              }
+          }))
+        );
+
+        slide.addTable(tableRows, {
+          x, y, w, h,
+          fontFace: 'Arial',
+          fontSize: valueFontSize,
+          valign: 'middle',
+          rowH: h / rows.length,
+        });
+
+        return;
+      }
+
+      // NOTES (original implementation)
+      if (obj.type !== 'notes') return;
+
+      const notes = obj.data;
+      if (!Array.isArray(notes) || !notes.length) return;
 
       const gap = 0.16;
       const count = notes.length;
@@ -248,7 +312,7 @@ async function presentationGeneratorDownloadStyles(style) {
           x, y, w, h,
           fill,
           margin: 4.5,
-          line: { color: borderColor, }
+          line: { color: borderColor }
         });
       }
 
@@ -323,9 +387,8 @@ async function presentationGeneratorDownloadStyles(style) {
       const descriptionColor = '334155';
 
       // Notes constants
-      const notes = Array.isArray(slideData.notes)
-        ? slideData.notes.slice(0, 3)
-        : [];
+      const notes = slideData.notes;
+      const table = slideData.table;
 
       // === Image ===
       const imageUrl = slideData.image_url;
@@ -352,7 +415,7 @@ async function presentationGeneratorDownloadStyles(style) {
             fontSize: titleSize,
             bold: true,
             color: titleColor,
-            valign: 'mid',
+            valign: 'middle',
             fit: 'shrink',
             margin: 1.5,
             fill: imageUrl ? {
@@ -383,7 +446,7 @@ async function presentationGeneratorDownloadStyles(style) {
         slide.addText(renderPresentationDescription(description, 'slide'), { ...parameters.description, h: calculateTextHeightFn(description, parameters.description) });
 
         // Notes
-        if (notes?.length) addNotes(slide, notes, {
+        if (notes?.length || table?.length) addNotesOrTable(slide, {type: notes?.length ? 'notes' : 'table', data: notes?.length ? notes : table}, {
           x: 1,
           y: notesY,
           w: 11.4,
@@ -440,7 +503,7 @@ async function presentationGeneratorDownloadStyles(style) {
             fontSize: Math.min(titleSize, 30),
             bold: true,
             color: 'f4f4f4',
-            valign: 'mid',
+            valign: 'middle',
             fit: 'shrink',
             margin: 1.5,
             fill: imageUrl ? {
@@ -450,11 +513,11 @@ async function presentationGeneratorDownloadStyles(style) {
           }, description: {
             x: 1.1,
             y: 1.9,
-            w: 11.1,
+            w: 11,
             fontFace: 'Arial',
             fontSize: descriptionSize,
             color: 'd9e9ff',
-            valign: 'mid',
+            valign: 'middle',
             fit: 'shrink',
             margin: 1.5,
             fill: imageUrl ? {
@@ -471,7 +534,7 @@ async function presentationGeneratorDownloadStyles(style) {
         slide.addText(renderPresentationDescription(description, 'slide'), { ...parameters.description, h: calculateTextHeightFn(description, parameters.description) });
 
         // Notes
-        if (notes?.length) addNotes(slide, notes, {
+        if (notes?.length || table?.length) addNotesOrTable(slide, {type: notes?.length ? 'notes' : 'table', data: notes?.length ? notes : table}, {
           x: 1.1,
           y: 5.4,
           w: 11.1,
@@ -512,7 +575,7 @@ async function presentationGeneratorDownloadStyles(style) {
             fontSize: Math.min(titleSize, 40),
             bold: true,
             color: 'F8FAFC',
-            valign: 'mid',
+            valign: 'middle',
             fit: 'shrink',
             margin: 1.5,
             fill: imageUrl ? {
@@ -526,7 +589,7 @@ async function presentationGeneratorDownloadStyles(style) {
             fontFace: 'Arial',
             fontSize: descriptionSize,
             color: 'E2E8F0',
-            valign: 'mid',
+            valign: 'middle',
             fit: 'shrink',
             margin: 1.5,
             fill: imageUrl ? {
@@ -543,7 +606,7 @@ async function presentationGeneratorDownloadStyles(style) {
         slide.addText(renderPresentationDescription(description, 'slide'), { ...parameters.description, h: calculateTextHeightFn(description, parameters.description) });
 
         // Notes
-        if (notes?.length) addNotes(slide, notes, {
+        if (notes?.length || table?.length) addNotesOrTable(slide, {type: notes?.length ? 'notes' : 'table', data: notes?.length ? notes : table}, {
           x: 1.05,
           y: 5.3,
           w: 11.2,
@@ -569,7 +632,7 @@ async function presentationGeneratorDownloadStyles(style) {
           fontSize: ghostFontSize,
           bold: true, color: 'FFFFFF',
           transparency: 60,
-          valign: 'mid',
+          valign: 'middle',
           fit: 'shrink',
           margin: 1.5,
           fill: imageUrl ? {
@@ -622,7 +685,7 @@ async function presentationGeneratorDownloadStyles(style) {
             fontSize: Math.min(titleSize, 40),
             bold: true,
             color: 'F8FAFC',
-            valign: 'mid',
+            valign: 'middle',
             fit: 'shrink',
           }, description: {
             x: 1,
@@ -656,7 +719,7 @@ async function presentationGeneratorDownloadStyles(style) {
         // Description
         slide.addText(renderPresentationDescription(description, 'slide'), { ...parameters.description, h: calculateTextHeightFn(description, parameters.description) });
 
-        if (notes?.length) addNotes(slide, notes, {
+        if (notes?.length || table?.length) addNotesOrTable(slide, {type: notes?.length ? 'notes' : 'table', data: notes?.length ? notes : table}, {
           x: 1,
           y: 5.4,
           w: 11.4,
@@ -705,7 +768,7 @@ async function presentationGeneratorDownloadStyles(style) {
             fontSize: descriptionSize,
             color: '15263e',
             align: 'center',
-            valign: 'mid',
+            valign: 'middle',
             margin: 0.1,
             fit: 'shrink',
             margin: 1.5,
@@ -727,7 +790,7 @@ async function presentationGeneratorDownloadStyles(style) {
           bold: true,
           color: 'FFFFFF',
           align: 'center',
-          valign: 'mid',
+          valign: 'middle',
           vert: 'vert270',
           fit: 'shrink',
         });
@@ -735,7 +798,7 @@ async function presentationGeneratorDownloadStyles(style) {
         // Description
         slide.addText(renderPresentationDescription(description, 'slide'), { ...parameters.description, h: calculateTextHeightFn(description, parameters.description) });
 
-        if (notes?.length) addNotes(slide, notes, {
+        if (notes?.length || table?.length) addNotesOrTable(slide, {type: notes?.length ? 'notes' : 'table', data: notes?.length ? notes : table}, {
           x: 5,
           y: 5.2,
           w: 7.5,

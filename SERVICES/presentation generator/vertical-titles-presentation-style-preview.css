@@ -50,6 +50,14 @@
   color: #15263e;
 }
 
+.presentation-generator-wrap .styles-list .preview.vertical-title table {
+  left: 39%;
+  top: 69%;
+  width: 56%;
+  height: 22%;
+  color: #15263e;
+}
+
 .presentation-generator-wrap .styles-list .preview.vertical-title > :not(h3) {
   background-color: rgba(255,255,255,.7);
   padding: 2px;

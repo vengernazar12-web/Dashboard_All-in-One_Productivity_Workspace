@@ -57,6 +57,14 @@
   color: #E0E7FF;
 }
 
+.presentation-generator-wrap .styles-list .preview.gradient-divider table {
+  left: 7.5%;
+  top: 71%;
+  width: 85%;
+  height: 22%;
+  color: #F1F5F9;
+}
+
 .presentation-generator-wrap .preview.image-bgc.gradient-divider > :not(h3):not(.split) {
   background-color: rgba(0, 0, 0, .7);
   padding: 2px;

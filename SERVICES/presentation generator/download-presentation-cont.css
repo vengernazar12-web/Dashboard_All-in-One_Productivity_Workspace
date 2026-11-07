@@ -70,14 +70,13 @@
   font-size: 1.6cqw;
 }
 
-/* ==================== Notes cont ==================== */
+/* ==================== Notes cont & table ==================== */
 .presentation-generator-wrap .styles-list .preview div.notes {
   position: absolute;
   display: flex;
   flex-direction: row;
   gap: 3.75cqw;
   overflow: hidden;
-  border: 1px solid var(--notes-border);
   font-style: italic;
 }
 
@@ -102,9 +101,26 @@
   line-height: 1.2;
 }
 
-.presentation-generator-wrap .styles-list .preview div.notes p {
-  font-size: 1.3cqw;
+.presentation-generator-wrap .styles-list .preview table {
+  position: absolute; padding: 0 !important;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.presentation-generator-wrap .styles-list .preview div.notes p,
+.presentation-generator-wrap .styles-list .preview table td,
+.presentation-generator-wrap .styles-list .preview table th {
+  font-size: 1.1cqw;
   line-height: 1.25;
+}
+
+.presentation-generator-wrap .styles-list .preview table td,
+.presentation-generator-wrap .styles-list .preview table th { padding: 2px; }
+
+.presentation-generator-wrap .styles-list .preview table th {
+  background-color: #444444;
+  color: #FFFFFF;
+  font-weight: bold;
 }
 
 /* Download button */
