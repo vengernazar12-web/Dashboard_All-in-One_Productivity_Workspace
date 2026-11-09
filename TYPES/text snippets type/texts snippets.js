@@ -155,6 +155,7 @@ allTextsSnippetsContainer.addEventListener('click', e => {
 // Add text snippet
 const addTextSnippetForm = textsSnippetsWrap.querySelector('.add-text-snippet-form');
 const textSnippetContentLimitTxt = addTextSnippetForm.querySelector('.content-limit-txt');
+
 // Toggle text snippet btn
 const toggleAddTextSnippetForm = textsSnippetsWrap.querySelector('.toggle-add-text-snippet-btn');
 toggleAddTextSnippetForm.addEventListener('click', () => {
@@ -166,7 +167,12 @@ toggleAddTextSnippetForm.addEventListener('click', () => {
 });
 
 const addTextSnippetNameInput = addTextSnippetForm.querySelector('.add-text-snippet-name-input');
-addTextSnippetNameInput.addEventListener('input', () => addTextSnippetNameInput.style.color = addTextSnippetNameInput.value.trim().length > allValuesLimit.textName ? 'red' : 'var(--text-color)');
+addTextSnippetNameInput.addEventListener('input', () => {
+  addTextSnippetNameInput.style.color = addTextSnippetNameInput.value.trim().length > allValuesLimit.textName ? 'red' : 'var(--text-color)';
+  renderShowFieldsBlock(Object.keys(allTextsSnippetsObj), addTextSnippetNameInput.value.trim(), addTextSnippetNameInput, true);
+});
+
+addTextSnippetNameInput.addEventListener('focus', () => lastFocusedInput = addTextSnippetNameInput);
 
 const addTextSnippetContentTextarea = addTextSnippetForm.querySelector('.add-text-snippet-content-textarea');
 addTextSnippetContentTextarea.addEventListener('input', () => {
@@ -187,14 +193,17 @@ addTextSnippetBtn.addEventListener('click', () => {
   }
 
   const name = addTextSnippetNameInput.value.trim();
-  if(!name) return addTextSnippetForm.classList.remove('show');
+  if(!name) return showResponseFn('Please enter a name');
+
   if(name.length > allValuesLimit.textName) {
     addTextSnippetForm.classList.remove('show');
     return showResponseFn(`Name: length ${name.length}/${allValuesLimit.textName}`);
   }
   if(Object.keys(allTextsSnippetsObj).find(n => n == name)) return showResponseFn('You already used this name');
   const content = addTextSnippetContentTextarea.value.trim();
-  if(!content) return addTextSnippetForm.classList.remove('show');
+
+  if(!content) return showResponseFn('Please enter a text (content)');
+
   if(content.length > allValuesLimit.textContent) {
     addTextSnippetForm.classList.remove('show');
     return showResponseFn(`Text: length ${content.length}/${allValuesLimit.textContent}`);

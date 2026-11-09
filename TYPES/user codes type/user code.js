@@ -175,6 +175,8 @@ const addCodeBlockForm = userCodeWrap.querySelector('.add-new-block-code-form');
 const codeBlockName = addCodeBlockForm.querySelector('.code-block-name-input');
 codeBlockName.addEventListener('input', () => renderShowFieldsBlock(Object.keys(allUserCodesObj), codeBlockName.value.trim(), codeBlockName, true));
 
+codeBlockName.addEventListener('focus', () => lastFocusedInput = codeBlockName);
+
 const codeBlockLang = addCodeBlockForm.querySelector('.user-code-lang');
 
 // Add code block
@@ -187,10 +189,13 @@ toggleAddCodeBlockForm.addEventListener('click', () => {
 const addCodeBlockBtn = addCodeBlockForm.querySelector('.add-code-block-btn');
 addCodeBlockBtn.addEventListener('click', () => {
   if(Object.keys(allUserCodesObj).length >= allBlockLimitsObj.codes) return showResponseFn('You have code blocks limit');
+
   const name = codeBlockName.value.trim();
-  if(!name.length) { addCodeBlockForm.classList.remove('show'); return showResponseFn("You don't have a block name")};
+  if(!name.length) return showResponseFn("You don't have a block name");
+
   if(allUserCodesObj[name]) return showResponseFn('You used this name');
   if(name.length > allValuesLimit.codeName) return showResponseFn('The name is too long!');
+
   const lang = codeBlockLang.value;
   if(!lang) return showResponseFn('Please set your code language');
 

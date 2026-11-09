@@ -77,7 +77,6 @@
   background: linear-gradient(90deg, rgba(0, 20, 30, 0.9), rgba(0, 180, 200, 0.6), rgba(0, 20, 30, 0.9));
   color: #e6fcff;
   box-shadow: 2px 2px 5px rgba(0, 180, 200, 0.5);
-  border: 1px solid var(--border-color);
   margin: 15px auto;
   overflow: hidden;
   border-radius: 8px;

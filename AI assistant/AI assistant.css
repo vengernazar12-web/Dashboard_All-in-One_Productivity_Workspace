@@ -1,10 +1,6 @@
 /* Open assistant wrap */
 .open-assistant-wrap {
-  background: linear-gradient(
-    90deg,
-    rgb(20, 50, 100),
-    rgb(20, 80, 40)
-  );
+  background: linear-gradient( 90deg,  rgb(20, 50, 100),  rgb(20, 80, 40) );
   color: white;
   padding: 5px 3px;
 }
@@ -125,10 +121,10 @@
   width: 100%;
   display: flex;
   justify-content: right;
-  padding: 3px 0;
+  padding-block: 3px;
 }
 .user-text > pre {
-  max-width: 60%;
+  max-width: 65%;
   border-bottom: 1px solid var(--border-color);
   border-left: 1px solid var(--border-color);
   padding: 3px 7px;

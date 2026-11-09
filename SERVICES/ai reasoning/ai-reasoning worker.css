@@ -34,7 +34,7 @@
   overflow-y: auto;
   background-color: var(--block-bg);
   color: var(--text-color);
-  border: 1px dotted green;
+  border: 1px dashed green;
   border-radius: 10px;
   padding: 5px;
   white-space: pre-wrap;

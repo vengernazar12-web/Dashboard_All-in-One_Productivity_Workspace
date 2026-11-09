@@ -130,6 +130,7 @@ function renderMusic() {
 
 // Add music block
 const addMusicForm = musicWrap.querySelector('.add-music-form');
+
 // Toggle
 const toggleAddMusicFormBtn = musicWrap.querySelector('.toggle-add-music-form');
 toggleAddMusicFormBtn.addEventListener('click', () => {
@@ -138,21 +139,25 @@ toggleAddMusicFormBtn.addEventListener('click', () => {
 })
 
 const addMusicNameInput = addMusicForm.querySelector('.name');
+addMusicNameInput.addEventListener('input', () => renderShowFieldsBlock(Object.keys(allMusicObj), addMusicNameInput.value.trim(), addMusicNameInput, true));
+addMusicNameInput.addEventListener('focus', () => lastFocusedInput = addMusicNameInput);
+
 const addMusicUrlInput = addMusicForm.querySelector('.music-url');
 
 const addMusicBtn = addMusicForm.querySelector('.add-music-btn');
 addMusicBtn.addEventListener('click', () => {
-  addMusicForm.classList.remove('show');
   const allNames = Object.keys(allMusicObj);
   if(allNames.length >= allBlockLimitsObj.music) return showResponseFn(`You have ${allNames.length}/${allBlockLimitsObj.music} music blocks`);
 
   const name = addMusicNameInput.value.trim();
   if(!name) return showResponseFn("You don't have name");
+
   if(allNames.find(n => n === name)) return showResponseFn('You already used this name');
   if(name.length > allValuesLimit.musicName) return showResponseFn(`Name is too long (${name.length}/${allValuesLimit.musicName})`);
 
   let musicUrl = addMusicUrlInput.value.trim();
   if(!musicUrl) return showResponseFn("You don't have name");
+
   if(!musicUrl.startsWith('http')) musicUrl = `https://${musicUrl}`;
   if(allNames.find(n => allMusicObj[n].musicUrl === musicUrl)) return showResponseFn('You already have this music url');
 
@@ -160,6 +165,10 @@ addMusicBtn.addEventListener('click', () => {
   allMusicObj[name] = { musicUrl };
   renderMusic();
 
+  addMusicNameInput.value = '';
+  addMusicUrlInput.value = '';
+
+  addMusicForm.classList.remove('show');
   musicSaveBtn.classList.add('unsaved');
 })
 

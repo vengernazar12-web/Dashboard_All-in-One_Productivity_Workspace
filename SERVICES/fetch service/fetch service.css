@@ -100,7 +100,7 @@ html .fetch-service-wrap {
 /* Result */
 .fetch-service-wrap > .result {
   padding: 7px;
-  border: 1px solid green;
+  border: 1px dashed green;
   background-color: var(--block-bg);
   border-radius: 10px;
   white-space: pre-wrap;

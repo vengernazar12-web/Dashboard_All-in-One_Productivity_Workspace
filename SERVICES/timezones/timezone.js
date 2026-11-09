@@ -52,6 +52,8 @@ openTimezoneWrapBtn.addEventListener('click', async () => {
   timezoneWrap.classList.add('show');
 })
 
+const timezonesLoader = timezoneWrap.querySelector('span.loader');
+
 // Timezones arr
 let timezonesArr = [];
 let initUsedTimezonesArr = [];
@@ -68,6 +70,8 @@ function showTimeZoneInfo(timeZone) {
 
   clearTimeout(timeZoneInfoTimer);
   timeZoneInfoTimer = setTimeout(async () => {
+    timezonesLoader.style.display = 'block';
+
     try {
       const resp = await fetch(WORKER_TIMEZONE_API, {
         method: 'POST',
@@ -87,10 +91,12 @@ DST: ${!!(+data.dst)}
 `.trim();
 
       showZoneTimeBlock.classList.add('open');
-      timeZoneInfoTimer = null;
     } catch(e) {
       console.error(e);
       showResponseFn('Sorry, something went wrong...');
+    } finally {
+      timezonesLoader.style.display = 'none';
+      timeZoneInfoTimer = null;
     }
   });
 }

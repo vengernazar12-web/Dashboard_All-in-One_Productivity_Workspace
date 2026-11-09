@@ -361,8 +361,9 @@ todoWrap.addEventListener('click', e => {
 
   if(e.target.classList.contains('add-todo')) { // Add todo btn
     if(Object.keys(allTodosObj).length >= allBlockLimitsObj.todos) return showResponseFn('Your have todos limit');
+
     const val = todoNameInput.value.trim();
-    if(!val) return;
+    if(!val) return showResponseFn('Please enter a name');
     if(allTodosObj[val]) return showResponseFn(`Todo name "${val}" is already used`);
     if(val.length > 25) return showResponseFn('Todo name is too long');
 
@@ -370,10 +371,7 @@ todoWrap.addEventListener('click', e => {
     if(mark.length > 12) return showResponseFn('Todo mark is too long');
 
     const tag = todoTagInput.value.trim().toLowerCase();
-    if(!tag) {
-      todoTagInput.focus();
-      return showResponseFn("Please set todo tag");
-    }
+    if(!tag) return showResponseFn("Please set todo tag");
     if(tag.length > 25) return showResponseFn('Todo tag is too long');
 
     todoMarkInput.value = '';

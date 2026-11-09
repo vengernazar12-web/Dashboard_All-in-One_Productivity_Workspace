@@ -13,9 +13,7 @@
   contain: content;
 }
 
-.search-url {
-  width: 90%;
-}
+.search-url { width: 90%; }
 
 .url-block {
   width: 100%;
@@ -25,7 +23,6 @@
   box-shadow: 2px 2px 5px rgba(255, 180, 50, 0.5);
   border-radius: 7px;
   position: relative;
-  border: 1px solid black;
 }
 
 .url-block > .urlAndName-block {
@@ -58,10 +55,9 @@
   height: 100%;
   max-width: 40%;
   display: block;
-  border-radius: 7px 2px 2px 7px;
+  border-radius: 7px 0 0 7px;
   object-fit: contain;
   background-color: silver;
-  border-right: 1px solid black;
 }
 
 .del-url-btn {

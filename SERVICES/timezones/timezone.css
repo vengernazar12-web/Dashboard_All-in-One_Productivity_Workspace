@@ -55,3 +55,5 @@
 .time-zone-info-block.open { transform: translateX(0); }
 .time-zone-info-block > pre { text-wrap: wrap; }
 .time-zone-info-block > hr { margin: 15px 0; }
+
+.timezone-wrap > .loader { display: none; }

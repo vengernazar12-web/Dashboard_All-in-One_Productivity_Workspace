@@ -123,9 +123,9 @@ const addUrlForm = urlsWrap.querySelector('.add-url-form');
 const nameUrlInput = addUrlForm.querySelector('.add-url-name-input');
 nameUrlInput.addEventListener('input', () => renderShowFieldsBlock(Object.keys(allUrlsObj), nameUrlInput.value.trim(), nameUrlInput, true));
 
-const openedUrlInput = addUrlForm.querySelector('.add-opened-url-input');
-openedUrlInput.addEventListener('input', () => renderShowFieldsBlock(Object.keys(allUrlsObj).map(n => allUrlsObj[n].url), openedUrlInput.value.trim(), openedUrlInput));
+nameUrlInput.addEventListener("focus", () => lastFocusedInput = nameUrlInput);
 
+const openedUrlInput = addUrlForm.querySelector('.add-opened-url-input');
 const imageUrlInput = addUrlForm.querySelector('.add-url-img-input');
 
 // Toggle add url form btn
@@ -140,11 +140,10 @@ addUrlBtn.addEventListener('click', async () => {
   if(Object.keys(allUrlsObj).length >= allBlockLimitsObj.urls) return showResponseFn(`You have max urls ${allBlockLimitsObj.urls}/${allBlockLimitsObj.urls}`);
 
   const name = nameUrlInput.value.trim();
+
   if(Object.keys(allUrlsObj).find(n => n === name)) return showResponseFn('You already have a URL with this name');
-  if(!name) {
-    addUrlForm.classList.remove('show');
-    return showResponseFn('Please enter a URL name');
-  }
+
+  if(!name) return showResponseFn('Please enter a URL name');
   if(name.length > allValuesLimit.urlTitle) return showResponseFn(`URL name must be ${allValuesLimit.urlTitle} characters or less`);
 
   const url = openedUrlInput.value.trim();

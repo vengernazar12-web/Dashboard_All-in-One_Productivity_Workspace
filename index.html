@@ -491,6 +491,8 @@
     <hr>
     <pre></pre>
   </div>
+
+  <span class="loader"></span>
 </div>
 
 <!-- Github user search wrap -->
@@ -498,7 +500,7 @@
   <input type="text" class="search-github-user-input" placeholder="Search github user...">
   <button class="search-github-user-btn">Search</button>
 
-  <div class="found-user-info-container"></div>
+  <div class="found-user-info-container">Result...</div>
 
   <div class="show-user-infos"></div>
 
@@ -700,7 +702,7 @@
   <input type="number" class="search-limit" placeholder="Results limit... (default 10)" min="1" max="100">
   <button class="search-btn">OK</button>
 
-  <div class="search-results"></div>
+  <div class="search-results">Result...</div>
   <div class="origin-wikipedia-html"></div>
 
   <span class="loader"></span>
@@ -710,7 +712,7 @@
 <div class="ip-search-wrap is-wrap">
   <input type="text" placeholder="IP..." value="my_ip">
   <button>SEARCH</button>
-  <div></div>
+  <div>Result...</div>
   <span class="loader"></span>
 </div>
 
@@ -719,7 +721,7 @@
   <textarea placeholder="Write your JSON5 / JSON object / array..."></textarea>
   <button>WORK JSON</button>
   <input type="text" placeholder="Search JSON tree...">
-  <div></div>
+  <div>Result...</div>
   <span class="loader"></span>
 </div>
 
@@ -728,7 +730,7 @@
   <textarea placeholder="Your task..."></textarea>
   <button class="send">SEND TASK</button>
   <button class="history">History</button>
-  <div class="ai-resp is-ai-text"></div>
+  <div class="ai-resp is-ai-text">Result...</div>
   <div class="history is-ai-text"></div>
   <span class="loader"></span>
 </div>
@@ -738,7 +740,7 @@
   <textarea placeholder="Which template do you need?"></textarea>
   <button class="send">SEND FOR TEMPLATE</button>
   <button class="copy"><svg><use href="#copy-code"></use></svg></button>
-  <div></div>
+  <div>Result...</div>
   <span class="loader"></span>
 </div>
 
@@ -772,7 +774,7 @@
     <button class="abort">ABORT</button>
     <button class="fetch">FETCH</button>
   </div>
-  <div class="result"></div>
+  <div class="result">Result...</div>
 
   <span class="loader"></span>
 </div>
@@ -825,7 +827,7 @@
   <input list="search-values" type="text" class="search" placeholder="Search">
   <datalist id="search-values"></datalist>
   <button class="send">OK</button>
-  <div class="result"></div>
+  <div class="result">Result...</div>
 
   <div class="show-info-popup"></div>
   <span class="loader"></span>
@@ -839,7 +841,7 @@
     <select class="from-item"></select>
     <select class="to"></select>
   </div>
-  <p class="result"></p>
+  <p class="result">Result...</p>
 
   <svg><use href="#convert-units"></use></svg>
 </div>
@@ -859,7 +861,7 @@
   <div contenteditable="true" class="text text1"></div>
   <div contenteditable="true" class="text text2"></div>
   <button>Compare</button>
-  <div class="result"></div>
+  <div class="result">Result...</div>
 </div>
 
 <!-- CSV render wrap -->
@@ -898,7 +900,7 @@
 
   <button class="render">Render and view</button>
   <button class="copy"><svg><use href="#copy-code"></use></svg></button>
-  <div></div>
+  <div>Result...</div>
 </div>
 
 <!-- Image compressor wrap -->
@@ -913,7 +915,7 @@
 
   <button>Compress</button>
 
-  <div class="result"></div>
+  <div class="result">Result...</div>
 
   <pre class="info"></pre>
 
@@ -924,7 +926,7 @@
 <div class="token-counter-wrap is-wrap">
   <textarea placeholder="Text..."></textarea>
   <select></select>
-  <div></div>
+  <div>Result...</div>
   <span class="loader"></span>
 </div>
 
@@ -932,13 +934,13 @@
 <div class="color-worker-wrap is-wrap">
   <input type="color" value="blue">
   <input type="range" value='1' min="0" max="1" step="0.01">
-  <div></div>
+  <div>Result...</div>
 </div>
 
 <!-- Files info wrap -->
 <div class="files-info-wrap is-wrap">
   <input type="file" multiple accept=".html,.css,.scss,.sass,.js,.jsx,.ts,.tsx" />
-  <table></table>
+  <table>Result...</table>
 </div>
 
 <!-- Substrings search wrap -->
@@ -947,7 +949,7 @@
   <button class="start">Start process</button>
   <button class="stop" disabled>STOP</button>
   <progress value="0"></progress>
-  <div class="result-container"></div>
+  <div class="result-container">Result...</div>
 </div>
 
 <!-- Code AI wrap -->
@@ -980,14 +982,14 @@
   <textarea placeholder="Your thoughts..."></textarea>
   <button class="send">SEND</button>
   <button class="copy"><svg><use href="#copy-code"></use></svg></button>
-  <div class="is-ai-text"></div>
+  <div class="is-ai-text">Result...</div>
   <span class="loader"></span>
 </div>
 
 <!-- Mini caniuse wrap -->
 <div class="mini-caniuse-wrap is-wrap">
   <input type="text" placeholder="Flex..." maxlength="50">
-  <div></div>
+  <div>Result...</div>
 </div>
 
 <!-- Distance service wrap -->
@@ -995,7 +997,7 @@
   <input type="text" list="first" class="first" placeholder="First point...">
   <input type="text" list="second" class="second" placeholder="Second point...">
   <button class="send">OK</button>
-  <div></div>
+  <div>Result...</div>
   <datalist id="first"></datalist>
   <datalist id="second"></datalist>
   <span class="loader"></span>
@@ -1048,7 +1050,7 @@
     <button class="copy">Copy</button>
     <label for="replace-space">Replace white space</label>
     <input type="text" placeholder="" id="replace-space" maxlength="1" minlength="0">
-    <div class="result"></div>
+    <div class="result">Result...</div>
   </div>
 
   <button class="open-window" data-window="imageToAscii">IMAGE ⇒ ASCII</button>
@@ -1078,7 +1080,7 @@
     <input type="file" accept="image/png,image/jpeg,image/webp,image/gif">
     <button class="send">OK</button>
     <button class="copy">Copy</button>
-    <div class="result"></div>
+    <div class="result">Result...</div>
   </div>
 </div>
 

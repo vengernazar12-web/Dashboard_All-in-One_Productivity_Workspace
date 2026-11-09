@@ -66,7 +66,6 @@
   position: relative;
   width: 95%;
   background: linear-gradient( 90deg, rgba(0, 0, 0, 0.9), rgba(0, 100, 255, 0.75), rgba(0, 0, 0, 0.9) );
-  border: 1px solid blue;
   box-shadow: 1px 1px 5px var(--border-color);
   color: white;
   border-radius: 5px;

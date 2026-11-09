@@ -381,12 +381,13 @@ showFieldsBlock.addEventListener('click', e => {
   const targetP = e.target.closest('p');
   if(targetP) lastFocusedInput.value = targetP.dataset.value;
 })
-let lastFocusedInput = null;
 
+let lastFocusedInput = null;
 function renderShowFieldsBlock(orgValuesArr, val, input, isName = false) {
   showFieldsBlock.textContent = '';
   const frag = document.createDocumentFragment();
   const safeVal = val.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
   for(let orgVal of orgValuesArr) {
     if(isName && !orgVal.includes(val)) continue;
     if(!isName && !orgVal.toLowerCase().includes(val.toLowerCase())) continue;
@@ -398,8 +399,11 @@ function renderShowFieldsBlock(orgValuesArr, val, input, isName = false) {
     p.tabIndex = 0;
     frag.appendChild(p);
   }
+
   showFieldsBlock.appendChild(frag);
+
   if(!showFieldsBlock.childElementCount) return showFieldsBlock.classList.remove('show');
+
   else {
     showFieldsBlock.classList.add('show');
     showFieldsBlock.style.top = `${input.getBoundingClientRect().top + 35}px`;
@@ -436,6 +440,7 @@ document.addEventListener('keydown', e => {
       if(!activeEl.closest('.show-fields-block')) return allElements[0].focus();
 
       const activeElIdx = allElements.indexOf(activeEl);
+
       if(activeElIdx <= 0) return;
       else allElements[activeElIdx - 1].focus();
     }
@@ -453,6 +458,7 @@ document.addEventListener('keydown', e => {
     else if(e.key === 'Enter') {
       const allElements = [...showFieldsBlock.children];
       const activeEl = document.activeElement;
+
       if(!activeEl.closest('.show-fields-block') && activeEl.tagName === 'INPUT' && allElements.length) activeEl.value = allElements[0].dataset.value;
       else if(lastFocusedInput) {
         lastFocusedInput.value = activeEl.dataset.value;
@@ -477,6 +483,7 @@ document.addEventListener('keydown', e => {
     else if(addNotesForm.classList.contains('show')) addNotesButton.click();
     else if(addCodeBlockForm.classList.contains('show')) addCodeBlockBtn.click();
     else if(editNoteBlock.classList.contains('show')) confNoteEditChangeBtn.click();
+    else if(addTextSnippetForm.classList.contains('show')) addTextSnippetBtn.click();
     else if(addMusicForm.classList.contains('show')) addMusicBtn.click();
 
     // Services

@@ -62,19 +62,22 @@ addNoteInputName.addEventListener('input', () => {
   renderShowFieldsBlock(Object.keys(allNotesObj), addNoteInputName.value.trim(), addNoteInputName);
 });
 
+addNoteInputName.addEventListener('focus', () => lastFocusedInput = addNoteInputName);
+
 const addNoteInputDescription = addNotesForm.querySelector('.note-description-input');
 addNoteInputDescription.addEventListener('input', () => addNoteInputDescription.style.color = addNoteInputDescription.value.trim().length > allValuesLimit.noteDesc ? 'red' : 'var(--text-color)');
 
 const addNotesButton = addNotesForm.querySelector('.add-note-button');
 addNotesButton.addEventListener('click', () => {
   if(Object.keys(allNotesObj).length >= allBlockLimitsObj.notes) return showResponseFn('Your have note blocks limit');
-  const name = addNoteInputName.value.trim();
-  let desc = addNoteInputDescription.value.trim() || 'Description';
-  if(desc.length > allValuesLimit.noteDesc) return showResponseFn('The description is too long (more than 250 characters)');
 
-  if(!name) {addNotesForm.classList.remove('show'); return showResponseFn("You don't have a note name !")};
+  const name = addNoteInputName.value.trim();
+  if(!name) return showResponseFn("You don't have a note name");
   if(allNotesObj[name]) return showResponseFn('You are using this name');
   if(name.length > allValuesLimit.noteName) return showResponseFn('Note name is too long (more than 50 characters)');
+
+  let desc = addNoteInputDescription.value.trim() || 'Description';
+  if(desc.length > allValuesLimit.noteDesc) return showResponseFn('The description is too long (more than 250 characters)');
 
   addNoteInputName.value = '';
   addNoteInputDescription.value = '';
@@ -239,6 +242,7 @@ function createNoteBlock( name, desc, isFavorite, searchVal ) {
 
   return div;
 }
+
 let noteTxt = null;
 function renderNotesText(name) {
   userNotesText.innerHTML = allNotesObj[name].txt?.replaceAll('\n', '<br>') || '';
