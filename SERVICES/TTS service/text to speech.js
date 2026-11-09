@@ -71,5 +71,5 @@ async function renderTextToSpeechSelect() {
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({ need: 'voices-list' })
   }).then(r => r.json())
-  .then(list => list.voices.map(voice => `<option value="${voice.id}">${voice.name} (${voice.language.toUpperCase()} • ${voice.gender})</option>`));
+  .then(list => list.map(voice => `<option value="${voice.id}">${voice.name} (${voice.language.toUpperCase()} • ${voice.gender})</option>`));
 }
