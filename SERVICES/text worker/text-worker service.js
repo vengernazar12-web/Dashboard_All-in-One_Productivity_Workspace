@@ -15,41 +15,6 @@ openTextWorkerServiceBtn.addEventListener('click', () => {
   textWorkerServiceWrap.classList.add('show');
 })
 
-// AI text worker
-const TEXT_WORKER_API = 'https://text-worker.dark-backend.workers.dev';
-
-const textWorkerAiCount = textWorkerServiceWrap.querySelector('div.ai');
-const textWorkerServiceLoader = textWorkerAiCount.querySelector('.loader');
-
-const textWorkerAiTextarea = textWorkerAiCount.querySelector('textarea');
-textWorkerAiTextarea.addEventListener('input', () => textWorkerAiTextarea.style.color = textWorkerAiTextarea.value.trim().length <= 10_000 ? 'var(--text-color)' : 'red');
-
-const textWorkerAiResult = textWorkerAiCount.querySelector('.is-ai-text');
-
-const textWorkerAiSendBtn = textWorkerAiCount.querySelector('button');
-textWorkerAiSendBtn.addEventListener('click', async () => {
-  const text = textWorkerAiTextarea.value.trim();
-  if(!text) {
-    showResponseFn('Please give text');
-    return textWorkerAiTextarea.focus();
-  } else if(text.length > 10_000) return showResponseFn(`Your text is too long (${text.length}/10 000)`);
-
-  textWorkerAiSendBtn.disabled = true;
-  textWorkerServiceLoader.style.display = 'block';
-  textWorkerAiResult.textContent = '';
-
-  const resp = await fetch(TEXT_WORKER_API, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', "Authorization": userId },
-    body: JSON.stringify({ text })
-  });
-
-  textWorkerAiResult.innerHTML = await resp.text();
-
-  textWorkerAiSendBtn.disabled = false;
-  textWorkerServiceLoader.style.display = 'none';
-})
-
 // Text cloner
 const textWorkerClonerCont = textWorkerServiceWrap.querySelector('div.cloner');
 const textWorkerClonerTextarea = textWorkerClonerCont.querySelector('textarea');

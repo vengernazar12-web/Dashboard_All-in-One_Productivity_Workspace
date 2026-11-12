@@ -38,6 +38,7 @@ Manage and store various data structures:
 - **Code AI**
 - **Idea generator**
 - **Presentation generator**
+- **Translator**
 
 ### 🔍 Search
 - **Weather**: Live conditions, 3-day forecast, and multi-layer maps.

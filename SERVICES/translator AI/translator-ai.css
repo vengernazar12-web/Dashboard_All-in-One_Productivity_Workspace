@@ -1,0 +1,69 @@
+.translator-ai-wrap > .translator-container {
+  width: calc(100% - 15px);
+  height: max-content;
+  margin: 10px auto;
+  border: 2px solid var(--border-color);
+  border-radius: 15px;
+  padding: 7px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.translator-ai-wrap > .translator-container > * {
+  flex: 1;
+  border: 1px solid var(--border-color);
+  border-radius: 7px;
+  padding: 5px;
+}
+
+.translator-ai-wrap .init-language-cont textarea {
+  background-color: var(--block-bg);
+  color: var(--text-color);
+  min-height: 60px;
+  font-size: 13px;
+  border-radius: 7px;
+  width: 100%;
+  padding: 5px;
+  border: none;
+}
+
+.translator-ai-wrap .init-language-cont button {
+  width: 100%;
+  height: 30px;
+  background-color: var(--block-bg);
+  color: var(--text-color);
+  border-radius: 7px;
+  border: 1px solid var(--border-color);
+}
+
+.translator-ai-wrap .target-language-cont,
+.translator-ai-wrap .init-language-cont {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.translator-ai-wrap .target-language-cont > .result {
+  width: 100%;
+  height: max-content;
+  white-space: pre-wrap;
+  text-wrap: wrap;
+  word-break: break-word;
+  font-size: 13px;
+  user-select: text;
+}
+
+.translator-ai-wrap .target-language-cont > select {
+  width: 100%;
+  height: 30px;
+  background-color: var(--block-bg);
+  color: var(--text-color);
+  border-radius: 5px;
+  border: none;
+  font-size: 13px;
+}
+
+.translator-ai-wrap > span.loader { display: none; }

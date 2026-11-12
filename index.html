@@ -1,126 +1,133 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-<!-- Supabase -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
 
-<title>Dashboard</title>
-<meta charset="UTF-8">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@600&family=Roboto:wght@500&display=swap" rel="stylesheet">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <meta charset="UTF-8">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@600&family=Roboto:wght@500&display=swap"
+    rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet" href="ALL MAINS/main.css">
-<link rel="stylesheet" href="TYPES/todos type/todo.css">
-<link rel="stylesheet" href="TYPES/notes type/notes.css">
-<link rel="stylesheet" href="TYPES/urls type/saveUrls.css">
-<link rel="stylesheet" href="TYPES/user codes type/user code.css">
-<link rel="stylesheet" href="TYPES/text snippets type/texts snippets.css">
-<link rel="stylesheet" href="TYPES/music type/music.css">
+  <link rel="stylesheet" href="ALL MAINS/main.css">
+  <link rel="stylesheet" href="TYPES/todos type/todo.css">
+  <link rel="stylesheet" href="TYPES/notes type/notes.css">
+  <link rel="stylesheet" href="TYPES/urls type/saveUrls.css">
+  <link rel="stylesheet" href="TYPES/user codes type/user code.css">
+  <link rel="stylesheet" href="TYPES/text snippets type/texts snippets.css">
+  <link rel="stylesheet" href="TYPES/music type/music.css">
 
-<link rel="stylesheet" href="SERVICES/exchange rates/exchange rate.css">
-<link rel="stylesheet" href="SERVICES/weather/weather.css">
-<link rel="stylesheet" href="SERVICES/timezones/timezone.css">
-<link rel="stylesheet" href="ALL MAINS/settings.css">
-<link rel="stylesheet" href="AI assistant/AI assistant.css">
-<link rel="stylesheet" href="SERVICES/github search/github.css">
-<link rel="stylesheet" href="command runner/command runner.css">
-<link rel="stylesheet" href="SERVICES/generate image/generate image service.css">
-<link rel="stylesheet" href="SERVICES/text worker/text-worker service.css">
-<link rel="stylesheet" href="SERVICES/qr-code generator/qr-code generation.css">
-<link rel="stylesheet" href="SERVICES/browser worker/browser worker.css">
-<link rel="stylesheet" href="SERVICES/regexp checker/regexp checker.css">
-<link rel="stylesheet" href="SERVICES/wikipedia search/wikipedia.css">
-<link rel="stylesheet" href="SERVICES/IP search/IP search.css">
-<link rel="stylesheet" href="SERVICES/JSON worker/JSON worker.css">
-<link rel="stylesheet" href="SERVICES/ai reasoning/ai-reasoning worker.css">
-<link rel="stylesheet" href="SERVICES/template AI/Temp AI.css">
-<link rel="stylesheet" href="SERVICES/fetch service/fetch service.css">
-<link rel="stylesheet" href="SERVICES/media search/media search.css">
-<link rel="stylesheet" href="SERVICES/unit converter/unit converter.css">
-<link rel="stylesheet" href="SERVICES/TTS service/text to speech.css">
-<link rel="stylesheet" href="SERVICES/diff texts/diff text.css">
-<link rel="stylesheet" href="SERVICES/CSV render/CSV render.css">
-<link rel="stylesheet" href="SERVICES/image comressor/image compression.css">
-<link rel="stylesheet" href="SERVICES/token counter/token counter.css">
-<link rel="stylesheet" href="SERVICES/color worker/color worker.css">
-<link rel="stylesheet" href="SERVICES/files info/files-info.css">
-<link rel="stylesheet" href="SERVICES/substring search/substrings-search.css">
-<link rel="stylesheet" href="SERVICES/code AI/code-ai.css">
-<link rel="stylesheet" href="SERVICES/idea generator/idea-generator.css">
-<link rel="stylesheet" href="SERVICES/mini caniuse/mini-caniuse.css">
-<link rel="stylesheet" href="SERVICES/distance service/distance service.css">
-<link rel="stylesheet" href="SERVICES/ascii worker/ascii worker.css">
-<link rel="stylesheet" href="SERVICES/language learn/language-learn.css">
-<link rel="stylesheet" href="SERVICES/math game/Math game.css">
-<link rel="stylesheet" href="SERVICES/guessing with AI/guessing.css">
+  <link rel="stylesheet" href="SERVICES/exchange rates/exchange rate.css">
+  <link rel="stylesheet" href="SERVICES/weather/weather.css">
+  <link rel="stylesheet" href="SERVICES/timezones/timezone.css">
+  <link rel="stylesheet" href="ALL MAINS/settings.css">
+  <link rel="stylesheet" href="AI assistant/AI assistant.css">
+  <link rel="stylesheet" href="SERVICES/github search/github.css">
+  <link rel="stylesheet" href="command runner/command runner.css">
+  <link rel="stylesheet" href="SERVICES/generate image/generate image service.css">
+  <link rel="stylesheet" href="SERVICES/text worker/text-worker service.css">
+  <link rel="stylesheet" href="SERVICES/qr-code generator/qr-code generation.css">
+  <link rel="stylesheet" href="SERVICES/browser worker/browser worker.css">
+  <link rel="stylesheet" href="SERVICES/regexp checker/regexp checker.css">
+  <link rel="stylesheet" href="SERVICES/wikipedia search/wikipedia.css">
+  <link rel="stylesheet" href="SERVICES/IP search/IP search.css">
+  <link rel="stylesheet" href="SERVICES/JSON worker/JSON worker.css">
+  <link rel="stylesheet" href="SERVICES/ai reasoning/ai-reasoning worker.css">
+  <link rel="stylesheet" href="SERVICES/template AI/Temp AI.css">
+  <link rel="stylesheet" href="SERVICES/fetch service/fetch service.css">
+  <link rel="stylesheet" href="SERVICES/media search/media search.css">
+  <link rel="stylesheet" href="SERVICES/unit converter/unit converter.css">
+  <link rel="stylesheet" href="SERVICES/TTS service/text to speech.css">
+  <link rel="stylesheet" href="SERVICES/diff texts/diff text.css">
+  <link rel="stylesheet" href="SERVICES/CSV render/CSV render.css">
+  <link rel="stylesheet" href="SERVICES/image comressor/image compression.css">
+  <link rel="stylesheet" href="SERVICES/token counter/token counter.css">
+  <link rel="stylesheet" href="SERVICES/color worker/color worker.css">
+  <link rel="stylesheet" href="SERVICES/files info/files-info.css">
+  <link rel="stylesheet" href="SERVICES/substring search/substrings-search.css">
+  <link rel="stylesheet" href="SERVICES/code AI/code-ai.css">
+  <link rel="stylesheet" href="SERVICES/idea generator/idea-generator.css">
+  <link rel="stylesheet" href="SERVICES/mini caniuse/mini-caniuse.css">
+  <link rel="stylesheet" href="SERVICES/distance service/distance service.css">
+  <link rel="stylesheet" href="SERVICES/ascii worker/ascii worker.css">
+  <link rel="stylesheet" href="SERVICES/language learn/language-learn.css">
+  <link rel="stylesheet" href="SERVICES/math game/Math game.css">
+  <link rel="stylesheet" href="SERVICES/guessing with AI/guessing.css">
 
-<link rel="stylesheet" href="SERVICES/presentation generator/presentation-generator.css">
-<link rel="stylesheet" href="SERVICES/presentation generator/download-presentation-cont.css">
-<link rel="stylesheet" href="SERVICES/presentation generator/default-presentation-style-preview.css">
-<link rel="stylesheet" href="SERVICES/presentation generator/minimal-corners-presentation-style-preview.css">
-<link rel="stylesheet" href="SERVICES/presentation generator/ghost-titles-presentation-style-preview.css">
-<link rel="stylesheet" href="SERVICES/presentation generator/gradient-divider-presentation-style-preview.css">
-<link rel="stylesheet" href="SERVICES/presentation generator/vertical-titles-presentation-style-preview.css">
+  <link rel="stylesheet" href="SERVICES/presentation generator/presentation-generator.css">
+  <link rel="stylesheet" href="SERVICES/presentation generator/download-presentation-cont.css">
+  <link rel="stylesheet" href="SERVICES/presentation generator/default-presentation-style-preview.css">
+  <link rel="stylesheet" href="SERVICES/presentation generator/minimal-corners-presentation-style-preview.css">
+  <link rel="stylesheet" href="SERVICES/presentation generator/ghost-titles-presentation-style-preview.css">
+  <link rel="stylesheet" href="SERVICES/presentation generator/gradient-divider-presentation-style-preview.css">
+  <link rel="stylesheet" href="SERVICES/presentation generator/vertical-titles-presentation-style-preview.css">
 
-<link rel="stylesheet" href="ALL MAINS/sign.css">
+  <link rel="stylesheet" href="SERVICES/translator AI/translator-ai.css">
 
-<script src="ALL MAINS/main.js" defer></script>
+  <link rel="stylesheet" href="ALL MAINS/sign.css">
 
-<!--1 Types-->
-<script src="TYPES/todos type/todo.js" defer></script>
-<script src="TYPES/notes type/notes.js" defer></script>
-<script src="TYPES/urls type/saveUrls.js" defer></script>
-<script src="TYPES/user codes type/user code.js" defer></script>
-<script src="TYPES/text snippets type/texts snippets.js" defer></script>
-<script src="TYPES/music type/music.js" defer></script>
+  <script src="ALL MAINS/main.js" defer></script>
 
-<script src="SERVICES/exchange rates/exchange rate.js" defer></script><!--2 Services-->
-<script src="SERVICES/weather/weather.js" defer></script>
-<script src="SERVICES/timezones/timezone.js" defer></script>
-<script src="ALL MAINS/settings.js" defer></script>
-<script src="SERVICES/github search/github.js" defer></script>
-<script src="command runner/command runner.js" defer></script>
-<script src="SERVICES/generate image/generate image service.js" defer></script>
-<script src="SERVICES/text worker/text-worker service.js" defer></script>
-<script src="SERVICES/qr-code generator/qr-code generation.js" defer></script>
-<script src="SERVICES/browser worker/browser worker.js" defer></script>
-<script src="SERVICES/regexp checker/regexp checker.js" defer></script>
-<script src="SERVICES/wikipedia search/wikipedia.js" defer></script>
-<script src="SERVICES/IP search/IP search.js" defer></script>
-<script src="SERVICES/JSON worker/JSON worker.js" defer></script>
-<script src="SERVICES/ai reasoning/ai-reasoning worker.js" defer></script>
-<script src="SERVICES/template AI/temp AI.js" defer></script>
-<script src="SERVICES/fetch service/fetch service.js" defer></script>
-<script src="SERVICES/media search/media search.js" defer></script>
-<script src="SERVICES/unit converter/unit converter.js" defer></script>
-<script src="SERVICES/TTS service/text to speech.js" defer></script>
-<script src="SERVICES/diff texts/diff text.js" defer></script>
-<script src="SERVICES/CSV render/CSV render.js" defer></script>
-<script src="SERVICES/image comressor/image compression.js" defer></script>
-<script src="SERVICES/token counter/token counter.js" defer></script>
-<script src="SERVICES/color worker/color worker.js" defer></script>
-<script src="SERVICES/files info/files-info.js" defer></script>
-<script src="SERVICES/substring search/substrings-search.js" defer></script>
-<script src="SERVICES/code AI/code-ai.js" defer></script>
-<script src="SERVICES/idea generator/idea-generator.js" defer></script>
-<script src="SERVICES/mini caniuse/mini-caniuse.js" defer></script>
-<script src="SERVICES/distance service/distance service.js" defer></script>
-<script src="SERVICES/ascii worker/ascii worker.js" defer></script>
-<script src="SERVICES/language learn/language-learn.js" defer></script>
-<script src="SERVICES/math game/Math game.js" defer></script>
-<script src="SERVICES/guessing with AI/guessing.js" defer></script>
-<script src="SERVICES/presentation generator/presentation-generator.js" defer></script>
+  <!--1 Types-->
+  <script src="TYPES/todos type/todo.js" defer></script>
+  <script src="TYPES/notes type/notes.js" defer></script>
+  <script src="TYPES/urls type/saveUrls.js" defer></script>
+  <script src="TYPES/user codes type/user code.js" defer></script>
+  <script src="TYPES/text snippets type/texts snippets.js" defer></script>
+  <script src="TYPES/music type/music.js" defer></script>
 
-<!-- Assistant -->
-<script src="AI assistant/AI assistant.js" defer></script><!--3-->
-<script src="AI assistant/ai response.js" defer></script>
+  <script src="SERVICES/exchange rates/exchange rate.js" defer></script><!--2 Services-->
+  <script src="SERVICES/weather/weather.js" defer></script>
+  <script src="SERVICES/timezones/timezone.js" defer></script>
+  <script src="ALL MAINS/settings.js" defer></script>
+  <script src="SERVICES/github search/github.js" defer></script>
+  <script src="command runner/command runner.js" defer></script>
+  <script src="SERVICES/generate image/generate image service.js" defer></script>
+  <script src="SERVICES/text worker/text-worker service.js" defer></script>
+  <script src="SERVICES/qr-code generator/qr-code generation.js" defer></script>
+  <script src="SERVICES/browser worker/browser worker.js" defer></script>
+  <script src="SERVICES/regexp checker/regexp checker.js" defer></script>
+  <script src="SERVICES/wikipedia search/wikipedia.js" defer></script>
+  <script src="SERVICES/IP search/IP search.js" defer></script>
+  <script src="SERVICES/JSON worker/JSON worker.js" defer></script>
+  <script src="SERVICES/ai reasoning/ai-reasoning worker.js" defer></script>
+  <script src="SERVICES/template AI/temp AI.js" defer></script>
+  <script src="SERVICES/fetch service/fetch service.js" defer></script>
+  <script src="SERVICES/media search/media search.js" defer></script>
+  <script src="SERVICES/unit converter/unit converter.js" defer></script>
+  <script src="SERVICES/TTS service/text to speech.js" defer></script>
+  <script src="SERVICES/diff texts/diff text.js" defer></script>
+  <script src="SERVICES/CSV render/CSV render.js" defer></script>
+  <script src="SERVICES/image comressor/image compression.js" defer></script>
+  <script src="SERVICES/token counter/token counter.js" defer></script>
+  <script src="SERVICES/color worker/color worker.js" defer></script>
+  <script src="SERVICES/files info/files-info.js" defer></script>
+  <script src="SERVICES/substring search/substrings-search.js" defer></script>
+  <script src="SERVICES/code AI/code-ai.js" defer></script>
+  <script src="SERVICES/idea generator/idea-generator.js" defer></script>
+  <script src="SERVICES/mini caniuse/mini-caniuse.js" defer></script>
+  <script src="SERVICES/distance service/distance service.js" defer></script>
+  <script src="SERVICES/ascii worker/ascii worker.js" defer></script>
+  <script src="SERVICES/language learn/language-learn.js" defer></script>
+  <script src="SERVICES/math game/Math game.js" defer></script>
+  <script src="SERVICES/guessing with AI/guessing.js" defer></script>
+  <script src="SERVICES/presentation generator/presentation-generator.js" defer></script>
+  <script src="SERVICES/translator AI/translator-ai.js" defer></script>
 
-<script src="ALL MAINS/dashboard windows.js" defer></script>
+  <!-- Assistant -->
+  <script src="AI assistant/AI assistant.js" defer></script><!--3-->
+  <script src="AI assistant/ai response.js" defer></script>
 
-<script src="ALL MAINS/sign.js" defer></script><!--max-->
+  <script src="ALL MAINS/dashboard windows.js" defer></script>
 
-<link rel="icon" href="./all-imgs/icon.svg" type="image/png">
+  <script src="ALL MAINS/sign.js" defer></script><!--max-->
+
+  <link rel="icon" href="./all-imgs/icon.svg" type="image/png">
 </head>
 
 <body>
@@ -130,7 +137,7 @@
   <p>AI tools, search services and utilities in one place</p>
   <small>Open the sidebar to get started</small>
   <br><br>
-  <small>34 services • AI assistant • todos, notes, urls and more</small>
+  <small>35 services • AI assistant • todos, notes, urls and more</small>
 </header>
 
 <!-- Settings -->
@@ -521,14 +528,6 @@
 
 <!-- Text-worker wrap -->
 <div class="text-worker-service-wrap is-wrap">
-  <div class="ai cont">
-    <h3>AI worker</h3>
-    <textarea placeholder="Your text..."></textarea>
-    <button>SEND FOR TEXT WORKER</button>
-    <div class="is-ai-text" readonly>Result...</div>
-    <span class="loader"></span>
-  </div>
-
   <div class="cloner cont">
     <h3>Text cloner</h3>
     <textarea placeholder="Your text..."></textarea>
@@ -1160,6 +1159,76 @@
   <span class="loader"></span>
 </div>
 
+<!-- Translator AI wrap -->
+<div class="translator-ai-wrap is-wrap">
+  <div class="translator-container">
+    <div class="init-language-cont">
+      <textarea placeholder="Your text..." maxLength="1500"></textarea>
+      <button class="send">Translate</button>
+    </div>
+
+    <div class="target-language-cont">
+      <div class="result">Result...</div>
+      <select>
+        <option value="english">English</option>
+        <option value="ukrainian (Українська)">Українська</option>
+        <option value="polish (Polski)">Polski</option>
+        <option value="czech (Čeština)">Čeština</option>
+        <option value="slovak (Slovenčina)">Slovenčina</option>
+        <option value="slovenian (Slovenščina)">Slovenščina</option>
+        <option value="macedonian (Македонски)">Македонски</option>
+        <option value="serbian (Српски)">Српски</option>
+        <option value="croatian (Hrvatski)">Hrvatski</option>
+        <option value="bosnian (Bosanski)">Bosanski</option>
+        <option value="albanian (Shqip)">Shqip</option>
+        <option value="romanian (Română)">Română</option>
+        <option value="hungarian (Magyar)">Magyar</option>
+        <option value="german (Deutsch)">Deutsch</option>
+        <option value="dutch (Nederlands)">Nederlands</option>
+        <option value="french (Français)">Français</option>
+        <option value="spanish (Español)">Español</option>
+        <option value="italian (Italiano)">Italiano</option>
+        <option value="portuguese (Português)">Português</option>
+        <option value="catalan (Català)">Català</option>
+        <option value="galician (Galego)">Galego</option>
+        <option value="swedish (Svenska)">Svenska</option>
+        <option value="norwegian (Norsk)">Norsk</option>
+        <option value="danish (Dansk)">Dansk</option>
+        <option value="finnish (Suomi)">Suomi</option>
+        <option value="estonian (Eesti)">Eesti</option>
+        <option value="latvian (Latviešu)">Latviešu</option>
+        <option value="lithuanian (Lietuvių)">Lietuvių</option>
+        <option value="greek (Ελληνικά)">Ελληνικά</option>
+        <option value="turkish (Türkçe)">Türkçe</option>
+        <option value="azerbaijani (Azərbaycanca)">Azərbaycanca</option>
+        <option value="georgian (ქართული)">ქართული</option>
+        <option value="armenian (Հայերեն)">Հայերեն</option>
+        <option value="arabic (العربية)">العربية</option>
+        <option value="hebrew (עברית)">עברית</option>
+        <option value="persian (فارسی)">فارسی</option>
+        <option value="urdu (اردو)">اردو</option>
+        <option value="hindi (हिन्दी)">हिन्दी</option>
+        <option value="bengali (বাংলা)">বাংলা</option>
+        <option value="tamil (தமிழ்)">தமிழ்</option>
+        <option value="telugu (తెలుగు)">తెలుగు</option>
+        <option value="marathi (मराठी)">मराठी</option>
+        <option value="punjabi (ਪੰਜਾਬੀ)">ਪੰਜਾਬੀ</option>
+        <option value="swahili (Kiswahili)">Kiswahili</option>
+        <option value="japanese (日本語)">日本語</option>
+        <option value="korean (한국어)">한국어</option>
+        <option value="chinese (中文)">中文</option>
+        <option value="vietnamese (Tiếng Việt)">Tiếng Việt</option>
+        <option value="thai (ไทย)">ไทย</option>
+        <option value="indonesian (Bahasa Indonesia)">Bahasa Indonesia</option>
+        <option value="malay (Bahasa Melayu)">Bahasa Melayu</option>
+        <option value="filipino (Filipino)">Filipino</option>
+      </select>
+    </div>
+  </div>
+
+  <span class="loader"></span>
+</div>
+
 <!-- Assistant wrap -->
 <div class="assistant-wrap is-wrap">
   <!-- assistant answer container -->
@@ -1213,6 +1282,7 @@
     <button class="open-substrings-search-wrap --opened-btn">Substrings search<p>‼️ | TEXT</p></button>
     <button class="open-ascii-worker-wrap --opened-btn">ASCII worker</button>
     <button class="open-token-counter-wrap --opened-btn">AI token counter<p>COUNTER</p></button>
+    <button class="open-text-worker-service-wrap --opened-btn">Text worker<p>TEXT · UTILS</p></button>
   </section>
 
   <section data-group="ai">
@@ -1221,10 +1291,10 @@
     <button class="open-template-ai-wrap --opened-btn">Template AI</button>
     <button class="open-text-to-speech-wrap --opened-btn">Text to speech</button>
     <button class="open-generate-img-wrap --opened-btn">Image generation<p>IMAGE</p></button>
-    <button class="open-text-worker-service-wrap --opened-btn">Text worker<p>TEXT · UTILS</p></button>
     <button class="open-code-ai-wrap --opened-btn">Code AI<p>CODE</p></button>
     <button class="open-idea-generator-wrap --opened-btn">Idea generator</button>
     <button class="open-presentation-generator-wrap --opened-btn">Presentation generator</button>
+    <button class="open-translator-ai-wrap --opened-btn">Translator</button>
   </section>
 
   <section data-group="search">
