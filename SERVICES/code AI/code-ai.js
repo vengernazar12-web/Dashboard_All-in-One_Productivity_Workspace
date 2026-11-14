@@ -246,7 +246,7 @@ let codeAiFilesHandles = null;
 const codeAiSendPromptBtn = codeAiUserArea.querySelector('button.send');
 codeAiSendPromptBtn.addEventListener('click', async () => {
   const userTxt = codeAiTskTextarea.value.trim();
-  if (userTxt.length > 25_000) return showResponseFn(`Your message is too long (${userTxt.length}/25_000)`);
+  if (userTxt.length > 15_000) return showResponseFn(`Your message is too long (${userTxt.length}/15000)`);
 
   if (codeAiProposedCodesInfo.length && codeAiChatContainer.querySelector('code.proposed-code > button:not(.download)')) return showResponseFn("You still have changes that haven't been reviewed");
   else {
@@ -274,7 +274,7 @@ codeAiSendPromptBtn.addEventListener('click', async () => {
     const type = name.split('.')[name.split('.').length - 1];
     if (!codeAiAllowedFiles.includes(type)) return showResponseFn(`${type} is not allowed file type`);
 
-    if (uploadsContent.some(file => file.name === name)) return showResponse(`Duplicate names of uploaded files are not allowed (${name})`);
+    if (uploadsContent.some(file => file.name === name)) return showResponseFn(`Duplicate names of uploaded files are not allowed (${name})`);
 
     const text = codeAiFilesHandles
     ? await file.getFile().then(f => f.text())
@@ -292,20 +292,24 @@ codeAiSendPromptBtn.addEventListener('click', async () => {
 
   codeAiChatContainer.scrollTop = codeAiChatContainer.scrollHeight;
 
+  const contentFiles = [
+    ...uploadsContent,
+    ...Array.from(codeAiSavedFilesList.querySelectorAll('li.is-selected'))
+      .map(selectedLi => {
+        const name = selectedLi.dataset.name;
+        return { name, isSaved: true, content: allUserCodesObj[name].code, language: selectedLi.dataset.lang || 'unknown' }
+      })
+  ];
+
+  if(contentFiles.length > 15) return showResponseFn("You cannot transfer more than 15 files at a time.");
+
   try {
     const AI_answer = await fetch(CODE_AI_API, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         history: codeAiHistory,
-        content: [
-          ...uploadsContent,
-          ...Array.from(codeAiSavedFilesList.querySelectorAll('li.is-selected'))
-            .map(selectedLi => {
-              const name = selectedLi.dataset.name;
-              return { name, isSaved: true, content: allUserCodesObj[name].code, language: selectedLi.dataset.lang || 'unknown' }
-            })
-        ],
+        content: contentFiles
       })
     }).then(r => r.json());
 
@@ -356,12 +360,8 @@ ${editsArr
         }
       }) });
     }
-  } catch (e) {
-    console.log(e);
-  }
-  finally {
-    codeAiLoader.style.display = 'none';
-  }
+  } catch (e) { console.log(e); }
+  finally { codeAiLoader.style.display = 'none'; }
 })
 
 const codeAiRespAnimationData = {
