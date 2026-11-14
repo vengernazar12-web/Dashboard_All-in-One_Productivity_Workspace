@@ -279,7 +279,7 @@ codeAiSendPromptBtn.addEventListener('click', async () => {
     const text = codeAiFilesHandles
     ? await file.getFile().then(f => f.text())
     : codeAiEditedFilesList.find(({ name: fn }) => fn === name)?.newCode ?? await file.text();
-    uploadsContent.push({ name, isSaved: false, content: text ?? '', language: type });
+    uploadsContent.push({ name, isSaved: false, content: text.replaceAll('\r', "") ?? '', language: type });
   }
 
   codeAiLoader.style.display = 'block';
@@ -297,7 +297,7 @@ codeAiSendPromptBtn.addEventListener('click', async () => {
     ...Array.from(codeAiSavedFilesList.querySelectorAll('li.is-selected'))
       .map(selectedLi => {
         const name = selectedLi.dataset.name;
-        return { name, isSaved: true, content: allUserCodesObj[name].code, language: selectedLi.dataset.lang || 'unknown' }
+        return { name, isSaved: true, content: allUserCodesObj[name].code.replaceAll('\r', ""), language: selectedLi.dataset.lang || 'unknown' }
       })
   ];
 
