@@ -5,7 +5,7 @@
   width: calc(100% - 10px);
   height: 50%;
   min-height: 250px;
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   color: var(--text-color);
   border-radius: 6px;
   border: 1px solid var(--border-color);
@@ -18,7 +18,7 @@
   top: calc(50% + 10px);
   height: 30px;
   font-size: 15px;
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   color: vaR(--text-color);
   border-radius: 7px;
   border: 1px solid var(--border-color);
@@ -35,7 +35,7 @@
 }
 
 .csv-render-wrap > select > option {
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   color: var(--text-color);
 }
 
@@ -87,7 +87,7 @@
   border: 1px solid var(--border-color);
   border-radius: 7px;
   overflow: hidden;
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   color: var(--text-color);
   counter-reset: row;
   contain: content;

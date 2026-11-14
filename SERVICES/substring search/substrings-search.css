@@ -7,7 +7,7 @@
   border-radius: 7px;
   border: 1px solid var(--border-color);
   color: var(--text-color);
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   padding: 7px;
 }
 
@@ -48,11 +48,11 @@
   border-radius: 8px;
   overflow: hidden;
 
-  background-color: var(--block-bg);
+  background: var(--block-bg);
 }
 
 .substrings-search-wrap > progress::-webkit-progress-bar {
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   border-radius: 8px;
 }
 
@@ -76,7 +76,7 @@
   left: 10px;
   width: calc(100% - 20px);
   padding: 10px;
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   color: var(--text-color);
   border: 1px dashed green;
   border-radius: 7px;

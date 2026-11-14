@@ -33,7 +33,7 @@
   padding: 10px;
   border-radius: 15px;
   border: 1px dashed green;
-  background-color: var(--block-bg);
+  background: var(--block-bg);
 }
 
 .distance-service-wrap .distance-route {

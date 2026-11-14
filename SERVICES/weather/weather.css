@@ -53,7 +53,7 @@
   max-height: calc(100% - 45px);
   border: 1px solid white;
   border-radius: 10px 10px 0 0;
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   color: var(--text-color);
   padding: 10px;
   overflow: auto;

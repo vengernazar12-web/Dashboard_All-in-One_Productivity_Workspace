@@ -4,7 +4,7 @@
   position: absolute;
   top: 10px;
   left: 10px;
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   color: var(--text-color);
   border: 1px solid var(--border-color);
   border-radius: 7px;
@@ -19,7 +19,7 @@
   top: calc(35% + 20px);
   left: 15px;
   width: calc(100% - 30px);
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   height: 35%;
   border-radius: 5px;
   border: 1px solid var(--border-color);

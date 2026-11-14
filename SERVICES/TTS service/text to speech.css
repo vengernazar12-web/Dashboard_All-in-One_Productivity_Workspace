@@ -4,7 +4,7 @@
   left: 5px;
   width: calc(100% - 10px);
   height: 30px;
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   color: var(--text-color);
   border-radius: 7px;
   border: 1px solid var(--border-color);
@@ -23,7 +23,7 @@
   width: calc(100% - 20px);
   min-height: 100px;
   height: 60%;;
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   color: var(--text-color);
   border-radius: 10px;
   border: 1px solid var(--border-color);

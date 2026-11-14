@@ -7,7 +7,7 @@
   width: 100%;
   margin-bottom: 10px;
   border-radius: 10px;
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   color: var(--text-color);
 }
 
@@ -48,7 +48,7 @@
 }
 
 .files-info-wrap > table tbody tr:hover {
-  background-color: var(--block-bg);
+  background: var(--block-bg);
 }
 
 .files-info-wrap > table tfoot {

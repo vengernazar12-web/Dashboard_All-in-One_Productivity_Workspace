@@ -11,7 +11,7 @@ html .fetch-service-wrap {
 .fetch-service-wrap > .method {
   padding: 8px 10px;
   border: 1px solid var(--border-color);
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   color: var(--text-color);
   border-radius: 8px;
   width: 100%;
@@ -27,7 +27,7 @@ html .fetch-service-wrap {
   gap: 8px;
   padding: 10px;
   border: 1px solid var(--border-color);
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   border-radius: 10px;
 }
 
@@ -42,7 +42,7 @@ html .fetch-service-wrap {
 .fetch-service-wrap .field-block > textarea {
   border-radius: 3px;
   border: 1px solid var(--border-color);
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   color: var(--text-color);
   min-height: 30px;
   max-height: 500px;
@@ -56,7 +56,7 @@ html .fetch-service-wrap {
   border-radius: 7px;
   padding: 3px;
   color: var(--text-color);
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -73,7 +73,7 @@ html .fetch-service-wrap {
 .fetch-service-wrap button.add {
   padding: 6px 10px;
   border: 1px dashed var(--border-color);
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   color: var(--text-color);
   border-radius: 6px;
 }
@@ -101,7 +101,7 @@ html .fetch-service-wrap {
 .fetch-service-wrap > .result {
   padding: 7px;
   border: 1px dashed green;
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   border-radius: 10px;
   white-space: pre-wrap;
   height: max-content;

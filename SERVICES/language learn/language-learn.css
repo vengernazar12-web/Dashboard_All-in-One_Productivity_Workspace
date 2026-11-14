@@ -11,7 +11,7 @@
   gap: 10px;
   align-items: center;
   margin: 10px;
-  background-color: var(--body-bg);
+  background: var(--body-bg);
 }
 
 .language-learn-ai-wrap > .learn-settings label {
@@ -21,7 +21,7 @@
 .language-learn-ai-wrap > .learn-settings select {
   flex: 1;
   border: 1px solid var(--border-color);
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   color: var(--text-color);
   border-radius: 5px;
   height: 100%;
@@ -64,7 +64,7 @@
 .language-learn-ai-wrap div.ai-text {
   width: calc(100% - 10px);
   height: calc(100% - 205px);
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   color: var(--text-color);
   border: 2px solid var(--border-color);
   border-radius: 7px;
@@ -81,7 +81,7 @@
   border-radius: 10px;
   padding: 7px;
   border: 1px solid var(--border-color);
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   color: var(--text-color);
   height: 100px;
 }

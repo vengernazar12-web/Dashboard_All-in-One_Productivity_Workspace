@@ -19,7 +19,7 @@
 }
 
 .translator-ai-wrap .init-language-cont textarea {
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   color: var(--text-color);
   min-height: 60px;
   font-size: 13px;
@@ -32,7 +32,7 @@
 .translator-ai-wrap .init-language-cont button {
   width: 100%;
   height: 30px;
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   color: var(--text-color);
   border-radius: 7px;
   border: 1px solid var(--border-color);
@@ -59,7 +59,7 @@
 .translator-ai-wrap .target-language-cont > select {
   width: 100%;
   height: 30px;
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   color: var(--text-color);
   border-radius: 5px;
   border: none;

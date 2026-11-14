@@ -28,7 +28,7 @@
   left: 10%;
   width: calc(80% + 32px);
   height: max-content;
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   padding: 5px;
   border-radius: 15px;
   border: 2px solid var(--border-color);
@@ -45,7 +45,7 @@
   padding: 5px;
   border-radius: 7px;
   border: 1px solid var(--border-color);
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   color: var(--text-color);
   min-height: 45px;
   max-height: calc(75vh - 50px);
@@ -129,7 +129,7 @@
   top: 12vh;
   left: calc(10% + 32px);
   width: calc(80% - 32px);
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   color: var(--text-color);
   border-radius: 10px;
   border: 2px solid var(--border-color);
@@ -141,7 +141,7 @@
 }
 .edit-text-snippet-block > textarea {
   resize: none;
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   border: 1px solid var(--border-color);
   border-radius: 5px;
   width: 100%;
@@ -156,7 +156,7 @@
 .edit-text-snippet-block > button {
   border: 1px solid var(--border-color);
   color: var(--text-color);
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   border-radius: 5px;
   padding: 3px 5px;
   font-size: 15px;

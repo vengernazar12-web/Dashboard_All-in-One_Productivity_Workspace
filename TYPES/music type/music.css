@@ -8,7 +8,7 @@
   top: 12vh;
   left: 10%;
   width: calc(80% + 32px);
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   padding: 5px;
   border-radius: 10px;
   border: 2px solid var(--border-color);
@@ -22,7 +22,7 @@
   border: 1px solid var(--border-color);
   border-radius: 5px;
   margin-top: 5px;
-  background-color: var(--block-bg);
+  background: var(--block-bg);
 }
 
 .search-music-input {
@@ -45,7 +45,7 @@
   left: 5px;
   height: 75px;
   padding: 3px;
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   width: calc(100% - 10px);
   border-radius: 7px;
   border: 1px solid var(--border-color);
@@ -124,7 +124,7 @@
   top: 12vh;
   left: 10%;
   width: calc(80% + 32px);
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   border: 2px solid var(--border-color);
   border-radius: 5px;
   padding: 5px;
@@ -136,7 +136,7 @@
   border-radius: 5px;
   padding: 2px;
   color: var(--text-color);
-  background-color: var(--block-bg);
+  background: var(--block-bg);
 }
 
 /* Music progress txt */
@@ -233,7 +233,7 @@
   top: 40px;
   left: 5px;
   height: 30px;
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   color: var(--text-color);
   border-radius: 10px;
   border: 1px solid var(--border-color);

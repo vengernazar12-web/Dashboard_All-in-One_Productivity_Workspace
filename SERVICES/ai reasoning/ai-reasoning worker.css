@@ -5,7 +5,7 @@
   width: calc(100% - 10px);
   min-height: 100px;
   height: 50%;;
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   color: var(--text-color);
   padding: 5px;
   border-radius: 5px;
@@ -32,7 +32,7 @@
   max-height: 300%;
   height: max-content;
   overflow-y: auto;
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   color: var(--text-color);
   border: 1px dashed green;
   border-radius: 10px;

@@ -20,7 +20,7 @@
   justify-content: center;
   align-items: center;
   color: var(--text-color);
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   border-radius: 3px;
   font-size: 16px;
   padding: 2px 5px;
@@ -48,7 +48,7 @@
   min-height: 100px;
   height: max-content;
   max-height: calc(100% - 110px);
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   border-radius: 5px;
   border: 1px solid var(--border-color);
   padding: 5px;

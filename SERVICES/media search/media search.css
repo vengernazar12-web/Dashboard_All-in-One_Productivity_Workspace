@@ -3,7 +3,7 @@
   top: 10px;
   width: calc(50% - 15px);
   height: 30px;
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   color: var(--text-color);
   border: 1px solid var(--border-color);
   border-radius: 7px;
@@ -83,7 +83,7 @@
 }
 
 .media-search-wrap > .result button.copy-btn {
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   color: var(--text-color);
   border-radius: 3px;
   text-align: center;
@@ -114,7 +114,7 @@
 
 /* Result blocks */
 .media-search-wrap > .result .result-info {
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   border: 1px solid var(--border-color);
   border-radius: 5px;
   padding: 5px;
@@ -159,7 +159,7 @@
   overflow-y: auto;
   border-radius: 10px 10px 0 0;
   border-top: 1px dashed var(--border-color);
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   color: var(--text-color);
   padding: 10px;
   transform: translateY(100%);

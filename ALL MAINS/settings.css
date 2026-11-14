@@ -3,7 +3,7 @@
 .settings-block {
   width: 90%;
   height: 50px;
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   border: 1px solid var(--border-color);
   margin: 10px auto;
   border-radius: 10px;
@@ -27,7 +27,7 @@
   border-left: 1px solid var(--border-color);
 }
 .settings-block select > option {
-  background-color: var(--block-bg);
+  background: var(--block-bg);
   color: var(--text-color)
 }
 
