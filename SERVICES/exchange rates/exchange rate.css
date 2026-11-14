@@ -11,10 +11,6 @@
   background: var(--block-bg);
   color: var(--text-color);
 }
-.exchange-rate-wrap > select > option {
-  background-color: silver;
-  color: black;
-}
 
 .exchange-rate-wrap > input.count {
   position: absolute;

@@ -46,10 +46,6 @@
   padding: 3px;
   width: 75%;
 }
-.add-new-block-code-form > select > option {
-  background: var(--block-bg);
-  color: var(--text-color);
-}
 
 .code-block-name-input {
   width: 95%;

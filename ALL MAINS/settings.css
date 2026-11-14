@@ -26,10 +26,6 @@
   padding: 2px;
   border-left: 1px solid var(--border-color);
 }
-.settings-block select > option {
-  background: var(--block-bg);
-  color: var(--text-color)
-}
 
 .notes-font-size-sett {
   height: 20px;

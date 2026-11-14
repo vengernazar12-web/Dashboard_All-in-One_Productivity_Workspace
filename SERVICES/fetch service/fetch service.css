@@ -16,7 +16,6 @@ html .fetch-service-wrap {
   border-radius: 8px;
   width: 100%;
 }
-.fetch-service-wrap > .method > option { background-color: silver; color: black; }
 
 .fetch-service-wrap > .method:focus { border-color: var(--text-color); }
 

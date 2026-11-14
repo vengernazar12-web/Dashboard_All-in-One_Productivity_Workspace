@@ -41,7 +41,6 @@
   background: var(--block-bg);
   border-radius: 8px;
 }
-.unit-converter-wrap select > option { background-color: silver; color: black; }
 
 .unit-converter-wrap > p.result {
   position: absolute;

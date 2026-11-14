@@ -87,10 +87,6 @@
   border-radius: 7px;
   border: 1px solid var(--border-color);
 }
-.text-worker-service-wrap > .cont select > option {
-  background-color: silver;
-  color: black;
-}
 
 .text-worker-service-wrap > .cont input[type='checkbox'] {
   height: 16px;

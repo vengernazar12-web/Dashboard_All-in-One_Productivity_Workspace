@@ -11,10 +11,6 @@
   padding: 0 3px;
   contain: content;
 }
-.text-to-speech-wrap > select > option {
-  background-color: silver;
-  color: black;
-}
 
 .text-to-speech-wrap > textarea {
   position: absolute;

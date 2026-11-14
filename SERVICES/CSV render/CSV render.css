@@ -34,11 +34,6 @@
   width: 50%;
 }
 
-.csv-render-wrap > select > option {
-  background: var(--block-bg);
-  color: var(--text-color);
-}
-
 .csv-render-wrap > button.render {
   position: absolute;
   top: calc(50% + 45px);

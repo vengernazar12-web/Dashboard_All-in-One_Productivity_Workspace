@@ -9,8 +9,6 @@
   border-radius: 7px;
 }
 
-.media-search-wrap > select > option { background-color: silver; color: black; }
-
 .media-search-wrap > select.country { left: 10px; }
 .media-search-wrap > select.country.not-work {
   background: rgb(16, 16, 16);
