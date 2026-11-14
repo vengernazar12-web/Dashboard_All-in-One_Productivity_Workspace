@@ -302,6 +302,7 @@ codeAiSendPromptBtn.addEventListener('click', async () => {
   ];
 
   if(contentFiles.length > 15) return showResponseFn("You cannot transfer more than 15 files at a time.");
+  if(contentFiles.find(file => file.content.length > 90_000)) return showResponseFn("You have sent a file that is too large (> 90000 characters).");
 
   try {
     const AI_answer = await fetch(CODE_AI_API, {
