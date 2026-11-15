@@ -56,17 +56,19 @@
   transition: text-shadow .2s;
   border-radius: 7px;
   padding: 2px 3px;
+  transition: transform .2s;
+  background-color: transparent;
 }
-.exchange-rate-wrap > div > div:hover { text-shadow: 0 0 3px blue; }
+.exchange-rate-wrap > div > div:hover {
+  transform: translateY(-2px);
+  background: var(--block-bg);
+}
 
 .exchange-rate-wrap > div > div:not(:last-child) {
   border-bottom: 1px solid var(--border-color);
   margin-bottom: 12px;
 }
-.exchange-rate-wrap > div > div.is-fav {
-  border-bottom-color: yellow;
-  box-shadow: 0 0 5px gold;
-}
+.exchange-rate-wrap > div > div.is-fav { border-bottom: 2px solid yellow; }
 
 .exchange-rate-wrap > div > div > pre {
   width: max-content;

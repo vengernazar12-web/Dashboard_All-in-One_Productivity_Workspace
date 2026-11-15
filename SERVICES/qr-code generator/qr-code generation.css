@@ -32,30 +32,30 @@
   height: 35px;
 }
 
-.qr-code-generation-wrap button,
-.qr-code-generation-wrap a {
+.qr-code-generation-wrap div.buttons button,
+.qr-code-generation-wrap div.buttons a {
   font-size: 15px;
   padding: 3px;
-}
-
-.qr-code-generation-wrap button {
-  background-color: green;
+  flex: 1;
+  text-align: center;
+  border-radius: 5px;
   color: white;
-  border-radius: 5px;
-  border: 1px solid var(--border-color);
 }
 
-.qr-code-generation-wrap a {
-  color: var(--text-color);
+.qr-code-generation-wrap div.buttons button {
+  background-color: green;
+  border: none;
+}
+
+.qr-code-generation-wrap div.buttons a {
   background-color: blue;
-  border-radius: 5px;
-  border: 1px solid var(--border-color);
+  border: none;
   cursor: pointer;
 }
-.qr-code-generation-wrap > a:not([href]) {
-  opacity: 0.5;
+
+.qr-code-generation-wrap div.buttons a:not([href]) {
+  opacity: 0.3;
   cursor: default;
-  font-size: 16px;
 }
 
 .qr-code-generation-wrap > img {

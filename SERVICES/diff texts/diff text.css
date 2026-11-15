@@ -6,7 +6,7 @@
   height: 60%;;
   background: var(--block-bg);
   color: var(--text-color);
-  padding: 5px;
+  padding: 7px;
   border-radius: 7px;
   border: 1px solid var(--border-color);
   font-size: 14px;
@@ -53,20 +53,20 @@
   width: max-content;
   height: max-content;
   white-space: pre-wrap;
+  padding-inline: 2px;
 }
+
+.diff-text-wrap > div.result div.added { border: 1px solid green; }
 
 .diff-text-wrap > div.result div.added:before {
   content: '+';
   font-size: 14px;
   margin-inline: 2px;
-  opacity: 0.7;
-  font-weight: 600;
 }
 
+.diff-text-wrap > div.result div.removed { border: 1px solid red; }
 .diff-text-wrap > div.result div.removed:before {
   content: '−';
   font-size: 14px;
   margin-inline: 2px;
-  opacity: 0.7;
-  font-weight: 600;
 }

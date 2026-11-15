@@ -111,10 +111,6 @@ html .unsaved:after {
 
 progress { border: 1px solid var(--border-color); }
 
-/* Assistants loader */
-.assistant-loader { display: none; }
-.type-assistant .assistant-loader { z-index: 1000; }
-
 /* Input file styles */
 ::-webkit-file-upload-button,
 ::file-selector-button {
@@ -155,9 +151,9 @@ header.dashboard-header {
   text-align: center;
   position: fixed;
   top: 10px;
-  left: 42px;
+  left: 41px;
   padding: 15px;
-  width: calc(100% - 42px);
+  width: calc(100% - 41px);
 }
 header.dashboard-header > img {
   width: 100%;
@@ -310,7 +306,7 @@ header.dashboard-header > img {
   padding: 5px 0 5px 5px;
   border-radius: 10px;
   box-shadow: 0 0 2px var(--border-color);
-  background: color-mix(in srgb, var(--block-bg) 80%, transparent);
+  background: var(--block-bg);
 }
 
 .all-dashboard-items > section {
@@ -347,7 +343,7 @@ header.dashboard-header > img {
   z-index: 100;
   border-left: 3px double var(--border-color);
   padding: 10px 5px;
-  width: calc(100% - 42px);
+  width: calc(100% - 41px);
   letter-spacing: 2px;
   border-radius: 10px;
   background: var(--block-bg);
@@ -376,7 +372,7 @@ header.dashboard-header > img {
   text-align: center;
   border-bottom: 3px solid var(--border-color);
   padding: 5px;
-  width: calc(100% - 42px);
+  width: calc(100% - 41px);
 }
 
 /* Opened btns */
@@ -388,7 +384,7 @@ header.dashboard-header > img {
   border-bottom: 1px solid var(--border-color);
   box-shadow: 1px 1px 3px var(--border-color);
   border-radius: 5px;
-  width: calc(100% - 42px);
+  width: calc(100% - 41px);
   text-align: left;
   padding: 2px 3px;
   display: flex;
@@ -417,7 +413,7 @@ header.dashboard-header > img {
   display: none;
   position: fixed;
   max-height: 60vh;
-  left: calc(11% + 42px);
+  left: calc(11% + 41px);
   overflow-y: auto;
 }
 .show-fields-block > p {
