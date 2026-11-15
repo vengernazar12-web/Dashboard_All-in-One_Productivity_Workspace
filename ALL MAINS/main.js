@@ -408,6 +408,7 @@ function renderShowFieldsBlock(orgValuesArr, val, input, isName = false) {
   else {
     showFieldsBlock.classList.add('show');
     showFieldsBlock.style.top = `${input.getBoundingClientRect().top + 35}px`;
+    showFieldsBlock.style.left = `${input.getBoundingClientRect().left + 15}px`;
   }
 }
 
@@ -484,7 +485,7 @@ document.addEventListener('keydown', e => {
     else if(addNotesForm.classList.contains('show')) addNotesButton.click();
     else if(addCodeBlockForm.classList.contains('show')) addCodeBlockBtn.click();
     else if(editNoteBlock.classList.contains('show')) confNoteEditChangeBtn.click();
-    else if(addTextSnippetForm.classList.contains('show')) addTextSnippetBtn.click();
+    else if(addTextSnippetForm.classList.contains('show') && !e.shiftKey) addTextSnippetBtn.click();
     else if(addMusicForm.classList.contains('show')) addMusicBtn.click();
 
     // Services

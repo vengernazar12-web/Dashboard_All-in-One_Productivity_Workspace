@@ -167,10 +167,7 @@ toggleAddTextSnippetForm.addEventListener('click', () => {
 });
 
 const addTextSnippetNameInput = addTextSnippetForm.querySelector('.add-text-snippet-name-input');
-addTextSnippetNameInput.addEventListener('input', () => {
-  addTextSnippetNameInput.style.color = addTextSnippetNameInput.value.trim().length > allValuesLimit.textName ? 'red' : 'var(--text-color)';
-  renderShowFieldsBlock(Object.keys(allTextsSnippetsObj), addTextSnippetNameInput.value.trim(), addTextSnippetNameInput, true);
-});
+addTextSnippetNameInput.addEventListener('input', () => renderShowFieldsBlock(Object.keys(allTextsSnippetsObj), addTextSnippetNameInput.value.trim(), addTextSnippetNameInput, true));
 
 addTextSnippetNameInput.addEventListener('focus', () => lastFocusedInput = addTextSnippetNameInput);
 
@@ -195,19 +192,12 @@ addTextSnippetBtn.addEventListener('click', () => {
   const name = addTextSnippetNameInput.value.trim();
   if(!name) return showResponseFn('Please enter a name');
 
-  if(name.length > allValuesLimit.textName) {
-    addTextSnippetForm.classList.remove('show');
-    return showResponseFn(`Name: length ${name.length}/${allValuesLimit.textName}`);
-  }
+  if(name.length > allValuesLimit.textName) return showResponseFn(`Name: length ${name.length}/${allValuesLimit.textName}`);
   if(Object.keys(allTextsSnippetsObj).find(n => n == name)) return showResponseFn('You already used this name');
+
   const content = addTextSnippetContentTextarea.value.trim();
-
   if(!content) return showResponseFn('Please enter a text (content)');
-
-  if(content.length > allValuesLimit.textContent) {
-    addTextSnippetForm.classList.remove('show');
-    return showResponseFn(`Text: length ${content.length}/${allValuesLimit.textContent}`);
-  };
+  if(content.length > allValuesLimit.textContent) return showResponseFn(`Text: length ${content.length}/${allValuesLimit.textContent}`);
 
   addTextSnippetNameInput.value = '';
   addTextSnippetContentTextarea.value = '';

@@ -246,15 +246,15 @@
 
   <button class="toggle-add-note-form --toggle-form-btn" title="Ctrl + h">✚</button>
   <div class="add-notes-inputs">
-    <input type="text" class="note-name-input" placeholder="Note name...">
-    <input type="text" class="note-description-input" placeholder="Note description...">
+    <input type="text" class="note-name-input" placeholder="Note name..." maxlength="50">
+    <input type="text" class="note-description-input" placeholder="Note description..." maxlength="200">
     <button class="add-note-button">Add</button>
   </div>
 
   <!-- Edit note block -->
   <div class="edit-note-block">
-    <input type="text" class="edit-note-name-input" placeholder="New name...">
-    <input type="text" class="edit-note-desc-input" placeholder="New description...">
+    <input type="text" class="edit-note-name-input" placeholder="New name..." maxlength="50">
+    <input type="text" class="edit-note-desc-input" placeholder="New description..." maxlength="200">
     <button class="conf-note-edit-change-btn">OK</button>
   </div>
 
@@ -286,8 +286,8 @@
 
   <div class="add-url-form">
     <h3>Add new url</h3>
-    <input type="text" class="add-opened-url-input" placeholder="Url...">
-    <input type="text" class="add-url-name-input" placeholder="Url name...">
+    <input type="text" class="add-opened-url-input" placeholder="Url..." maxlength="500">
+    <input type="text" class="add-url-name-input" placeholder="Url name..." maxlength="50">
     <input
     type = "file"
     class = "add-url-img-input"
@@ -344,7 +344,7 @@
 
   <div class="add-new-block-code-form">
     <h3>Add your code</h3>
-    <input type="text" class="code-block-name-input" placeholder="Code title...">
+    <input type="text" class="code-block-name-input" placeholder="Code title..." maxlength="30">
     <select class="user-code-lang">
       <option value="HTML">HTML</option>
       <option value="CSS">CSS</option>
@@ -383,7 +383,7 @@
   <!-- Add text snippet -->
    <button class="toggle-add-text-snippet-btn --toggle-form-btn" title="Ctrl + h">✚</button>
   <div class="add-text-snippet-form">
-    <input type="text" class="add-text-snippet-name-input" placeholder="Name...">
+    <input type="text" class="add-text-snippet-name-input" placeholder="Name..." maxlength="30">
     <textarea class="add-text-snippet-content-textarea" placeholder="Text..."></textarea>
     <p class="content-limit-txt"></p>
     <button class="add-text-snippet-btn">ADD</button>
@@ -391,7 +391,7 @@
 
   <!-- Edit text snippet block -->
   <div class="edit-text-snippet-block">
-    <input class="edit-name-input" type="text" placeholder="New name...">
+    <input class="edit-name-input" type="text" placeholder="New name..." maxlength="30">
     <textarea class="edit-content-textarea" type="text" placeholder="New content..."></textarea>
     <p class="content-limit-txt"></p>
     <button class="confirm-edit-change">OK</button>
@@ -421,15 +421,15 @@
 
   <button class="toggle-add-music-form --toggle-form-btn" title="Ctrl + h">✚</button>
   <div class="add-music-form">
-    <input class="name" type="text" placeholder="Music name...">
-    <input class="music-url" type="text" placeholder="Music URL...">
+    <input class="name" type="text" placeholder="Music name..." maxlength="25">
+    <input class="music-url" type="text" placeholder="Music URL..." maxlength="500">
     <button class="add-music-btn">OK</button>
   </div>
 
   <!-- Edit music block -->
   <div class="edit-music-block">
-    <input type="text" class="name" placeholder="New name...">
-    <input type="text" class="music-url" placeholder="New music URL...">
+    <input type="text" class="name" placeholder="New name..." maxlength="25">
+    <input type="text" class="music-url" placeholder="New music URL..." maxlength="500">
     <button class="confirm">OK</button>
   </div>
 
@@ -1234,7 +1234,7 @@
   <div class="assistant-answer-container is-ai-text"></div>
 
   <!-- User prompt -->
-  <textarea type="text" class="user-prompt-textarea" placeholder="How can I help?..."></textarea>
+  <textarea type="text" class="user-prompt-textarea" placeholder="How can I help?..." maxlength="1000"></textarea>
   <button class="send-prompt-btn">🗣</button>
 
   <!-- Loader for AI -->

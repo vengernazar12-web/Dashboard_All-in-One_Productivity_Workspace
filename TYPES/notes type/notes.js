@@ -74,10 +74,10 @@ addNotesButton.addEventListener('click', () => {
   const name = addNoteInputName.value.trim();
   if(!name) return showResponseFn("You don't have a note name");
   if(allNotesObj[name]) return showResponseFn('You are using this name');
-  if(name.length > allValuesLimit.noteName) return showResponseFn('Note name is too long (more than 50 characters)');
+  if(name.length > allValuesLimit.noteName) return showResponseFn(`Note name is too long (more than ${allValuesLimit.noteName} characters)`);
 
   let desc = addNoteInputDescription.value.trim() || 'Description';
-  if(desc.length > allValuesLimit.noteDesc) return showResponseFn('The description is too long (more than 250 characters)');
+  if(desc.length > allValuesLimit.noteDesc) return showResponseFn(`The description is too long (more than ${allValuesLimit.noteDesc} characters)`);
 
   addNoteInputName.value = '';
   addNoteInputDescription.value = '';
@@ -99,13 +99,9 @@ let descBeforeEdit = null;
 const editNoteBlock = notesWrap.querySelector('.edit-note-block');
 
 const editNoteNameInput = editNoteBlock.querySelector('.edit-note-name-input');
-editNoteNameInput.addEventListener('input', () => {
-  editNoteNameInput.style.color = editNoteNameInput.value.trim().length > allValuesLimit.noteName ? 'red' : 'var(--text-color)';
-  renderShowFieldsBlock(Object.keys(allNotesObj), editNoteNameInput.value.trim(), editNoteNameInput);
-});
+editNoteNameInput.addEventListener('input', () => renderShowFieldsBlock(Object.keys(allNotesObj), editNoteNameInput.value.trim(), editNoteNameInput));
 
 const editNoteDescInput = editNoteBlock.querySelector('.edit-note-desc-input');
-editNoteDescInput.addEventListener('input', () => editNoteDescInput.style.color = editNoteDescInput.value.trim().length > allValuesLimit.noteDesc ? 'red' : 'var(--text-color)');
 
 // Confirm edit change
 const confNoteEditChangeBtn = editNoteBlock.querySelector('.conf-note-edit-change-btn');

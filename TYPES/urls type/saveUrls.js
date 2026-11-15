@@ -148,6 +148,7 @@ addUrlBtn.addEventListener('click', async () => {
 
   const url = openedUrlInput.value.trim();
   if(!url) return showResponseFn('Please enter the URL');
+  if(url.length > 500) return showResponseFn('Your URL is too long');
 
   let userUploadImg = imageUrlInput.files[0];
   let imgUrl = '/all-imgs/Classic-dashboard-img.webp';
@@ -233,6 +234,7 @@ editChangesInput.addEventListener('input', () => {
 const confirmEditUrlBtn = editUrlForm.querySelector('.confirm-edit-url-btn');
 
 selectEditItem.addEventListener('change', () => editChangesInput.type = selectEditItem.value === 'image' ? 'file' : 'text');
+
 confirmEditUrlBtn.addEventListener('click', async () => {
   const editItem = selectEditItem.value;
   confirmEditUrlBtn.disabled = true;
@@ -262,6 +264,7 @@ confirmEditUrlBtn.addEventListener('click', async () => {
   }
   else if(editItem === 'url') {
     if(!editChange) return showResponseFn('Please set url');
+    if(editChange.length > 500) return showResponseFn('Your url is too long');
 
     allUrlsObj[initEditUrlName].url = editChange;
 

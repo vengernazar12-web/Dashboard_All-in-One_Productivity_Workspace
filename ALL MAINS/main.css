@@ -403,6 +403,7 @@ header.dashboard-header > img {
 
 /* Show fields block */
 .show-fields-block {
+  position: fixed;
   background: var(--block-bg);
   padding: 3px;
   border-radius: 10px;
@@ -410,10 +411,8 @@ header.dashboard-header > img {
   color: var(--text-color);
   width: max-content;
   height: max-content;
-  display: none;
-  position: fixed;
   max-height: 60vh;
-  left: calc(11% + 41px);
+  display: none;
   overflow-y: auto;
 }
 .show-fields-block > p {

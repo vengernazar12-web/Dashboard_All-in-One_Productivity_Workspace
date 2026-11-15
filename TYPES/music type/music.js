@@ -157,6 +157,7 @@ addMusicBtn.addEventListener('click', () => {
 
   let musicUrl = addMusicUrlInput.value.trim();
   if(!musicUrl) return showResponseFn("You don't have name");
+  if(musicUrl.length > 500) return showResponseFn('Your URL is too long');
 
   if(!musicUrl.startsWith('http')) musicUrl = `https://${musicUrl}`;
   if(allNames.find(n => allMusicObj[n].musicUrl === musicUrl)) return showResponseFn('You already have this music url');

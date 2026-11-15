@@ -148,7 +148,6 @@ userPromptTextarea.addEventListener('input', () => {
   userPromptTextarea.style.height = `${userPromptTextarea.scrollHeight + 3}px`;
 
   const val = userPromptTextarea.value.trim();
-  sendPromptBtn.style.border = `1px solid ${val.length > 1000 ? 'red' : 'silver'}`;
   sendPromptBtn.textContent = val ? '=>' : '🗣';
 })
 
