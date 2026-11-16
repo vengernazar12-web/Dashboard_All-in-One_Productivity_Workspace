@@ -469,9 +469,17 @@ window.addEventListener('popstate', () => setInitWindowState());
 // ------------------------- Render AI markdown
 let renderMarkdownToHTML = null;
 (async () => {
-  const { default: MarkdownIt } = await import("https://cdn.jsdelivr.net/npm/markdown-it/+esm");
-  const md = new MarkdownIt({ linkify: true, breaks: true });
-  renderMarkdownToHTML = markdown => md.render(markdown);
+  const [
+    { default: MarkdownIt },
+    katexPlugin
+  ] = await Promise.all([
+    import("https://cdn.jsdelivr.net/npm/markdown-it/+esm"),
+    import("https://esm.sh/@mdit/plugin-katex")
+  ]);
+
+  const md = new MarkdownIt().use(katexPlugin.katex);
+
+  renderMarkdownToHTML = text => md.render(text);
 })();
 
 // Set preloader value

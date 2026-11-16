@@ -22,7 +22,7 @@ async function getAiResponse() {
     })
 
     const data = await resp.json();
-    const textAnswer = renderMarkdownToHTML(data.for_show);
+    const textAnswer = data.for_show;
     clearTimeout(isSlowAnswerTimer);
 
     // If ai do tool_calls

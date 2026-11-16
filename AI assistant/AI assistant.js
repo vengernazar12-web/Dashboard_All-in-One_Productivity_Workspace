@@ -216,7 +216,7 @@ function createAssistantResponse(txt, isThinking = false) {
     }
   }
 
-  initTypingHTML = txt;
+  initTypingHTML = renderMarkdownToHTML(txt);
   if(isThinking) {
     initTypingElement.innerHTML = unhashHtmlSymbols(initTypingHTML);
     assistantResponseContainer.scrollTop = assistantResponseContainer.scrollHeight;
