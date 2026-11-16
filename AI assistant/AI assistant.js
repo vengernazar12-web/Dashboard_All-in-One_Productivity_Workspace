@@ -19,10 +19,10 @@ async function renderHistoryChat() {
       body: JSON.stringify({ isGetChat: true })
     });
     const data = await resp.json();
-    historyForAiPrompt = data.for_history;
+    historyForAiPrompt = data.history || [];
 
     const frag = document.createDocumentFragment();
-    for (let obj of data.for_show || []) {
+    for (let obj of historyForAiPrompt) {
       const div = document.createElement('div');
       const pre = document.createElement('pre');
       div.appendChild(pre);
@@ -32,8 +32,8 @@ async function renderHistoryChat() {
 
       if (role === 'user') {
         div.classList.add('user-text');
-        pre.innerHTML = content;
-      } else if (role === 'assistant' && content) pre.innerHTML = content;
+        pre.textContent = content;
+      } else if (role === 'assistant' && content) pre.innerHTML = renderMarkdownToHTML(content);
       else continue;
 
       frag.appendChild(div);
@@ -181,7 +181,6 @@ sendPromptBtn.addEventListener('click', async () => {
 // Create assistant response
 let typingInterval = null;
 let initTypingElement = null;
-let initTypingText = null;
 let initTypingHTML = null;
 
 let isLastBeenThinking = false;
@@ -219,18 +218,17 @@ function createAssistantResponse(txt, isThinking = false) {
 
   initTypingHTML = txt;
   if(isThinking) {
-    initTypingElement.innerHTML = initTypingHTML;
+    initTypingElement.innerHTML = unhashHtmlSymbols(initTypingHTML);
     assistantResponseContainer.scrollTop = assistantResponseContainer.scrollHeight;
     return;
   }
 
-  initTypingText = new DOMParser().parseFromString((unhashHtmlSymbols(txt)), "text/html").body.textContent;
-  const txtLng = initTypingText.length;
+  const txtLng = txt.length;
 
   let c = 0;
   typingInterval = setInterval(() => {
     c += Math.floor(Math.random() * 15 + 1);
-    initTypingElement.textContent = initTypingText.slice(0, c);
+    initTypingElement.textContent = txt.slice(0, c);
     if(c > txtLng) {
       clearInterval(typingInterval);
       typingInterval = null;

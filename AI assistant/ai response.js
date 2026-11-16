@@ -22,6 +22,7 @@ async function getAiResponse() {
     })
 
     const data = await resp.json();
+    const textAnswer = renderMarkdownToHTML(data.for_show);
     clearTimeout(isSlowAnswerTimer);
 
     // If ai do tool_calls
@@ -105,7 +106,7 @@ async function getAiResponse() {
     assistantLoader.style.display = 'none';
     sendPromptBtn.disabled = false;
 
-    return data.for_show;
+    return textAnswer;
   } catch (e) {
     clearTimeout(isSlowAnswerTimer);
     console.error(e);

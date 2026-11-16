@@ -326,7 +326,7 @@ ${usedTools.length
         ? `<details><summary>Used tools</summary>${usedTools.map(tool => `<p>${tool}</p>`).join('')}</details>`
         : ''
       }
-${message.for_show}
+${renderMarkdownToHTML(message.answer)}
 
 ${editsArr
         .map(newCodeObj => `
@@ -341,25 +341,26 @@ ${editsArr
         </code>
       `).join('')
       }
-    `.trim(),
-
-      'assistant'
+    `.trim(), 'assistant'
     );
 
-    codeAiHistory.push({ role: 'assistant', content: message.for_history });
+    codeAiHistory.push({ role: 'assistant', content: message.answer });
 
     if (editsArr.length) {
-      for (const newCodeObj of editsArr) codeAiProposedCodesInfo.push({name: newCodeObj.name, newContent: newCodeObj.newContent, id: newCodeObj.id, lang: newCodeObj.language});
+      for (const newCodeObj of editsArr) codeAiProposedCodesInfo.push({ name: newCodeObj.name, newContent: newCodeObj.newContent, id: newCodeObj.id, lang: newCodeObj.language });
 
       const pushedToolsId = [];
       const allToolCalls = editsArr.flatMap(({ tool_calls }) => tool_calls);
-      codeAiHistory.push({ role: 'assistant', tool_calls: allToolCalls.filter(tool => {
-        if(pushedToolsId.includes(tool.id)) return false;
-        else {
-          pushedToolsId.push(tool.id);
-          return true;
-        }
-      }) });
+
+      codeAiHistory.push({
+        role: 'assistant', tool_calls: allToolCalls.filter(tool => {
+          if (pushedToolsId.includes(tool.id)) return false;
+          else {
+            pushedToolsId.push(tool.id);
+            return true;
+          }
+        })
+      });
     }
   } catch (e) { console.log(e); }
   finally { codeAiLoader.style.display = 'none'; }
@@ -389,7 +390,7 @@ function createCodeAiPreInChat(message, role) {
     codeAiRespAnimationData.pre = pre;
     codeAiRespAnimationData.text = message;
 
-    const initTypingText = new DOMParser().parseFromString((unhashHtmlSymbols(message)), "text/html").body.textContent;
+    const initTypingText = message;
 
     let c = 0;
     codeAiRespAnimationData.interval = setInterval(() => {

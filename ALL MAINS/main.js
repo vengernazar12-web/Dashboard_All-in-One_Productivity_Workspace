@@ -143,182 +143,6 @@ function unhashHtmlSymbols(content) {
   ?.replaceAll('&amp;', '&');
 }
 
-// Render markdown
-const latexReplacements = {
-  '\\%': '%',
-  '\\approx': '≈',
-  '\\neq': '≠',
-  '\\le': '≤',
-  '\\ge': '≥',
-  '\\to': '→',
-  '\\times': '×',
-  '\\alpha': 'α',
-  '\\beta': 'β',
-  '\\gamma': 'γ',
-  '\\delta': 'δ',
-  '\\pi': 'π',
-  '\\lambda': 'λ',
-  '\\mu': 'μ',
-  '\\sigma': 'σ',
-  '\\omega': 'ω',
-  '\\infty': '∞',
-  '\\sum': '∑',
-  '\\prod': '∏',
-  '\\sqrt': '√',
-  '\\degree': '°',
-  '\\rightarrow': '→',
-  '\\leftarrow': '←',
-  '\\leftrightarrow': '↔',
-  '\\Rightarrow': '⇒',
-  '\\Leftarrow': '⇐',
-  '\\Leftrightarrow': '⇔',
-  '\\uparrow': '↑',
-  '\\downarrow': '↓',
-  '\\nearrow': '↗',
-  '\\searrow': '↘',
-  '\\swarrow': '↙',
-  '\\nwarrow': '↖',
-  '\\land': '∧',
-  '\\lor': '∨',
-  '\\neg': '¬',
-  '\\forall': '∀',
-  '\\exists': '∃',
-  '\\in': '∈',
-  '\\notin': '∉',
-  '\\subset': '⊂',
-  '\\subseteq': '⊆',
-  '\\cup': '∪',
-  '\\cap': '∩',
-  '\\vdash': '⊢',
-  '\\models': '⊨',
-  '\\cdot': '·',
-  '\\pm': '±',
-  '\\oplus': '⊕',
-  '\\otimes': '⊗',
-  '\\implies': '⇒',
-  '\\iff': '⇔',
-  '\\ ': '&nbsp;'
-};
-
-const latexRegexp = new RegExp(
-  Object.keys(latexReplacements)
-    .sort((a, b) => b.length - a.length)
-    .map(x => x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
-    .join('|'),
-  'g'
-);
-
-// Render markdown
-function renderMarkdown(message) {
-  const codeBlocks = [];
-  const inlineCodeBlocks = [];
-
-  let txt = hashHtmlSymbols(message)
-    ?.replace(/```([^\n]*)\n([\s\S]*?)```/g, (m, lang, code) => {
-      const id = codeBlocks.length;
-      codeBlocks.push(`<div class="code-block" data-title="${lang}">
-    <pre><code>${code}</code></pre>
-  </div>`);
-      return `@@CODEBLOCK${id}@@`;
-    })
-    .replace(/(?<!`)`(?!`)(.+?)(?<!`)`(?!`)/g, (m, code) => {
-      const id = inlineCodeBlocks.length;
-
-      inlineCodeBlocks.push(`<code class="inline-code">${code}</code>`);
-
-      return `@@INLINECODE${id}@@`;
-    })
-    .replace(/\$O\((.*?)\)\$/g, (_, content) =>
-      `O(${content.replace(/\\log\b/g, 'log')})`
-    )
-    .replace(/^(#{1,6}) *(.+)$/gm, (_, tag, txt) => `<h${tag.length}>${txt}</h${tag.length}>`)
-    .replace(/^\s*\-\-\-|^\s*\*\*\*/gm, '<hr>')
-    .replace(/\$(.*?)\$/g, '$1')
-    .replace(
-      /(\*{1,3})([^ ][^*]+?)\1/g,
-      (_, marks, content) => {
-        if (marks === '***') return `<strong><em>${content}</em></strong>`;
-        if (marks === '**') return `<strong>${content}</strong>`;
-        return `<em>${content}</em>`;
-      }
-    )
-    .replace(/_(\d+)/g, '<sub>$1</sub>')
-    .replace(/(^|\s)_(.+?)_(?=\s|$)/g, '$1<em>$2</em>')
-    .replace(/~~(.+?)~~/g, '<del>$1</del>')
-    .replace(/\$?\\boxed\{([\s\S]*?)\}\$?/g,
-      (_, content) => {
-        return `<span style="
-      border:1px solid #666;
-      border-radius:6px;
-      padding:2px 6px;
-      display:inline-block;
-      font-weight:600;
-    ">${content}</span>`
-      }
-    ).replace(/\\text\{(.*?)\}/g, '$1')
-    .replace(latexRegexp, match => latexReplacements[match])
-    .replace(/\^(\d+)/g, '<sup>$1</sup>')
-    .replace(/\\frac\{([^}]+)\}\{([^}]+)\}/g, '<span class="frac"><span>$1</span><hr><span>$2</span></span>')?.replace(/\\text\{([^}]+)\}/g, '$1')
-    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
-    .replace(/^>[ ]?(.+)/gm, '<blockquote>$1</blockquote>')
-    .replace(/@@CODEBLOCK(\d+)@@/g, (all, i) => codeBlocks[i] ?? all)
-    .replace(/@@INLINECODE(\d+)@@/g, (all, i) => inlineCodeBlocks[i] ?? all);
-
-  // Add lists
-  if (txt) {
-    const ulBlocks = txt.match(/(\n *[-*][^\n]+)+/g);
-    if (ulBlocks) for (let ulBlock of ulBlocks) {
-      let str = ulBlock;
-
-      for (let liTxt of str.match(/\n *[-*][^\n]+/g)) {
-        const spacesNum = liTxt.search(/[-*]/);
-        str = str.replace(liTxt, `<li style="margin-left: ${spacesNum * 8}px;">${liTxt.trim().replace('\n', '').replace(/[-*]/, '')}</li>`);
-      };
-
-      str = `\n<ul>${str}</ul>\n`;
-
-      txt = txt.replace(ulBlock, str);
-    }
-  }
-
-  // Add tables
-  if (txt) {
-    // Ловимо блок таблиці (кілька рядків що починаються з |)
-    const tableBlocks = txt.match(/(\|[^\n]+\|\n?)+/g);
-
-    if (tableBlocks) for (let tableBlock of tableBlocks) {
-      const rows = tableBlock.trim().split('\n');
-      let html = '<table>';
-
-      rows.forEach((row, index) => {
-        // Пропускаємо роздільник |---|---|
-        if (/^\|[-| :]+\|$/.test(row.trim())) return;
-
-        const cells = row
-          .split('|')
-          .filter(c => c.trim() !== ''); // прибираємо порожні з країв
-
-        if (index === 0) {
-          // Перший рядок = thead
-          html += '<thead><tr>';
-          cells.forEach(c => html += `<th>${c.trim()}</th>`);
-          html += '</tr></thead><tbody>';
-        } else {
-          // Решта = tbody
-          html += '<tr>';
-          cells.forEach(c => html += `<td>${c.trim()}</td>`);
-          html += '</tr>';
-        }
-      });
-
-      html += '</tbody></table>';
-      txt = txt.replace(tableBlock, unhashHtmlSymbols(html));
-    }
-  }
-
-  return txt;
-}
-
 // Load script
 const header = document.querySelector('header');
 async function loadScript(src) {
@@ -641,6 +465,14 @@ function setInitWindowState() {
   if(dashboardWindowsBtnsFromNames[hash]) dashboardWindowsBtnsFromNames[hash].click();
 }
 window.addEventListener('popstate', () => setInitWindowState());
+
+// ------------------------- Render AI markdown
+let renderMarkdownToHTML = null;
+(async () => {
+  const { default: MarkdownIt } = await import("https://cdn.jsdelivr.net/npm/markdown-it/+esm");
+  const md = new MarkdownIt({ linkify: true, breaks: true });
+  renderMarkdownToHTML = markdown => md.render(markdown);
+})();
 
 // Set preloader value
 preloaderProgress.value = 1;

@@ -106,6 +106,8 @@ function createCodeBlock(name) {
       const word = (cm.getLine(cursor.line).slice(0, cursor.ch).match(/[a-z.]+$/i) || '')[0];
       if (isUserWrite && word) cm.showHint({completeSingle: false});
       clearTimeout(hintTimer);
+
+      allUserCodesObj[name].code = editor.getValue();
     }, 200);
 
     const code = cm.getValue();
@@ -116,6 +118,7 @@ function createCodeBlock(name) {
 
     codeSaveBtn.classList.add('unsaved');
   });
+
   editor.on('change', (cm) => {
     const info = cm.getScrollInfo();
     const wrapper = cm.getWrapperElement();

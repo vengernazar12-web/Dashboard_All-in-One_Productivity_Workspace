@@ -98,13 +98,14 @@ acceptLanguageLearnSettingsBtn.addEventListener('click', () => {
   else {
     savedHistory = JSON.parse(savedHistory);
     const lastMessage = savedHistory[savedHistory.length - 1];
+
     if(lastMessage.role !== 'assistant' || !lastMessage.content) {
       localStorage.setItem('language_learn_history', '');
       return goLanguageLearnGameRound();
     }
 
     const lastAssistantText = lastMessage.content;
-    languageLearnResultCont.innerHTML = renderMarkdown(lastAssistantText);
+    languageLearnResultCont.innerHTML = renderMarkdownToHTML(lastAssistantText);
     languageLearnContextHistory = savedHistory;
   }
 })
@@ -136,8 +137,7 @@ async function goLanguageLearnGameRound(userFeedback = null) {
       })
     }).then(r => r.json());
 
-    const for_show = AIAnswer.for_show;
-    const for_history = AIAnswer.for_history;
+    const answer = AIAnswer.answer;
     const new_level = AIAnswer.new_level;
     if(new_level) {
       languageLearnContextHistory.push({ role: 'assistant', tool_calls: AIAnswer.tool_calls.slice(0, 1) });
@@ -148,9 +148,9 @@ async function goLanguageLearnGameRound(userFeedback = null) {
       languageLearnLevelPreviewP.textContent = `Level: ${new_level}`;
     }
 
-    languageLearnResultCont.innerHTML = for_show;
+    languageLearnResultCont.innerHTML = renderMarkdownToHTML(answer);
 
-    languageLearnContextHistory.push({ role: 'assistant', content: for_history });
+    languageLearnContextHistory.push({ role: 'assistant', content: answer });
     localStorage.setItem('language_learn_history', JSON.stringify(languageLearnContextHistory));
   } catch(e) {
     languageLearnResultCont.textContent = e.message;

@@ -35,16 +35,15 @@ reasoningAiSendTaskBtn.addEventListener('click', async () => {
 
     reasoningAiResultCont.textContent = '';
 
-    const resp = await fetch(AI_REASONING_WORKER_API, {
+    const data = await fetch(AI_REASONING_WORKER_API, {
       method: 'POST',
       headers: { 'Authorization': userId },
       body: JSON.stringify({ history: reasoningAiHistory }),
-    });
-    const data = await resp.json();
+    }).then(r => r.json());
 
-    reasoningAiResultCont.innerHTML = data.for_show;
+    reasoningAiResultCont.innerHTML = `${data.user_tools_string}${renderMarkdownToHTML(data.answer)}`;
 
-    reasoningAiHistory.push({ role: 'assistant', content: data.for_hist });
+    reasoningAiHistory.push({ role: 'assistant', content: data.answer });
   } catch (e) { showResponseFn(`Error: ${e.message}`); console.error(e); };
 
   reasoningAiLoader.style.display = 'none';
@@ -69,7 +68,10 @@ reasoningAiWrap.querySelector('button.history')
       pre.textContent = obj.content;
       pre.classList.add('user');
     }
-    else pre.innerHTML = obj.content;
+    else {
+      pre.innerHTML = renderMarkdownToHTML(obj.content);
+      pre.classList.add('is-ai-text');
+    };
 
     frag.appendChild(pre);
   }

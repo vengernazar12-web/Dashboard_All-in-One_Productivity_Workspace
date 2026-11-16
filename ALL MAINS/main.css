@@ -175,21 +175,22 @@ header.dashboard-header > img {
   border-radius: 5px;
 }
 
-.is-ai-text ul {
+.is-ai-text ul,
+.is-ai-text ol {
   padding-left: 10px;
   list-style: none;
 }
 
-.is-ai-text ul li {
+.is-ai-text ul li,
+.is-ai-text ol li {
   position: relative;
-  margin: 6px 0;
-  line-height: 1.15;
+  margin: 2px 0;
   color: var(--text-color);
-  padding-left: 5px;
-  font-size: 13px;
+  padding-left: 10px;
 }
 
-.is-ai-text ul li::before {
+.is-ai-text ul li::before,
+.is-ai-text ol li::before {
   content: "•";
   position: absolute;
   left: 0;
@@ -226,16 +227,25 @@ header.dashboard-header > img {
 }
 .is-ai-text tr:hover { background: rgba(255, 255, 255, 0.03); }
 
-.is-ai-text .code-block {
+.is-ai-text code {
+  background-color: rgb(30, 30, 30, 0.75);
+  border-radius: 5px;
+  padding: 1px 2px;
+  color: white;
+}
+
+.is-ai-text pre > code {
+  display: block;
   background-color: rgb(30, 30, 30);
-  border-radius: 15px;
+  border-radius: 10px;
   border: 1px solid var(--border-color);
-  padding: 7px;
+  padding: 10px;
   color: white;
   position: relative;
 }
-.is-ai-text .code-block[data-title]:not([data-title=""])::after {
-  content: attr(data-title);
+
+.is-ai-text pre > code[class]::after {
+  content: attr(class);
   position: absolute;
   top: 5px;
   right: 10px;
@@ -243,12 +253,6 @@ header.dashboard-header > img {
   background: rgba(255,255,255,0.05);
   padding: 2px 6px;
   border-radius: 6px;
-}
-.is-ai-text .inline-code {
-  background-color: rgb(30, 30, 30, 0.75);
-  border-radius: 5px;
-  padding: 1px 2px;
-  color: white;
 }
 
 .is-ai-text .frac{

@@ -30,10 +30,9 @@ ideaGeneratorSendBtn.addEventListener('click', async () => {
       body: JSON.stringify({ req: value })
     }).then(r => r.text());
 
-    ideaGeneratorResultWrap.innerHTML = aiAnswer;
-  } catch (e) {
-    ideaGeneratorResultWrap.textContent = e.message;
-  } finally {
+    ideaGeneratorResultWrap.innerHTML = renderMarkdownToHTML(aiAnswer);
+  } catch (e) { ideaGeneratorResultWrap.textContent = e.message; }
+  finally {
     ideaGeneratorTextarea.disabled = false;
     ideaGeneratorSendBtn.disabled = false;
     ideaGeneratorLoader.style.display = 'none';
