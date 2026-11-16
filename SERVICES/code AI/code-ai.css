@@ -78,9 +78,7 @@
 .code-ai-wrap > .user-area > textarea {
   width: 100%;
   background-color: transparent;
-  color: var(--text-color);
   padding: 10px;
-  border-radius: 7px;
   height: 65px;
   max-height: calc(80vh - 65px);
 }

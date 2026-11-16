@@ -5,12 +5,6 @@
   width: calc(100% - 10px);
   height: 50%;
   min-height: 250px;
-  background: var(--block-bg);
-  color: var(--text-color);
-  border-radius: 6px;
-  border: 1px solid var(--border-color);
-  padding: 7px;
-  overflow-y: auto;
 }
 
 .csv-render-wrap > select {

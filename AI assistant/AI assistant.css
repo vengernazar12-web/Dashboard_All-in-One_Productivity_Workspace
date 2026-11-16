@@ -40,13 +40,8 @@
   bottom: 5px;
   left: 5px;
   width: calc(100% - 90px);
-  background: var(--block-bg);
-  color: var(--text-color);
   height: 30px;
   max-height: 80vh;
-  border: 1px solid var(--border-color);
-  border-radius: 5px;
-  padding: 6px;
 }
 
 .send-prompt-btn {

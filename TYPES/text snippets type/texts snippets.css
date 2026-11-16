@@ -40,16 +40,9 @@
   margin-bottom: 5px;
 }
 .add-text-snippet-content-textarea {
-  resize: none;
   width: 100%;
-  padding: 5px;
-  border-radius: 7px;
-  border: 1px solid var(--border-color);
-  background: var(--block-bg);
-  color: var(--text-color);
   min-height: 45px;
   max-height: calc(75vh - 50px);
-  overflow-y: auto;
 }
 .add-text-snippet-content-textarea::placeholder { color: var(--text-color); }
 
@@ -140,16 +133,9 @@
   margin-bottom: 10px;
 }
 .edit-text-snippet-block > textarea {
-  resize: none;
-  background: var(--block-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 5px;
   width: 100%;
   min-height: 45px;
   max-height: 50vh;
-  color: var(--text-color);
-  padding: 3px;
-  overflow-y: auto;
 }
 .edit-text-snippet-block > textarea::placeholder { color: var(--text-color); }
 

@@ -4,12 +4,7 @@
   left: 5px;
   width: calc(100% - 10px);
   min-height: 100px;
-  height: 50%;;
-  background: var(--block-bg);
-  color: var(--text-color);
-  padding: 5px;
-  border-radius: 5px;
-  border: 1px solid var(--border-color);
+  height: 50%;
 }
 .reasoning-ai-wrap > .send {
   position: absolute;

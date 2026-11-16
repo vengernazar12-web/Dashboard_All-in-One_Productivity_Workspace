@@ -149,7 +149,6 @@ html .is-wrap .CodeMirror .CodeMirror-selected { background-color: rgba(0, 120, 
 /* Search code */
 .search-code-input {
   height: 30px;
-  resize: none;
   width: 97%;
 }
 

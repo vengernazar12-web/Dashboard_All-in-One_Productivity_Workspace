@@ -4,11 +4,6 @@
   left: 10px;
   width: calc(100% - 20px);
   height: 50%;
-  border-radius: 7px;
-  border: 1px solid var(--border-color);
-  color: var(--text-color);
-  background: var(--block-bg);
-  padding: 7px;
 }
 
 .substrings-search-wrap > button {

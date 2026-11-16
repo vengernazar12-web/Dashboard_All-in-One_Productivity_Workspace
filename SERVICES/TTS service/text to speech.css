@@ -19,11 +19,6 @@
   width: calc(100% - 20px);
   min-height: 100px;
   height: 60%;;
-  background: var(--block-bg);
-  color: var(--text-color);
-  border-radius: 10px;
-  border: 1px solid var(--border-color);
-  padding: 7px;
 }
 
 .text-to-speech-wrap > input.speed {

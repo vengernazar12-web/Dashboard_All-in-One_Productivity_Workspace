@@ -21,15 +21,16 @@ html .show { display: block !important; }
 
 body, input, button, select { font-family: 'Roboto', 'sans-serif'; font-weight: 500; }
 
-input {
+input, textarea {
   height: 30px;
   border-radius: 7px;
   background: var(--block-bg);
   color: var(--text-color);
   border: 1px solid var(--border-color);
   padding-left: 5px;
+  font-size: 14px;
 }
-textarea { resize: none; }
+textarea { resize: none; padding: 5px; overflow: auto; }
 
 input:focus, textarea:focus, div[contenteditable]:focus { outline: 1px solid #16A36A; }
 input::placeholder, textarea::placeholder { color: var(--text-color); opacity: 0.75 }

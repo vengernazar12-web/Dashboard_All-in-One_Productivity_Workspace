@@ -59,11 +59,6 @@
   left: 10px;
   height: 130px;
   width: calc(100% - 60px);
-  background: var(--block-bg);
-  color: var(--text-color);
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-  padding: 7px;
   font-size: 12px;
 }
 

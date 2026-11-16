@@ -39,13 +39,8 @@ html .fetch-service-wrap {
 .fetch-service-wrap .field-block > textarea { flex: 1; min-width: 0; }
 
 .fetch-service-wrap .field-block > textarea {
-  border-radius: 3px;
-  border: 1px solid var(--border-color);
-  background: var(--block-bg);
-  color: var(--text-color);
   min-height: 30px;
   max-height: 500px;
-  overflow: auto;
   padding: 5px;
 }
 

@@ -4,11 +4,6 @@
 .token-counter-wrap > textarea {
   width: 100%;
   height: max(50%, 200px);
-  background: var(--block-bg);
-  color: var(--text-color);
-  border-radius: 7px;
-  border: 1px solid var(--border-color);
-  padding: 5px;
 }
 
 .token-counter-wrap > select {

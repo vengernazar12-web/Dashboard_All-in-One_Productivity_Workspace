@@ -4,11 +4,6 @@
   left: 10px;
   height: 60%;
   width: calc(100% - 20px);
-  background: var(--block-bg);
-  color: var(--text-color);
-  border-radius: 7px;
-  border: 1px solid var(--border-color);
-  padding: 7px;
 }
 
 .idea-generator-wrap > button {

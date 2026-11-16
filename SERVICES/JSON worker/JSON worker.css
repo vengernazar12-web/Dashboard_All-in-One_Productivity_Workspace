@@ -4,11 +4,6 @@
   left: 5px;
   width: calc(100% - 10px);
   height: 70%;
-  color: var(--text-color);
-  background: var(--block-bg);
-  border-radius: 6px;
-  border: 1px solid var(--border-color);
-  padding: 5px;
 }
 .json-worker-wrap > button {
   position: absolute;
