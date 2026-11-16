@@ -53,11 +53,11 @@ button:disabled {
 
 hr {
   display: block;
-  border: 2px solid var(--border-color);
+  background-color: var(--border-color);
   height: 2px;
   width: 100%;
-  border-radius: 50%;
-  margin: 30px 0;
+  border-radius: 3px;
+  margin: 25px 0;
 }
 
 select > option {
@@ -80,11 +80,12 @@ select > option {
 svg { width: 20px; height: 20px; }
 
 .--saved-btn {
-  background-color: black;
-  border: 1px solid var(--border-color);
   width: 30px;
   height: 30px;
   border-radius: 7px;
+  background: var(--block-bg);
+  border: 2px solid var(--border-color);
+  color: var(--text-color);
 }
 
 html .unsaved:after {
@@ -196,8 +197,6 @@ header.dashboard-header > img {
   color: var(--text-color);
 }
 
-.is-ai-text hr { border: 1px solid var(--border-color); border-radius: 0; height: 2px; }
-
 .is-ai-text a {
   color: var(--text-color);
   position: relative;
@@ -253,15 +252,15 @@ header.dashboard-header > img {
 }
 
 .is-ai-text .frac{
-  display:inline-flex;
-  flex-direction:column;
-  align-items:center;
-  vertical-align:middle;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  vertical-align: middle;
 }
 
-.is-ai-text .frac hr{
-  width:100%;
-  margin:1px 0;
+.is-ai-text .frac hr {
+  width: 100%;
+  margin: 1px 0;
 }
 
 /* All dashboard items */
@@ -393,11 +392,9 @@ header.dashboard-header > img {
   border-left-width: 0;
 }
 
-.--opened-btn > p {
-  font-size: 9px;
-}
+.--opened-btn > p { font-size: 9px; }
 
-.all-dashboard-items .active-btn:not(.open-assistant-wrap) { border-bottom: 3px solid rgb(0, 255, 0); }
+.all-dashboard-items .active-btn { border-bottom: 3px solid rgb(0, 255, 0); }
 
 @media(max-width: 725px) { .all-dashboard-items { width: 75vw; } }
 

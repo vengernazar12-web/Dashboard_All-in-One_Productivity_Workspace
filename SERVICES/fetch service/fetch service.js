@@ -35,7 +35,7 @@ addFetchServiceBodyBtn.addEventListener('click', () => {
 
 const fetchServiceResultCont = fetchServiceWrap.querySelector('.result');
 
-let controller;
+let controller = null;
 const fetchServiceBtn = fetchServiceWrap.querySelector('button.fetch');
 fetchServiceBtn.addEventListener('click', async () => {
   const url = fetchServiceUrlInput.value.trim();
@@ -148,7 +148,7 @@ function getFetchServiceBlock(needTextarea = false) {
     valueField.addEventListener('input', e => {
       const target = e.target;
       target.style.height = '30px';
-      target.style.height = `${target.scrollHeight + 5}px`;
+      target.style.height = `${target.scrollHeight + 2}px`;
     })
   }
   valueField.classList.add('value');
