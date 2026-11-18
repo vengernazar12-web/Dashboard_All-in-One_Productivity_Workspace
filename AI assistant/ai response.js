@@ -106,7 +106,7 @@ async function getAiResponse() {
     assistantLoader.style.display = 'none';
     sendPromptBtn.disabled = false;
 
-    return textAnswer;
+    return renderMarkdownToHTML(textAnswer);
   } catch (e) {
     clearTimeout(isSlowAnswerTimer);
     console.error(e);

@@ -5,6 +5,11 @@
   width: calc(100% - 10px);
   height: 70%;
 }
+
+.json-worker-wrap pre { white-space: pre-wrap; }
+.json-worker-wrap p { max-width: 100%; text-wrap: wrap; }
+
+
 .json-worker-wrap > button {
   position: absolute;
   top: calc(70% + 10px);
