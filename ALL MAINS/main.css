@@ -188,6 +188,9 @@ header.dashboard-header > img {
   margin: 2px 0;
   color: var(--text-color);
   padding-left: 10px;
+  height: max-content;
+  white-space: nowrap;
+  text-wrap: wrap;
 }
 
 .is-ai-text ul li::before,
