@@ -28,7 +28,7 @@ input, textarea {
   color: var(--text-color);
   border: 1px solid var(--border-color);
   padding-left: 5px;
-  font-size: 14px;
+  font-size: 13px;
 }
 textarea { resize: none; padding: 5px; overflow: auto; }
 
@@ -233,6 +233,8 @@ header.dashboard-header > img {
   border-radius: 5px;
   padding: 1px 2px;
   color: white;
+  text-wrap: wrap;
+  word-break: break-all;
 }
 
 .is-ai-text pre > code {
