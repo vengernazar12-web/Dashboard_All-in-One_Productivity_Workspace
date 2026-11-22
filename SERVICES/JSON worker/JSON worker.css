@@ -74,8 +74,6 @@
   text-shadow: 0 0 2px blue;
 }
 
-.json-worker-wrap > .loader { display: none; }
-
 .json-worker-wrap .found-json-el-anim {
   border-radius: 3px;
   border: 1px solid transparent;
