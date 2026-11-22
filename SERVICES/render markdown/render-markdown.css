@@ -1,0 +1,27 @@
+.markdown-render-wrap > h3 {
+  position: absolute;
+  top: 5px;
+  left: 0;
+  font-size: 20px;
+  width: 100%;
+  text-align: center;
+}
+
+.markdown-render-wrap > textarea {
+  position: absolute;
+  top: 35px;
+  left: 10px;
+  height: 250px;
+  width: calc(100% - 20px);
+}
+
+.markdown-render-wrap > div.result {
+  position: absolute;
+  top: 295px;
+  left: 10px;
+  width: calc(100% - 20px);
+  height: max-content;
+  border: 1px dashed green;
+  border-radius: 7px;
+  padding: 7px;
+}

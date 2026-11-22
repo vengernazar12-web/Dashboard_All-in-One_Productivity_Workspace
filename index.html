@@ -70,6 +70,7 @@
   <link rel="stylesheet" href="SERVICES/presentation generator/vertical-titles-presentation-style-preview.css">
 
   <link rel="stylesheet" href="SERVICES/translator AI/translator-ai.css">
+  <link rel="stylesheet" href="SERVICES/render markdown/render-markdown.css">
 
   <link rel="stylesheet" href="ALL MAINS/sign.css">
 
@@ -120,6 +121,7 @@
   <script src="SERVICES/guessing with AI/guessing.js" defer></script>
   <script src="SERVICES/presentation generator/presentation-generator.js" defer></script>
   <script src="SERVICES/translator AI/translator-ai.js" defer></script>
+  <script src="SERVICES/render markdown/render-markdown.js" defer></script>
 
   <!-- Assistant -->
   <script src="AI assistant/AI assistant.js" defer></script><!--3-->
@@ -139,7 +141,7 @@
   <p>AI tools, search services and utilities in one place</p>
   <small>Open the sidebar to get started</small>
   <br><br>
-  <small>35 services • AI assistant • todos, notes, urls and more</small>
+  <small>36 services • AI assistant • todos, notes, urls and more</small>
 </header>
 
 <!-- Settings -->
@@ -527,7 +529,7 @@
   <span class="loader"></span>
 </div>
 
-<!-- Text-worker wrap -->
+<!-- Text worker wrap -->
 <div class="text-worker-service-wrap is-wrap">
   <div class="cloner cont">
     <h3>Text cloner</h3>
@@ -551,7 +553,7 @@
     <h3>Cleanup text</h3>
     <textarea placeholder="Your text for cleanup..."></textarea>
     <button>Copy</button>
-    <div></div>
+    <div>Result...</div>
   </div>
 
   <div class="remove-duplicates cont">
@@ -640,26 +642,36 @@
 
   <div class="html-view cont">
     <h3>View/render HTML</h3>
-    <textarea></textarea>
+    <textarea placeholder="HTML..."></textarea>
     <iframe srcdoc="" sandbox="" frameborder="0"></iframe>
   </div>
 
   <div class="url-parser cont">
     <h3>URL Parser</h3>
-    <input type="text">
-    <div></div>
+    <input type="text" placeholder="URL...">
+    <div>Result...</div>
   </div>
 
   <div class="http-status-info cont">
     <h3>HTTP status info</h3>
     <select></select>
-    <div></div>
+    <div>Result...</div>
   </div>
 
   <div class="svg-preview cont">
     <h3>SVG preview</h3>
     <textarea placeholder="SVG code..."></textarea>
-    <div></div>
+    <div>Result...</div>
+  </div>
+
+  <div class="encode-decode-text cont">
+    <h3>Encode/decode text</h3>
+    <textarea type="text" placeholder="Text..."></textarea>
+    <select>
+      <option value="encode">Encode</option>
+      <option value="decode">Decode</option>
+    </select>
+    <p>Result...</p>
   </div>
 </div>
 
@@ -1230,6 +1242,13 @@
   <span class="loader"></span>
 </div>
 
+<!-- Markdown render wrap -->
+<div class="markdown-render-wrap is-wrap">
+  <h3>Markdown render</h3>
+  <textarea placeholder="Your markdown..."></textarea>
+  <div class="result is-ai-text">Result...</div>
+</div>
+
 <!-- Assistant wrap -->
 <div class="assistant-wrap is-wrap">
   <!-- assistant answer container -->
@@ -1315,6 +1334,7 @@
     <button class="open-browser-worker-wrap --opened-btn">Browser worker<svg><use href="#browser-support-icon"></use></svg></button>
     <button class="open-json-worker-wrap --opened-btn">JSON worker<svg><use href="#json-worker-icon"></use></svg></button>
     <button class="open-csv-render-wrap --opened-btn">CSV render<svg><use href="#csv-render-icon"></use></svg></button>
+    <button class="open-markdown-render-wrap --opened-btn">Markdown render<svg><use href="#markdown-render-icon"></use></svg></button>
   </section>
 
   <section data-group="games">
@@ -1560,6 +1580,7 @@
   <symbol id="browser-worker-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="9" width="52" height="46" rx="5" stroke="var(--sidebar-stroke-color)"/><path d="M6 20h52" stroke="var(--sidebar-stroke-color)"/><path d="M26 29v16l14-8z" stroke="currentColor"/><circle cx="13" cy="14" r="1" fill="#16A36A" stroke="none"/><path d="M47 29v16" stroke="var(--sidebar-stroke-color)"/></symbol>
   <symbol id="json-worker-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="7" width="48" height="50" rx="5" stroke="var(--sidebar-stroke-color)"/><path d="M18 18h7l5 6-5 6h-7m28-12h-7l-5 6 5 6h7M18 43h28" stroke="var(--sidebar-stroke-color)"/><path d="M32 31v8m-9 0h18" stroke="currentColor"/></symbol>
   <symbol id="csv-render-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="9" width="52" height="46" rx="4" stroke="var(--sidebar-stroke-color)"/><path d="M6 23h52M6 37h52M23 9v46M41 9v46" stroke="var(--sidebar-stroke-color)"/><path d="M13 16h4m14 0h4m14 0h4M13 30h4m14 0h4m14 0h4M13 44h4m14 0h4m14 0h4" stroke="currentColor"/></symbol>
+  <symbol id="markdown-render-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M14 7h25l12 12v38H14z" stroke="var(--sidebar-stroke-color)"/><path d="M39 7v12h12" stroke="var(--sidebar-stroke-color)"/><path d="M21 29h7m-3.5-5v12m9-12v12m-3.5-12v12" stroke="#168BCE"/><path d="M21 43h22" stroke="currentColor"/><path d="M21 49h13" stroke="#16A36A"/><path d="M40 45l3 3 6-7" stroke="#16A36A"/></symbol>
   <symbol id="language-learn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14h46v30H30L17 55V44H9z" stroke="var(--sidebar-stroke-color)"/><path d="M19 26h10m-5-5v10m12-5h10m-10 9h10" stroke="var(--sidebar-stroke-color)"/><path d="M22 50l8-6" stroke="currentColor"/></symbol>
   <symbol id="math-game-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="6" width="48" height="52" rx="6" stroke="var(--sidebar-stroke-color)"/><rect x="15" y="13" width="34" height="12" rx="2" stroke="var(--sidebar-stroke-color)"/><path d="M20 34h8m-4-4v8m12 0 8-8m-8 0 8 8M20 47h8m-4-4v8m12-4h8" stroke="currentColor"/></symbol>
   <symbol id="guessing-game-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="32" r="25" stroke="var(--sidebar-stroke-color)"/><path d="M23 24a9 9 0 1 1 15 7c-4 3-6 5-6 9" stroke="var(--sidebar-stroke-color)"/><circle cx="32" cy="48" r="2" fill="currentColor" stroke="none"/><path d="M9 12l5 5m41-5-5 5" stroke="currentColor"/></symbol>

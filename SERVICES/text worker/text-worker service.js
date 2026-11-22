@@ -623,3 +623,26 @@ textWorkerSvgPreviewTextarea.addEventListener('input', () => {
     textWorkerSvgPreviewResultCont.textContent = '';
     textWorkerSvgPreviewResultCont.appendChild(iframe);
 });
+
+// Encode/decode URL
+const textWorkerEncodeDecodeTextCont = textWorkerServiceWrap.querySelector('div.encode-decode-text');
+const textWorkerEncodeDecodeTextResultCont = textWorkerEncodeDecodeTextCont.querySelector('p');
+
+const textWorkerEncodeDecodeTextTextarea = textWorkerEncodeDecodeTextCont.querySelector('textarea');
+textWorkerEncodeDecodeTextTextarea.addEventListener('input', textWorkerEncodeDecodeText);
+
+const textWorkerEncodeDecodeTextSelectType = textWorkerEncodeDecodeTextCont.querySelector('select');
+textWorkerEncodeDecodeTextSelectType.addEventListener('change', textWorkerEncodeDecodeText);
+
+function textWorkerEncodeDecodeText() {
+  const text = textWorkerEncodeDecodeTextTextarea.value;
+  const type = textWorkerEncodeDecodeTextSelectType.value;
+
+  const result = hashHtmlSymbols(
+    type === 'encode'
+      ? encodeURIComponent(text)
+      : decodeURIComponent(text)
+  );
+
+  textWorkerEncodeDecodeTextResultCont.innerHTML = result ? `${result}<button class='copy-btn' onclick='navigator.clipboard.writeText(\`${result}\`); showResponseFn("Copied")'><svg><use href='#copy-code'></use></svg></button>` : 'Result...';
+}

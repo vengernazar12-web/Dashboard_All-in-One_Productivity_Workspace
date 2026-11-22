@@ -48,6 +48,7 @@ const dashboardWindowsBtnsFromNames = {
   browserWorker: openBrowserWorkerBtn,
   jsonWorker: openJsonWorkerBtn,
   csvRender: openCsvRenderBtn,
+  markdownRender: openMarkdownRenderBtn,
 
   // GAMES
   languageLearning: openLanguageLearnBtn,

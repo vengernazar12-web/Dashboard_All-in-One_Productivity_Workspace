@@ -9,7 +9,7 @@ Manage and store various data structures:
 - **URL**: `name`, `url` (optional: `UI image`)
 - **Code**: `name`, `lang` (html, css, javascript)
 - **Text**: `name`, `txt`
-  - *Markup Support:* `@r...r@` (red), `@b...b@` (blue), `@y...y@` (yellow), `@g...g@` (green), `@mark...mark@` (highlight), ` ```...``` ` (code block)
+  - *Markup Support:* `@r...r@` (red), `@b...b@` (blue), `@y...y@` (yellow), `@g...g@` (green), `@mark...mark@` (highlight), ``` `...` ``` (code block)
 - **Music**: `name`, `musicUrl`
 
 ## 🛠 Services
@@ -27,13 +27,13 @@ Manage and store various data structures:
 - **Files info**
 - **ASCII worker**
 - **Substrings search**
+- **Text Worker**
 
 ### 🤖 AI
 - **Reasoning AI**: Specialized in complex logic processing.
 - **Template AI**: Generates structured templates (README, HTML, .env, Docker Compose, SQL) using provided data.
 - **Text to Speech**: AI-powered voice synthesis with 250+ voices.
 - **Image Generation**
-- **Text Worker**
 - **AI token counter**: 15+ AI families, letter/tokens counter and display tokens
 - **Code AI**
 - **Idea generator**
@@ -53,6 +53,7 @@ Manage and store various data structures:
 - **Browser Worker**: Iframe-based viewer with auto-embed for video/audio.
 - **JSON Worker**: JSON tree view, type counting, minification, and CSV/Path export.
 - **CSV Render**: Table rendering, HTML export, metadata (columns/rows/cells), and field sorting.
+- **Markdown render**: markdown to HTML
 
 ### GAMES
 - **Language learning**: learning with AI
