@@ -27,7 +27,9 @@ async function getAiResponse() {
 
     // If ai do tool_calls
     if ('tool_calls' in data) {
-      historyForAiPrompt.push({role: "assistant", tool_calls: data.tool_calls});
+      const textAnswerWithTools = data.content || null;
+      historyForAiPrompt.push({role: "assistant", tool_calls: data.tool_calls, content: textAnswerWithTools});
+
       let generatedCommands = [];
 
       for (let tool of data.tool_calls) {
@@ -37,7 +39,7 @@ async function getAiResponse() {
         const id = tool.id;
 
         if (name === 'go_runner_command') {
-          let command = args.command;
+          let command = typeof args.command === 'string' ? args.command : JSON.stringify(args.command);
 
           let count = 0;
           const matched = command?.match(/{|}/g);
@@ -46,13 +48,13 @@ async function getAiResponse() {
           if(count > 0) command = `${command}${'}'.repeat(count)}`;
           else if(count < 0) command = `${'{'.repeat(Math.abs(count))}${command}`;
           generatedCommands.push({
-            for_show: `
+            for_show: `${textAnswerWithTools ? `${textAnswerWithTools}\n` : ""}
 <div class="runner-command-block">
   <div class="command">${hashHtmlSymbols(command)}</div>
   <button class="cancel-command-btn" data-tool-id="${id}">NO</button>
-  <button class="runner-command-btn" data-tool-id="${id}" data-command='${hashHtmlSymbols(command)}'>RUN</button>
-</div>
-`,          for_runner: command,
+  <button class="runner-command-btn" data-tool-id="${id}">RUN</button>
+</div>`.trim(),
+            for_runner: command,
             tool_id: id
 }
           );
@@ -74,7 +76,7 @@ async function getAiResponse() {
         }
 
         // Is found error
-        if(checkCommands.find(obj => obj.validate.result?.errors?.length)) {
+        if(checkCommands.find(obj => obj.validate.errors?.length)) {
           for(let command of checkCommands) {
             command.validate.success = [];
             historyForAiPrompt.push({ role: 'tool', tool_call_id: command.tool_id, content: JSON.stringify(command.validate)});

@@ -29,11 +29,15 @@ async function renderHistoryChat() {
 
       const role = obj.role;
       const content = obj.content;
+      const tool_calls = obj.tool_calls;
 
       if (role === 'user') {
         div.classList.add('user-text');
         pre.textContent = content;
-      } else if (role === 'assistant' && content) pre.innerHTML = renderMarkdownToHTML(content);
+      } else if (role === 'assistant') {
+        if (content) pre.innerHTML = renderMarkdownToHTML(content);
+        if (tool_calls) pre.innerHTML += tool_calls.map(tool => `<div class="runner-command-block"><div class="command">${hashHtmlSymbols(JSON.stringify(JSON.parse(tool.function.arguments).command))}</div></div>`)
+      }
       else continue;
 
       frag.appendChild(div);
@@ -79,7 +83,7 @@ assistantResponseContainer.addEventListener('click', async e => {
 
     const cancelBtn = target.parentElement.querySelector('.cancel-command-btn');
 
-    const command = target.dataset.command;
+    const command = target.closest('.runner-command-block')?.firstElementChild?.textContent;
     const tool_id = target.dataset.toolId;
 
     target.disabled = true;
@@ -125,7 +129,7 @@ assistantResponseContainer.addEventListener('click', async e => {
     historyForAiPrompt.push({
       role: "tool",
       tool_call_id: tool_id,
-      content: JSON.stringify({ success: [ 'Cancelled: the user rejected the given command' ] })
+      content: JSON.stringify({ success: [ 'Cancelled: the user canceled the command. If the reason is unclear, do not retry immediately.' ] })
     });
 
     generatedCommandsCount--;
