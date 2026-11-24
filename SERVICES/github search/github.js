@@ -83,35 +83,16 @@ function renderGithubUserEvents(e) {
   const commitCount = e?.payload?.commits?.length ?? 0;
 
   switch (e?.type) {
-    case "PushEvent":
-      return `<strong>${user}</strong> pushed <strong>${commitCount}</strong> commit(s) to <strong>${repo}</strong>`;
-
-    case "PullRequestEvent":
-      return `<strong>${user}</strong> ${action} a pull request "<strong>${prTitle}</strong>" in <strong>${repo}</strong>`;
-
-    case "IssuesEvent":
-      return `<strong>${user}</strong> ${action} an issue "<strong>${issueTitle}</strong>" in <strong>${repo}</strong>`;
-
-    case "IssueCommentEvent":
-      return `<strong>${user}</strong> commented on issue "<strong>${issueTitle}</strong>" in <strong>${repo}</strong>`;
-
-    case "WatchEvent":
-      return `<strong>${user}</strong> starred <strong>${repo}</strong>`;
-
-    case "ForkEvent":
-      return `<strong>${user}</strong> forked <strong>${repo}</strong>`;
-
-    case "CreateEvent":
-      return `<strong>${user}</strong> created a new <strong>${refType}</strong> "<strong>${ref}</strong>" in <strong>${repo}</strong>`;
-
-    case "DeleteEvent":
-      return `<strong>${user}</strong> deleted a <strong>${refType}</strong> "<strong>${ref}</strong>" in <strong>${repo}</strong>`;
-
-    case "ReleaseEvent":
-      return `<strong>${user}</strong> published a release "<strong>${releaseTag}</strong>" in <strong>${repo}</strong>`;
-
-    default:
-      return `<strong>${user}</strong> performed <strong>${e?.type ?? "an action"}</strong> in <strong>${repo}</strong>`;
+    case "PushEvent": return `<strong>${user}</strong> pushed <strong>${commitCount}</strong> commit(s) to <strong>${repo}</strong>`;
+    case "PullRequestEvent": return `<strong>${user}</strong> ${action} a pull request "<strong>${prTitle}</strong>" in <strong>${repo}</strong>`;
+    case "IssuesEvent": return `<strong>${user}</strong> ${action} an issue "<strong>${issueTitle}</strong>" in <strong>${repo}</strong>`;
+    case "IssueCommentEvent": return `<strong>${user}</strong> commented on issue "<strong>${issueTitle}</strong>" in <strong>${repo}</strong>`;
+    case "WatchEvent": return `<strong>${user}</strong> starred <strong>${repo}</strong>`;
+    case "ForkEvent": return `<strong>${user}</strong> forked <strong>${repo}</strong>`;
+    case "CreateEvent": return `<strong>${user}</strong> created a new <strong>${refType}</strong> "<strong>${ref}</strong>" in <strong>${repo}</strong>`;
+    case "DeleteEvent": return `<strong>${user}</strong> deleted a <strong>${refType}</strong> "<strong>${ref}</strong>" in <strong>${repo}</strong>`;
+    case "ReleaseEvent": return `<strong>${user}</strong> published a release "<strong>${releaseTag}</strong>" in <strong>${repo}</strong>`;
+    default: return `<strong>${user}</strong> performed <strong>${e?.type ?? "an action"}</strong> in <strong>${repo}</strong>`;
   }
 }
 
@@ -382,7 +363,7 @@ async function initGithubUserCommitCode(url) {
 const githubShowsHistory = [];
 function initHtmlInGithubShowInfo(html) {
   const htmlResult = `
-<button class='back'>«--</button>
+<button class='back'>←</button>
 <button class='close'>✕</button>
 ${html}
 `.trim();

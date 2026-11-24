@@ -78,12 +78,15 @@
 .github-wrap > .show-user-infos.open { transform: translateY(0); }
 
 .github-wrap > .show-user-infos > div {
-  padding: 3px;
+  padding: 10px;
   border: 1px dotted var(--border-color);
-  border-radius: 5px / 15%;
+  border-radius: 7px;
   color: var(--text-color);
   box-shadow: 1px 1px 3px black;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .github-wrap > .show-user-infos * {
@@ -93,7 +96,7 @@
 }
 
 .github-wrap > .show-user-infos img {
-  width: 50%;
+  width: 150px;
   height: auto;
   border-radius: 50%;
   border: 1px dashed var(--border-color);
@@ -141,8 +144,7 @@
 .github-wrap .user-actions > button {
   background-color: green;
   color: white;
-  padding: 3px 7px;
+  padding: 4px 10px;
   border-radius: 7px;
   font-size: 14px;
-  box-shadow: 1px 1px var(--border-color);
 }

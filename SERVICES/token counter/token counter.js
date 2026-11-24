@@ -1,131 +1,53 @@
-const tokenCounterModels = [
-  { "gpt2 models": ["gpt2"] },
-  {
-    "cushman code models": ["code-cushman-001", "code-cushman-002", "cushman-codex"]
-  },
-  {
-    "davinci code models": ["code-davinci-001", "code-davinci-002", "davinci-codex", "code-davinci-edit-001"]
-  },
-  {
-    "davinci text models": ["davinci-002", "text-davinci-002", "text-davinci-003", "text-davinci-edit-001", "davinci", "text-davinci-001"]
-  },
-  {
-    "ada models": ["ada", "code-search-ada-code-001", "text-ada-001", "text-search-ada-doc-001", "text-similarity-ada-001"]
-  },
-  {
-    "babbage models": ["babbage", "babbage-002", "code-search-babbage-code-001", "text-babbage-001", "text-search-babbage-doc-001", "text-similarity-babbage-001"]
-  },
-  {
-    "curie models": ["curie", "text-curie-001", "text-search-curie-doc-001", "text-similarity-curie-001"]
-  },
-  {
-    "gpt-3.5 turbo models": [
-      "gpt-3.5-turbo-instruct-0914",
-      "gpt-3.5-turbo-instruct",
-      "gpt-3.5-turbo-16k-0613",
-      "gpt-3.5-turbo-16k",
-      "gpt-3.5-turbo-0613",
-      "gpt-3.5-turbo-0301",
-      "gpt-3.5-turbo",
-      "gpt-3.5-turbo-1106",
-      "gpt-35-turbo",
-      "gpt-3.5-turbo-0125"
-    ]
-  },
-  {
-    "gpt-4 models": [
-      "gpt-4-32k-0613",
-      "gpt-4-32k-0314",
-      "gpt-4-32k",
-      "gpt-4-0613",
-      "gpt-4-0314",
-      "gpt-4",
-      "gpt-4-1106-preview",
-      "gpt-4-vision-preview",
-      "gpt-4-turbo",
-      "gpt-4-turbo-2024-04-09",
-      "gpt-4-turbo-preview",
-      "gpt-4-0125-preview",
-      "gpt-4.1",
-      "gpt-4.1-2025-04-14",
-      "gpt-4.1-mini",
-      "gpt-4.1-mini-2025-04-14",
-      "gpt-4.1-nano",
-      "gpt-4.1-nano-2025-04-14",
-      "gpt-4.5-preview",
-      "gpt-4.5-preview-2025-02-27"
-    ]
-  },
-  {
-    "gpt-4o models": [
-      "gpt-4o",
-      "gpt-4o-2024-05-13",
-      "gpt-4o-2024-08-06",
-      "gpt-4o-2024-11-20",
-      "gpt-4o-mini-2024-07-18",
-      "gpt-4o-mini",
-      "gpt-4o-search-preview",
-      "gpt-4o-search-preview-2025-03-11",
-      "gpt-4o-mini-search-preview",
-      "gpt-4o-mini-search-preview-2025-03-11",
-      "gpt-4o-audio-preview",
-      "gpt-4o-audio-preview-2024-12-17",
-      "gpt-4o-audio-preview-2024-10-01",
-      "gpt-4o-mini-audio-preview",
-      "gpt-4o-mini-audio-preview-2024-12-17",
-      "chatgpt-4o-latest",
-      "gpt-4o-realtime",
-      "gpt-4o-realtime-preview-2024-10-01",
-      "gpt-4o-realtime-preview-2024-12-17",
-      "gpt-4o-mini-realtime-preview",
-      "gpt-4o-mini-realtime-preview-2024-12-17"
-    ]
-  },
-  {
-    "embedding models": [
-      "text-embedding-ada-002",
-      "text-embedding-3-small",
-      "text-embedding-3-large"
-    ]
-  },
-  {
-    "o1 models": [
-      "o1",
-      "o1-2024-12-17",
-      "o1-mini",
-      "o1-mini-2024-09-12",
-      "o1-preview",
-      "o1-preview-2024-09-12",
-      "o1-pro",
-      "o1-pro-2025-03-19"
-    ]
-  },
-  {
-    "o3 models": [
-      "o3",
-      "o3-2025-04-16",
-      "o3-mini",
-      "o3-mini-2025-01-31"
-    ]
-  },
-  {
-    "o4 models": [
-      "o4-mini",
-      "o4-mini-2025-04-16"
-    ]
-  },
-  {
-    "gpt-5 models": [
-      "gpt-5",
-      "gpt-5-2025-08-07",
-      "gpt-5-nano",
-      "gpt-5-nano-2025-08-07",
-      "gpt-5-mini",
-      "gpt-5-mini-2025-08-07",
-      "gpt-5-chat-latest"
-    ]
-  }
-];
+const tokenCounterModels = {
+  "gpt2 models": { model: "gpt2", type: 'openAI' },
+  "cushman code models": { model: "cushman-codex", type: 'openAI' },
+  "davinci code models": { model: "davinci-codex", type: 'openAI' },
+  "davinci text models": { model: "davinci", type: 'openAI' },
+  "ada models": { model: "text-ada-001", type: 'openAI' },
+  "babbage models": { model: "babbage", type: 'openAI' },
+  "curie models": { model: "curie", type: 'openAI' },
+  "gpt-3.5 turbo models": { model: "gpt-3.5-turbo-instruct", type: 'openAI' },
+  "gpt-4 models": { model: "gpt-4", type: 'openAI' },
+  "gpt-4o models": { model: "gpt-4o", type: 'openAI' },
+  "embedding models": { model: "text-embedding-3-large", type: 'openAI' },
+  "o1 models": { model: "o1-pro", type: 'openAI' },
+  "o3 models": { model: "o3", type: 'openAI' },
+  "o4 models": { model: "o4-mini", type: 'openAI' },
+  "gpt-5 models": { model: "gpt-5-chat-latest", type: 'openAI' },
+
+  "Google FLAN-T5": { type: "hf", model: "google/flan-t5-base" },
+
+  "TinyLlama": { type: "hf", model: "TinyLlama/TinyLlama-1.1B-Chat-v1.0" },
+
+  "Alibaba Qwen": { type: "hf", model: "Qwen/Qwen2.5-0.5B" },
+  "Alibaba Qwen 3": { type: "hf", model: "Qwen/Qwen3-0.6B" },
+
+  "DeepSeek (Qwen tokenizer)": { type: "hf", model: "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B" },
+  "DeepSeek (Llama tokenizer)": { type: "hf", model: "deepseek-ai/DeepSeek-R1-Distill-Llama-8B" },
+
+  "Mistral": { type: "hf", model: "mistralai/Mistral-7B-Instruct-v0.3" },
+  "Mixtral": { type: "hf", model: "mistralai/Mixtral-8x7B-Instruct-v0.1" },
+
+  "Microsoft Phi": { type: "hf", model: "microsoft/Phi-3-mini-4k-instruct" },
+  "Microsoft Phi Medium": { type: "hf", model: "microsoft/Phi-3-medium-4k-instruct" },
+
+  "IBM Granite": { type: "hf", model: "ibm-granite/granite-3.1-8b-instruct" },
+
+  "Falcon": { type: "hf", model: "tiiuae/falcon-7b-instruct" },
+
+  "Yi": { type: "hf", model: "01-ai/Yi-6B" },
+
+  "StarCoder 2": { type: "hf", model: "bigcode/starcoder2-3b" },
+  "SantaCoder": { type: "hf", model: "bigcode/santacoder" },
+
+  "Bloom": { type: "hf", model: "bigscience/bloom-560m" },
+
+  "GPT-NeoX": { type: "hf", model: "EleutherAI/gpt-neox-20b" },
+  "GPT-J": { type: "hf", model: "EleutherAI/gpt-j-6b" },
+};
+
+let tokenCounterOpenAILib = null,
+  tokenCounterHFLib = null;
 
 const tokenCounterWrap = document.querySelector('.token-counter-wrap');
 // Open
@@ -142,13 +64,9 @@ openTokenCounterBtn.addEventListener('click', async () => {
       preloaderProgress.max = 1;
       preloaderProgress.value = 0;
 
-      window.tokenCountLib = await import('https://esm.sh/js-tiktoken');
-      tokenCounterSelectModel.innerHTML = tokenCounterModels.map(modelObj => {
-        const familyName = Object.keys(modelObj)[0];
-        const family = modelObj[familyName];
-
-        return `<option value='${family[0]}'>${familyName}</option>`;
-      });
+      tokenCounterOpenAILib = await import('https://esm.sh/js-tiktoken');
+      tokenCounterHFLib = await import("https://esm.sh/@huggingface/transformers").then(lib => lib.AutoTokenizer);
+      tokenCounterSelectModel.innerHTML = Object.keys(tokenCounterModels).map(modelsFamily =>`<option value='${tokenCounterModels[modelsFamily].model}'>${modelsFamily}</option>` );
 
       preloaderProgress.value = 1;
       isTokenCounterLoaded = true;
@@ -186,16 +104,27 @@ function tokenCounterInitResult() {
   tokenCounterLoader.style.display = 'block';
 
   clearTimeout(tokenCounterRenderTimer);
-  tokenCounterRenderTimer = setTimeout(() => {
+  tokenCounterRenderTimer = setTimeout(async () => {
     const model = tokenCounterSelectModel.value;
     if (!model) return showResponseFn('Please select AI model');
 
     const text = tokenCounterTextarea.value;
 
-    const tokenCountLib = window.tokenCountLib;
+    const type = tokenCounterModels[
+      Object.keys(tokenCounterModels) // Search correct family for model
+        .find(family => tokenCounterModels[family].model === model)
+    ].type;
 
-    const enc = tokenCountLib.encodingForModel(model);
-    tokenCounterCachedTokensForRender = enc.encode(text);
+    const enc = type === 'openAI'
+      ? tokenCounterOpenAILib.encodingForModel(model)
+      : await tokenCounterHFLib.from_pretrained(model);
+
+    tokenCounterCachedTokensForRender = type === 'openAI'
+      ? enc.encode(text)
+      : Array.from(
+        enc(text).input_ids.ort_tensor.cpuData,
+        Number
+      );;
 
     const h3 = document.createElement('h3'),
       h4 = document.createElement('h4'),
@@ -216,5 +145,5 @@ function tokenCounterInitResult() {
     tokeCounterResultCont.replaceChildren(h3, h4, br, p, spanForScrollRender);
 
     tokenCounterLoader.style.display = 'none';
-  }, 1500);
+  }, 500);
 }
